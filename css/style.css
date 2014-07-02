@@ -1,0 +1,29 @@
+
+	table {
+		border : dashed 1px gray;
+	}
+
+	td {
+		border : dashed 1px gray;
+		padding : 10px;
+	}
+
+	.heading {
+		background : lightblue;
+	}
+
+	#mainBody    { border-color : blue; }
+
+	#mainMenu    { border-color : yellow; }
+
+	#mainDisplay { border-color : green; }
+
+	#debug       { border-color : red; }
+
+	div {
+		border-style : ridge;
+		border-size : 1px;
+		border-color : gray;
+		margin : 5px;
+		padding : 5px;
+	}
