@@ -4,6 +4,7 @@
 
 $(document).ready(function(){
 
+/*
 	$('#test').click(function(){
 		//$('#mainDisplay').html('Test Disabled');
 		$('#mainMenu').css('background','yellow');
@@ -17,13 +18,12 @@ $(document).ready(function(){
 			//if( kara == 1 ){goKara();}else{}
 		});
 	});
-
+*/
 });
 // END document.ready funcion
 
 /*
 	Function used as a running feedback loop to browser
-*/
 function goKara(){
 	var target = 'index.php?/action/kara'
 	var request=$.post(target,'',function(data){
@@ -33,3 +33,4 @@ function goKara(){
 	});
 }
 // END goKara function
+*/
