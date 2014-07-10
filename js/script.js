@@ -4,6 +4,8 @@
 
 $(document).ready(function(){
 
+	$('#tabs').tabs();
+
 /*
 	$('#test').click(function(){
 		//$('#mainDisplay').html('Test Disabled');
