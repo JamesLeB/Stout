@@ -3,11 +3,11 @@
 ### This is my basic security
 #	don't you feel safer now?
 
-	session_start();
-	if(isset($_SESSION['user'])){
-	}else{
-		header('location:signin.php');
-	}
+#	session_start();
+#	if(isset($_SESSION['user'])){
+#	}else{
+#		header('location:signin.php');
+#	}
 ###
 ### Loading library functions
 	include("lib/std.php");
