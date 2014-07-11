@@ -1,3 +1,4 @@
+/* Global formatting */
 #wrapper {
 	width : 90%;
 	margin-left : auto;
@@ -6,33 +7,27 @@
 	margin-bottom : 2%;
 }
 
-/*
-	table {
-		border : dashed 1px gray;
-	}
+/* Generic formatting for tables */
+table {
+	border : dashed 1px gray;
+}
+td {
+	border : dashed 1px gray;
+	padding : 10px;
+}
+.heading {
+	background : lightblue;
+}
 
-	td {
-		border : dashed 1px gray;
-		padding : 10px;
-	}
-
-	.heading {
-		background : lightblue;
-	}
-
-	#mainBody    { border-color : blue; }
-
-	#mainMenu    { border-color : yellow; }
-
-	#mainDisplay { border-color : green; }
-
-	#debug       { border-color : red; }
-
-	div {
-		border-style : ridge;
-		border-size : 1px;
-		border-color : gray;
-		margin : 5px;
-		padding : 5px;
-	}
-*/
+/* Formating for development tab */
+#mainBody    { border-color : blue; }
+#mainMenu    { border-color : yellow; }
+#mainDisplay { border-color : green; }
+#debug       { border-color : red; }
+.box {
+	border-style : ridge;
+	border-size : 1px;
+	border-color : gray;
+	margin : 5px;
+	padding : 5px;
+}

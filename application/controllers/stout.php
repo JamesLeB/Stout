@@ -4,7 +4,8 @@ class Stout extends CI_Controller {
 
 	public function index()
 	{
-		$this->load->view('home');
+		$data['develop'] = $this->load->view('develop','',true);
+		$this->load->view('home',$data);
 	}
 
 }
