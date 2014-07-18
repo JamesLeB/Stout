@@ -10,16 +10,14 @@
 		<div id='wrapper'>
 			<div id='tabs'>
 				<ul>
-					<li><a href='#tab1'>Tab1</a></li>
+					<li><a href='#tab1'>Test</a></li>
 					<li><a href='#tab2'>Development</a></li>
-					<li><a href='#tab3'>Tab3</a></li>
+					<li><a href='#tab3'>Production</a></li>
 				</ul>
-				<div id='tab1'>first tab</div>
-				<div id='tab2'><?php echo $develop ?></div>
-				<div id='tab3'>third tab</div>
+				<div id='tab1'><?php echo $test ?></div>
+				<div id='tab2'><?php echo $development ?></div>
+				<div id='tab3'><?php echo $production ?></div>
 			</div>
 		</div>
-<!--
---!>
 	</body>
 </html>

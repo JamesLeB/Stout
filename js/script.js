@@ -7,13 +7,12 @@ $(document).ready(function(){
 	$('#tabs').tabs();
 
 /*
-	$('#test').click(function(){
-		//$('#mainDisplay').html('Test Disabled');
-		$('#mainMenu').css('background','yellow');
-		var target = 'index.php?/action/test';
+	$('#').click(function(){
+		$('#').css('background','yellow');
+		var target = 'index.php?/controller/function';
 		var request=$.post(target,'',function(data){
-			$('#mainMenu').css('background','lightgreen');
-			$('#mainDisplay').html(data);
+			$('#').css('background','lightgreen');
+			$('#').html(data);
 			//var debug = request.getResponseHeader('debug');
 			//$('#debug').html(debug);
 			//var kara = request.getResponseHeader('kara');
@@ -26,6 +25,7 @@ $(document).ready(function(){
 
 /*
 	Function used as a running feedback loop to browser
+
 function goKara(){
 	var target = 'index.php?/action/kara'
 	var request=$.post(target,'',function(data){
@@ -34,5 +34,7 @@ function goKara(){
 		if( kara == 1 ){goKara();}else{}
 	});
 }
+
 // END goKara function
+
 */

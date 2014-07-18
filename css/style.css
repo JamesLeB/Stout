@@ -18,16 +18,6 @@ td {
 .heading {
 	background : lightblue;
 }
-
-/* Formating for development tab */
-#mainBody    { border-color : blue; }
-#mainMenu    { border-color : yellow; }
-#mainDisplay { border-color : green; }
-#debug       { border-color : red; }
-.box {
-	border-style : ridge;
-	border-size : 1px;
-	border-color : gray;
-	margin : 5px;
-	padding : 5px;
+.tableData {
+	background : white;
 }

@@ -8,7 +8,7 @@
 		}
 		echo "</tr>";
 		foreach($mdataArray as $mdata){
-			echo "<tr>";
+			echo "<tr class='tableData'>";
 				foreach($mdata as $data){
 					echo "<td>$data</td>";
 				}
