@@ -11,6 +11,7 @@
 ###
 ### Loading library functions
 	include("lib/std.php");
+	putenv('FREETDSCONF=/usr/local/freetds/etc/freetds.conf');
 ###
 
 /*

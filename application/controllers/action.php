@@ -4,7 +4,6 @@ class Action extends CI_Controller {
 
 	public function index(){
 		echo "Default return from Action controller";
-		#putenv('FREETDSCONF=/usr/local/etc/freetds.conf');
 	}
 	public function test(){
 		echo "Hello from test function<br/>";
