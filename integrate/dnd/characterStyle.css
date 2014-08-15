@@ -1,0 +1,62 @@
+
+	div {
+		border-style : ridge;
+		border-color : gray;
+		border-width : 5px;
+		padding : 5px;
+		margin : 5px;
+	}
+	
+	ul {
+		border-style : dashed;
+		border-color : red;
+		border-width : 1px;
+		margin : 0px;
+	}
+	input {
+		padding-left : 5px;
+	}
+
+	#abilities ul {
+		padding-top : 5px;
+		list-style : none;
+	}
+	#abilities li {
+		clear : left;
+		height : 35px;
+	}
+	#abilities li * {
+		float : left;
+	}
+	#abilities li :nth-child(1) {
+		width : 90px;
+		margin : 0px;
+		border-style : none;
+	}
+	#abilities li :nth-child(2) {
+		width : 50px;
+		height : 30px;
+		padding : 0px;
+		text-align : center;
+	}
+
+	#characterInfo ul {
+		padding-top : 5px;
+		list-style : none;
+	}
+	#characterInfo li {
+		clear : left;
+		height : 35px;
+	}
+	#characterInfo li * {
+		float : left;
+	}
+	#characterInfo li :nth-child(1) {
+		width : 50px;
+		margin : 0px;
+		border-style : none;
+	}
+	#characterInfo li :nth-child(2) {
+		width : 100px;
+		height : 30px;
+	}

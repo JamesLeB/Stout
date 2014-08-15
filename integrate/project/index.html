@@ -1,0 +1,142 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Project</title>
+		<link href="css/ui-darkness/jquery-ui-1.10.4.custom.css" rel="stylesheet" />
+		<link href="css/style.css" rel="stylesheet" />
+		<script src="js/jquery-1.10.2.js"></script>
+		<script src="js/jquery-ui-1.10.4.custom.js"></script>
+		<!-- CUSTOME SCRIPTS --!>
+		<script src="js/global.js"></script>
+		<script src="js/script.js"></script>
+	</head>
+	<body>
+		<div id="wrapper">
+			<div id="tabs">
+				<ul>
+					<li><a href="#tab1">Market Data</a></li>
+					<li><a href="#tab2">Buy</a></li>
+					<li><a href="#tab3">Inventory</a></li>
+					<li><a href="#tab4">Sales</a></li>
+				</ul>
+				<div id="tab4">
+					<h3>Sales</h3>
+					<div id='sales'></div>
+				</div>
+				<div id="tab3">
+					<h3>Inventory</h3>
+					<div id='inventory'></div>
+					<h3>Post Ask</h3>
+					<form id='postAsk' method = 'post'>
+						<table>
+							<tr>
+								<td>Lot Number</td>
+								<td>
+									<select id='postAskId' name='postAskId'>
+									</select>
+								</td>
+								<td>Asking Price</td>
+								<td><input type='text' name='price'</td>
+								<td><input type='submit' value='Post'</td>
+							</tr>
+						</table>
+					</form>
+					<h3>Open Asks</h3>
+					<div id='openAsks'></div>
+					<h3>Cancel Ask</h3>
+					<form id='cancelAsk' method = 'post'>
+						<table>
+							<tr>
+								<td>Ask</td>
+								<td>
+									<select id='cancelAskId' name='cancelAskId'>
+									</select>
+								</td>
+								<td><input type='submit' value='Cancel'</td>
+							</tr>
+						</table>
+					</form>
+					<h3>Confirm Sale</h3>
+					<form id='confirmAsk' method = 'post'>
+						<table>
+							<tr>
+								<td>Ask</td>
+								<td>
+									<select id='confirmAskId' name='confirmAskId'>
+									</select>
+								</td>
+								<td><input type='submit' value='Confirm'</td>
+							</tr>
+						</table>
+					</form>
+				</div>
+				<div id="tab2">
+					<h3>Post Bid</h3>
+					<form id='postBid' method = 'post'>
+						<table>
+							<tr>
+								<td>Price</td>
+								<td><input type='text' name='price'</td>
+							</tr>
+							<tr>
+								<td>Amount</td>
+								<td><input type='text' name='amount'</td>
+							</tr>
+							<tr>
+								<td><input type='submit' value='BID'</td>
+							</tr>
+						</table>
+					</form>
+					<h3>Open Bids</h3>
+					<div id='openBids'></div>
+					<h3>Cancel Bid</h3>
+					<form id='cancelBid' method = 'post'>
+						<table>
+							<tr>
+								<td>Bid</td>
+								<td>
+									<select id='cancelBidId' name='cancelBidId'>
+									</select>
+								</td>
+								<td><input type='submit' value='Cancel'</td>
+							</tr>
+						</table>
+					</form>
+					<h3>Confirm Buy</h3>
+					<form id='confirmBid' method = 'post'>
+						<table>
+							<tr>
+								<td>Bid</td>
+								<td>
+									<select id='confirmBidId' name='confirmBidId'>
+									</select>
+								</td>
+								<td><input type='submit' value='Confirm'</td>
+							</tr>
+						</table>
+					</form>
+				</div>
+				<div id="tab1">
+					<div id="accordion">
+						<h3>Market Status</h3>
+						<div>
+							<div id="marketStatus"></div>
+						</div>
+						<h3>Market Trades</h3>
+						<div>
+							<div id="marketTrades"></div>
+						</div>
+						<h3>Market Bids</h3>
+						<div>
+							<div id="marketBuyOrders"></div>
+						</div>
+						<h3>Market Asks</h3>
+						<div id='stout'>
+							<div id="marketSellOrders"></div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</body>
+</html>
