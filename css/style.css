@@ -1,4 +1,5 @@
 /* Global formatting */
+/*
 #wrapper {
 	width : 90%;
 	margin-left : auto;
@@ -6,8 +7,10 @@
 	margin-top : 2%;
 	margin-bottom : 2%;
 }
+*/
 
 /* Generic formatting for tables */
+/*
 table {
 	border : dashed 1px gray;
 }
@@ -21,3 +24,4 @@ td {
 .tableData {
 	background : white;
 }
+*/

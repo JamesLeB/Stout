@@ -5,10 +5,10 @@ class Stout extends CI_Controller {
 	public function index()
 	{
 
-		$data['Market']      = "Market place holder";
-		$data['Buy']         = "Buy place holder";
-		$data['Inventory']   = "Inventory place holder";
-		$data['Sales']       = "Sales place holder";
+		$data['Market']      = $this->load->view('bit/bitMarket','',true);
+		$data['Buy']         = $this->load->view('bit/bitBuy','',true);
+		$data['Inventory']   = $this->load->view('bit/bitInventory','',true);
+		$data['Sales']       = $this->load->view('bit/bitSales','',true);
 		$data['test']        = $this->load->view('test','',true);
 		$data['development'] = $this->load->view('development','',true);
 		$data['production']  = $this->load->view('production','',true);

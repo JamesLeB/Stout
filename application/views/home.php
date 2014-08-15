@@ -3,9 +3,12 @@
 		<title>Stout</title>
 		<link href='css/ui-darkness/jquery-ui-1.10.4.custom.css' rel='stylesheet' />
 		<link href='css/style.css' rel='stylesheet' />
+		<link href='css/bitstyle.css' rel='stylesheet' />
 		<script src='js/jquery-1.10.2.js'></script>
 		<script src='js/jquery-ui-1.10.4.custom.js'></script>
 		<script src='js/script.js'></script>
+		<script src='js/bitscript.js'></script>
+		<script src='js/bitglobal.js'></script>
 	</head>
 	<body>
 		<div id='wrapper'>
