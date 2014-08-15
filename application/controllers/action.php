@@ -9,6 +9,7 @@ class Action extends CI_Controller {
 		echo "Hello from test function<br/>";
 		echo "ready to test db connections<br/>";
 		$db = $this->load->database('dentrix',true);
+/*
 		$rs = $db->query("
 			select
 				claimid
@@ -30,6 +31,7 @@ class Action extends CI_Controller {
 		#header('kara: 1');
 		#$james = "hello' world ' waht ";
 		#$what = preg_replace('/\'/',' ',$james);
+*/
 	}
 	public function kara(){
 		#header('kara: 1');
