@@ -1,0 +1,29 @@
+
+	img {
+		width : 800px;
+	}
+	#growth {
+		width : 1100px;
+	}
+	div {
+		border-style : solid;
+		border-width : 1px;
+		border-color : blue;
+		margin : 10px;
+		padding : 10px;
+	}
+	.coin {
+		border-color : gray;
+		height : 400px;
+	}
+	.name {
+		border-color : green;
+		width : 100px;
+		position : absolute;
+	}
+	.price {
+		border-color : red;
+		width : 800px;
+		position : absolute;
+		left : 50px;
+	}
