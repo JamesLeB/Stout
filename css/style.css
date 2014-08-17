@@ -1,27 +1,37 @@
-/* Global formatting */
-/*
-#wrapper {
-	width : 90%;
-	margin-left : auto;
-	margin-right : auto;
-	margin-top : 2%;
-	margin-bottom : 2%;
-}
-*/
+	#wrapper {
+		width : 90%;
+		margin-left : auto;
+		margin-right : auto;
+		margin-top : 2%;
+		margin-bottom : 4%;
+	}
+	.queryTable {
+		border : ridge 5px yellow;
+		padding : 5px;
+	}
+	.queryTable td {
+		padding : 10px;
+	}
+	.tableHeading {
+		background : darkgray;
+	}
+	.tableData {
+		background : white;
+	}
+	form {
+		background : #663D00;
+		padding : 5px;
+	}
+	#stout {
+		height : 300px;
+	}
+	td {
+		padding : 10px;
+	}
+	table {
+		color : white;
+	}
+	h3 {
+		color : #B2B200;
+	}
 
-/* Generic formatting for tables */
-/*
-table {
-	border : dashed 1px gray;
-}
-td {
-	border : dashed 1px gray;
-	padding : 10px;
-}
-.heading {
-	background : lightblue;
-}
-.tableData {
-	background : white;
-}
-*/
