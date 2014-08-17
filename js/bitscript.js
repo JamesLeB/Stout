@@ -14,9 +14,11 @@
 	the json data by loading local page.
 */
 function getMarketStatus(){
-	$.get( "bitphp/marketStatus.php", function(a){
+	$.get( "bitphp/marketTrades.php", function(a){
+	//$.get( "bitphp/marketStatus.php", function(a){
 	//$.get( "bitphp/marketStatus.html", function(a){
-		//$('#marketStatus').html(a);
+		$('#marketStatus').html(a);
+/*
 		var json = $.parseJSON(a);
 		var headings = [];
 		var data = [];
@@ -30,6 +32,7 @@ function getMarketStatus(){
 		data.push(['Top Ask',         json[0]["top_ask"]]);
 		$('#marketStatus').html(renderTable(headings,data));
 		getMarketTrades();
+*/
 	});
 }
 function getMarketTrades(){
