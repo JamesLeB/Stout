@@ -7,7 +7,7 @@
 		foreach($headings as $h){
 			$echo .= "<td>$h</td>";
 		}
-		$echo .= "<td></td>";
+		#$echo .= "<td></td>";
 		$echo .= "</tr>";
 		$count = 0;
 		foreach($mdataArray as $mdata){
