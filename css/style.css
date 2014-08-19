@@ -8,12 +8,14 @@
 	.queryTable {
 		border : ridge 5px yellow;
 		padding : 5px;
+		color : black;
 	}
 	.queryTable td {
 		padding : 10px;
 	}
 	.tableHeading {
 		background : darkgray;
+		color : white;
 	}
 	.tableData {
 		background : white;
