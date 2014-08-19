@@ -14,10 +14,11 @@
 	the json data by loading local page.
 */
 function getMarketStatus(){
-	$.get( "bitphp/marketTrades.php", function(a){
+	var target = 'index.php?/worker/test/';
+	var request=$.post(target,'',function(data){
 	//$.get( "bitphp/marketStatus.php", function(a){
 	//$.get( "bitphp/marketStatus.html", function(a){
-		$('#marketStatus').html(a);
+		$('#marketStatus').html(data);
 /*
 		var json = $.parseJSON(a);
 		var headings = [];
