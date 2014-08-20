@@ -13,6 +13,10 @@
 	In stead of making a php script call, which may fail, I'm going to load 
 	the json data by loading local page.
 */
+
+function readJasonObject(jsonObject){
+		var json = $.parseJSON(jsonObject);
+}
 function getMarketStatus(){
 	var target = 'index.php?/worker/test/';
 	var request=$.post(target,'',function(data){
@@ -20,7 +24,6 @@ function getMarketStatus(){
 	//$.get( "bitphp/marketStatus.html", function(a){
 		$('#marketStatus').html(data);
 /*
-		var json = $.parseJSON(a);
 		var headings = [];
 		var data = [];
 		data.push(['Last Price',      json[0]["last_price"]]);
