@@ -22,19 +22,3 @@ $(document).ready(function(){
 */
 });
 // END document.ready funcion
-
-/*
-	Function used as a running feedback loop to browser
-
-function goKara(){
-	var target = 'index.php?/action/kara'
-	var request=$.post(target,'',function(data){
-		$('#debug').html(data);
-		var kara = request.getResponseHeader('kara');
-		if( kara == 1 ){goKara();}else{}
-	});
-}
-
-// END goKara function
-
-*/
