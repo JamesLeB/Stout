@@ -6,7 +6,6 @@
 		<script src='js/jquery-1.10.2.js'></script>
 		<script src='js/jquery-ui-1.10.4.custom.js'></script>
 		<script src='js/script.js'></script>
-		<script src='js/bitscript.js'></script>
 		<script src='js/bitglobal.js'></script>
 	</head>
 	<body>
