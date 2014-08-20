@@ -23,6 +23,7 @@
 	}
 </style>
 <script>
+/*
 	$('#testButton').click(function(){
 		$('#testDiv').css('background','lightgray');
 		var target = 'index.php?/action/test';
@@ -31,4 +32,5 @@
 			$('#testReturn').html(data);
 		});
 	});
+*/
 </script>
