@@ -5,15 +5,11 @@ class Worker extends CI_Controller {
 	public function index(){ echo "this is the index"; }
 
 	public function test(){
-		//$arg1 = $this->uri->segment(4);
-
+		#$arg1 = $this->uri->segment(4);
 		#file_put_contents('marketTrades.html',$json);
+
 		$echo = array();
 		$echo[] = 'Outlander';
-
-		$heading = array('one','two');
-		$mArray = array();
-
 
 		$json = file_get_contents('https://api.mintpal.com/v1/market/trades/LTC/BTC');
 		$obj = json_decode($json,true);
@@ -23,27 +19,30 @@ class Worker extends CI_Controller {
 	
 		$trades = $obj['trades'];
 	
-		$echo[] = 'Trade Keys:';
+		$heading = array('id');
 		$keys = array_keys($trades[0]);
-		foreach($keys as $key){
-			$echo[] = "$key";
-		}
+		foreach($keys as $key){ $heading[] = $key; }
 	
-/*
+		$rows = array();
+		$id = 0;
 		foreach($trades as $trade){
-			$echo[] = "$trade";
+			$row = array(++$id);
+			$row[] = $trade['time'];
+			$row[] = $trade['type'];
+			$row[] = $trade['price'];
+			$row[] = $trade['amount'];
+			$row[] = $trade['total'];
+			$rows[] = $row;
 		}
-*/
+
+		$echo[] = renderTable($heading,$rows);
 
 		$msg = '';
 		foreach($echo as $e){
 			$msg .= "$e<br/>";
 		}
 		echo $msg;
-/*
-		$jamie = renderTable($aa,$bb);
-		echo $jamie;
-*/
+
 	}
 }
 
