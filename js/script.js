@@ -181,6 +181,9 @@ $(document).ready(function(){
 			mOnReturn.html(data);
 		});
 	});
+	$('#Graph').click(function(){
+		$(this).nextAll('div').html('<img src="lib/graph.php" />');
+	});
 	/*
 		END TRADER FUNCTIONS
 	*/
