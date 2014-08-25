@@ -4,12 +4,14 @@ class Worker extends CI_Controller {
 
 	public function index(){ echo "this is the index"; }
 
-	public function test(){
-		#$arg1 = $this->uri->segment(4);
+	public function getMarket(){
 		#file_put_contents('marketTrades.html',$json);
+
+		$incoming = $this->uri->segment(3);
 
 		$echo = array();
 		$echo[] = 'Outlander';
+		$echo[] = $incoming;
 
 		$json = file_get_contents('https://api.mintpal.com/v1/market/trades/LTC/BTC');
 		$obj = json_decode($json,true);
@@ -24,7 +26,10 @@ class Worker extends CI_Controller {
 		foreach($keys as $key){ $heading[] = $key; }
 		$heading[] = 'test';
 	
-		$rows = array();
+		$allTrades = array();
+		$sellTrades = array();
+		$buyTrades = array();
+		$buys = array();
 		$id = 0;
 		foreach($trades as $trade){
 			$row = array(++$id);
@@ -36,10 +41,14 @@ class Worker extends CI_Controller {
 			$row[] = $trade['amount'];
 			$row[] = $trade['total'];
 			$row[] = "jamie";
-			$rows[] = $row;
+			$allTrades[] = $row;
+			if($trade['type'] == 1){$sellTrades[] = $row;}
+			if($trade['type'] == 0){$buyTrades[] = $row;}
 		}
 
-		$echo[] = renderTable($heading,$rows);
+		if( $incoming == 'trades' ){$echo[] = renderTable($heading,$allTrades);}
+		if( $incoming == 'sell'   ){$echo[] = renderTable($heading,$sellTrades);}
+		if( $incoming == 'buy'    ){$echo[] = renderTable($heading,$buyTrades);}
 
 		$msg = '';
 		foreach($echo as $e){
