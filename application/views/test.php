@@ -7,3 +7,12 @@
 		market trade data
 	</div>
 </div>
+<style>
+	img{
+		margin : 10px;
+		padding : 10px;
+		border-color : gray;
+		border-style : dotted;
+		border-width : 1px;
+	}
+</style>
