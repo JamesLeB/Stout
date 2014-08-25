@@ -10,7 +10,10 @@ class Stout extends CI_Controller {
 		$data['Inventory']   = $this->load->view('bit/bitInventory','',true);
 		$data['Sales']       = $this->load->view('bit/bitSales','',true);
 		$data['test']        = $this->load->view('test','',true);
-		$data['development'] = $this->load->view('development','',true);
+
+		$development['test'] = 'first worker';
+		$data['development'] = $this->load->view('development',$development,true);
+
 		$data['production']  = $this->load->view('production','',true);
 
 		$this->load->view('home',$data);
