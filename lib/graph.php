@@ -1,34 +1,30 @@
 <?php
+
 	include("pChart2.1.4/class/pData.class.php"); 
 	include("pChart2.1.4/class/pDraw.class.php"); 
 	include("pChart2.1.4/class/pImage.class.php"); 
+
 	$max = 10;
 	$min = 0;
-	$sizex = 200;
-	$sizey = 200;
-	$padding = 30;
-	#$coin = 'ltc';
-	$color = array("R"=>125,"G"=>125,"B"=>125);
-	$graph_top   = $padding;
-	$graph_bot   = $sizey - $padding;
+	$sizex = 400;
+	$sizey = 300;
+	$padding = 20;
+
+	$graph_top   = $padding + 50;
+	$graph_bot   = $sizey - $padding - 25;
 	$graph_left  = $padding*2.5;
 	$graph_right = $sizex - $padding;
-/*
-	$file = 'where.sql';
-	$fh = fopen($file,'r');
-	$where = fread($fh,filesize($file));
-	$link = mysql_connect('localhost','doger','sorcier');
-	mysql_select_db('ticker',$link);
-	$LTC = array();
-	$rs = mysql_query("select $coin from bter $where");
-	while($row = mysql_fetch_assoc($rs)){
-		$LTC[] = $row{'ltc'};
-	}
-*/
-	$test = array(1,2,3,4);
+
+	$color = array("R"=>125,"G"=>125,"B"=>125);
+	$test = array(1,2,3,4,3);
+	$label = array('aa','b','c','d','e');
+
 	$MyData = new pData();   
 	$MyData->addPoints($test,"TEST"); 
+	$MyData->addPoints($label,"Labels"); 
+	$MyData->setAbscissa('Labels');
 	$MyData->setPalette('TEST',$color);
+
 	$myPicture = new pImage($sizex,$sizey,$MyData); 
 	$myPicture->setFontProperties(
 		array(
@@ -40,12 +36,13 @@
  	$scaleSettings = array(
 		"GridR"=>false,
 		"CycleBackground"=>true,
-		"RemoveXAxis"=>true,
+		#"RemoveXAxis"=>true,
 		"Mode"=>SCALE_MODE_MANUAL,
 		"ManualScale"=>array(0=>array("Min"=>$min,"Max"=>$max))
 	); 
  	$myPicture->drawScale($scaleSettings); 
 	$myPicture->drawLineChart(); 
+	$myPicture->drawLegend(20,20,array('Style'=>LEGEND_NOBORDER,'Mode'=>LEGEND_HORIZONTAL));
 	$myPicture->render(); 
 
 ?>
