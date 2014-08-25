@@ -12,12 +12,12 @@
 		<div id='wrapper'>
 			<div id='tabs'>
 				<ul>
+					<li><a href='#tab5'>Test</a></li>
+					<li><a href='#tab6'>Development</a></li>
 					<li><a href='#tab1'>Market</a></li>
 					<li><a href='#tab2'>Buy</a></li>
 					<li><a href='#tab3'>Inventory</a></li>
 					<li><a href='#tab4'>Sales</a></li>
-					<li><a href='#tab5'>Test</a></li>
-					<li><a href='#tab6'>Development</a></li>
 					<li><a href='#tab7'>Production</a></li>
 				</ul>
 				<div id='tab1'><?php echo $Market ?></div>
