@@ -16,14 +16,8 @@
 
 function readJasonObject(jsonObject){
 		var json = $.parseJSON(jsonObject);
-}
-function getMarketStatus(){
-	var target = 'index.php?/worker/test/';
-	var request=$.post(target,'',function(data){
-	//$.get( "bitphp/marketStatus.php", function(a){
-	//$.get( "bitphp/marketStatus.html", function(a){
-		$('#marketStatus').html(data);
 /*
+	below is some sample code for reading json in javascript
 		var headings = [];
 		var data = [];
 		data.push(['Last Price',      json[0]["last_price"]]);
@@ -37,7 +31,6 @@ function getMarketStatus(){
 		$('#marketStatus').html(renderTable(headings,data));
 		getMarketTrades();
 */
-	});
 }
 function getMarketTrades(){
 	$.get( "bitphp/marketTrades.php", function(a){
@@ -147,6 +140,13 @@ function renderTable(headings,data){
 	});
 */
 
+function getMarketStatus(){
+	var target = 'index.php?/worker/test/';
+	var request=$.post(target,'',function(data){
+		$('#marketStatus').html(data);
+	});
+}
+
 $(document).ready(function(){
 	// SETUP PAGE
 	$("#tabs").tabs();
@@ -155,7 +155,35 @@ $(document).ready(function(){
 	loadInventory();
 	loadOpenBids();
 	loadOpenAsks();
-	getMarketStatus();
+	//getMarketStatus();
+
+	/*
+		TRADER FUNCTIONS
+	*/
+	$('#getMarketTrades').click(function(){
+		var target = 'index.php?/worker/getMarket/trades';
+		var mOnReturn = $(this).nextAll('div');
+		var request=$.post(target,'',function(data){
+			mOnReturn.html(data);
+		});
+	});
+	$('#getMarketSells').click(function(){
+		var target = 'index.php?/worker/getMarket/sell';
+		var mOnReturn = $(this).nextAll('div');
+		var request=$.post(target,'',function(data){
+			mOnReturn.html(data);
+		});
+	});
+	$('#getMarketBuys').click(function(){
+		var target = 'index.php?/worker/getMarket/buy';
+		var mOnReturn = $(this).nextAll('div');
+		var request=$.post(target,'',function(data){
+			mOnReturn.html(data);
+		});
+	});
+	/*
+		END TRADER FUNCTIONS
+	*/
 
 	// FORM VALIDATION
 	$('#confirmAsk').submit(function(){
