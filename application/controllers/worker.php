@@ -22,16 +22,20 @@ class Worker extends CI_Controller {
 		$heading = array('id');
 		$keys = array_keys($trades[0]);
 		foreach($keys as $key){ $heading[] = $key; }
+		$heading[] = 'test';
 	
 		$rows = array();
 		$id = 0;
 		foreach($trades as $trade){
 			$row = array(++$id);
-			$row[] = $trade['time'];
-			$row[] = $trade['type'];
+			#$row[] = $trade['time'];
+			$row[] = date('Y-m-d H:i:s',$trade['time']);
+			#$row[] = $trade['type'];
+			$row[] = $trade['type'] == 0 ? 'Buy' : 'Sell';
 			$row[] = $trade['price'];
 			$row[] = $trade['amount'];
 			$row[] = $trade['total'];
+			$row[] = "jamie";
 			$rows[] = $row;
 		}
 
