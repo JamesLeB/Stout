@@ -12,6 +12,7 @@
 		<div id='wrapper'>
 			<div id='tabs'>
 				<ul>
+					<li><a href='#exchange'>Exchange</a></li>
 					<li><a href='#tab5'>Test</a></li>
 					<li><a href='#tab6'>Development</a></li>
 					<li><a href='#tab1'>Market</a></li>
@@ -20,6 +21,7 @@
 					<li><a href='#tab4'>Sales</a></li>
 					<li><a href='#tab7'>Production</a></li>
 				</ul>
+				<div id='exchange'><?php echo $Exchange ?></div>
 				<div id='tab1'><?php echo $Market ?></div>
 				<div id='tab2'><?php echo $Buy ?></div>
 				<div id='tab3'><?php echo $Inventory ?></div>
