@@ -38,12 +38,15 @@
 		var request = $.post(target,'',function(data){
 			var msg = data;
 			$('#exchange > div > :nth-child(4)').html(msg);
+			var scene = request.getResponseHeader('scene');
 			if( scene == 1 ){stage();}
 		});
 	});
 	function stage(){
 		var target = 'index.php?/stage/running';
 		var request = $.post(target,'',function(data){
+			$('#exchange > div > :nth-child(4)').append(data);
+			var scene = request.getResponseHeader('scene');
 			if( scene == 1 ){stage();}
 		});
 	}
