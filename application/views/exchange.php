@@ -34,7 +34,7 @@
 	});
 	// My Coins button
 	$('#exchange > div > :nth-child(1) > :nth-child(3)').click(function(){
-		var target = 'index.php?/stage/getMech';
+		var target = 'index.php?/stage/setup';
 		var request = $.post(target,'',function(data){
 			var msg = data;
 			$('#exchange > div > :nth-child(4)').html(msg);

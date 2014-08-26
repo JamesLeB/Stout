@@ -14,43 +14,37 @@ class Stage extends CI_Controller {
 		echo "DONE!!<br/>";
 */
 	}
-	public function getMech(){
-		$test = `lib/perl/exchange Mintpal`;
-		echo "getting mech data...<br/>$test";
-		$thing = new mintpal();
-		$test = $thing->stage1();
-		echo "testing...$test<br/>";
-		$this->setup();
-	}
 	public function setup(){
+		header('scene: 1');
 		$scene = 1;
 		$sceneCount = 3;
 		$_SESSION['scene'] = $scene;
 		$_SESSION['sceneCount'] = $sceneCount;
 		$_SESSION['MAX'] = 10;
 		$_SESSION['INDEX'] = 0;
-		echo "setting up scene $scene<br/>";
-		header('scene: 1');
+		echo "Setting Up Scene<br/><br/>";
 	}
 	public function running(){
-		$ms = 'im running<br/>';
-		$test = $_SESSION['scene'];
-		$ms = "$test<br/>";
-/*
+		$ms = array();
 		if( $_SESSION['scene'] <= $_SESSION['sceneCount'] ){
 			header('scene: 1');
 			$thing = new mintpal();
-			     if( $_SESSION['scene'] == 1 ){ $ms .= $thing->stage1();
-			}elseif( $_SESSION['scene'] == 2 ){ $ms .= $thing->stage2();
-			}elseif( $_SESSION['scene'] == 3 ){ $ms .= $thing->stage3();
-			}else                             { $ms .= $thing->stage0();
+
+			     if( $_SESSION['scene'] == 1 ){ $ms[] = $thing->stage1();
+			}elseif( $_SESSION['scene'] == 2 ){ $ms[] = $thing->stage2();
+			}elseif( $_SESSION['scene'] == 3 ){ $ms[] = $thing->stage3();
+			}else                             { $ms[] = $thing->stage0();
 			}
+
 			$_SESSION['scene']++;
 		}else{
-			$ms .= "scene done<br/>";
+			$ms[] = "Scene Done<br/>";
 		}
-*/
-		echo "$ms";
+		$echo = '';
+		foreach($ms as $m){
+			$echo .= "$m<br/>";
+		}
+		echo "$echo";
 	}
 	function stage1(){
 /*
