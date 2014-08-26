@@ -9,10 +9,11 @@ print "lets mechanize the $arg1 exchange...\n";
 use WWW::Mechanize; my $mech = WWW::Mechanize->new(); $mech->timeout(56800);
 
 my $url = 'http://www.mintpal.com'; $mech->get ( $url );
-
 my $page = $mech->content();
+print "page return:\n  $page\n";
+
+=cut
 $page =~ s/>/>\n/g;
-#print "page return:\n  $page\n";
 my @lines = split(/\n/,$page);
 my $special = '';
 for(@lines){
@@ -27,6 +28,7 @@ print "\nSpeical\n  $1\n";
 #$url = "http://www.mintpal.com$1"; $mech->get ( $url );
 #$page = $mech->content();
 #print "page return:\n  $page\n";
+=cut
 
 =cut
 use DateTime;
