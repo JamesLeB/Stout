@@ -62,7 +62,7 @@
 	#exchange > div {
 		background : gray;
 		border-color : blue;
-		height : 400px;
+		min-height : 400px;
 	}
 	/* Buttons */
 	#exchange > div > :nth-child(1) {
@@ -85,7 +85,7 @@
 	/* My Coin List */
 	#exchange > div > :nth-child(4) {
 		border-color : green;
-		width : 400px;
-		height : 200px;
+		width : 500px;
+		height : 300px;
 	}
 </style>
