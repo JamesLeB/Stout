@@ -6,10 +6,18 @@ use strict;
 my $arg1 = 'junk';
 print "lets mechanize the $arg1 exchange...\n";
 
-use WWW::Mechanize; my $mech = WWW::Mechanize->new(); $mech->timeout(56800);
+#use WWW::Mechanize;
+#my $mech = WWW::Mechanize->new();
+#$mech->timeout(56800);
 
-my $url = 'http://www.mintpal.com'; $mech->get ( $url );
-my $page = $mech->content();
+use WWW::Mechanize::Frames;
+my $mech = WWW::Mechanize::Frames->new();
+
+my $url = 'http://www.mintpal.com';
+$mech->get ( $url );
+my @frames = $mech->get_frames();
+#my $page = $mech->content();
+my $page = $frames[0]->content();
 print "page return:\n  $page\n";
 
 =cut
