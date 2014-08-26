@@ -34,9 +34,19 @@
 	});
 	// My Coins button
 	$('#exchange > div > :nth-child(1) > :nth-child(3)').click(function(){
-		var msg = 'get my coins';
-		$('#exchange > div > :nth-child(4)').html(msg);
+		var target = 'index.php?/stage/getMech';
+		var request = $.post(target,'',function(data){
+			var msg = data;
+			$('#exchange > div > :nth-child(4)').html(msg);
+			if( scene == 1 ){stage();}
+		});
 	});
+	function stage(){
+		var target = 'index.php?/stage/running';
+		var request = $.post(target,'',function(data){
+			if( scene == 1 ){stage();}
+		});
+	}
 </script>
 <style>
 	#exchange div {

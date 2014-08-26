@@ -1,0 +1,34 @@
+#!/usr/bin/perl
+use warnings;
+use strict;
+
+my $arg1 = $ARGV[0];
+print "lets mechanize the $arg1 exchange...";
+
+=cut
+use DateTime;
+#my $now = DateTime->now();
+my $now = DateTime->now(time_zone => 'America/New_York');
+my $stamp = $now->ymd('-') . ' ' . $now->hms(':');
+print "************************\n";
+print "Lets Mechanize - running upDate script\n";
+print "time stamp: $stamp\n";
+
+use WWW::Mechanize;
+my $mech = WWW::Mechanize->new();
+$mech->timeout(56800);
+
+my $url = 'http://localhost/james/jBiller';
+$mech->get ( $url );
+$mech->submit_form(
+	form_number => 1,
+	fields => {
+		alice => 'tarman'
+	}
+);
+
+$url = 'http://localhost/james/jBiller/index.php?/action/upDate';
+$mech->get ( $url );
+my $hello = $mech->content();
+print "page return:  $hello\n";
+print "Yay test is done\n";
