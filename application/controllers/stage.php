@@ -17,6 +17,10 @@ class Stage extends CI_Controller {
 	public function getMech(){
 		$test = `lib/perl/exchange Mintpal`;
 		echo "getting mech data...<br/>$test";
+		$thing = new mintpal();
+		$test = $thing->stage1();
+		echo "testing...$test<br/>";
+		$this->setup();
 	}
 	public function setup(){
 		$scene = 1;
@@ -29,27 +33,28 @@ class Stage extends CI_Controller {
 		header('scene: 1');
 	}
 	public function running(){
-		$ms = '';
+		$ms = 'im running<br/>';
+		$test = $_SESSION['scene'];
+		$ms = "$test<br/>";
+/*
 		if( $_SESSION['scene'] <= $_SESSION['sceneCount'] ){
 			header('scene: 1');
-			$thing = new etil();
+			$thing = new mintpal();
 			     if( $_SESSION['scene'] == 1 ){ $ms .= $thing->stage1();
 			}elseif( $_SESSION['scene'] == 2 ){ $ms .= $thing->stage2();
 			}elseif( $_SESSION['scene'] == 3 ){ $ms .= $thing->stage3();
-			}elseif( $_SESSION['scene'] == 4 ){ $ms .= $thing->stage4();
-			}elseif( $_SESSION['scene'] == 5 ){ $ms .= $thing->stage5();
 			}else                             { $ms .= $thing->stage0();
 			}
 			$_SESSION['scene']++;
 		}else{
 			$ms .= "scene done<br/>";
 		}
+*/
 		echo "$ms";
 	}
 	function stage1(){
-				echo "...Getting file<br/>";
+/*
 				$file = file_get_contents("test.csv");
-				echo "...load file to session<br/>";
 				$lines = explode("\n",$file);
 				array_pop($lines);
 				$headings = explode(",",array_shift($lines));
@@ -66,33 +71,7 @@ class Stage extends CI_Controller {
 					array_push($rows,$row);
 				}
 				$_SESSION['rows'] = $rows;
-	}
-	function stage2(){
-				echo "...printng table - disabled<br/>";
-				$heading = $_SESSION['headings'];
-				$rows = $_SESSION['rows'];
-				#$table = renderTable($heading,$rows);
-				#echo "$table<br/>";
-	}
-	function stage3(){
-				echo "...Loop through<br/>";
-	}
-	function stage4(){
-				$index = $_SESSION['INDEX'];
-				$max   = $_SESSION['MAX'];
-				if( $index == 0 ){ echo "...process results<br/>"; }
-				if( $max > 0 && $index <= $max ){
-					$ms =  "Loading $index of $max";
-					header("debug: $ms");
-					$_SESSION['INDEX'] = ++$index;
-					$_SESSION['scene']--;
-				}
-	}
-	function stage5(){
-				echo "...<br/>";
-	}
-	function stage0(){
-				echo "...<br/>";
+*/
 	}
 }
 
