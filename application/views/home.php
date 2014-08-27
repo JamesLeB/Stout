@@ -10,6 +10,7 @@
 	</head>
 	<body>
 		<div id='wrapper'>
+			<div id='stoutHeading'>0</div>
 			<div id='tabs'>
 				<ul>
 					<li><a href='#exchange'>Exchange</a></li>

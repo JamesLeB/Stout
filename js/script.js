@@ -148,6 +148,23 @@ function getMarketStatus(){
 }
 
 $(document).ready(function(){
+	/*
+	*	Stout Heading code
+	*/
+		setInterval(function(){
+			var t = new Date();
+			var M = t.getMonth()+1;
+			var d = t.getDate();
+			var y = t.getFullYear();
+			var h = t.getHours();
+			var m = t.getMinutes();
+			var s = t.getSeconds();
+			$('#stoutHeading').html(y+'-'+M+'-'+d+' '+h+':'+m+':'+s); 
+		},1000);
+	/*
+	*	END Stout Heading code
+	*/
+
 	// SETUP PAGE
 	$("#tabs").tabs();
 	$("#accordion").accordion();
@@ -156,6 +173,7 @@ $(document).ready(function(){
 	loadOpenBids();
 	loadOpenAsks();
 	//getMarketStatus();
+	// END SETUP PAGE
 
 	/*
 		TRADER FUNCTIONS
