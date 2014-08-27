@@ -36,4 +36,14 @@
 	h3 {
 		color : #B2B200;
 	}
-
+/*
+*	Style for Stout Heading
+*/
+	#stoutHeading {
+		text-align : right;
+		font-size : 1.5em;
+		color : green;
+	}
+/*
+*	END Style for Stout Heading
+*/
