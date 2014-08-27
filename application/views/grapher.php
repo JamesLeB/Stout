@@ -8,6 +8,9 @@
 	graph will do here
 </div>
 <script>
+	$('#grapher > :nth-child(1) > :nth-child(1)').click(function(){
+		$('#grapher > :nth-child(2)').html('<img src="lib/graphs/defaultGraph.php" />');
+	});
 </script>
 <style>
 	#grapher div {
