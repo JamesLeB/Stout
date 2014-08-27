@@ -1,3 +1,4 @@
+<!-- IN DIV #trader --!>
 <div>
 	<button id='getMarketTrades'>getMarketTrades</button>
 	<button id='getMarketSells'>getMarketSells</button>
@@ -8,7 +9,7 @@
 	</div>
 </div>
 <style>
-	img{
+	#trader img{
 		margin : 10px;
 		padding : 10px;
 		border-color : gray;
