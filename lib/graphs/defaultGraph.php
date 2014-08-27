@@ -4,11 +4,13 @@
 	include("../pChart2.1.4/class/pDraw.class.php"); 
 	include("../pChart2.1.4/class/pImage.class.php"); 
 
-	$max = 10;
-	$min = 0;
-	$sizex = 400;
-	$sizey = 300;
-	$padding = 20;
+	$json = file_get_contents('config/default.json');
+	$obj = json_decode($json,true);
+	$max     = $obj['max'];
+	$min     = $obj['min'];
+	$sizex   = $obj['sizex'];
+	$sizey   = $obj['sizey'];
+	$padding = $obj['padding'];
 
 	$graph_top   = $padding + 50;
 	$graph_bot   = $sizey - $padding - 25;
@@ -28,7 +30,7 @@
 	$myPicture = new pImage($sizex,$sizey,$MyData); 
 	$myPicture->setFontProperties(
 		array(
-			"FontName"=>"pChart2.1.4/fonts/pf_arma_five.ttf",
+			"FontName"=>"../pChart2.1.4/fonts/pf_arma_five.ttf",
 			"FontSize"=>12
 		)
 	); 

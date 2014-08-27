@@ -8,8 +8,16 @@
 	graph will do here
 </div>
 <script>
+	// A button
 	$('#grapher > :nth-child(1) > :nth-child(1)').click(function(){
 		$('#grapher > :nth-child(2)').html('<img src="lib/graphs/defaultGraph.php" />');
+	});
+	// B button
+	$('#grapher > :nth-child(1) > :nth-child(2)').click(function(){
+		var target = 'index.php?/grapher/config';
+		var request = $.post(target,'',function(data){
+			$('#grapher > :nth-child(2)').html(data);
+		});
 	});
 </script>
 <style>
