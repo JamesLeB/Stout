@@ -1,22 +1,27 @@
 <table id='developmentFloor'>
 	<tr>
-		<td><div class='devWorkerIcons' worker='devWork1' >one</div></td>
-		<td><div class='devWorkerIcons' worker='devWork2' >two</div></td>
-		<td><div class='devWorkerIcons' worker='devWork3' >three</div></td>
+		<td><div class='devWorkerIcons' worker='devWork1' >market</div></td>
+		<td><div class='devWorkerIcons' worker='devWork2' >buy</div></td>
+		<td><div class='devWorkerIcons' worker='devWork3' >inventory</div></td>
+		<td><div class='devWorkerIcons' worker='devWork4' >sales</div></td>
 	</tr>
 </table>
 
 <div id='devWork1'>
 	<button class='closeDevWorker'>Close</button>
-	<?php echo $test ?>
+	<?php echo $market ?>
 </div>
 <div id='devWork2'>
 	<button class='closeDevWorker'>Close</button>
-	two
+	<?php echo $buy ?>
 </div>
 <div id='devWork3'>
 	<button class='closeDevWorker'>Close</button>
-	three
+	<?php echo $inventory ?>
+</div>
+<div id='devWork4'>
+	<button class='closeDevWorker'>Close</button>
+	<?php echo $sales ?>
 </div>
 
 <style>
