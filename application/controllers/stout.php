@@ -12,10 +12,10 @@ class Stout extends CI_Controller {
 
 		$slide = array();
 		$slide[] = array('grapher',$this->load->view('grapher','',true));
-		$slide[] = array('trader',$this->load->view('trader','',true));
-		$slide[] = array('exchange',$this->load->view('exchange','',true));
-		$slide[] = array('development',$this->load->view('development',$development,true));
-		$slide[] = array('production',$this->load->view('production','',true));
+		#$slide[] = array('trader',$this->load->view('trader','',true));
+		#$slide[] = array('exchange',$this->load->view('exchange','',true));
+		#$slide[] = array('development',$this->load->view('development',$development,true));
+		#$slide[] = array('production',$this->load->view('production','',true));
 
 		$slides['slides'] = $slide;
 		$data['slideTray'] = $this->load->view('slideTray',$slides,true);
