@@ -16,6 +16,11 @@
 ###
 
 /*
+* NEED TO SET TIME ZONE FOR PHP DATE FUNCTION
+*/
+	date_default_timezone_set('America/New_York');
+
+/*
  *---------------------------------------------------------------
  * APPLICATION ENVIRONMENT
  *---------------------------------------------------------------
