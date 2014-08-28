@@ -39,10 +39,12 @@
 /*
 *	Style for Stout Heading
 */
-	#stoutHeading {
+	clock {
 		text-align : right;
 		font-size : 1.5em;
 		color : green;
+		position : relative;
+		float : right;
 	}
 /*
 *	END Style for Stout Heading

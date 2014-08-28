@@ -10,7 +10,10 @@
 	</head>
 	<body>
 		<div id='wrapper'>
-			<div id='stoutHeading'>0</div>
+			<div id='stoutHeading'>
+				<img src='lib/images/cat.jpg' height=100 />
+				<clock></clock>
+			</div>
 			<div id='tabs'>
 				<ul>
 					<li><a href='#grapher'>Grapher</a></li>

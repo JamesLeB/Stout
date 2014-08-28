@@ -159,7 +159,7 @@ $(document).ready(function(){
 			var h = t.getHours();
 			var m = t.getMinutes();
 			var s = t.getSeconds();
-			$('#stoutHeading').html(y+'-'+M+'-'+d+' '+h+':'+m+':'+s); 
+			$('clock').html(y+'-'+M+'-'+d+'<br/>'+h+':'+m+':'+s); 
 		},1000);
 	/*
 	*	END Stout Heading code
