@@ -4,6 +4,8 @@
 	include("../pChart2.1.4/class/pDraw.class.php"); 
 	include("../pChart2.1.4/class/pImage.class.php"); 
 
+	#header('Content-Type:image/png');
+
 	$json = file_get_contents('config/default.json');
 	$obj = json_decode($json,true);
 	$max     = $obj['max'];
@@ -45,6 +47,7 @@
  	$myPicture->drawScale($scaleSettings); 
 	$myPicture->drawLineChart(); 
 	$myPicture->drawLegend(20,20,array('Style'=>LEGEND_NOBORDER,'Mode'=>LEGEND_HORIZONTAL));
-	$myPicture->render(); 
+	#$myPicture->render(); 
+	$myPicture->stroke(); 
 
 ?>
