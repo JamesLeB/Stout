@@ -14,20 +14,7 @@
 				<img src='lib/images/cat.jpg' height=100 />
 				<clock></clock>
 			</div>
-			<div id='tabs'>
-				<ul>
-					<li><a href='#grapher'>Grapher</a></li>
-					<li><a href='#trader'>Trader</a></li>
-					<li><a href='#exchange'>Exchange</a></li>
-					<li><a href='#development'>Development</a></li>
-					<li><a href='#production'>Production</a></li>
-				</ul>
-				<div id='grapher'><?php echo $grapher ?></div>
-				<div id='exchange'><?php echo $exchange ?></div>
-				<div id='trader'><?php echo $trader ?></div>
-				<div id='development'><?php echo $development ?></div>
-				<div id='production'><?php echo $production ?></div>
-			</div>
+			<?php echo $slideTray ?>
 		</div>
 	</body>
 </html>

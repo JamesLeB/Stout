@@ -5,17 +5,20 @@ class Stout extends CI_Controller {
 	public function index()
 	{
 
-		$data['grapher']        = $this->load->view('grapher','',true);
-		$data['trader']        = $this->load->view('trader','',true);
-		$data['exchange']    = $this->load->view('exchange','',true);
-
-		$development['market'] = $this->load->view('bit/bitMarket','',true);
-		$development['buy'] = $this->load->view('bit/bitBuy','',true);
+		$development['market']    = $this->load->view('bit/bitMarket','',true);
+		$development['buy']       = $this->load->view('bit/bitBuy','',true);
 		$development['inventory'] = $this->load->view('bit/bitInventory','',true);
-		$development['sales'] = $this->load->view('bit/bitSales','',true);
-		$data['development'] = $this->load->view('development',$development,true);
+		$development['sales']     = $this->load->view('bit/bitSales','',true);
 
-		$data['production']  = $this->load->view('production','',true);
+		$slide = array();
+		$slide[] = array('grapher',$this->load->view('grapher','',true));
+		$slide[] = array('trader',$this->load->view('trader','',true));
+		$slide[] = array('exchange',$this->load->view('exchange','',true));
+		$slide[] = array('development',$this->load->view('development',$development,true));
+		$slide[] = array('production',$this->load->view('production','',true));
+
+		$slides['slides'] = $slide;
+		$data['slideTray'] = $this->load->view('slideTray',$slides,true);
 
 		$this->load->view('home',$data);
 

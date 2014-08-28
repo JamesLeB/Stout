@@ -1,11 +1,13 @@
 <!-- Inside div #grapher --!>
-<div>
-	<button>A</button>
-	<button>B</button>
-	<button>C</button>
-</div>
-<div>
-	graph will do here
+<div id='grapher'>
+	<div>
+		<button>A</button>
+		<button>B</button>
+		<button>C</button>
+	</div>
+	<div>
+		graph will do here
+	</div>
 </div>
 <script>
 	// A button
