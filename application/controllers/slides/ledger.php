@@ -7,6 +7,8 @@ class Ledger extends CI_Controller {
 	}
 	public function setup(){
 		echo "setting up ledger";
+		$this->load->model('ledgerModel');
+		echo $this->ledgerModel->setupLedger();
 /*
 		$config = array(
 			'max'     => 10,
