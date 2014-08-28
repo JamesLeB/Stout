@@ -1,5 +1,5 @@
 <!-- IN DIV #trader --!>
-<div>
+<div id='trader'>
 	<button id='getMarketTrades'>getMarketTrades</button>
 	<button id='getMarketSells'>getMarketSells</button>
 	<button id='getMarketBuys'>getMarketBuys</button>
