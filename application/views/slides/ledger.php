@@ -31,6 +31,13 @@
 			$('#ledger > :nth-child(3)').html(data);
 		});
 	});
+	function deleteLedgerEntry(){
+		alert('deleting button');
+		var target = 'index.php?/slides/ledger/deleteLedgerEntry';
+		var request = $.post(target,'',function(data){
+			$('#ledger > :nth-child(3)').html(data);
+		});
+	}
 </script>
 <style>
 	#ledger div {
