@@ -8,7 +8,51 @@ class ledgerModel extends CI_Model{
 	}
 */
 	function setupLedger(){
-		return 'setting up a blank ledger';
+		$ledger = array();
+		$obj['headings'] = array(
+			'ID',
+			'Date',
+			'Type',
+			'Account',
+			'Budget',
+			'Vendor',
+			'Amount',
+			'Delete'
+		);
+		$record1= array(
+			1,
+			'2014-08-28',
+			'Income',
+			'J_Citi_Check',
+			'J_NYU_Pay',
+			'NYU',
+			2000,
+			'<button class="ledgerDelete">X</button>'
+		);
+		$record2= array(
+			2,
+			'2014-08-28',
+			'Income',
+			'J_Citi_Check',
+			'Initial',
+			'ME',
+			1000,
+			'<button class="ledgerDelete">X</button>'
+		);
+		$obj['records'] = array($record1,$record2);
+		$file = 'temp/test';
+		$data = json_encode($obj);
+		file_put_contents($file,$data);
+		return 'Model - Ledger stored as json in temp';
+	}
+	function getLedger(){
+		$file = 'temp/test';
+		$json = file_get_contents($file);
+		$ledger = json_decode($json,true);
+		$headings = $ledger['headings'];
+		$records = $ledger['records'];
+		$table = renderTable($headings,$records);
+		return "Model - This is the ledger table<br/>$table";
 	}
 /*
 	function sample(){
