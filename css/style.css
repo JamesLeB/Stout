@@ -5,6 +5,9 @@
 		margin-top : 2%;
 		margin-bottom : 4%;
 	}
+	div {
+		font-family: "Andale Mono", AndaleMono, monospace;
+	}
 	.queryTable {
 		border : ridge 5px yellow;
 		padding : 5px;
