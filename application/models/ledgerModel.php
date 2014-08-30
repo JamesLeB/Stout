@@ -45,6 +45,19 @@ class ledgerModel extends CI_Model{
 		file_put_contents($file,$data);
 		return 'Model - Ledger stored as json in temp';
 	}
+	function addRecord(){
+		$file = 'temp/test';
+		$json = file_get_contents($file);
+		$ledger = json_decode($json,true);
+		$records = $ledger['records'];
+		$record = array(1,2,3,4);
+		$records[] = $record;
+		$ledger['records'] = $records;
+		$json = json_encode($ledger);
+		file_put_contents($file,$json);
+		$ledger = $this->getLedger();
+		return $ledger;
+	}
 	function getLedger(){
 		$file = 'temp/test';
 		$json = file_get_contents($file);

@@ -23,6 +23,11 @@ class Ledger extends CI_Controller {
 		echo "$json";
 */
 	}
+	public function addRecord(){
+		$this->load->model('ledgerModel');
+		#echo "controller - adding record";
+		echo $this->ledgerModel->addRecord();
+	}
 	public function loadLedger(){
 		$this->load->model('ledgerModel');
 		echo $this->ledgerModel->getLedger();
