@@ -20,7 +20,7 @@
 				$echo .= "</tr>";
 		}
 		$echo .= "</table>";
-		$echo = $count == 0 ? 'No records' : $echo;
+		#$echo = $count == 0 ? 'No records' : $echo;
 		return $echo;
 	}
 /*
