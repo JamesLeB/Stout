@@ -5,13 +5,30 @@
 		<button>Load</button>
 	</div>
 	<div>
-		form goes here
+		<form>
+			<p>Add New Record</p> 
+			<input type='text' name='value1' />
+			<input type='submit' value='submit' />
+		</form>
 	</div>
 	<div>
 		ledger goes here
 	</div>
 </div>
 <script>
+	// Form Submit
+	$('#ledger form').submit(function(){
+		$(this).css('background','#006699');
+		var thisForm = this;
+		var val1 = this.value1.value;
+		this.value1.value = '';
+		var target = 'index.php?/slides/ledger/addRecord/'+val1;
+		var request=$.post(target,'',function(data){
+			$('#ledger > :nth-child(3)').html(data);
+			$(thisForm).css('background','#663D00');
+		});
+		return false;
+	});
 	// Setup button
 	$('#ledger > :nth-child(1) > :nth-child(1)').click(function(){
 		var target = 'index.php?/slides/ledger/setup';
