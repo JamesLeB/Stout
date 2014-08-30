@@ -24,7 +24,6 @@ class Ledger extends CI_Controller {
 */
 	}
 	public function loadLedger(){
-		echo "loading ledger<br/>";
 		$this->load->model('ledgerModel');
 		echo $this->ledgerModel->getLedger();
 	}
