@@ -7,8 +7,48 @@
 	<div>
 		<form>
 			<p>Add New Record</p> 
-			<input type='text' name='value1' />
-			<input type='submit' value='submit' />
+			<table>
+			<tr>
+				<td>Type</td>
+				<td>
+					<select name='recordType'>
+						<option value='spending'>Spending</option>
+						<option value='income'>Income</option>
+					</select>
+				</td>
+				<td>Account</td>
+				<td>
+					<select name='account'>
+						<option value='j_citi_check'>j_citi_check</option>
+						<option value='k_citi_check'>k_citi_check</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>Budget</td>
+				<td>
+					<select name='budget'>
+						<option value='initial'>Initial</option>
+						<option value='paycheck'>Paycheck</option>
+					</select>
+				</td>
+				<td>Vendor</td>
+				<td>
+					<select name='vendor'>
+						<option value='NA'>NA</option>
+						<option value='NYU'>NYU</option>
+						<option value='Segal'>Segal</option>
+					</select>
+				</td>
+			</tr>
+			<tr>
+				<td>Amount</td>
+				<td><input type='text' name='amount' /></td>
+			</tr>
+			<tr>
+				<td><input type='submit' value='submit' /></td>
+			</tr>
+			</table>
 		</form>
 	</div>
 	<div>
@@ -20,9 +60,28 @@
 	$('#ledger form').submit(function(){
 		$(this).css('background','#006699');
 		var thisForm = this;
-		var val1 = this.value1.value;
-		this.value1.value = '';
-		var target = 'index.php?/slides/ledger/addRecord/'+val1;
+		var val1 = this.recordType.value;
+		var val2 = this.account.value;
+		var val3 = this.budget.value;
+		var val4 = this.vendor.value;
+		var val5 = this.amount.value;
+var mess = '';
+mess += val1+"\n";
+mess += val2+"\n";
+mess += val3+"\n";
+mess += val4+"\n";
+mess += val5+"\n";
+alert(mess);
+
+var parm = '';
+parm += '/'+val1;
+parm += '/'+val2;
+parm += '/'+val3;
+parm += '/'+val4;
+parm += '/'+val5;
+
+		//this.value1.value = '';
+		var target = 'index.php?/slides/ledger/addRecord'+parm;
 		var request=$.post(target,'',function(data){
 			$('#ledger > :nth-child(3)').html(data);
 			$(thisForm).css('background','#663D00');
@@ -37,7 +96,7 @@
 		});
 	});
 	// Hide Form button
-	$('#ledger > :nth-child(2)').hide();
+	//$('#ledger > :nth-child(2)').hide();
 	$('#ledger > :nth-child(1) > :nth-child(2)').click(function(){
 		$('#ledger > :nth-child(2)').toggle();
 	});
@@ -57,6 +116,7 @@
 	}
 </script>
 <style>
+	#ledger form table td { border : 1px dashed gray; }
 	#ledger div {
 		margin : 5px;
 		padding : 5px;
@@ -68,7 +128,6 @@
 	}
 	#ledger > :nth-child(2) {
 		border-color : red;
-		height : 100px;
 	}
 	#ledger > :nth-child(3) {
 		border-color : green;
