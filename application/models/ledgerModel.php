@@ -27,7 +27,7 @@ class ledgerModel extends CI_Model{
 			'J_NYU_Pay',
 			'NYU',
 			2000,
-			'<button onclick="deleteLedgerEntry();">X</button>'
+			'<button onclick="deleteLedgerEntry(1);">X</button>'
 		);
 		$record2= array(
 			2,
@@ -37,7 +37,7 @@ class ledgerModel extends CI_Model{
 			'Initial',
 			'ME',
 			1000,
-			'<button onclick="deleteLedgerEntry();">X</button>'
+			'<button onclick="deleteLedgerEntry(2);">X</button>'
 		);
 		$obj['records'] = array($record1,$record2);
 		$file = 'temp/test';
@@ -54,8 +54,26 @@ class ledgerModel extends CI_Model{
 		$table = renderTable($headings,$records);
 		return "Model - This is the ledger table<br/>$table";
 	}
-	function deleteLedgerEntry(){
-		return "Model - Lets delete a record";
+	function deleteLedgerEntry($arg1){
+		$file = 'temp/test';
+		$json = file_get_contents($file);
+		$ledger = json_decode($json,true);
+		$records = $ledger['records'];
+		$index = 0;
+		$splice = 0;
+		foreach($records as $record){
+			if ($record[0] == $arg1){$splice = $index;}
+			$index++;
+		}
+		array_splice($records,$splice,1);
+		$ledger['records'] = $records;
+		$json = json_encode($ledger);
+		file_put_contents($file,$json);
+		$ledger = $this->getLedger();
+		$ms = '';
+		$ms .= "Model - Lets delete a record and the record is $arg1<br/>";
+		$ms .= "$ledger";
+		return $ms;
 	}
 /*
 	function sample(){
