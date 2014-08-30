@@ -24,9 +24,23 @@ class Ledger extends CI_Controller {
 */
 	}
 	public function addRecord(){
+
+		$type    = $this->uri->segment(4);
+		$account = $this->uri->segment(5);
+		$budget  = $this->uri->segment(6);
+		$vendor  = $this->uri->segment(7);
+		$amount  = $this->uri->segment(8);
+
+		$record = array();
+		$record['type']    = $type;
+		$record['account'] = $account;
+		$record['budget']  = $budget;
+		$record['vendor']  = $vendor;
+		$record['amount']  = $amount;
+
 		$this->load->model('ledgerModel');
 		#echo "controller - adding record";
-		echo $this->ledgerModel->addRecord();
+		echo $this->ledgerModel->addRecord($record);
 	}
 	public function loadLedger(){
 		$this->load->model('ledgerModel');
