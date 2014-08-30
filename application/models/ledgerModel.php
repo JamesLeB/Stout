@@ -70,10 +70,7 @@ class ledgerModel extends CI_Model{
 		$json = json_encode($ledger);
 		file_put_contents($file,$json);
 		$ledger = $this->getLedger();
-		$ms = '';
-		$ms .= "Model - Lets delete a record and the record is $arg1<br/>";
-		$ms .= "$ledger";
-		return $ms;
+		return $ledger;
 	}
 /*
 	function sample(){
