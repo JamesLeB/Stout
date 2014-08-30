@@ -29,9 +29,10 @@ class Ledger extends CI_Controller {
 		echo $this->ledgerModel->getLedger();
 	}
 	public function deleteLedgerEntry(){
-		echo "loading ledger<br/>";
+		$arg1 = $this->uri->segment(4);
+		echo "deleting ledger<br/>";
 		$this->load->model('ledgerModel');
-		echo $this->ledgerModel->deleteLedgerEntry();
+		echo $this->ledgerModel->deleteLedgerEntry($arg1);
 	}
 }
 
