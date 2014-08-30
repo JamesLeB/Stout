@@ -31,9 +31,9 @@
 			$('#ledger > :nth-child(3)').html(data);
 		});
 	});
-	function deleteLedgerEntry(){
-		alert('deleting button');
-		var target = 'index.php?/slides/ledger/deleteLedgerEntry';
+	function deleteLedgerEntry(arg1){
+		alert('Delete record '+arg1+'?');
+		var target = 'index.php?/slides/ledger/deleteLedgerEntry/'+arg1;
 		var request = $.post(target,'',function(data){
 			$('#ledger > :nth-child(3)').html(data);
 		});
