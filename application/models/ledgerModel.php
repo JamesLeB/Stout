@@ -52,7 +52,7 @@ class ledgerModel extends CI_Model{
 		$headings = $ledger['headings'];
 		$records = $ledger['records'];
 		$table = renderTable($headings,$records);
-		return "Model - This is the ledger table<br/>$table";
+		return $table;
 	}
 	function deleteLedgerEntry($arg1){
 		$file = 'temp/test';
