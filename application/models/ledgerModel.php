@@ -43,7 +43,8 @@ class ledgerModel extends CI_Model{
 			if($r[0] > $id){$id = $r[0];}
 		}
 		$id++;
-		$date = '2014-08-31';
+
+		$date = date('Y-m-d');
 
 		$record = array(
 			$id,
