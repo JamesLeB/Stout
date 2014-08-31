@@ -54,7 +54,7 @@
 <script>
 	// Form Submit
 	$('#ledger form').submit(function(){
-		$(this).css('background','#006699');
+		$('#stoutHeading').css('background','#006699');
 		var thisForm = this;
 		var val1 = this.recordType.value;
 		var val2 = this.account.value;
@@ -83,7 +83,7 @@
 		var target = 'index.php?/slides/ledger/addRecord'+parm;
 		var request=$.post(target,'',function(data){
 			$('#ledger > :nth-child(3)').html(data);
-			$(thisForm).css('background','#663D00');
+			$('#stoutHeading').css('background','white');
 		});
 		return false;
 	});
