@@ -16,15 +16,6 @@
 						<option value='income'>Income</option>
 					</select>
 				</td>
-				<td>Account</td>
-				<td>
-					<select name='account'>
-						<option value='j_citi_check'>j_citi_check</option>
-						<option value='k_citi_check'>k_citi_check</option>
-					</select>
-				</td>
-			</tr>
-			<tr>
 				<td>Budget</td>
 				<td>
 					<select name='budget'>
@@ -42,10 +33,15 @@
 				</td>
 			</tr>
 			<tr>
+				<td>Account</td>
+				<td>
+					<select name='account'>
+						<option value='j_citi_check'>j_citi_check</option>
+						<option value='k_citi_check'>k_citi_check</option>
+					</select>
+				</td>
 				<td>Amount</td>
 				<td><input type='text' name='amount' /></td>
-			</tr>
-			<tr>
 				<td><input type='submit' value='submit' /></td>
 			</tr>
 			</table>
