@@ -55,7 +55,11 @@ class ledgerModel extends CI_Model{
 		$vendor  = $data['vendor'];
 		$amount  = $data['amount'];
 		
-		$id = 99;
+		$id = 0;
+		foreach($records as $r){
+			if($r[0] > $id){$id = $r[0];}
+		}
+		$id++;
 		$date = '2014-08-31';
 
 		$record = array(
