@@ -26,8 +26,7 @@ class ledgerModel extends CI_Model{
 			'J_Citi_Check',
 			'J_NYU_Pay',
 			'NYU',
-			2000,
-			'<button onclick="deleteLedgerEntry(1);">X</button>'
+			2000
 		);
 		$record2= array(
 			2,
@@ -36,8 +35,7 @@ class ledgerModel extends CI_Model{
 			'J_Citi_Check',
 			'Initial',
 			'ME',
-			1000,
-			'<button onclick="deleteLedgerEntry(2);">X</button>'
+			1000
 		);
 		$obj['records'] = array($record1,$record2);
 		$file = 'temp/test';
@@ -59,7 +57,6 @@ class ledgerModel extends CI_Model{
 		
 		$id = 99;
 		$date = '2014-08-31';
-		$button = 'button';
 
 		$record = array(
 			$id,
@@ -68,8 +65,7 @@ class ledgerModel extends CI_Model{
 			$account,
 			$budget,
 			$vendor,
-			$amount,
-			$button
+			$amount
 		);
 		$records[] = $record;
 
@@ -83,10 +79,7 @@ class ledgerModel extends CI_Model{
 		$file = 'temp/test';
 		$json = file_get_contents($file);
 		$ledger = json_decode($json,true);
-		$headings = $ledger['headings'];
-		$records = $ledger['records'];
-		$table = renderTable($headings,$records);
-		return $table;
+		return $ledger;
 	}
 	function deleteLedgerEntry($arg1){
 		$file = 'temp/test';
