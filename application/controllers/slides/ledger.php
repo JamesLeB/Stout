@@ -40,16 +40,31 @@ class Ledger extends CI_Controller {
 
 		$this->load->model('ledgerModel');
 		#echo "controller - adding record";
-		echo $this->ledgerModel->addRecord($record);
+		$ledger = $this->ledgerModel->addRecord($record);
+		echo $this->makeLedgerTable($ledger);
 	}
 	public function loadLedger(){
 		$this->load->model('ledgerModel');
-		echo $this->ledgerModel->getLedger();
+		$ledger = $this->ledgerModel->getLedger();
+		echo $this->makeLedgerTable($ledger);
 	}
 	public function deleteLedgerEntry(){
 		$arg1 = $this->uri->segment(4);
 		$this->load->model('ledgerModel');
-		echo $this->ledgerModel->deleteLedgerEntry($arg1);
+		$ledger = $this->ledgerModel->deleteLedgerEntry($arg1);
+		echo $this->makeLedgerTable($ledger);
+	}
+	private function makeLedgerTable($ledger){
+		$headings = $ledger['headings'];
+		$oldRecords = $ledger['records'];
+		$newRecords = array();
+		foreach($oldRecords as $record){
+			$id = $record[0];
+			$record[] = "<button onclick='deleteLedgerEntry($id);'>X</button>";
+			$newRecords[] = $record;
+		}
+		$table = renderTable($headings,$newRecords);
+		return $table;
 	}
 }
 
