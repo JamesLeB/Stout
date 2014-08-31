@@ -116,6 +116,9 @@ parm += '/'+val5;
 	}
 </script>
 <style>
+	#ledger form{
+		background : #3d504a;
+	}
 	#ledger form table td { border : 1px dashed gray; }
 	#ledger div {
 		margin : 5px;
