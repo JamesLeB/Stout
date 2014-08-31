@@ -62,16 +62,6 @@
 		var val4 = this.vendor.value;
 		var val5 = this.amount.value;
 
-/*
-		var mess = '';
-		mess += val1+"\n";
-		mess += val2+"\n";
-		mess += val3+"\n";
-		mess += val4+"\n";
-		mess += val5+"\n";
-		alert(mess);
-*/
-		
 		var parm = '';
 		parm += '/'+val1;
 		parm += '/'+val2;
