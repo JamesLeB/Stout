@@ -120,11 +120,12 @@
 	}
 	#ledger form table td { border : 1px dashed gray; }
 	#ledger div {
-		margin : 5px;
-		padding : 5px;
+		margin  : 3px;
+		padding : 3px;
+	}
+/*
 		border-style : ridge;
 		border-width : 2px;
-	}
 	#ledger > :nth-child(1) {
 		border-color : yellow;
 	}
@@ -133,6 +134,6 @@
 	}
 	#ledger > :nth-child(3) {
 		border-color : green;
-		height : 300px;
 	}
+*/
 </style>
