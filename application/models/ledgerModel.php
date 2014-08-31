@@ -1,12 +1,14 @@
 <?php
 class ledgerModel extends CI_Model{
-	private $db;
-/*
+
+	#private $db;
+	private $ledgerFile;
+
 	function __construct(){
 		parent::__construct();
-		$this->db = $this->load->database('dw',true);
+		#$this->db = $this->load->database('dw',true);
+		$this->ledgerFile = 'temp/ledger';
 	}
-*/
 	function setupLedger(){
 		$ledger = array();
 		$obj['headings'] = array(
@@ -19,32 +21,13 @@ class ledgerModel extends CI_Model{
 			'Amount',
 			'Delete'
 		);
-		$record1= array(
-			1,
-			'2014-08-28',
-			'Income',
-			'J_Citi_Check',
-			'J_NYU_Pay',
-			'NYU',
-			2000
-		);
-		$record2= array(
-			2,
-			'2014-08-28',
-			'Income',
-			'J_Citi_Check',
-			'Initial',
-			'ME',
-			1000
-		);
-		$obj['records'] = array($record1,$record2);
-		$file = 'temp/test';
+		$obj['records'] = array();
 		$data = json_encode($obj);
-		file_put_contents($file,$data);
+		file_put_contents($this->ledgerFile,$data);
 		return 'Model - Ledger stored as json in temp';
 	}
 	function addRecord($data){
-		$file = 'temp/test';
+		$file = $this->ledgerFile;
 		$json = file_get_contents($file);
 		$ledger = json_decode($json,true);
 		$records = $ledger['records'];
@@ -80,13 +63,13 @@ class ledgerModel extends CI_Model{
 		return $ledger;
 	}
 	function getLedger(){
-		$file = 'temp/test';
+		$file = $this->ledgerFile;
 		$json = file_get_contents($file);
 		$ledger = json_decode($json,true);
 		return $ledger;
 	}
 	function deleteLedgerEntry($arg1){
-		$file = 'temp/test';
+		$file = $this->ledgerFile;
 		$json = file_get_contents($file);
 		$ledger = json_decode($json,true);
 		$records = $ledger['records'];
