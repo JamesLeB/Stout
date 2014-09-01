@@ -2,13 +2,19 @@
 
 class Expense extends CI_Controller {
 
+	private $model;
+
+	function __construct(){
+		parent::__construct();
+		$this->load->model('expenseModel');
+		$this->model = $this->expenseModel;
+	}
 	public function index(){
 		echo "Default return from Expense controller";
 	}
 	public function setup(){
 		echo "setting up Expense<br/>";
-		$this->load->model('expenseModel');
-		echo $this->expenseModel->setupList();
+		echo $this->model->setupList();
 	}
 	public function addRecord(){
 
@@ -20,20 +26,16 @@ class Expense extends CI_Controller {
 		$record['name'] = $cleanName;
 		$record['type'] = $Type;
 
-		$this->load->model('expenseModel');
-		#echo "controller - adding record";
-		$list = $this->expenseModel->addRecord($record);
+		$list = $this->model->addRecord($record);
 		echo $this->makeListTable($list);
 	}
 	public function loadList(){
-		$this->load->model('expenseModel');
-		$list = $this->expenseModel->getList();
+		$list = $this->model->getList();
 		echo $this->makeListTable($list);
 	}
 	public function deleteRecord(){
 		$arg1 = $this->uri->segment(4);
-		$this->load->model('expenseModel');
-		$list = $this->expenseModel->deleteRecord($arg1);
+		$list = $this->model->deleteRecord($arg1);
 		echo $this->makeListTable($list);
 	}
 	private function makeListTable($list){
