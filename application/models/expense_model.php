@@ -1,7 +1,7 @@
 <?php
-class expenseModel extends CI_Model{
+class Expense_model extends CI_Model{
 
-	#private $db;
+	private $db;
 	private $FILE;
 
 	function __construct(){
@@ -75,7 +75,6 @@ class expenseModel extends CI_Model{
 		$list = $this->getList();
 		return $list;
 	}
-/*
 	function sample(){
 		$ms = 'Getting query<br/>';
 		$file = "querys/warehouse/getOpenMedicaidClaims.sql";
@@ -97,6 +96,5 @@ class expenseModel extends CI_Model{
 		}
 		return "$ms";
 	}
-*/
 }
 ?>

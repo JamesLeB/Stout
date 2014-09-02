@@ -6,8 +6,8 @@ class Expense extends CI_Controller {
 
 	function __construct(){
 		parent::__construct();
-		$this->load->model('expenseModel');
-		$this->model = $this->expenseModel;
+		$this->load->model('Expense_model');
+		$this->model = $this->Expense_model;
 	}
 	public function index(){
 		echo "Default return from Expense controller";
