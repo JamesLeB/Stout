@@ -1,5 +1,5 @@
 <?php
-class accountsModel extends CI_Model{
+class Accounts_model extends CI_Model{
 
 	#private $db;
 	private $FILE;
