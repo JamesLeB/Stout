@@ -42,13 +42,28 @@
 /*
 *	Style for Stout Heading
 */
+	#stoutHeading {
+		height : 100px;
+	}
+	#stoutHeading img {
+		float : left;
+		height : 100px;
+	}
+	#stoutHeading p {
+		font-size : 1em;
+		position : relative;
+		left : 30px;
+		top : 10px;
+	}
 	clock {
+		float : right;
 		text-align : right;
 		font-size : 1.5em;
 		color : green;
 		position : relative;
-		float : right;
 	}
+/*
+*/
 /*
 *	END Style for Stout Heading
 */

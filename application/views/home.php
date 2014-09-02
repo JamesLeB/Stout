@@ -15,11 +15,14 @@
 	<body>
 		<div id='wrapper'>
 			<div id='stoutHeading'>
-				<img src='lib/images/cat.jpg' height=100 />
-				<clock></clock>
+				<img src='lib/images/cat.jpg' />
+				<clock>clock</clock>
+				<p>Hello I'm Stout...</p>
 			</div>
 			<?php echo $slideTray ?>
 		</div>
+		<style>
+		</style>
 	</body>
 
 </html>
