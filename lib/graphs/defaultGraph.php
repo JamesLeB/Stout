@@ -6,28 +6,36 @@
 
 	#header('Content-Type:image/png');
 
-	$json = file_get_contents('config/default.json');
-	$obj = json_decode($json,true);
-	$max     = $obj['max'];
-	$min     = $obj['min'];
-	$sizex   = $obj['sizex'];
-	$sizey   = $obj['sizey'];
-	$padding = $obj['padding'];
+	# GET CONFIG FILE
+	$json1 = file_get_contents('config/default.json');
+	$config = json_decode($json1,true);
+	$max     = $config['max'];
+	$min     = $config['min'];
+	$sizex   = $config['sizex'];
+	$sizey   = $config['sizey'];
+	$legendX = $config['legendX'];
+	$legendY = $config['legendY'];
+	$padding = $config['padding'];
 
+	# SET CONFIG VARIABLES
 	$graph_top   = $padding + 50;
 	$graph_bot   = $sizey - $padding - 25;
 	$graph_left  = $padding*2.5;
 	$graph_right = $sizex - $padding;
 
-	$color = array("R"=>125,"G"=>125,"B"=>125);
-	$test = array(1,2,3,4,3);
-	$label = array('aa','b','c','d','e');
+	# GET DATA SET
+	$json2 = file_get_contents('config/data1.json');
+	$dataSet1 = json_decode($json2,true);
+	$setName = $dataSet1['setName'];
+	$label   = $dataSet1['label'];
+	$color   = $dataSet1['color'];
+	$data1   = $dataSet1['data'];
 
 	$MyData = new pData();   
-	$MyData->addPoints($test,"TEST"); 
 	$MyData->addPoints($label,"Labels"); 
 	$MyData->setAbscissa('Labels');
-	$MyData->setPalette('TEST',$color);
+	$MyData->addPoints($data1,$setName); 
+	$MyData->setPalette($setName,$color);
 
 	$myPicture = new pImage($sizex,$sizey,$MyData); 
 	$myPicture->setFontProperties(
@@ -40,13 +48,12 @@
  	$scaleSettings = array(
 		"GridR"=>false,
 		"CycleBackground"=>true,
-		#"RemoveXAxis"=>true,
 		"Mode"=>SCALE_MODE_MANUAL,
 		"ManualScale"=>array(0=>array("Min"=>$min,"Max"=>$max))
 	); 
  	$myPicture->drawScale($scaleSettings); 
 	$myPicture->drawLineChart(); 
-	$myPicture->drawLegend(20,20,array('Style'=>LEGEND_NOBORDER,'Mode'=>LEGEND_HORIZONTAL));
+	$myPicture->drawLegend($legendX,$legendY,array('Style'=>LEGEND_NOBORDER,'Mode'=>LEGEND_HORIZONTAL));
 	#$myPicture->render(); 
 	$myPicture->stroke(); 
 

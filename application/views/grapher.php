@@ -1,24 +1,33 @@
 <!-- Inside div #grapher --!>
 <div id='grapher'>
 	<div>
-		<button>A</button>
-		<button>B</button>
-		<button>C</button>
+		<button>Default Graph</button>
+		<button>Config</button>
+		<button>Clear</button>
 	</div>
 	<div>
-		graph will do here
+		Main return area
 	</div>
 </div>
 <script>
-	// A button
-	$('#grapher > :nth-child(1) > :nth-child(1)').click(function(){
-		$('#grapher > :nth-child(2)').html('<img src="lib/graphs/defaultGraph.php" />');
+	// SETTINGS
+	var defaultGraph = '<img src="lib/graphs/defaultGraph.php" />';
+	var configTarget = 'index.php?/grapher/config';
+	var grapherReturn = '#grapher > :nth-child(2)';
+	var grapherControl = '#grapher > :nth-child(1)';
+
+	// Clear
+	$(grapherControl + ' > :nth-child(3)').click(function(){
+		$(grapherReturn).html('Clear');
 	});
-	// B button
-	$('#grapher > :nth-child(1) > :nth-child(2)').click(function(){
-		var target = 'index.php?/grapher/config';
-		var request = $.post(target,'',function(data){
-			$('#grapher > :nth-child(2)').html(data);
+	// Default
+	$(grapherControl + ' > :nth-child(1)').click(function(){
+		$(grapherReturn).html(defaultGraph);
+	});
+	// Config
+	$(grapherControl + ' > :nth-child(2)').click(function(){
+		var request = $.post(configTarget,'',function(data){
+			$(grapherReturn).html(data);
 		});
 	});
 </script>
@@ -34,6 +43,7 @@
 	}
 	#grapher > :nth-child(2) {
 		border-color : green;
-		height : 300px;
+		height : 400px;
+		padding : 20px;
 	}
 </style>
