@@ -7,10 +7,12 @@
 	$reports[] = array('icon'=>'Report4','ID'=>'report4','report'=>$report4);
 
 	$html = '';
-	$html .= "<table id='reportsGrid'>";
+	$html .= "<table id='grid'>";
 	$html .= "<tr>";
 	$html2 = '';
 	foreach($reports as $report){
+#working break
+	#for($i=0,$<
 		$icon   = $report['icon'];
 		$ID     = $report['ID'];
 		$report = $report['report'];
@@ -27,7 +29,7 @@
 ?>
 </div>
 <style>
-	#reportsGrid td {
+	#grid td {
 		background : lightgray;
 		color : black;
 	}
@@ -44,10 +46,10 @@
 	$('.closeReport').parent().hide();
 	$('.closeReport').click(function(){
 		$(this).parent().hide();
-		$('#reportsGrid').show();
+		$('#grid').show();
 	});
 	$('.reportIcon').click(function(){
-		$('#reportsGrid').hide();
+		$('#grid').hide();
 		var x = $(this).attr('report');
 		$('#'+x).show();
 	});
