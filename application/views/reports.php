@@ -1,31 +1,33 @@
-<table id='reports'>
-	<tr>
-		<td><div class='reportIcon' report='report1' >Report1</div></td>
-		<td><div class='reportIcon' report='report2' >Report2</div></td>
-		<td><div class='reportIcon' report='report3' >Report3</div></td>
-		<td><div class='reportIcon' report='report4' >Report4</div></td>
-	</tr>
-</table>
+<div id='reports'>
+<?php
+	$reports = array();
+	$reports[] = array('icon'=>'Report1','ID'=>'report1','report'=>$report1);
+	$reports[] = array('icon'=>'Report2','ID'=>'report2','report'=>$report2);
+	$reports[] = array('icon'=>'Report3','ID'=>'report3','report'=>$report3);
+	$reports[] = array('icon'=>'Report4','ID'=>'report4','report'=>$report4);
 
-<div id='report1'>
-	<button class='closeReport'>Close</button>
-	<?php echo $report1 ?>
+	$html = '';
+	$html .= "<table id='reportsGrid'>";
+	$html .= "<tr>";
+	$html2 = '';
+	foreach($reports as $report){
+		$icon   = $report['icon'];
+		$ID     = $report['ID'];
+		$report = $report['report'];
+		$html .= "<td><div class='reportIcon' report='$ID' >$icon</div></td>";
+		$html2 .= "<div id='$ID'>";
+		$html2 .= "<button class='closeReport'>Close</button>";
+		$html2 .= $report;
+		$html2 .= "</div>";
+	}
+	$html .= "</tr>";
+	$html .= "</table>";
+	$html .= $html2;
+	echo $html;
+?>
 </div>
-<div id='report2'>
-	<button class='closeReport'>Close</button>
-	<?php echo $report2 ?>
-</div>
-<div id='report3'>
-	<button class='closeReport'>Close</button>
-	<?php echo $report3 ?>
-</div>
-<div id='report4'>
-	<button class='closeReport'>Close</button>
-	<?php echo $report4 ?>
-</div>
-
 <style>
-	#reports td {
+	#reportsGrid td {
 		background : lightgray;
 		color : black;
 	}
@@ -42,17 +44,17 @@
 	$('.closeReport').parent().hide();
 	$('.closeReport').click(function(){
 		$(this).parent().hide();
-		$('#reports').show();
+		$('#reportsGrid').show();
+	});
+	$('.reportIcon').click(function(){
+		$('#reportsGrid').hide();
+		var x = $(this).attr('report');
+		$('#'+x).show();
 	});
 	$('.reportIcon').mouseenter(function(){
 		$(this).css('border-color','yellow');
 	});
 	$('.reportIcon').mouseleave(function(){
 		$(this).css('border-color','green');
-	});
-	$('.reportIcon').click(function(){
-		$('#reports').hide();
-		var x = $(this).attr('worker');
-		$('#'+x).show();
 	});
 </script>

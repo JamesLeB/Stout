@@ -11,8 +11,13 @@ class Stout extends CI_Controller {
 		$development['inventory'] = $this->load->view('bit/bitInventory','',true);
 		$development['sales']     = $this->load->view('bit/bitSales','',true);
 */
+		$reports['report1'] = 'First Report';
+		$reports['report2'] = 'Second Report';
+		$reports['report3'] = 'Third Report';
+		$reports['report4'] = 'Forth Report';
 
 		$slide = array();
+		$slide[] = array('Reports',$this->load->view('reports',$reports,true));
 		$slide[] = array('Grapher',$this->load->view('grapher','',true));
 		$slide[] = array('Expense',$this->load->view('slides/expense','',true));
 		$slide[] = array('Accounts',$this->load->view('slides/accounts','',true));
