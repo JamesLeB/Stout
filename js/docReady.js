@@ -19,8 +19,14 @@ $(document).ready(function(){
 	*	END Stout Heading code
 	*/
 	$("#tabs").tabs();
-	$("#accordion").accordion();
-};
+	//$("#accordion").accordion();
+	/*
+	*	WebGL Code
+	*/
+	/*
+	*	END WebGL Code
+	*/
+});
 /*
 *	END Document Ready Fuction
 */
