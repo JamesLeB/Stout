@@ -16,7 +16,11 @@ class Stout extends CI_Controller {
 		$reports['report3'] = 'Third Report';
 		$reports['report4'] = 'Forth Report';
 
+		$form['block1'] = $this->load->view('dnd/newCharFormBlock1','',true);
+		$form['block2'] = $this->load->view('dnd/newCharFormBlock2','',true);
+
 		$slide = array();
+		$slide[] = array('Characters',$this->load->view('dnd/character',$form,true));
 		$slide[] = array('Reports',$this->load->view('reports',$reports,true));
 		$slide[] = array('Grapher',$this->load->view('grapher','',true));
 		$slide[] = array('Expense',$this->load->view('slides/expense','',true));
