@@ -1,6 +1,10 @@
 <?php
 class makePDF {
 	private $sceneCount = 3;
+	private $model;
+	function __construct($model){
+		$this->model = $model;
+	}
 	function getSceneCount(){ return $this->sceneCount; }
 	function stage(){
 		$ms = '';
@@ -15,7 +19,7 @@ class makePDF {
 		$ms = '';
 		$ms .= 'Setting up index';
 		$_SESSION['index'] = 0;
-		$_SESSION['maxIndex'] = 100;
+		$_SESSION['maxIndex'] = 10;
 		#$this->createPDF();
 		return $ms;
 	}
@@ -35,7 +39,9 @@ class makePDF {
 		return $ms;
 	}
 	function stage3(){
-		return 'Clossing processes';
+		$test = $this->model->test();
+		$ms = "hello from stage 3 $test";
+		return $ms;
 	}
 	function stage4(){ return 'stage4'; }
 	function createPDF(){
