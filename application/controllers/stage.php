@@ -14,7 +14,7 @@ class Stage extends CI_Controller {
 		$scene = 1;
 		$_SESSION['scene'] = 1;
 		$_SESSION['sceneCount'] = $thing->getSceneCount();
-		echo "<br/>Setting Up Scene<br/><br/>";
+		echo "Setting Up Scene<br/>";
 	}
 	public function running(){
 		$ms = array();
@@ -24,7 +24,7 @@ class Stage extends CI_Controller {
 			$ms[] = $thing->stage();
 			$_SESSION['scene']++;
 		}else{
-			$ms[] = "<br/>Scene Done<br/>";
+			$ms[] = "Scene Done<br/>";
 		}
 		$echo = '';
 		foreach($ms as $m){
