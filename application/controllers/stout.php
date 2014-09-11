@@ -10,7 +10,6 @@ class Stout extends CI_Controller {
 		$development['buy']       = $this->load->view('bit/bitBuy','',true);
 		$development['inventory'] = $this->load->view('bit/bitInventory','',true);
 		$development['sales']     = $this->load->view('bit/bitSales','',true);
-*/
 		$reports['report1'] = 'First Report';
 		$reports['report2'] = 'Second Report';
 		$reports['report3'] = 'Third Report';
@@ -18,8 +17,11 @@ class Stout extends CI_Controller {
 
 		$form['block1'] = $this->load->view('dnd/newCharFormBlock1','',true);
 		$form['block2'] = $this->load->view('dnd/newCharFormBlock2','',true);
+*/
 
 		$slide = array();
+		$slide[] = array('exchange',$this->load->view('slides/theater','',true));
+/*
 		$slide[] = array('Grapher',$this->load->view('grapher','',true));
 		$slide[] = array('WebGL',$this->load->view('webgl','',true));
 		$slide[] = array('Characters',$this->load->view('dnd/character',$form,true));
@@ -27,10 +29,11 @@ class Stout extends CI_Controller {
 		$slide[] = array('Expense',$this->load->view('slides/expense','',true));
 		$slide[] = array('Accounts',$this->load->view('slides/accounts','',true));
 		$slide[] = array('Ledger',$this->load->view('slides/ledger','',true));
-		#$slide[] = array('trader',$this->load->view('trader','',true));
-		#$slide[] = array('exchange',$this->load->view('exchange','',true));
-		#$slide[] = array('development',$this->load->view('development',$development,true));
-		#$slide[] = array('production',$this->load->view('production','',true));
+		$slide[] = array('trader',$this->load->view('trader','',true));
+		$slide[] = array('exchange',$this->load->view('exchange','',true));
+		$slide[] = array('development',$this->load->view('development',$development,true));
+		$slide[] = array('production',$this->load->view('production','',true));
+*/
 
 		$slides['slides'] = $slide;
 		$data['slideTray'] = $this->load->view('slideTray',$slides,true);
