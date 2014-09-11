@@ -9,7 +9,7 @@ class Stage extends CI_Controller {
 		#$this->load->model('warehouse');
 	}
 	public function setup(){
-		$thing = new makePDF();
+		$thing = new makePDF('');
 		header('scene: 1');
 		$scene = 1;
 		$_SESSION['scene'] = 1;
@@ -20,7 +20,9 @@ class Stage extends CI_Controller {
 		$ms = array();
 		if( $_SESSION['scene'] <= $_SESSION['sceneCount'] ){
 			header('scene: 1');
-			$thing = new makePDF();
+			$this->load->model('Dentrix');
+			$model = $this->Dentrix;
+			$thing = new makePDF($model);
 			$ms[] = $thing->stage();
 			$_SESSION['scene']++;
 		}else{
