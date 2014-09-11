@@ -20,7 +20,7 @@ class Stout extends CI_Controller {
 */
 
 		$slide = array();
-		$slide[] = array('exchange',$this->load->view('slides/theater','',true));
+		$slide[] = array('Theater',$this->load->view('slides/theater','',true));
 /*
 		$slide[] = array('Grapher',$this->load->view('grapher','',true));
 		$slide[] = array('WebGL',$this->load->view('webgl','',true));
