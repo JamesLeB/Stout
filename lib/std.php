@@ -23,7 +23,6 @@
 		#$echo = $count == 0 ? 'No records' : $echo;
 		return $echo;
 	}
-/*
 	function processResultSet($rs){
 		$headings = array();
 		$records = array();
@@ -39,6 +38,5 @@
 		}
 		return array($headings,$records,$count);
 	}
-*/
 
 ?>

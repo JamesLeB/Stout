@@ -7,22 +7,23 @@ class Dentrix extends CI_Model{
 		parent::__construct();
 		$this->db = $this->load->database('dentrix',true);
 	}
-	function test(){
-		return "hello from the dx model";
-	}
-/*
-	function sample(){
-		$ms = 'Getting query<br/>';
-		$file = "querys/warehouse/getOpenMedicaidClaims.sql";
+	function test($chart){
+		$ms = '';
+		$prs = '';
+		$ms .= 'Getting query<br/>';
+		$file = "lib/queries/patientLedger.sql";
 		if(file_exists($file)){
 			$ms .= 'found query<br/>';
 			$query = file_get_contents($file);
-			$parm = array();
+			$parm = array($chart);
 			$rs = $this->db->query($query,$parm);
 			if($rs){
-				$prs = processResultSet($rs);
+				$ms .= "yes result set<br/>";
+				#$prs = processResultSet($rs);
+				$prs = $this->processLedger($rs);
 				$ct = $prs[2];
-				$ms .= "yes result set $ct records<br/>";
+				$ms .= "$ct Records Processed<br/>";
+				$ms .= "Chart#  $chart<br/>";
 				$ms .= renderTable($prs[0],$prs[1]);
 			}else{
 				$ms .= "no result set<br/>";
@@ -30,8 +31,33 @@ class Dentrix extends CI_Model{
 		}else{
 			$ms .= 'no query<br/>';
 		}
-		return "$ms";
+		return array($prs,$ms);
+	} # END test()
+	function processLedger($rs){
+		$headings = array(
+			'Date',
+			'lineType',
+			'Amount',
+			'AdaCode',
+			'Description',
+			'Clinic',
+			'Practice'
+		);
+		$records  = array();
+		$count    = 0;
+		foreach($rs->result_array() as $row){
+			$line = array();
+			$line[] = $row['createDate'];
+			$line[] = $row['lineType'];
+			$line[] = $row['amount'];
+			$line[] = $row['ADACODE'];
+			$line[] = $row['DESCRIPTION'];
+			$line[] = $row['clinic'];
+			$line[] = $row['PRACTITLE'];
+			$records[] = $line;
+			$count++;
+		}
+		return array($headings,$records,$count);
 	}
-*/
 }
 ?>
