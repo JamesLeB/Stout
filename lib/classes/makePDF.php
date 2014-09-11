@@ -1,6 +1,6 @@
 <?php
 class makePDF {
-	private $sceneCount = 1;
+	private $sceneCount = 3;
 	function getSceneCount(){ return $this->sceneCount; }
 	function stage(){
 		$ms = '';
@@ -13,13 +13,30 @@ class makePDF {
 	}
 	function stage1(){
 		$ms = '';
-		$ms .= 'start<br/>';
-		$this->createPDF();
-		$ms .= 'end<br/>';
+		$ms .= 'Setting up index';
+		$_SESSION['index'] = 0;
+		$_SESSION['maxIndex'] = 100;
+		#$this->createPDF();
 		return $ms;
 	}
-	function stage2(){ return 'stage2'; }
-	function stage3(){ return 'stage3'; }
+	function stage2(){
+		$ms = '';
+		$index    = $_SESSION['index'];
+		$maxIndex = $_SESSION['maxIndex'];
+		if($index <= $maxIndex){
+			header("status: 1");
+		    $scene = $_SESSION['scene'];
+			$ms .= "processing $index of $maxIndex";
+		    $_SESSION['scene']--;
+			$_SESSION['index']++;
+		}else{
+			$ms .="done processesing";
+		}
+		return $ms;
+	}
+	function stage3(){
+		return 'Clossing processes';
+	}
 	function stage4(){ return 'stage4'; }
 	function createPDF(){
 		require('lib/pdf/fpdf.php');
