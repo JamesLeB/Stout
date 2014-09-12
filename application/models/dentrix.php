@@ -8,9 +8,24 @@ class Dentrix extends CI_Model{
 		$this->db = $this->load->database('dentrix',true);
 	}
 	function getCharts(){
-		$ms = "getting charts<br/>";
+		$json = file_get_contents('files/cleanChartList');
+		$obj = json_decode($json);
+		return $ms;
+	}
 /*
-*/
+		$out = array();
+		foreach($obj as $t){
+		#for($i=0;$i<10;$i++){
+			$chart = $t[0];
+			#$chart = $obj[$i][0];
+			$test = preg_match('/\W/',$chart);
+			if(!$test){ $out[] = $chart; }
+		}
+		$json = json_encode($out);
+		file_put_contents('files/cleanChartList',$json);
+
+		#foreach($out as $o){ $ms .= "$o<br/>"; }
+
 		$json = file_get_contents('files/chartList');
 		$obj = json_decode($json);
 		$f1 = $obj[0][0];
@@ -21,7 +36,7 @@ class Dentrix extends CI_Model{
 		$ms .= "$f2<br/>";
 		$ms .= "$f3<br/>";
 		$ms .= "$f4<br/>";
-/*
+
 		$file = "lib/queries/getCharts.sql";
 		if(file_exists($file)){
 			$ms .= 'found query<br/>';
@@ -43,8 +58,6 @@ class Dentrix extends CI_Model{
 			$ms .= 'no query<br/>';
 		}
 */
-		return $ms;
-	}
 	function test($chart){
 		$ms = '';
 		$prs = '';
