@@ -18,11 +18,15 @@ class makePDF {
 	function stage1(){
 		$ms = '';
 		$ms .= 'Setting up index';
+		$_SESSION['chartList'] = $this->model->getCharts();
+		#$_SESSION['chartList'] = '';
 		$_SESSION['index'] = 0;
 		$_SESSION['maxIndex'] = 10;
 		return $ms;
 	}
 	function stage2(){
+		$ms = 'stage 2';
+/*
 		$chart = '783948';
 		$test = $this->model->test($chart);
 		$patient = array(
@@ -32,6 +36,7 @@ class makePDF {
 		$ledger = $test[0];
 		$this->createPDF($patient,$ledger);
 		$ms = "hello from stage 2<br/>$mess";
+*/
 		return $ms;
 	}
 	function stage3(){
@@ -39,6 +44,15 @@ class makePDF {
 		$index    = $_SESSION['index'];
 		$maxIndex = $_SESSION['maxIndex'];
 		if($index <= $maxIndex){
+
+			$chart = $_SESSION['chartList'][$index];
+			$test = $this->model->test($chart);
+			$patient = array(
+				'chart' => $chart
+			);
+			$ledger = $test[0];
+			$this->createPDF($patient,$ledger);
+
 			header("status: 1");
 		    $scene = $_SESSION['scene'];
 			$ms .= "processing $index of $maxIndex";
