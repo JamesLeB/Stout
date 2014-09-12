@@ -18,7 +18,10 @@ SELECT
 	END AS lineType,
 	CAST(pl.CREATEDATE AS DATE) AS createDate,
 	pl.AMOUNT * .01 AS amount,
-	pc.ADACODE,
+	CASE
+		WHEN pl.CHART_STATUS = 102 THEN pc.ADACODE
+		ELSE '--'
+	END AS ADACODE,
 	pc.DESCRIPTION,
 	clinic.RSCID AS clinic,
 	clinic.PRACTITLE,

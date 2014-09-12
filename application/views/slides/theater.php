@@ -1,6 +1,7 @@
 <div id='theater'>
 	<div>
 		<button>GO</button>
+		<button>Test</button>
 	</div>
 	<div>
 		Status
@@ -22,12 +23,19 @@
 	// GO button
 	var theaterStatus = '#theater div:nth-child(2)';
 	var theaterReturn = '#theater div:nth-child(3)';
-	$('#theater div button').click(function(){
+	$('#theater div button:nth-child(1)').click(function(){
 		var target = 'index.php?/stage/setup';
 		var request = $.post(target,'',function(data){
 			$(theaterReturn).html(data);
 			var scene = request.getResponseHeader('scene');
 			if( scene == 1 ){stage();}
+		});
+	});
+	// Test button
+	$('#theater div button:nth-child(2)').click(function(){
+		var target = 'index.php?/stage/test';
+		var request = $.post(target,'',function(data){
+			$(theaterReturn).html(data);
 		});
 	});
 	function stage(){

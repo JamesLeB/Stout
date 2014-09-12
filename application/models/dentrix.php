@@ -7,6 +7,44 @@ class Dentrix extends CI_Model{
 		parent::__construct();
 		$this->db = $this->load->database('dentrix',true);
 	}
+	function getCharts(){
+		$ms = "getting charts<br/>";
+/*
+*/
+		$json = file_get_contents('files/chartList');
+		$obj = json_decode($json);
+		$f1 = $obj[0][0];
+		$f2 = $obj[1][0];
+		$f3 = $obj[2][0];
+		$f4 = $obj[3][0];
+		$ms .= "$f1<br/>";
+		$ms .= "$f2<br/>";
+		$ms .= "$f3<br/>";
+		$ms .= "$f4<br/>";
+/*
+		$file = "lib/queries/getCharts.sql";
+		if(file_exists($file)){
+			$ms .= 'found query<br/>';
+			$query = file_get_contents($file);
+			$parm = array();
+			$rs = $this->db->query($query,$parm);
+			if($rs){
+				$ms .= "yes result set<br/>";
+				$prs = processResultSet($rs);
+				$ct = $prs[2];
+				$ms .= "$ct Records Processed<br/>";
+				$data = $prs[1];
+				$json = json_encode($data);
+				file_put_contents('files/chartList',$json);
+			}else{
+				$ms .= "no result set<br/>";
+			}
+		}else{
+			$ms .= 'no query<br/>';
+		}
+*/
+		return $ms;
+	}
 	function test($chart){
 		$ms = '';
 		$prs = '';

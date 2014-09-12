@@ -5,6 +5,10 @@ class Stage extends CI_Controller {
 	public function index(){ echo "this is the index"; }
 
 	public function test(){
+		echo "hello from test<br/>";
+		$this->load->model('Dentrix');
+		$charts = $this->Dentrix->getCharts();
+		echo "charts $charts";
 		#$arg1 = $this->uri->segment(4);
 		#$this->load->model('warehouse');
 	}

@@ -53,24 +53,33 @@ class makePDF {
 	function createPDF($patient,$ledger){
 		$chart = $patient['chart'];
 		$headings = $ledger[0];
-		require('lib/pdf/fpdf.php');
-		$pdf = new FPDF();
-		$pdf->AddPage('L');
-		$pdf->SetFont('Arial','B',12);
-		$pdf->SetTextColor(128);
-		$pdf->Cell(40,10,"Chart Number: $chart",'B');
-		$pdf->ln();
-		$pdf->SetTextColor(0);
-		$pdf->SetFont('Arial','B',8);
+		$records = $ledger[1];
+		$colwidth = array(25,25,25,10,30,70,20,50);
+		$obj = array();
+		$obj[] = $headings;
+		$obj[] = $patient;
+		$obj[] = $colwidth;
+		$json = json_encode($obj);
+		file_put_contents('files/pdfheader',$json);
 
-		$pdf->Cell(30,10,$headings[0]);
-		$pdf->Cell(30,10,$headings[1]);
-		$pdf->Cell(30,10,$headings[2]);
-		$pdf->Cell(30,10,$headings[3]);
-		$pdf->Cell(30,10,$headings[4]);
-		$pdf->Cell(30,10,$headings[5]);
-		$pdf->Cell(30,10,$headings[6]);
-		$pdf->Cell(40,10,'XX');
+		require('lib/pdf/fpdf.php');
+		require('lib/pdf/PDF.php');
+
+		$pdf = new PDF();
+		$pdf->AddPage('L');
+		$pdf->SetTextColor(0);
+		$pdf->SetFont('Arial','',8);
+		foreach($records as $record){
+			$pdf->Cell($colwidth[0],10,$record[0]);
+			$pdf->Cell($colwidth[1],10,$record[1]);
+			$pdf->Cell($colwidth[2],10,$record[2],0,0,'R');
+			$pdf->Cell($colwidth[3],10,'');
+			$pdf->Cell($colwidth[4],10,$record[3]);
+			$pdf->Cell($colwidth[5],10,$record[4]);
+			$pdf->Cell($colwidth[6],10,$record[5]);
+			$pdf->Cell($colwidth[7],10,$record[6]);
+			$pdf->ln();
+		}
 
 		$pdf->Output("files/$chart.pdf",'F');
 	}
