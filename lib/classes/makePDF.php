@@ -95,7 +95,7 @@ class makePDF {
 			$pdf->ln();
 		}
 
-		$pdf->Output("files/$chart.pdf",'F');
+		$pdf->Output("files/ledgers/$chart.pdf",'F');
 	}
 }
 ?>
