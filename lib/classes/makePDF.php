@@ -21,7 +21,7 @@ class makePDF {
 		$_SESSION['chartList'] = $this->model->getCharts();
 		#$_SESSION['chartList'] = '';
 		$_SESSION['index'] = 0;
-		$_SESSION['maxIndex'] = 10;
+		$_SESSION['maxIndex'] = 1000;
 		return $ms;
 	}
 	function stage2(){
