@@ -33,10 +33,13 @@
 	});
 	// Test button
 	$('#theater div button:nth-child(2)').click(function(){
+			$(theaterReturn).html('button disables');
+/*
 		var target = 'index.php?/stage/test';
 		var request = $.post(target,'',function(data){
 			$(theaterReturn).html(data);
 		});
+*/
 	});
 	function stage(){
 		var target = 'index.php?/stage/running';

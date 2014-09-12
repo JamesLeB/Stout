@@ -10,7 +10,7 @@ class Dentrix extends CI_Model{
 	function getCharts(){
 		$json = file_get_contents('files/cleanChartList');
 		$obj = json_decode($json);
-		return $ms;
+		return $obj;
 	}
 /*
 		$out = array();
