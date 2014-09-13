@@ -28,7 +28,7 @@ class makePDF {
 		$ms = 'stage 2';
 /*
 		$chart = '783948';
-		$test = $this->model->test($chart);
+		$test = $this->model->go($chart);
 		$patient = array(
 			'chart' => $chart
 		);
@@ -46,7 +46,7 @@ class makePDF {
 		if($index <= $maxIndex){
 
 			$chart = $_SESSION['chartList'][$index];
-			$test = $this->model->test($chart);
+			$test = $this->model->go($chart);
 			$patient = array(
 				'chart' => $chart
 			);
