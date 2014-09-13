@@ -55,7 +55,7 @@ class makePDF {
 			);
 			$ledger = $ledgerData[0];
 			$ms .= "processing $index of $maxIndex";
-			#$this->createPDF($patient,$ledger);
+			$this->createPDF($patient,$ledger);
 		$ms .= renderTable($ledger[0],$ledger[1]);
 			header("status: 1");
 		    $_SESSION['scene']--;
@@ -70,11 +70,13 @@ class makePDF {
 		$chart = $patient['chart'];
 		$headings = $ledger[0];
 		$records = $ledger[1];
-		$colwidth = array(25,25,25,10,30,70,20,50);
+		$colwidth = array(25,20,20,45,25,10,25,25);
+		$align = array('L','L','L','L','R','L','L','L');
 		$obj = array();
 		$obj[] = $headings;
 		$obj[] = $patient;
 		$obj[] = $colwidth;
+		$obj[] = $align;
 		$json = json_encode($obj);
 		file_put_contents('files/pdfheader',$json);
 
@@ -82,18 +84,24 @@ class makePDF {
 		require('lib/pdf/PDF.php');
 
 		$pdf = new PDF();
-		$pdf->AddPage('L');
-		$pdf->SetTextColor(0);
+		$pdf->AddPage('P');
 		$pdf->SetFont('Arial','',8);
 		foreach($records as $record){
-			$pdf->Cell($colwidth[0],10,$record[0]);
-			$pdf->Cell($colwidth[1],10,$record[1]);
-			$pdf->Cell($colwidth[2],10,$record[2],0,0,'R');
-			$pdf->Cell($colwidth[3],10,'');
-			$pdf->Cell($colwidth[4],10,$record[3]);
-			$pdf->Cell($colwidth[5],10,$record[4]);
-			$pdf->Cell($colwidth[6],10,$record[5]);
-			$pdf->Cell($colwidth[7],10,$record[6]);
+			if(preg_match('/^Claim/',$record[7])){
+				$pdf->SetTextColor(0,0,150);
+			}elseif(preg_match('/Payment/',$record[7])){
+				$pdf->SetTextColor(0,100,0);
+			}else{
+				$pdf->SetTextColor(0,0,0);
+			}
+			$pdf->Cell($colwidth[0],10,$record[0],0,0,$align[0]);
+			$pdf->Cell($colwidth[1],10,$record[1],0,0,$align[1]);
+			$pdf->Cell($colwidth[2],10,$record[2],0,0,$align[2]);
+			$pdf->Cell($colwidth[3],10,$record[7],0,0,$align[3]);
+			$pdf->Cell($colwidth[4],10,$record[4],0,0,$align[4]);
+			$pdf->Cell($colwidth[5],10,'');
+			$pdf->Cell($colwidth[6],10,$record[5],0,0,$align[5]);
+			$pdf->Cell($colwidth[7],10,$record[6],0,0,$align[6]);
 			$pdf->ln();
 		}
 
