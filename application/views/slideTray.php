@@ -1,4 +1,6 @@
 <?php
+	# THIS SCRIPT CREATES THE TABBED MENU
+	# SCRIPT REQUIRES A LINE IN THE DOC READY SCRIPT TO CREATE THE MENU
 	$html = '';
 	$html .= '<div id="tabs">';
 	$html .= '<ul>';
