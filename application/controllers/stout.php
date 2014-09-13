@@ -4,7 +4,6 @@ class Stout extends CI_Controller {
 
 	public function index()
 	{
-
 /*
 		$development['market']    = $this->load->view('bit/bitMarket','',true);
 		$development['buy']       = $this->load->view('bit/bitBuy','',true);
@@ -14,16 +13,14 @@ class Stout extends CI_Controller {
 		$reports['report2'] = 'Second Report';
 		$reports['report3'] = 'Third Report';
 		$reports['report4'] = 'Forth Report';
-
 		$form['block1'] = $this->load->view('dnd/newCharFormBlock1','',true);
 		$form['block2'] = $this->load->view('dnd/newCharFormBlock2','',true);
 */
-
 		$slide = array();
-		$slide[] = array('Theater',$this->load->view('slides/theater','',true));
 /*
-		$slide[] = array('Grapher',$this->load->view('grapher','',true));
+		$slide[] = array('Theater',$this->load->view('slides/theater','',true));
 		$slide[] = array('WebGL',$this->load->view('webgl','',true));
+		$slide[] = array('Grapher',$this->load->view('grapher','',true));
 		$slide[] = array('Characters',$this->load->view('dnd/character',$form,true));
 		$slide[] = array('Reports',$this->load->view('reports',$reports,true));
 		$slide[] = array('Expense',$this->load->view('slides/expense','',true));
@@ -34,12 +31,8 @@ class Stout extends CI_Controller {
 		$slide[] = array('development',$this->load->view('development',$development,true));
 		$slide[] = array('production',$this->load->view('production','',true));
 */
-
 		$slides['slides'] = $slide;
 		$data['slideTray'] = $this->load->view('slideTray',$slides,true);
-
 		$this->load->view('home',$data);
-
 	}
-
 }
