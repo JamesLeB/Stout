@@ -76,50 +76,50 @@ class Dentrix extends CI_Model{
 	function go($chart){
 		$ms = '';
 		$prs = '';
-		$ms .= 'Getting query<br/>';
+		$ms .= '--- Getting query<br/>';
 		$file = "lib/queries/patientLedger.sql";
 		if(file_exists($file)){
-			$ms .= 'found query<br/>';
+			$ms .= '--- found query<br/>';
 			$query = file_get_contents($file);
 			$parm = array($chart);
 			$rs = $this->db->query($query,$parm);
 			if($rs){
-				$ms .= "yes result set<br/>";
-				#$prs = processResultSet($rs);
+				$ms .= "--- yes result set<br/>";
 				$prs = $this->processLedger($rs);
 				$ct = $prs[2];
-				$ms .= "$ct Records Processed<br/>";
-				$ms .= "Chart#  $chart<br/>";
-				$ms .= renderTable($prs[0],$prs[1]);
+				$ms .= "--- $ct Records Processed<br/>";
+				$ms .= "--- Chart#  $chart<br/>";
 			}else{
-				$ms .= "no result set<br/>";
+				$ms .= "--- no result set<br/>";
 			}
 		}else{
-			$ms .= 'no query<br/>';
+			$ms .= '--- no query<br/>';
 		}
 		return array($prs,$ms);
-	} # END test()
+	} # END go()
 	function processLedger($rs){
 		$headings = array(
 			'Date',
-			'lineType',
-			'Amount',
-			'AdaCode',
+			'Tooth',
+			'Code',
 			'Description',
+			'Amount',
+			'Provider',
 			'Clinic',
-			'Practice'
+			'LineType'
 		);
 		$records  = array();
 		$count    = 0;
 		foreach($rs->result_array() as $row){
 			$line = array();
 			$line[] = $row['createDate'];
-			$line[] = $row['lineType'];
-			$line[] = $row['amount'];
+			$line[] = $row['tooth'];
 			$line[] = $row['ADACODE'];
 			$line[] = $row['DESCRIPTION'];
+			$line[] = $row['amount'];
+			$line[] = $row['provider'];
 			$line[] = $row['clinic'];
-			$line[] = $row['PRACTITLE'];
+			$line[] = $row['lineType'];
 			$records[] = $line;
 			$count++;
 		}

@@ -3,7 +3,7 @@ class makePDF {
 	private $sceneCount = 3;
 	private $model;
 	private $index = 0;
-	private $maxIndex = 10;
+	private $maxIndex = 0;
 	function __construct($model){
 		$this->model = $model;
 	}
@@ -44,20 +44,20 @@ class makePDF {
 		$index    = $_SESSION['index'];
 		$maxIndex = $_SESSION['maxIndex'];
 		if($index <= $maxIndex){
-			$ms .= '-- Processing List<br/>';
+			$ms .= '--- Processing List<br/>';
 
 			#$chart = $_SESSION['chartList'][$index];
-$chart = '072569';
-			#$test = $this->model->go($chart);
+		$chart = '072569';
+			$ledgerData = $this->model->go($chart);
+			$ms .= $ledgerData[1];
 			$patient = array(
 				'chart' => $chart
 			);
-			#$ledger = $test[0];
-			#$this->createPDF($patient,$ledger);
-
-			header("status: 1");
-		    #$scene = $_SESSION['scene'];
+			$ledger = $ledgerData[0];
 			$ms .= "processing $index of $maxIndex";
+			#$this->createPDF($patient,$ledger);
+		$ms .= renderTable($ledger[0],$ledger[1]);
+			header("status: 1");
 		    $_SESSION['scene']--;
 			$_SESSION['index']++;
 		}else{
