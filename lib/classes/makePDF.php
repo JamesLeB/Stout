@@ -46,8 +46,7 @@ class makePDF {
 		if($index <= $maxIndex){
 			$ms .= '--- Processing List<br/>';
 
-			#$chart = $_SESSION['chartList'][$index];
-		$chart = '072569';
+			$chart = $_SESSION['chartList'][$index];
 			$ledgerData = $this->model->go($chart);
 			$ms .= $ledgerData[1];
 			$patient = array(
@@ -56,7 +55,6 @@ class makePDF {
 			$ledger = $ledgerData[0];
 			$ms .= "processing $index of $maxIndex";
 			$this->createPDF($patient,$ledger);
-		$ms .= renderTable($ledger[0],$ledger[1]);
 			header("status: 1");
 		    $_SESSION['scene']--;
 			$_SESSION['index']++;
