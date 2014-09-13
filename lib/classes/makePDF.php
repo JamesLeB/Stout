@@ -2,6 +2,8 @@
 class makePDF {
 	private $sceneCount = 3;
 	private $model;
+	private $index = 0;
+	private $maxIndex = 10;
 	function __construct($model){
 		$this->model = $model;
 	}
@@ -16,50 +18,50 @@ class makePDF {
 		return $ms;
 	}
 	function stage1(){
+		$index = $this->index;
+		$maxIndex = $this->maxIndex;
 		$ms = '';
-		$ms .= 'Setting up index';
-		$_SESSION['chartList'] = $this->model->getCharts();
-		#$_SESSION['chartList'] = '';
-		$_SESSION['index'] = 0;
-		$_SESSION['maxIndex'] = 1000;
+		$ms .= 'Stage 1<br/>';
+		$ms .= '-- Setting up index<br/>';
+		$ms .= "-- Index is $index<br/>";
+		$ms .= "-- Max Index is $maxIndex<br/>";
+		$_SESSION['index'] = $index;
+		$_SESSION['maxIndex'] = $maxIndex;
+		$ms .= '-- Stage 1 Complete...';
 		return $ms;
 	}
 	function stage2(){
-		$ms = 'stage 2';
-/*
-		$chart = '783948';
-		$test = $this->model->go($chart);
-		$patient = array(
-			'chart' => $chart
-		);
-		$mess = $test[1];
-		$ledger = $test[0];
-		$this->createPDF($patient,$ledger);
-		$ms = "hello from stage 2<br/>$mess";
-*/
+		$ms = '';
+		$ms .= 'Stage 2<br/>';
+		$ms .= '-- Loading chart list onto session<br/>';
+		$_SESSION['chartList'] = $this->model->getCharts();
+		$ms .= '-- Stage 2 Complete...';
 		return $ms;
 	}
 	function stage3(){
 		$ms = '';
+		$ms .= 'Stage 3<br/>';
 		$index    = $_SESSION['index'];
 		$maxIndex = $_SESSION['maxIndex'];
 		if($index <= $maxIndex){
+			$ms .= '-- Processing List<br/>';
 
-			$chart = $_SESSION['chartList'][$index];
-			$test = $this->model->go($chart);
+			#$chart = $_SESSION['chartList'][$index];
+$chart = '072569';
+			#$test = $this->model->go($chart);
 			$patient = array(
 				'chart' => $chart
 			);
-			$ledger = $test[0];
-			$this->createPDF($patient,$ledger);
+			#$ledger = $test[0];
+			#$this->createPDF($patient,$ledger);
 
 			header("status: 1");
-		    $scene = $_SESSION['scene'];
+		    #$scene = $_SESSION['scene'];
 			$ms .= "processing $index of $maxIndex";
 		    $_SESSION['scene']--;
 			$_SESSION['index']++;
 		}else{
-			$ms .="done processesing";
+			$ms .= "-- Stage 3 complete...";
 		}
 		return $ms;
 	}
