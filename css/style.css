@@ -1,12 +1,18 @@
-	#wrapper {
-		width : 90%;
-		margin-left : auto;
-		margin-right : auto;
-		margin-top : 2%;
-		margin-bottom : 4%;
-	}
 	div {
 		font-family: "Andale Mono", AndaleMono, monospace;
+	}
+	h3 {
+		color : #B2B200;
+	}
+	form {
+		background : #663D00;
+		padding : 5px;
+	}
+	table {
+		color : white;
+	}
+	td {
+		padding : 10px;
 	}
 	.queryTable {
 		border : ridge 5px yellow;
@@ -23,21 +29,12 @@
 	.tableData {
 		background : white;
 	}
-	form {
-		background : #663D00;
-		padding : 5px;
-	}
-	#stout {
-		height : 300px;
-	}
-	td {
-		padding : 10px;
-	}
-	table {
-		color : white;
-	}
-	h3 {
-		color : #B2B200;
+	#wrapper {
+		width : 90%;
+		margin-left : auto;
+		margin-right : auto;
+		margin-top : 2%;
+		margin-bottom : 4%;
 	}
 /*
 *	Style for Stout Heading
@@ -62,8 +59,6 @@
 		color : green;
 		position : relative;
 	}
-/*
-*/
 /*
 *	END Style for Stout Heading
 */
