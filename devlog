@@ -84,3 +84,5 @@ Friday 2014-09-12
 	I need to create 600,000 pdf files
 	Home now working on dev
 	Need to get webgl up and running
+	Finished up work on the new patientLedger query
+	Next up, adapt makePDF script to use new ledger
