@@ -7,14 +7,14 @@ class Stage extends CI_Controller {
 	public function test(){
 		echo "hello from test<br/>";
 		$this->load->model('Dentrix');
-		$charts = $this->Dentrix->getCharts();
-		echo "charts $charts";
+		$test = $this->Dentrix->test();
+		echo "TEST<br/>$test";
 		#$arg1 = $this->uri->segment(4);
 		#$this->load->model('warehouse');
 	}
 	public function setup(){
 		$thing = new makePDF('');
-		header('scene: 1');
+		#header('scene: 1');
 		$scene = 1;
 		$_SESSION['scene'] = 1;
 		$_SESSION['sceneCount'] = $thing->getSceneCount();
