@@ -4,8 +4,8 @@
 */
 
 declare @chart as varchar(32)
-set @chart = '072569'
-	
+set @chart = ?
+
 IF OBJECT_ID('tempdb..#DATA') IS NOT NULL DROP TABLE #DATA
 IF OBJECT_ID('tempdb..#CLAIMS') IS NOT NULL DROP TABLE #CLAIMS
 
