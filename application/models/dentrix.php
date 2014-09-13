@@ -7,11 +7,26 @@ class Dentrix extends CI_Model{
 		parent::__construct();
 		$this->db = $this->load->database('dentrix',true);
 	}
+	function test(){
+		$htmlTable = 'table';
+		$file = "lib/queries/patientLedger.sql";
+		if(file_exists($file)){
+			$query = file_get_contents($file);
+			$parm = array('072569');
+			$rs = $this->db->query($query,$parm);
+			if($rs){
+				$prs = processResultSet($rs);
+				$htmlTable = renderTable($prs[0],$prs[1]);
+			}
+		}
+		return $htmlTable;
+	}
 	function getCharts(){
 		$json = file_get_contents('files/cleanChartList');
 		$obj = json_decode($json);
 		return $obj;
 	}
+# This is code I used to pull the old chart number list
 /*
 		$out = array();
 		foreach($obj as $t){
@@ -58,7 +73,7 @@ class Dentrix extends CI_Model{
 			$ms .= 'no query<br/>';
 		}
 */
-	function test($chart){
+	function go($chart){
 		$ms = '';
 		$prs = '';
 		$ms .= 'Getting query<br/>';
