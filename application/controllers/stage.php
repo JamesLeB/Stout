@@ -14,8 +14,7 @@ class Stage extends CI_Controller {
 	}
 	public function setup(){
 		$thing = new makePDF('');
-		#header('scene: 1');
-		$scene = 1;
+		header('scene: 1');
 		$_SESSION['scene'] = 1;
 		$_SESSION['sceneCount'] = $thing->getSceneCount();
 		echo "Setting Up Scene<br/>";
@@ -30,7 +29,7 @@ class Stage extends CI_Controller {
 			$ms[] = $thing->stage();
 			$_SESSION['scene']++;
 		}else{
-			$ms[] = "Scene Done<br/>";
+			$ms[] = "Scene Done";
 		}
 		$echo = '';
 		foreach($ms as $m){
