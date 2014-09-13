@@ -20,12 +20,6 @@ $(document).ready(function(){
 	*/
 	$("#tabs").tabs();
 	//$("#accordion").accordion();
-	/*
-	*	WebGL Code
-	*/
-	/*
-	*	END WebGL Code
-	*/
 });
 /*
 *	END Document Ready Fuction
