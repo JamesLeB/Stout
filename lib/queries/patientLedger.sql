@@ -114,6 +114,25 @@ FROM #DATA
 DELETE FROM #CLAIMS WHERE createDate < '2009-09-01'
 UPDATE #CLAIMS SET amount = NULL WHERE lineType = 'Claim'
 
+INSERT INTO #CLAIMS VALUES ('2009-08-31','','','Initial Balance',
+(
+	select
+		sum(proclog.AMOUNT * .01) as mAmount
+	from
+		DDB_PROC_LOG AS proclog
+		JOIN DDB_PAT AS patient on proclog.PATID = patient.PATID
+	where
+		patient.CHART = @chart AND
+		proclog.CREATEDATE < '2009-09-01' AND
+		(
+				proclog.CHART_STATUS = 102
+			OR ( proclog.CHART_STATUS = 90 AND proclog.CLASS = 1 )
+			OR ( proclog.CHART_STATUS = 90 AND proclog.CLASS = 2 )
+			OR ( proclog.CHART_STATUS = 90 AND proclog.CLASS = 3 )
+			OR ( proclog.CHART_STATUS = 90 AND proclog.CLASS = 0 AND proclog.HISTORY = 1 )
+		)
+),'','','')
+
 SELECT
 	*
 FROM
