@@ -12,7 +12,7 @@ class Dentrix extends CI_Model{
 		$file = "lib/queries/patientLedger.sql";
 		if(file_exists($file)){
 			$query = file_get_contents($file);
-			$parm = array('072569');
+			$parm = array('058815');
 			$rs = $this->db->query($query,$parm);
 			if($rs){
 				$prs = processResultSet($rs);
