@@ -15,7 +15,8 @@ class Dentrix extends CI_Model{
 			$parm = array('058815');
 			$rs = $this->db->query($query,$parm);
 			if($rs){
-				$prs = processResultSet($rs);
+				#$prs = processResultSet($rs);
+				$prs = $this->processLedger($rs);
 				$htmlTable = renderTable($prs[0],$prs[1]);
 			}
 		}
@@ -106,10 +107,12 @@ class Dentrix extends CI_Model{
 			'Amount',
 			'Provider',
 			'Clinic',
-			'LineType'
+			'LineType',
+			'balance'
 		);
 		$records  = array();
 		$count    = 0;
+		$balance  = 0;
 		foreach($rs->result_array() as $row){
 			$line = array();
 			$line[] = $row['createDate'];
@@ -117,9 +120,11 @@ class Dentrix extends CI_Model{
 			$line[] = $row['ADACODE'];
 			$line[] = $row['DESCRIPTION'];
 			$line[] = $row['amount'];
+			$balance += $row['amount'];
 			$line[] = $row['provider'];
 			$line[] = $row['clinic'];
 			$line[] = $row['lineType'];
+			$line[] = $balance;
 			$records[] = $line;
 			$count++;
 		}
