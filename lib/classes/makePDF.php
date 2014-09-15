@@ -35,6 +35,11 @@ class makePDF {
 		$ms .= 'Stage 2<br/>';
 		$ms .= '-- Loading chart list onto session<br/>';
 		$_SESSION['chartList'] = $this->model->getCharts();
+/*
+		$_SESSION['chartList'] = array(
+			'058815'
+		);
+*/
 		$ms .= '-- Stage 2 Complete...';
 		return $ms;
 	}
@@ -89,13 +94,15 @@ class makePDF {
 				$pdf->SetTextColor(0,0,150);
 			}elseif(preg_match('/Payment/',$record[7])){
 				$pdf->SetTextColor(0,100,0);
+			}elseif(preg_match('/Adjustment/',$record[7])){
+				$pdf->SetTextColor(100,0,0);
 			}else{
 				$pdf->SetTextColor(0,0,0);
 			}
 			$pdf->Cell($colwidth[0],10,$record[0],0,0,$align[0]);
 			$pdf->Cell($colwidth[1],10,$record[1],0,0,$align[1]);
 			$pdf->Cell($colwidth[2],10,$record[2],0,0,$align[2]);
-			$pdf->Cell($colwidth[3],10,$record[7],0,0,$align[3]);
+			$pdf->Cell($colwidth[3],10,$record[3],0,0,$align[3]);
 			$pdf->Cell($colwidth[4],10,$record[4],0,0,$align[4]);
 			$pdf->Cell($colwidth[5],10,'');
 			$pdf->Cell($colwidth[6],10,$record[5],0,0,$align[5]);
