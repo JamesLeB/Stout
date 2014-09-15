@@ -5,7 +5,7 @@
 
 declare @chart as varchar(32)
 set @chart = ?
-
+	
 IF OBJECT_ID('tempdb..#DATA') IS NOT NULL DROP TABLE #DATA
 IF OBJECT_ID('tempdb..#CLAIMS') IS NOT NULL DROP TABLE #CLAIMS
 
@@ -82,15 +82,15 @@ SELECT
 		ELSE CAST(cl.DATEOFCLAIM AS DATE)
 	END AS createDate,
 	'                  ' AS tooth,
-	'Dent Ins.' AS ADACODE,
+	'Dent Ins.       ' AS ADACODE,
 	CASE
-		WHEN cl.STATUS = 2 THEN 'Prim Clai' + '-Received ' + CAST(cl.TOTALBILLED*.01 AS VARCHAR(16)) 
-		ELSE 'Prim Clai' + '-Received ' + CAST(cl.TOTALBILLED*.01 AS VARCHAR(16))
+		WHEN cl.STATUS = 2 THEN 'Prim Claim' + '- Received         ' + CAST(cl.TOTALBILLED*.01 AS VARCHAR(16)) 
+		ELSE 'Prim Claim' + '- Sent           ' + CAST(cl.TOTALBILLED*.01 AS VARCHAR(16))
 	END AS DESCRIPTION,
 	cl.TOTALBILLED*.01 AS amount,
-	'             ' AS provider,
+	'                          ' AS provider,
 	clinic.RSCID AS clinic,
-	'Claim              ' AS lineType
+	'Claim                   ' AS lineType
 INTO #CLAIMS
 FROM
 	DDB_CLAIM AS cl
@@ -110,6 +110,9 @@ SELECT
 	clinic,
 	lineType
 FROM #DATA
+
+DELETE FROM #CLAIMS WHERE createDate < '2009-09-01'
+UPDATE #CLAIMS SET amount = NULL WHERE lineType = 'Claim'
 
 SELECT
 	*
