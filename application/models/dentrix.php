@@ -108,7 +108,7 @@ class Dentrix extends CI_Model{
 			'Provider',
 			'Clinic',
 			'LineType',
-			'balance'
+			'Balance'
 		);
 		$records  = array();
 		$count    = 0;
