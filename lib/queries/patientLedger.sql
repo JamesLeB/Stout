@@ -84,8 +84,8 @@ SELECT
 	'                  ' AS tooth,
 	'Dent Ins.       ' AS ADACODE,
 	CASE
-		WHEN cl.STATUS = 2 THEN 'Prim Claim' + '- Received         ' + CAST(cl.TOTALBILLED*.01 AS VARCHAR(16)) 
-		ELSE 'Prim Claim' + '- Sent           ' + CAST(cl.TOTALBILLED*.01 AS VARCHAR(16))
+		WHEN cl.STATUS = 2 THEN 'Prim Claim' + ' - Received ' + CAST(cl.TOTALBILLED*.01 AS VARCHAR(16)) + '    ' 
+		ELSE 'Prim Claim' + ' - Sent ' + CAST(cl.TOTALBILLED*.01 AS VARCHAR(16)) + '    '
 	END AS DESCRIPTION,
 	cl.TOTALBILLED*.01 AS amount,
 	'                          ' AS provider,
