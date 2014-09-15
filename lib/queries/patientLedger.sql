@@ -117,7 +117,10 @@ UPDATE #CLAIMS SET amount = NULL WHERE lineType = 'Claim'
 INSERT INTO #CLAIMS VALUES ('2009-08-31','','','Initial Balance',
 (
 	select
-		sum(proclog.AMOUNT * .01) as mAmount
+		CASE 
+			WHEN sum(proclog.AMOUNT) IS NULL THEN 0.00
+			ELSE sum(proclog.AMOUNT * .01) 
+		END as mAmount
 	from
 		DDB_PROC_LOG AS proclog
 		JOIN DDB_PAT AS patient on proclog.PATID = patient.PATID

@@ -37,7 +37,7 @@ class makePDF {
 		$_SESSION['chartList'] = $this->model->getCharts();
 /*
 		$_SESSION['chartList'] = array(
-			'058815'
+			'U06453'
 		);
 */
 		$ms .= '-- Stage 2 Complete...';

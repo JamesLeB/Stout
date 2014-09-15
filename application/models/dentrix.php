@@ -124,7 +124,7 @@ class Dentrix extends CI_Model{
 			$line[] = $row['provider'];
 			$line[] = $row['clinic'];
 			$line[] = $row['lineType'];
-			$line[] = $balance;
+			$line[] = number_format($balance,2);
 			$records[] = $line;
 			$count++;
 		}
