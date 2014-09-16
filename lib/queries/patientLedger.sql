@@ -5,7 +5,7 @@
 
 declare @chart as varchar(32)
 set @chart = ?
-
+	
 IF OBJECT_ID('tempdb..#DATA') IS NOT NULL DROP TABLE #DATA
 IF OBJECT_ID('tempdb..#CLAIMS') IS NOT NULL DROP TABLE #CLAIMS
 
@@ -82,15 +82,15 @@ SELECT
 		ELSE CAST(cl.DATEOFCLAIM AS DATE)
 	END AS createDate,
 	'                  ' AS tooth,
-	'Dent Ins.' AS ADACODE,
+	'Dent Ins.       ' AS ADACODE,
 	CASE
-		WHEN cl.STATUS = 2 THEN 'Prim Clai' + '-Received ' + CAST(cl.TOTALBILLED*.01 AS VARCHAR(16)) 
-		ELSE 'Prim Clai' + '-Received ' + CAST(cl.TOTALBILLED*.01 AS VARCHAR(16))
+		WHEN cl.STATUS = 2 THEN 'Prim Claim' + ' - Received ' + CAST(cl.TOTALBILLED*.01 AS VARCHAR(16)) + '    ' 
+		ELSE 'Prim Claim' + ' - Sent ' + CAST(cl.TOTALBILLED*.01 AS VARCHAR(16)) + '    '
 	END AS DESCRIPTION,
 	cl.TOTALBILLED*.01 AS amount,
-	'             ' AS provider,
+	'                          ' AS provider,
 	clinic.RSCID AS clinic,
-	'Claim              ' AS lineType
+	'Claim                   ' AS lineType
 INTO #CLAIMS
 FROM
 	DDB_CLAIM AS cl
@@ -110,6 +110,31 @@ SELECT
 	clinic,
 	lineType
 FROM #DATA
+
+DELETE FROM #CLAIMS WHERE createDate < '2009-09-01'
+UPDATE #CLAIMS SET amount = NULL WHERE lineType = 'Claim'
+
+INSERT INTO #CLAIMS VALUES ('2009-08-31','','','Initial Balance',
+(
+	select
+		CASE 
+			WHEN sum(proclog.AMOUNT) IS NULL THEN 0.00
+			ELSE sum(proclog.AMOUNT * .01) 
+		END as mAmount
+	from
+		DDB_PROC_LOG AS proclog
+		JOIN DDB_PAT AS patient on proclog.PATID = patient.PATID
+	where
+		patient.CHART = @chart AND
+		proclog.CREATEDATE < '2009-09-01' AND
+		(
+				proclog.CHART_STATUS = 102
+			OR ( proclog.CHART_STATUS = 90 AND proclog.CLASS = 1 )
+			OR ( proclog.CHART_STATUS = 90 AND proclog.CLASS = 2 )
+			OR ( proclog.CHART_STATUS = 90 AND proclog.CLASS = 3 )
+			OR ( proclog.CHART_STATUS = 90 AND proclog.CLASS = 0 AND proclog.HISTORY = 1 )
+		)
+),'','','')
 
 SELECT
 	*

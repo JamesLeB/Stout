@@ -32,6 +32,7 @@ class PDF extends FPDF{
 		$this->Cell($colwidth[5],10,'');
 		$this->Cell($colwidth[6],10,$headings[5],0,0,$align[5]);
 		$this->Cell($colwidth[7],10,$headings[6],0,0,$align[6]);
+		$this->Cell($colwidth[8],10,$headings[8],0,0,$align[8]);
 		$this->ln();
 	}
 }
