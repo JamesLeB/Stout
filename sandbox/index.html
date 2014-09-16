@@ -134,6 +134,9 @@
         gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
     }
 
+	function degToRad(degrees){
+		return degrees * Math.PI / 180;
+	}
 
 
     var triangleVertexPositionBuffer;
@@ -165,7 +168,6 @@
         triangleVertexColorBuffer.itemSize = 4;
         triangleVertexColorBuffer.numItems = 3;
 
-
         squareVertexPositionBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexPositionBuffer);
         vertices = [
@@ -196,49 +198,60 @@
         squareVertexColorBuffer.numItems = 4;
     }
 
-	var tTri = 0;
+	var rTri = 0;
 	var rSquare = 0;
 
     function drawScene() {
+		// SET VIEWPORT
         gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
-
+		// SET PERSPECTIVE
         mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
 
+		// DRAW TRIANGLE
+		// MOVE TO CENTER OF SCENE
         mat4.identity(mvMatrix);
-
+		// MOVE TO TRIANGLE LOCATION
         mat4.translate(mvMatrix, [-1.5, 0.0, -7.0]);
-
+		// SAVE LOCATION
 		mvPushMatrix();
+		// ROTATE TRIANGLE
 		mat4.rotate(mvMatrix, degToRad(rTri), [0,1,0]);
-
+		// SET POSITION BUFFER
         gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexPositionBuffer);
-        gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, triangleVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
+		gl.vertexAttribPointer(
+			shaderProgram.vertexPositionAttribute,
+			triangleVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+		// SET COLOR BUFFER
         gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexColorBuffer);
-        gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, triangleVertexColorBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
+		gl.vertexAttribPointer(shaderProgram.vertexColorAttribute,
+			triangleVertexColorBuffer.itemSize, gl.FLOAT, false, 0, 0);
+		// MOVE BUFFER TO GRAPHICS CARD
         setMatrixUniforms();
         gl.drawArrays(gl.TRIANGLES, 0, triangleVertexPositionBuffer.numItems);
-
+		// LOAD PRE ROTATE POSITION
 		mvPopMatrix();
-		
-        mat4.identity(mvMatrix);
 
-        mat4.translate(mvMatrix, [1.0, 1.0, -7.0]);
-
+		// DRAW SQUARE
+		// MOVE TO CENTER OF SCENE
+        //mat4.identity(mvMatrix);
+		// MOVE TO SQUARE LOCATION
+        mat4.translate(mvMatrix, [2.5, 0.0,  0.0]);
+		// SAVE LOCATION
 		mvPushMatrix();
+		// ROTATE SQUARE
 		mat4.rotate(mvMatrix, degToRad(rSquare), [0,1,0]);
-
+		// SET POSITION BUFFER
         gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexPositionBuffer);
-        gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, squareVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
+		gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute,
+			squareVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
         gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexColorBuffer);
-        gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, squareVertexColorBuffer.itemSize, gl.FLOAT, false, 0, 0);
-
+		gl.vertexAttribPointer(shaderProgram.vertexColorAttribute,
+			squareVertexColorBuffer.itemSize, gl.FLOAT, false, 0, 0);
+		// MOVE BUFFER TO GRAPHICS CARD
         setMatrixUniforms();
         gl.drawArrays(gl.TRIANGLE_STRIP, 0, squareVertexPositionBuffer.numItems);
-
+		// LOAD PRE ROTATE POSITION
 		mvPopMatrix();
     }
 
@@ -283,8 +296,8 @@
 
     <canvas id="lesson01-canvas" style="border: none;" width="500" height="500"></canvas>
 
+	hello
     <br/>
 </body>
 
 </html>
-
