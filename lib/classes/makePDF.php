@@ -34,7 +34,21 @@ class makePDF {
 		$ms = '';
 		$ms .= 'Stage 2<br/>';
 		$ms .= '-- Loading chart list onto session<br/>';
-		$_SESSION['chartList'] = $this->model->getCharts();
+/* having performance problems with large array on session
+	going to try and improve the problem
+*/
+		$startIndex = $this->index;
+		$stopIndex  = $this->maxIndex;
+		$largeList = $this->model->getCharts();
+		$smallList = array();
+		for($i=$startIndex;$i<=$stopIndex;$i++){
+			$smallList[] = $largeList[$i];
+		}
+		$_SESSION['chartList'] = $smallList;
+		$_SESSION['index'] = 0;
+		$_SESSION['maxIndex'] = count($smallList)-1;
+		#$_SESSION['chartList'] = $this->model->getCharts();
+		#$_SESSION['chartList'] = '';
 /*
 		$_SESSION['chartList'] = array(
 			'U06453'
