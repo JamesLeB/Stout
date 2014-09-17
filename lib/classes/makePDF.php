@@ -3,7 +3,7 @@ class makePDF {
 	private $sceneCount = 3;
 	private $model;
 	private $index    = 350001;
-	private $maxIndex = 350010;
+	private $maxIndex = 450000;
 	function __construct($model){
 		$this->model = $model;
 	}
@@ -25,8 +25,8 @@ class makePDF {
 		$ms .= '-- Setting up index<br/>';
 		$ms .= "-- Index is $index<br/>";
 		$ms .= "-- Max Index is $maxIndex<br/>";
-		$_SESSION['index'] = $index;
-		$_SESSION['maxIndex'] = $maxIndex;
+		#$_SESSION['index'] = $index;
+		#$_SESSION['maxIndex'] = $maxIndex;
 		$ms .= '-- Stage 1 Complete...';
 		return $ms;
 	}
