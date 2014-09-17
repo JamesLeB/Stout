@@ -7,12 +7,12 @@ class Dentrix extends CI_Model{
 		parent::__construct();
 		$this->db = $this->load->database('dentrix',true);
 	}
-	function test(){
+	function test($x){
 		$htmlTable = 'table';
 		$file = "lib/queries/patientLedger.sql";
 		if(file_exists($file)){
 			$query = file_get_contents($file);
-			$parm = array('058815');
+			$parm = array($x);
 			$rs = $this->db->query($query,$parm);
 			if($rs){
 				#$prs = processResultSet($rs);

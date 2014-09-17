@@ -6,9 +6,9 @@ class Stage extends CI_Controller {
 
 	public function test(){
 		echo "Starting Test...<br/>";
-		#$this->load->model('Dentrix');
-		#$test = $this->Dentrix->test();
-		#echo "TEST<br/>$test";
+		$this->load->model('Dentrix');
+		$test = $this->Dentrix->test('H0904');
+		echo "$test";
 		#$arg1 = $this->uri->segment(4);
 		#$this->load->model('warehouse');
 		echo "Test done :)<br/>";
