@@ -16,7 +16,8 @@
 			<div id='stoutHeading'>
 				<img src='lib/images/cat.jpg' />
 				<clock>clock</clock>
-				<p>Hello I'm Stout...</p>
+				<?php $message = file_get_contents('files/message'); ?>
+				<p><?php echo $message; ?></p>
 			</div>
 			<?php echo $slideTray ?>
 		</div>
