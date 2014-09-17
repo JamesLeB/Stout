@@ -12,7 +12,7 @@
 <script>
 	// SETTINGS
 	//var defaultGraph = '<img src="lib/graphs/defaultGraph.php" />';
-	var defaultGraph = '<img src="lib/graphs/scatter.php" />';
+	var defaultGraph = '<img src="lib/graphs/sam2.php" />';
 	var configTarget = 'index.php?/grapher/config';
 	var grapherReturn = '#grapher > :nth-child(2)';
 	var grapherControl = '#grapher > :nth-child(1)';
