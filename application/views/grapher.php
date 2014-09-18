@@ -6,7 +6,7 @@
 		<button>Clear</button>
 	</div>
 	<div>
-		Main return area
+		<img src="lib/graphs/sam2.php" />
 	</div>
 </div>
 <style>
@@ -28,10 +28,10 @@
 <script>
 	// SETTINGS
 	//var defaultGraph = '<img src="lib/graphs/defaultGraph.php" />';
+	var grapherControl = '#grapher > :nth-child(1)';
 	var defaultGraph = '<img src="lib/graphs/sam2.php" />';
 	var configTarget = 'index.php?/grapher/config';
 	var grapherReturn = '#grapher > :nth-child(2)';
-	var grapherControl = '#grapher > :nth-child(1)';
 
 	// Clear
 	$(grapherControl + ' > :nth-child(3)').click(function(){
