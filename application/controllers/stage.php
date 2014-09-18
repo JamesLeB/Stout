@@ -28,6 +28,7 @@ class Stage extends CI_Controller {
 			$model = $this->Dentrix;
 			$thing = new makePDF($model);
 			$ms[] = $thing->stage();
+			#$ms[] = $thing->test();
 			$_SESSION['scene']++;
 		}else{
 			$ms[] = "Scene Done";

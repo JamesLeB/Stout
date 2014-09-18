@@ -2,8 +2,8 @@
 class makePDF {
 	private $sceneCount = 3;
 	private $model;
-	private $index    = 312620;
-	private $maxIndex = 350000;
+	private $index    = 550001;
+	private $maxIndex = 634323;
 
 	function __construct($model){
 		$this->model = $model;
@@ -124,6 +124,11 @@ class makePDF {
 			$pdf->ln();
 		}
 		$pdf->Output("files/ledgers/$chart.pdf",'F');
+	} # End createPDF function
+	function test(){
+		$largeList = $this->model->getCharts();
+		$size = count($largeList);
+		return "make pdf test<br/>Size = $size";
 	}
 }
 ?>
