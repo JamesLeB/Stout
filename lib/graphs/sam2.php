@@ -4,59 +4,105 @@ include("../pChart2.1.4/class/pData.class.php");
 include("../pChart2.1.4/class/pDraw.class.php");
 include("../pChart2.1.4/class/pImage.class.php");
 include("../pChart2.1.4/class/pScatter.class.php");
+
+/* Settings */
+$imageWidth  = 600;
+$imageHeight = 400;
+$titleHeight = 30;
+$titleFont = array("FontName"=>"../pChart2.1.4/fonts/Silkscreen.ttf","FontSize"=>10);
+$titleColor = array("R"=>255,"G"=>255,"B"=>0);
+$titleTop  = 20;
+$titleLeft = 30;
+$titleText = 'Chart Title';
+$borderColor = array("R"=>255,"G"=>255,"B"=>0);
+$graphFont = array("FontName"=>"../pChart2.1.4/fonts/pf_arma_five.ttf","FontSize"=>10);
+$graphLeft  = 80;
+$graphTop   = 80;
+$graphRight = 500;
+$graphBot   = 320;
+$legendLeft = 260;
+$legendTop = 375;
+$legendSettings = array("Mode"=>LEGEND_HORIZONTAL,"Style"=>LEGEND_NOBORDER);
  
 /* Create the pData object */
 $myData = new pData();  
  
 /* Create the X axis and the binded series */
-for ($i=0;$i<=360;$i=$i+10) { $myData->addPoints(cos(deg2rad($i))*20,"Probe 1"); }
-for ($i=0;$i<=360;$i=$i+10) { $myData->addPoints(sin(deg2rad($i))*20,"Probe 2"); }
-$myData->setAxisName(0,"Index");
+$myData->addPoints(array(1,2,3,4),"Time");
+$myData->setAxisName(0,"TIME");
 $myData->setAxisXY(0,AXIS_X);
 $myData->setAxisPosition(0,AXIS_POSITION_BOTTOM);
  
 /* Create the Y axis and the binded series */
-for ($i=0;$i<=360;$i=$i+10) { $myData->addPoints($i,"Probe 3"); }
-$myData->setSerieOnAxis("Probe 3",1);
-$myData->setAxisName(1,"Degree");
+$myData->addPoints(array(2,3,2,2),"Buy");
+$myData->addPoints(array(1,2,1,1),"Sell");
+$myData->setSerieOnAxis("Buy",1);
+$myData->setSerieOnAxis("Sell",1);
+$myData->setAxisName(1,"PRICE");
 $myData->setAxisXY(1,AXIS_Y);
-$myData->setAxisUnit(1,"°");
-$myData->setAxisPosition(1,AXIS_POSITION_RIGHT);
+$myData->setAxisUnit(1," $");
+$myData->setAxisPosition(1,AXIS_POSITION_LEFT);
  
 /* Create the 1st scatter chart binding */
-$myData->setScatterSerie("Probe 1","Probe 3",0);
-$myData->setScatterSerieDescription(0,"This year");
+$myData->setScatterSerie("Time","Buy",0);
+$myData->setScatterSerieDescription(0,"Buy");
 $myData->setScatterSerieColor(0,array("R"=>0,"G"=>0,"B"=>0));
  
 /* Create the 2nd scatter chart binding */
-$myData->setScatterSerie("Probe 2","Probe 3",1);
-$myData->setScatterSerieDescription(1,"Last Year");
-$myData->setScatterSeriePicture(1,"../pChart2.1.4/examples/resources/accept.png");
+$myData->setScatterSerie("Time","Sell",1);
+$myData->setScatterSerieDescription(1,"Sell");
+$myData->setScatterSerieColor(1,array("R"=>100,"G"=>100,"B"=>100));
+#$myData->setScatterSeriePicture(1,"../pChart2.1.4/examples/resources/accept.png");
  
 /* Create the pChart object */
-$myPicture = new pImage(400,400,$myData);
+$myPicture = new pImage($imageWidth,$imageHeight,$myData);
  
 /* Draw the background */
-$Settings = array("R"=>170, "G"=>183, "B"=>87, "Dash"=>1, "DashR"=>190, "DashG"=>203, "DashB"=>107);
-$myPicture->drawFilledRectangle(0,0,400,400,$Settings);
+$Settings = array(
+	"R"=>170,
+	"G"=>183,
+	"B"=>87,
+	"Dash"=>1,
+	"DashR"=>190,
+	"DashG"=>203,
+	"DashB"=>107
+); // the dash is a diagonal line that gives the background texture
+$myPicture->drawFilledRectangle(0,0,$imageWidth,$imageHeight,$Settings);
  
 /* Overlay with a gradient */
-$Settings = array("StartR"=>219, "StartG"=>231, "StartB"=>139, "EndR"=>1, "EndG"=>138, "EndB"=>68, "Alpha"=>50);
-$myPicture->drawGradientArea(0,0,400,400,DIRECTION_VERTICAL,$Settings);
-$myPicture->drawGradientArea(0,0,400,20,DIRECTION_VERTICAL,array("StartR"=>0,"StartG"=>0,"StartB"=>0,"EndR"=>50,"EndG"=>50,"EndB"=>50,"Alpha"=>80));
+$Settings = array(
+	"StartR"=>119,
+	"StartG"=>231,
+	"StartB"=>139,
+	"EndR"=>1,
+	"EndG"=>138,
+	"EndB"=>68,
+	"Alpha"=>50
+);
+$myPicture->drawGradientArea(0,0,$imageWidth,$imageHeight,DIRECTION_VERTICAL,$Settings);
+$settings = array(
+	"StartR"=>0,
+	"StartG"=>0,
+	"StartB"=>0,
+	"EndR"=>50,
+	"EndG"=>50,
+	"EndB"=>50,
+	"Alpha"=>80
+);
+$myPicture->drawGradientArea(0,0,$imageWidth,$titleHeight,DIRECTION_VERTICAL,$settings);
  
 /* Write the picture title */ 
-$myPicture->setFontProperties(array("FontName"=>"../pChart2.1.4/fonts/Silkscreen.ttf","FontSize"=>6));
-$myPicture->drawText(10,13,"drawScatterPlotChart() - Draw a scatter plot chart",array("R"=>255,"G"=>255,"B"=>255));
+$myPicture->setFontProperties($titleFont);
+$myPicture->drawText($titleLeft,$titleTop,$titleText,$titleColor);
  
 /* Add a border to the picture */
-$myPicture->drawRectangle(0,0,399,399,array("R"=>0,"G"=>0,"B"=>0));
+$myPicture->drawRectangle(0,0,$imageWidth-1,$imageHeight-1,$borderColor);
  
 /* Set the default font */
-$myPicture->setFontProperties(array("FontName"=>"../pChart2.1.4/fonts/pf_arma_five.ttf","FontSize"=>6));
+$myPicture->setFontProperties($graphFont);
  
 /* Set the graph area */
-$myPicture->setGraphArea(50,50,350,350);
+$myPicture->setGraphArea($graphLeft,$graphTop,$graphRight,$graphBot);
  
 /* Create the Scatter chart object */
 $myScatter = new pScatter($myPicture,$myData);
@@ -71,7 +117,7 @@ $myPicture->setShadow(TRUE,array("X"=>1,"Y"=>1,"R"=>0,"G"=>0,"B"=>0,"Alpha"=>10)
 $myScatter->drawScatterPlotChart();
  
 /* Draw the legend */
-$myScatter->drawScatterLegend(260,375,array("Mode"=>LEGEND_HORIZONTAL,"Style"=>LEGEND_NOBORDER));
+$myScatter->drawScatterLegend($legendLeft,$legendTop,$legendSettings);
  
 /* Render the picture (choose the best way) */
 $myPicture->stroke();
