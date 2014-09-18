@@ -24,6 +24,9 @@
 	var theaterStatus = '#theater div:nth-child(2)';
 	var theaterReturn = '#theater div:nth-child(3)';
 	$('#theater div button:nth-child(1)').click(function(){
+		/*
+			$(theaterReturn).html('Go Button disabled');
+		*/
 		var target = 'index.php?/stage/setup';
 		var request = $.post(target,'',function(data){
 			$(theaterReturn).html(data);

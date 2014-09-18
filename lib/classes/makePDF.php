@@ -2,8 +2,13 @@
 class makePDF {
 	private $sceneCount = 3;
 	private $model;
+<<<<<<< HEAD
 	private $index    = 200001;
 	private $maxIndex = 350000;
+=======
+	private $index    = 450001;
+	private $maxIndex = 550000;
+>>>>>>> 385e9861e25641c3dcec58beb857efb78ea132ff
 	function __construct($model){
 		$this->model = $model;
 	}
@@ -25,8 +30,8 @@ class makePDF {
 		$ms .= '-- Setting up index<br/>';
 		$ms .= "-- Index is $index<br/>";
 		$ms .= "-- Max Index is $maxIndex<br/>";
-		$_SESSION['index'] = $index;
-		$_SESSION['maxIndex'] = $maxIndex;
+		#$_SESSION['index'] = $index;
+		#$_SESSION['maxIndex'] = $maxIndex;
 		$ms .= '-- Stage 1 Complete...';
 		return $ms;
 	}
@@ -34,7 +39,21 @@ class makePDF {
 		$ms = '';
 		$ms .= 'Stage 2<br/>';
 		$ms .= '-- Loading chart list onto session<br/>';
-		$_SESSION['chartList'] = $this->model->getCharts();
+/* having performance problems with large array on session
+	going to try and improve the problem
+*/
+		$startIndex = $this->index;
+		$stopIndex  = $this->maxIndex;
+		$largeList = $this->model->getCharts();
+		$smallList = array();
+		for($i=$startIndex;$i<=$stopIndex;$i++){
+			$smallList[] = $largeList[$i];
+		}
+		$_SESSION['chartList'] = $smallList;
+		$_SESSION['index'] = 0;
+		$_SESSION['maxIndex'] = count($smallList)-1;
+		#$_SESSION['chartList'] = $this->model->getCharts();
+		#$_SESSION['chartList'] = '';
 /*
 		$_SESSION['chartList'] = array(
 			'U06453'

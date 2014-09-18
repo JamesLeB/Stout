@@ -5,12 +5,13 @@ class Stage extends CI_Controller {
 	public function index(){ echo "this is the index"; }
 
 	public function test(){
-		echo "hello from test<br/>";
+		echo "Starting Test...<br/>";
 		$this->load->model('Dentrix');
-		$test = $this->Dentrix->test();
-		echo "TEST<br/>$test";
+		$test = $this->Dentrix->test('H0904');
+		echo "$test";
 		#$arg1 = $this->uri->segment(4);
 		#$this->load->model('warehouse');
+		echo "Test done :)<br/>";
 	}
 	public function setup(){
 		$thing = new makePDF('');
