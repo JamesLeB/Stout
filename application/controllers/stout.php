@@ -17,19 +17,19 @@ class Stout extends CI_Controller {
 		$form['block2'] = $this->load->view('dnd/newCharFormBlock2','',true);
 */
 		$slide = array();
-		$slide[] = array('Grapher',$this->load->view('grapher','',true));
 		$slide[] = array('Theater',$this->load->view('slides/theater','',true));
 /*
-		$slide[] = array('WebGL',$this->load->view('webgl','',true));
-		$slide[] = array('Characters',$this->load->view('dnd/character',$form,true));
-		$slide[] = array('Reports',$this->load->view('reports',$reports,true));
-		$slide[] = array('Expense',$this->load->view('slides/expense','',true));
-		$slide[] = array('Accounts',$this->load->view('slides/accounts','',true));
-		$slide[] = array('Ledger',$this->load->view('slides/ledger','',true));
-		$slide[] = array('trader',$this->load->view('trader','',true));
-		$slide[] = array('exchange',$this->load->view('exchange','',true));
+		$slide[] = array('Grapher',    $this->load->view('grapher','',true));
+		$slide[] = array('WebGL',      $this->load->view('webgl','',true));
+		$slide[] = array('Reports',    $this->load->view('reports',$reports,true));
+		$slide[] = array('trader',     $this->load->view('trader','',true));
+		$slide[] = array('exchange',   $this->load->view('exchange','',true));
 		$slide[] = array('development',$this->load->view('development',$development,true));
-		$slide[] = array('production',$this->load->view('production','',true));
+		$slide[] = array('production', $this->load->view('production','',true));
+		$slide[] = array('Expense',    $this->load->view('slides/expense','',true));
+		$slide[] = array('Accounts',   $this->load->view('slides/accounts','',true));
+		$slide[] = array('Ledger',     $this->load->view('slides/ledger','',true));
+		$slide[] = array('Characters', $this->load->view('dnd/character',$form,true));
 */
 		$slides['slides'] = $slide;
 		$data['slideTray'] = $this->load->view('slideTray',$slides,true);
