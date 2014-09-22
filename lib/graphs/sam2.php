@@ -23,21 +23,56 @@ $graphBot   = 320;
 $legendLeft = 260;
 $legendTop = 375;
 $legendSettings = array("Mode"=>LEGEND_HORIZONTAL,"Style"=>LEGEND_NOBORDER);
+
+$buyColor = array("R"=>255,"G"=>255,"B"=>0);
+
+$obj = array();
+$obj[] = array(
+	'time'  => 1,
+	'price' => 2
+);
+$obj[] = array(
+	'time'  => 2,
+	'price' => 2
+);
+$obj[] = array(
+	'time'  => 3,
+	'price' => 3
+);
+$obj[] = array(
+	'time'  => 5,
+	'price' => 7
+);
+
+$timeA  = array();
+$priceA = array();
+$priceMin = $obj[0]['price'];
+$priceMax = $obj[0]['price'];
+$timeMin  = 0;
+$timeMax  = $obj[0]['time'];
+foreach($obj as $o){
+	$timeA[]  = $o['time'];
+	$priceA[] = $o['price'];
+	#if($o['price'] < $priceMin){$priceMin = $o['price'];}
+	if($o['price'] > $priceMax){$priceMax = $o['price'];}
+	if($o['time'] > $timeMax){$timeMax = $o['time'];}
+}
+$titleText = "Price min=$priceMin max=$priceMax time max=$timeMax";
  
 /* Create the pData object */
 $myData = new pData();  
  
 /* Create the X axis and the binded series */
-$myData->addPoints(array(1,2,3,4),"Time");
+$myData->addPoints($timeA,"Time");
 $myData->setAxisName(0,"TIME");
 $myData->setAxisXY(0,AXIS_X);
 $myData->setAxisPosition(0,AXIS_POSITION_BOTTOM);
  
 /* Create the Y axis and the binded series */
-$myData->addPoints(array(2,2,2,2),"Buy");
-$myData->addPoints(array(1,1,1,1),"Sell");
+$myData->addPoints($priceA,"Buy");
+#$myData->addPoints(array(1,1,1,1),"Sell");
 $myData->setSerieOnAxis("Buy",1);
-$myData->setSerieOnAxis("Sell",1);
+#$myData->setSerieOnAxis("Sell",1);
 $myData->setAxisName(1,"PRICE");
 $myData->setAxisXY(1,AXIS_Y);
 $myData->setAxisUnit(1," $");
@@ -46,12 +81,12 @@ $myData->setAxisPosition(1,AXIS_POSITION_LEFT);
 /* Create the 1st scatter chart binding */
 $myData->setScatterSerie("Time","Buy",0);
 $myData->setScatterSerieDescription(0,"Buy");
-$myData->setScatterSerieColor(0,array("R"=>0,"G"=>0,"B"=>0));
+$myData->setScatterSerieColor(0,$buyColor);
  
 /* Create the 2nd scatter chart binding */
-$myData->setScatterSerie("Time","Sell",1);
-$myData->setScatterSerieDescription(1,"Sell");
-$myData->setScatterSerieColor(1,array("R"=>100,"G"=>100,"B"=>100));
+#$myData->setScatterSerie("Time","Sell",1);
+#$myData->setScatterSerieDescription(1,"Sell");
+#$myData->setScatterSerieColor(1,array("R"=>100,"G"=>100,"B"=>100));
 #$myData->setScatterSeriePicture(1,"../pChart2.1.4/examples/resources/accept.png");
  
 /* Create the pChart object */
@@ -111,8 +146,8 @@ $myScatter = new pScatter($myPicture,$myData);
 $scaleSettings = array(
 		"Mode"=>SCALE_MODE_MANUAL,
 		"ManualScale"=>array(
-			0=>array('Min'=>0,'Max'=>5),
-			1=>array('Min'=>0,'Max'=>10),
+			0=>array('Min'=>$timeMin,'Max'=>$timeMax),
+			1=>array('Min'=>$priceMin,'Max'=>$priceMax),
 		)
 );
 $myScatter->drawScatterScale($scaleSettings);
