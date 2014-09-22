@@ -4,6 +4,7 @@
 		<button>Default Graph</button>
 		<button>Config</button>
 		<button>Clear</button>
+		<button>GetBuy</button>
 	</div>
 	<div>
 		<img src="lib/graphs/sam2.php" />
@@ -21,7 +22,7 @@
 	}
 	#grapher > :nth-child(2) {
 		border-color : green;
-		height : 400px;
+		min-height : 400px;
 		padding : 20px;
 	}
 </style>
@@ -30,7 +31,7 @@
 	//var defaultGraph = '<img src="lib/graphs/defaultGraph.php" />';
 	var grapherControl = '#grapher > :nth-child(1)';
 	var defaultGraph = '<img src="lib/graphs/sam2.php" />';
-	var configTarget = 'index.php?/grapher/config';
+	var grapherTarget = 'index.php?/grapher/';
 	var grapherReturn = '#grapher > :nth-child(2)';
 
 	// Clear
@@ -43,7 +44,15 @@
 	});
 	// Config
 	$(grapherControl + ' > :nth-child(2)').click(function(){
-		var request = $.post(configTarget,'',function(data){
+		var func = 'config';
+		var request = $.post(grapherTarget+func,'',function(data){
+			$(grapherReturn).html(data);
+		});
+	});
+	// GetBuy
+	$(grapherControl + ' > :nth-child(4)').click(function(){
+		var func = 'getBuys';
+		var request = $.post(grapherTarget+func,'',function(data){
 			$(grapherReturn).html(data);
 		});
 	});
