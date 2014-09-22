@@ -108,7 +108,14 @@ $myPicture->setGraphArea($graphLeft,$graphTop,$graphRight,$graphBot);
 $myScatter = new pScatter($myPicture,$myData);
  
 /* Draw the scale */
-$myScatter->drawScatterScale();
+$scaleSettings = array(
+		"Mode"=>SCALE_MODE_MANUAL,
+		"ManualScale"=>array(
+			0=>array('Min'=>0,'Max'=>5),
+			1=>array('Min'=>0,'Max'=>10),
+		)
+);
+$myScatter->drawScatterScale($scaleSettings);
  
 /* Turn on shadow computing */
 $myPicture->setShadow(TRUE,array("X"=>1,"Y"=>1,"R"=>0,"G"=>0,"B"=>0,"Alpha"=>10));
@@ -118,6 +125,9 @@ $myScatter->drawScatterPlotChart();
  
 /* Draw the legend */
 $myScatter->drawScatterLegend($legendLeft,$legendTop,$legendSettings);
+
+/* Draw trend line */
+#$myPicture->DrawLine($graphLeft,$graphBot,$graphRight,$graphTop,array('R'=>0,'G'=>0,'B'=>0));
  
 /* Render the picture (choose the best way) */
 $myPicture->stroke();
