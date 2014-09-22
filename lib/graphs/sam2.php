@@ -43,6 +43,9 @@ $obj[] = array(
 	'time'  => 5,
 	'price' => 7
 );
+$file = 'data/sample1.json';
+$json = json_encode($obj);
+file_put_contents($file,$json);
 
 $timeA  = array();
 $priceA = array();
