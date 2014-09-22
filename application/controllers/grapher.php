@@ -3,7 +3,11 @@
 class Grapher extends CI_Controller {
 
 	private function setScaleFactor($price){
-		return 10;
+		if($price      > 10){ return 1;}
+		if($price*10   > 10){ return 10;}
+		if($price*100  > 10){ return 100;}
+		if($price*1000 > 10){ return 1000;}
+		return 1;
 	}
 	public function getBuys(){
 		$timeOffset = 60*60*4;
@@ -14,7 +18,7 @@ class Grapher extends CI_Controller {
 		usort($trades,'custSort');
 		$startTime = $trades[0]['time'];
 		$basePrice = $trades[0]['price'];
-		$scaleFactor = $this->setScaleFactor('1');
+		$scaleFactor = $this->setScaleFactor($basePrice);
 		#$headings = array_keys($trades[0]);
 		$headings = array(
 			'time',
