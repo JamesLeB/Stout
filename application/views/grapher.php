@@ -7,7 +7,10 @@
 		<button>GetBuy</button>
 	</div>
 	<div>
-		<img src="lib/graphs/sam2.php" />
+		<?php
+			$mark = time();
+			echo "<img src='lib/graphs/sam2.php?$mark' />"
+		?>
 	</div>
 </div>
 <style>
@@ -30,7 +33,6 @@
 	// SETTINGS
 	//var defaultGraph = '<img src="lib/graphs/defaultGraph.php" />';
 	var grapherControl = '#grapher > :nth-child(1)';
-	var defaultGraph = '<img src="lib/graphs/sam2.php" />';
 	var grapherTarget = 'index.php?/grapher/';
 	var grapherReturn = '#grapher > :nth-child(2)';
 
@@ -40,6 +42,8 @@
 	});
 	// Default
 	$(grapherControl + ' > :nth-child(1)').click(function(){
+		var mark = new Date().getTime();
+		var defaultGraph = '<img src="lib/graphs/sam2.php?'+mark+'" />';
 		$(grapherReturn).html(defaultGraph);
 	});
 	// Config
