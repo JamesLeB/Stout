@@ -17,9 +17,9 @@ class Stout extends CI_Controller {
 		$form['block2'] = $this->load->view('dnd/newCharFormBlock2','',true);
 */
 		$slide = array();
+		$slide[] = array('Grapher',    $this->load->view('grapher','',true));
 		$slide[] = array('Stage',$this->load->view('slides/stage','',true));
 /*
-		$slide[] = array('Grapher',    $this->load->view('grapher','',true));
 		$slide[] = array('WebGL',      $this->load->view('webgl','',true));
 		$slide[] = array('Reports',    $this->load->view('reports',$reports,true));
 		$slide[] = array('trader',     $this->load->view('trader','',true));
