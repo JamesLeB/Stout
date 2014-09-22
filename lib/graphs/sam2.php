@@ -34,8 +34,8 @@ $myData->setAxisXY(0,AXIS_X);
 $myData->setAxisPosition(0,AXIS_POSITION_BOTTOM);
  
 /* Create the Y axis and the binded series */
-$myData->addPoints(array(2,3,2,2),"Buy");
-$myData->addPoints(array(1,2,1,1),"Sell");
+$myData->addPoints(array(2,2,2,2),"Buy");
+$myData->addPoints(array(1,1,1,1),"Sell");
 $myData->setSerieOnAxis("Buy",1);
 $myData->setSerieOnAxis("Sell",1);
 $myData->setAxisName(1,"PRICE");
