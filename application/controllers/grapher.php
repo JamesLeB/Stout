@@ -2,6 +2,57 @@
 
 class Grapher extends CI_Controller {
 
+	public function getBuys(){
+		$timeOffset = 60*60*4;
+		$json = file_get_contents('https://api.mintpal.com/v1/market/trades/LTC/BTC');
+		$obj = json_decode($json,TRUE);
+		$count = $obj['count'];
+		$trades = $obj['trades'];
+		usort($trades,'custSort');
+		$startTime = $trades[0]['time'];
+		#$headings = array_keys($trades[0]);
+		$headings = array(
+			'time',
+			'type',
+			'price',
+			'amount',
+			'total',
+			'elaps'
+		);
+		$buyHeadings = array(
+			'elapsed',
+			'price'
+		);
+		$line = array();
+		$lines = array();
+		$buys = array();
+		foreach($trades as $trade){
+			$line = array();
+			#$line[] = $trade['time'];
+			$line[] = date('Y-m-d H:i:s',$trade['time']+$timeOffset);
+			$line[] = $trade['type'] == 0 ? 'Buy' : 'Sell';
+			$price = $trade['price'];
+			$line[] = $price;
+			$line[] = $trade['amount'];
+			$line[] = $trade['total'];
+			$elapsed = floor(($trade['time']-$startTime)/60);
+			$line[] = $elapsed;
+			$lines[] = $line;
+			if($trade['type'] == 0){
+				$buys[] = array($elapsed,$price);
+			}
+		}
+		$lines[] = $line;
+		#$htmlTable = renderTable($headings,$lines);
+		$htmlTable = renderTable($buyHeadings,$buys);
+		$rtn  = "Count = $count<br/>";
+		$rtn .= "StartTime = $startTime<br/>";
+		$rtn .= $htmlTable;
+		echo $rtn;
+		$json = json_encode($buys);
+		$file = 'files/sample.json';
+		file_put_contents($file,$json);
+	} # END function getBuys
 	public function config(){
 		echo "configuring graph...<br/>";
 
