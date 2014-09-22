@@ -2,6 +2,9 @@
 
 class Grapher extends CI_Controller {
 
+	private function setScaleFactor($price){
+		return 10;
+	}
 	public function getBuys(){
 		$timeOffset = 60*60*4;
 		$json = file_get_contents('https://api.mintpal.com/v1/market/trades/LTC/BTC');
@@ -10,6 +13,8 @@ class Grapher extends CI_Controller {
 		$trades = $obj['trades'];
 		usort($trades,'custSort');
 		$startTime = $trades[0]['time'];
+		$basePrice = $trades[0]['price'];
+		$scaleFactor = $this->setScaleFactor('1');
 		#$headings = array_keys($trades[0]);
 		$headings = array(
 			'time',
@@ -41,7 +46,7 @@ class Grapher extends CI_Controller {
 			if($trade['type'] == 0){
 				$buys[] = array(
 					'time'  => $elapsed,
-					'price' => $price
+					'price' => $price * $scaleFactor
 				);
 			}
 		}
