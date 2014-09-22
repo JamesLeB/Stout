@@ -26,6 +26,7 @@ $legendSettings = array("Mode"=>LEGEND_HORIZONTAL,"Style"=>LEGEND_NOBORDER);
 
 $buyColor = array("R"=>255,"G"=>255,"B"=>0);
 
+/*
 $obj = array();
 $obj[] = array(
 	'time'  => 1,
@@ -43,9 +44,12 @@ $obj[] = array(
 	'time'  => 5,
 	'price' => 7
 );
-$file = 'data/sample1.json';
 $json = json_encode($obj);
 file_put_contents($file,$json);
+*/
+$file = 'data/sample1.json';
+$json = file_get_contents($file);
+$obj = json_decode($json,TRUE);
 
 $timeA  = array();
 $priceA = array();
@@ -56,7 +60,7 @@ $timeMax  = $obj[0]['time'];
 foreach($obj as $o){
 	$timeA[]  = $o['time'];
 	$priceA[] = $o['price'];
-	#if($o['price'] < $priceMin){$priceMin = $o['price'];}
+	if($o['price'] < $priceMin){$priceMin = $o['price'];}
 	if($o['price'] > $priceMax){$priceMax = $o['price'];}
 	if($o['time'] > $timeMax){$timeMax = $o['time'];}
 }
