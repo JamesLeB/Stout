@@ -20,7 +20,7 @@ class Grapher extends CI_Controller {
 			'elaps'
 		);
 		$buyHeadings = array(
-			'elapsed',
+			'time',
 			'price'
 		);
 		$line = array();
@@ -39,7 +39,10 @@ class Grapher extends CI_Controller {
 			$line[] = $elapsed;
 			$lines[] = $line;
 			if($trade['type'] == 0){
-				$buys[] = array($elapsed,$price);
+				$buys[] = array(
+					'time'  => $elapsed,
+					'price' => $price
+				);
 			}
 		}
 		$lines[] = $line;
@@ -50,7 +53,7 @@ class Grapher extends CI_Controller {
 		$rtn .= $htmlTable;
 		echo $rtn;
 		$json = json_encode($buys);
-		$file = 'files/sample.json';
+		$file = 'lib/graphs/data/sample1.json';
 		file_put_contents($file,$json);
 	} # END function getBuys
 	public function config(){
