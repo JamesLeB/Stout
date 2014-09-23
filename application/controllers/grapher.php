@@ -21,6 +21,7 @@ class Grapher extends CI_Controller {
 		$scaleFactor = $this->setScaleFactor($basePrice);
 		#$headings = array_keys($trades[0]);
 		$headings = array(
+			'index',
 			'time',
 			'type',
 			'price',
@@ -32,11 +33,15 @@ class Grapher extends CI_Controller {
 			'time',
 			'price'
 		);
-		$line = array();
 		$lines = array();
+		$index = 1;
 		$buys = array();
+		$sells = array();
+		$countBuys = 0;
+		$countSells = 0;
 		foreach($trades as $trade){
 			$line = array();
+			$line[] = $index++;
 			#$line[] = $trade['time'];
 			$line[] = date('Y-m-d H:i:s',$trade['time']+$timeOffset);
 			$line[] = $trade['type'] == 0 ? 'Buy' : 'Sell';
@@ -48,17 +53,21 @@ class Grapher extends CI_Controller {
 			$line[] = $elapsed;
 			$lines[] = $line;
 			if($trade['type'] == 0){
+				$countBuys++;
 				$buys[] = array(
 					'time'  => $elapsed,
 					'price' => $price * $scaleFactor
 				);
+			}else{
+				$countSells++;
 			}
 		}
-		$lines[] = $line;
-		#$htmlTable = renderTable($headings,$lines);
-		$htmlTable = renderTable($buyHeadings,$buys);
+		$htmlTable = renderTable($headings,$lines);
+		#$htmlTable = renderTable($buyHeadings,$buys);
 		$rtn  = "Count = $count<br/>";
 		$rtn .= "StartTime = $startTime<br/>";
+		$rtn .= "Buy Count = $countBuys<br/>";
+		$rtn .= "Sell Count = $countSells<br/>";
 		$rtn .= $htmlTable;
 		echo $rtn;
 		$json = json_encode($buys);
