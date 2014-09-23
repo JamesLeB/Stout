@@ -20,11 +20,11 @@
 		border-style : solid;
 		border-width ; 1px;
 		padding : 5px;
-		text-align : center;
 	}
 	#workerIcon{
 		border-color : #6C19A3;
 		background : white;
+		text-align : center;
 	}
 	#workerIcon img{
 		height : 50px;
@@ -36,14 +36,17 @@
 		vertical-align : top;
 		border-color : #006BB2;
 		width : 100px;
+		text-align : center;
 	}
 	#workerControls button{
 		width : 90px;
 	}
 	#workerView{
+		vertical-align : top;
 		border-color : #007A00;
 		height : 400px;
 		width : 600px;
+		text-align : left;
 	}
 </style>
 <script>

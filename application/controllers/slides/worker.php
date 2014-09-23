@@ -20,7 +20,7 @@ class Worker extends CI_Controller {
 		echo $ms;
 	}
 	public function getTestFile(){
-		$file = 'test.txt';
+		$file = 'next.x12';
 		$ms = file_get_contents($this->filePath.$file);
 		echo $ms;
 	}
