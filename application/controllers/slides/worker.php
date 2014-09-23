@@ -23,7 +23,7 @@ class Worker extends CI_Controller {
 		$file = 'a.txt';
 		$x12 = file_get_contents($this->filePath.$file);
 		$nX12 = $this->processX12($x12);
-		$file = 'b.txt';
+		$file = 'b.x12';
 		file_put_contents($this->filePath.$file,$nX12);
 		echo $this->toTextX12($nX12);
 		#echo $this->toTextX12($x12);
