@@ -1,13 +1,15 @@
 <div id='worker'>
 	<table>
 		<tr>
-			<td id='workerIcon'>Icon</td>
+			<td id='workerIcon'>
+				<img src='lib/images/rat.jpg' />
+			</td>
 			<td id='workerStatus'>Status</td>
 		</tr>
 		<tr>
 			<td id='workerControls'>
 				<button>TEST</button>
-				<button>GO</button>
+				<button>Get</button>
 			</td>
 			<td id='workerView'>View</td>
 		</tr>
@@ -17,12 +19,15 @@
 	#worker td{
 		border-style : solid;
 		border-width ; 1px;
-		padding : 10px;
-		margin : 10px;
+		padding : 5px;
 		text-align : center;
 	}
 	#workerIcon{
 		border-color : #6C19A3;
+		background : white;
+	}
+	#workerIcon img{
+		height : 50px;
 	}
 	#workerStatus{
 		border-color : #D1D1AC;
@@ -37,8 +42,8 @@
 	}
 	#workerView{
 		border-color : #007A00;
-		height : 200px;
-		width : 400px;
+		height : 400px;
+		width : 600px;
 	}
 </style>
 <script>
@@ -56,15 +61,12 @@
 			$('#workerView').html('TEST Button disabled');
 		*/
 	});
-	// GO button
+	// Get file button
 	$('#workerControls button:nth-child(2)').click(function(){
-			$('#workerView').html('GO Button disabled');
-		/*
-		var func = 'test';
-		var request = $.post(target+func,'',function(data){
-			$(stageReturn).html(data);
+		var func = 'getTestFile';
+		var request = $.post(workerTarget+func,'',function(data){
+			$('#workerView').html(data);
 		});
-		*/
 	});
 /*
 	function stage(){
