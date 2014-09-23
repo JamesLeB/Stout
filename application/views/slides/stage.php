@@ -36,7 +36,7 @@
 		});
 	});
 	// Test button
-	$('#stage div button:nth-child(2)').click(function(){
+	$('#stage > div button:nth-child(2)').click(function(){
 		var func = 'test';
 		var request = $.post(target+func,'',function(data){
 			$(stageReturn).html(data);
