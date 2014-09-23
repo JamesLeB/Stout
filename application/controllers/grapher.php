@@ -3,11 +3,11 @@
 class Grapher extends CI_Controller {
 
 	private function setScaleFactor($price){
-		if($price      > 10){ return 1;}
-		if($price*10   > 10){ return 10;}
-		if($price*100  > 10){ return 100;}
-		if($price*1000 > 10){ return 1000;}
-		return 1;
+		$factor = 1;
+		while($price*pow(10,$factor) < 1000){
+			$factor++;
+		}
+		return $factor;
 	}
 	public function getBuys(){
 		$timeOffset = 60*60*4;
@@ -19,12 +19,12 @@ class Grapher extends CI_Controller {
 		$startTime = $trades[0]['time'];
 		$basePrice = $trades[0]['price'];
 		$scaleFactor = $this->setScaleFactor($basePrice);
-		#$headings = array_keys($trades[0]);
 		$headings = array(
 			'index',
 			'time',
 			'type',
 			'price',
+			'scalePrice',
 			'amount',
 			'total',
 			'elaps'
@@ -47,16 +47,17 @@ class Grapher extends CI_Controller {
 			$line[] = $trade['type'] == 0 ? 'Buy' : 'Sell';
 			$price = $trade['price'];
 			$line[] = $price;
+			$line[] = floor($price * pow(10,$scaleFactor));
 			$line[] = $trade['amount'];
 			$line[] = $trade['total'];
-			$elapsed = floor(($trade['time']-$startTime)/60);
+			$elapsed = floor(($trade['time']-$startTime)/(60*60));
 			$line[] = $elapsed;
 			$lines[] = $line;
 			if($trade['type'] == 0){
 				$countBuys++;
 				$buys[] = array(
 					'time'  => $elapsed,
-					'price' => $price * $scaleFactor
+					'price' => floor($price * pow(10,$scaleFactor))
 				);
 			}else{
 				$countSells++;
@@ -68,6 +69,7 @@ class Grapher extends CI_Controller {
 		$rtn .= "StartTime = $startTime<br/>";
 		$rtn .= "Buy Count = $countBuys<br/>";
 		$rtn .= "Sell Count = $countSells<br/>";
+		$rtn .= "Scale Factor = $scaleFactor<br/>";
 		$rtn .= $htmlTable;
 		echo $rtn;
 		$json = json_encode($buys);
