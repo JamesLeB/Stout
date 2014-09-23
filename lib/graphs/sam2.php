@@ -26,6 +26,7 @@ $legendSettings = array("Mode"=>LEGEND_HORIZONTAL,"Style"=>LEGEND_NOBORDER);
 
 $buyColor = array("R"=>255,"G"=>255,"B"=>0);
 
+/*
 $obj = array();
 $obj[] = array(
 	'time'  => 1,
@@ -47,13 +48,12 @@ $obj[] = array(
 	'time'  => 3,
 	'price' => 5
 );
-/*
 $json = json_encode($obj);
 file_put_contents($file,$json);
+*/
 $file = 'data/sample1.json';
 $json = file_get_contents($file);
 $obj = json_decode($json,TRUE);
-*/
 
 $timeA  = array();
 $priceA = array();
