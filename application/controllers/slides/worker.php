@@ -40,7 +40,21 @@ class Worker extends CI_Controller {
 		$segments = preg_split('/~/',$x12);
 		$fixed = array();
 		foreach($segments as $seg){
-			if(preg_match('/^NM1\*40\*2/',$seg)){
+			if(preg_match('/^ISA\*00/',$seg)){
+				$temp = preg_split('/\*/',$seg);
+				$temp = preg_split('/\*/',$seg);
+				$temp[6] = 'F00            ';
+				$fixed[] = implode('*',$temp);
+			}elseif(preg_match('/^GS\*HC\*/',$seg)){
+				$temp = preg_split('/\*/',$seg);
+				$temp[2] = 'F00';
+				$fixed[] = implode('*',$temp);
+			}elseif(preg_match('/^NM1\*41\*2/',$seg)){
+				$temp = preg_split('/\*/',$seg);
+				$temp[3] = 'NEW YORK UNIV DENTAL CTR';
+				$temp[9] = 'F00';
+				$fixed[] = implode('*',$temp);
+			}elseif(preg_match('/^NM1\*40\*2/',$seg)){
 				$temp = preg_split('/\*/',$seg);
 				$temp[3] = 'NYSDOH';
 				$temp[9] = 141797357;
