@@ -20,19 +20,48 @@ class Worker extends CI_Controller {
 		echo $ms;
 	}
 	public function getTestFile(){
-		$file = 'next.x12';
+		$file = 'a.txt';
 		$x12 = file_get_contents($this->filePath.$file);
-		$ms = $this->processX12($x12);
-		echo $ms;
+		$nX12 = $this->processX12($x12);
+		$file = 'b.txt';
+		file_put_contents($this->filePath.$file,$nX12);
+		echo $this->toTextX12($nX12);
+		#echo $this->toTextX12($x12);
+	}
+	private function toTextX12($x12){
+		$segments = preg_split('/~/',$x12);
+		$ms = '';
+		foreach($segments as $seg){
+			$ms .= "$seg<br/>";
+		}
+		return $ms;
 	}
 	private function processX12($x12){
 		$segments = preg_split('/~/',$x12);
-		$rtn = '';
+		$fixed = array();
 		foreach($segments as $seg){
-			$rtn .= "$seg<br/>";
+			if(preg_match('/^NM1\*40\*2/',$seg)){
+				$temp = preg_split('/\*/',$seg);
+				$temp[3] = 'NYSDOH';
+				$temp[9] = 141797357;
+				$fixed[] = implode('*',$temp);
+			}elseif(preg_match('/^NM1\*85\*2/',$seg)){
+				$temp = preg_split('/\*/',$seg);
+				$temp[3] = 'NEW YORK UNIV DENTAL CTR';
+				$temp[9] = 1164555124;
+				$fixed[] = implode('*',$temp);
+			}elseif(preg_match('/^NM1\*PR\*2/',$seg)){
+				$temp = preg_split('/\*/',$seg);
+				$temp[3] = 'NYSDOH';
+				$temp[9] = 141797357;
+				$fixed[] = implode('*',$temp);
+				#$fixed[] = $seg . ' -----  FLAG';
+			}else{
+				$fixed[] = $seg;
+			}
 		}
-		return "$rtn";
-	}
+		return implode('~',$fixed);
+	} # END processX12 function
 }
 
 ?>
