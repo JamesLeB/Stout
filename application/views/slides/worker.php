@@ -42,17 +42,18 @@
 	}
 </style>
 <script>
-	var target = 'index.php?/slides/worker/';
+	var workerTarget = 'index.php?/slides/worker/';
 	// Test button
 	$('#workerControls button:nth-child(1)').click(function(){
-			$('#workerView').html('TEST Button disabled');
-		/*
-		var func = 'setup';
-		var request = $.post(target+func,'',function(data){
-			$(stageReturn).html(data);
-			var scene = request.getResponseHeader('scene');
-			if( scene == 1 ){stage();}
+		var func = 'test';
+		var request = $.post(workerTarget+func,'',function(data){
+			$('#workerView').html(data);
+			//$('#workerView').html('TEST Button disabled');
+			//var scene = request.getResponseHeader('scene');
+			//if( scene == 1 ){stage();}
 		});
+		/*
+			$('#workerView').html('TEST Button disabled');
 		*/
 	});
 	// GO button
