@@ -45,8 +45,10 @@
 		vertical-align : top;
 		border-color : #007A00;
 		height : 400px;
-		width : 600px;
+		width : 800px;
 		text-align : left;
+		font-size : 1.5em;
+		color : #66AF66;
 	}
 </style>
 <script>

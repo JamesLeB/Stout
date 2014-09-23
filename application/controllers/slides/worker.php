@@ -21,8 +21,17 @@ class Worker extends CI_Controller {
 	}
 	public function getTestFile(){
 		$file = 'next.x12';
-		$ms = file_get_contents($this->filePath.$file);
+		$x12 = file_get_contents($this->filePath.$file);
+		$ms = $this->processX12($x12);
 		echo $ms;
+	}
+	private function processX12($x12){
+		$segments = preg_split('/~/',$x12);
+		$rtn = '';
+		foreach($segments as $seg){
+			$rtn .= "$seg<br/>";
+		}
+		return "$rtn";
 	}
 }
 
