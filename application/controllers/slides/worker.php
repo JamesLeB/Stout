@@ -37,7 +37,15 @@ class Worker extends CI_Controller {
 				foreach($edi[0] as $a){
 					$ms .= "$a<br/>";
 				}
-				echo $ms;
+				$heading = 'Heading';
+				$body    = $ms;
+				$myList = array();
+				$myList[] = array(
+					'Heading' => $heading,
+					'Body'    => $body
+				);
+				$parm = array('myList'=>$myList);
+				echo $this->load->view('myList',$parm,true);
 			} catch (Exception $e){
 				echo $e->getMessage();
 			}
