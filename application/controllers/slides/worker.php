@@ -20,19 +20,27 @@ class Worker extends CI_Controller {
 		echo $ms;
 	}
 	public function getTestFile(){
+		$secret = '';
+		if(isset($_REQUEST['secret'])){
+			$secret = $_REQUEST['secret'];
+		}
 		$file = 'a.txt';
 		$x12 = file_get_contents($this->filePath.$file);
 		$nX12 = $this->processX12($x12);
 		$file = 'b.x12';
 		file_put_contents($this->filePath.$file,$nX12);
-		echo $this->toTextX12($nX12);
+		echo $this->toTextX12($nX12,$secret);
 		#echo $this->toTextX12($x12);
 	}
-	private function toTextX12($x12){
+	private function toTextX12($x12,$secret){
 		$segments = preg_split('/~/',$x12);
 		$ms = '';
 		foreach($segments as $seg){
-			$ms .= "$seg<br/>";
+			if($secret == 'all'){
+				$ms .= "$seg<br/>";
+			}elseif($secret == 'claims' && preg_match('/^CLM\*/',$seg)){
+				$ms .= "$seg<br/>";
+			}
 		}
 		return $ms;
 	}

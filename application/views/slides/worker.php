@@ -9,7 +9,8 @@
 		<tr>
 			<td id='workerControls'>
 				<button>TEST</button>
-				<button>Get</button>
+				<button>Get File</button>
+				<button>Claim</button>
 			</td>
 			<td id='workerView'>View</td>
 		</tr>
@@ -69,7 +70,16 @@
 	// Get file button
 	$('#workerControls button:nth-child(2)').click(function(){
 		var func = 'getTestFile';
-		var request = $.post(workerTarget+func,'',function(data){
+		var parm = { secret: 'all' };
+		var request = $.post(workerTarget+func,parm,function(data){
+			$('#workerView').html(data);
+		});
+	});
+	// Claim Line
+	$('#workerControls button:nth-child(3)').click(function(){
+		var func = 'getTestFile';
+		var parm = { secret: 'claims' };
+		var request = $.post(workerTarget+func,parm,function(data){
 			$('#workerView').html(data);
 		});
 	});
