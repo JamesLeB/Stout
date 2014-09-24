@@ -11,6 +11,7 @@
 				<button>TEST</button>
 				<button>Get File</button>
 				<button>Claim</button>
+				<button>Accord</button>
 			</td>
 			<td id='workerView'>View</td>
 		</tr>
@@ -80,6 +81,13 @@
 		var func = 'getTestFile';
 		var parm = { secret: 'claims' };
 		var request = $.post(workerTarget+func,parm,function(data){
+			$('#workerView').html(data);
+		});
+	});
+	// Accord Line
+	$('#workerControls button:nth-child(4)').click(function(){
+		var func = 'accord';
+		var request = $.post(workerTarget+func,'',function(data){
 			$('#workerView').html(data);
 		});
 	});
