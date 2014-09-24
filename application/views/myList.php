@@ -17,9 +17,9 @@
 ?>
 <style>
 	.myList{
-		border-style : dashed;
-		border-color : gray;
-		border-width : 1px;
+		width : 95%;
+		margin-left : auto;
+		margin-right : auto;
 	}
 	.myHeading{
 		padding : 5px;
