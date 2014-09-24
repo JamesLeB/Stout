@@ -30,34 +30,228 @@ class Worker extends CI_Controller {
 		$file = 'b.x12';
 		file_put_contents($this->filePath.$file,$nX12);
 		if($secret == 'all'){echo $this->toTextX12($nX12);}
-		if($secret == 'claims'){echo $this->getClaimList($nX12);}
-		#echo $this->toTextX12($x12);
-	}
-	private function getClaimList($x12){
-		$segments = preg_split('/~/',$x12);
-		$batchTotal = 0;
-		$myList = array();
-		$item = array('Heading'=>'head','Body'=>'body');
-		foreach($segments as $seg){
-			if(preg_match('/^HL\*[0-9]+\*[0-9]\*22\*/',$seg)){
-			#if(preg_match('/^HL\*[0-9]+\*\*20\*/',$seg)){
-			#if(preg_match('/^HL\*/',$seg)){
-				$myList[] = $item;
-				$item = array();
-				$temp = preg_split('/\*/',$seg);
-				#$amt = $temp[2];
-				$item['Heading'] = implode('*',$temp); #."--$amt<br/>";
-				$item['Body'] = "";
-			#}elseif(preg_match('/^NM1\*IL\*1\*/',$seg)){
-			#	//$ms .= "$seg<br/>";
-			}else{
-				$item['Body'] .= $seg."<br/>";
+		if($secret == 'claims'){
+			try{
+				$edi = $this->loadEDI($nX12);
+				$ms = '';
+				foreach($edi[0] as $a){
+					$ms .= "$a<br/>";
+				}
+				echo $ms;
+			} catch (Exception $e){
+				echo $e->getMessage();
 			}
 		}
-		$myList[] = $item;
-		$parm = array('myList'=>$myList);
-		return $this->load->view('myList',$parm,true);
+		#echo $this->toTextX12($x12);
+	} # END getTEstFile function
+	private function loadBillingProvider($seg,&$segments){
+		#throw new Exception('not ready to load provider');
+		$provider = array();
+		$provider[] = $seg;
+
+		# Load PRV 
+		$seg = array_shift($segments);
+		if(preg_match('/^PRV\*/',$seg)){$provider[] = $seg;}
+		else{throw new Exception('error loading PRV');}
+		# Load NM1 
+		$seg = array_shift($segments);
+		if(preg_match('/^NM1\*85\*/',$seg)){$provider[] = $seg;}
+		else{throw new Exception('error loading NM1');}
+		# Load N3
+		$seg = array_shift($segments);
+		if(preg_match('/^N3\*/',$seg)){$provider[] = $seg;}
+		else{throw new Exception('error loading N3');}
+		# Load N4
+		$seg = array_shift($segments);
+		if(preg_match('/^N4\*/',$seg)){$provider[] = $seg;}
+		else{throw new Exception('error loading N4');}
+		# Load REF
+		$seg = array_shift($segments);
+		if(preg_match('/^REF\*/',$seg)){$provider[] = $seg;}
+		else{throw new Exception('error loading REF');}
+
+		return $provider;
 	}
+	private function loadProcedure($seg,&$segments){
+		$procedure = array();
+		$procedure[] = $seg;
+		# Load SV2 
+		$seg = array_shift($segments);
+		if(preg_match('/^SV2\*/',$seg)){$procedure[] = $seg;}
+		else{throw new Exception('error loading SV2');}
+		# Load DTP 
+		$seg = array_shift($segments);
+		if(preg_match('/^DTP\*472\*D8\*/',$seg)){$procedure[] = $seg;}
+		else{throw new Exception('error loading DTP');}
+		# Load REF 
+		$seg = array_shift($segments);
+		if(preg_match('/^REF\*6R\*/',$seg)){$procedure[] = $seg;}
+		else{throw new Exception('error loading REF');}
+
+		return $procedure;
+	}
+	private function loadClaim($seg,&$segments){
+		$info = array();
+		$procedures = array();
+
+		$info[] = $seg;
+		# Load SBR 
+		$seg = array_shift($segments);
+		if(preg_match('/^SBR\*P\*/',$seg)){$info[] = $seg;}
+		else{throw new Exception('error loading SBR');}
+		# Load NM1 
+		$seg = array_shift($segments);
+		if(preg_match('/^NM1\*IL\*/',$seg)){$info[] = $seg;}
+		else{throw new Exception('error loading NM1');}
+		# Load N3 
+		$seg = array_shift($segments);
+		if(preg_match('/^N3\*/',$seg)){$info[] = $seg;}
+		else{throw new Exception('error loading N3');}
+		# Load N4 
+		$seg = array_shift($segments);
+		if(preg_match('/^N4\*/',$seg)){$info[] = $seg;}
+		else{throw new Exception('error loading N4');}
+		# Load DMG
+		$seg = array_shift($segments);
+		if(preg_match('/^DMG\*D8\*/',$seg)){$info[] = $seg;}
+		else{throw new Exception('error loading DMG');}
+		# Load NM1 
+		$seg = array_shift($segments);
+		if(preg_match('/^NM1\*PR\*2\*/',$seg)){$info[] = $seg;}
+		else{throw new Exception('error loading NM1');}
+		# Load N3 
+		$seg = array_shift($segments);
+		if(preg_match('/^N3\*/',$seg)){$info[] = $seg;}
+		else{throw new Exception('error loading N3');}
+		# Load N4 
+		$seg = array_shift($segments);
+		if(preg_match('/^N4\*/',$seg)){$info[] = $seg;}
+		else{throw new Exception('error loading N4');}
+		# Load REF
+		$seg = array_shift($segments);
+		if(preg_match('/^REF\*FY\*/',$seg)){$info[] = $seg;}
+		else{throw new Exception('error loading REF');}
+		# Load REF
+		$seg = array_shift($segments);
+		if(preg_match('/^REF\*G2\*/',$seg)){$info[] = $seg;}
+		else{throw new Exception('error loading REF');}
+		# Load CLM
+		$seg = array_shift($segments);
+		if(preg_match('/^CLM\*/',$seg)){$info[] = $seg;}
+		else{throw new Exception('error loading CLM');}
+		# Load DTP
+		$seg = array_shift($segments);
+		if(preg_match('/^DTP\*434\*/',$seg)){$info[] = $seg;}
+		else{throw new Exception('error loading DTP');}
+		# Load CL1
+		$seg = array_shift($segments);
+		if(preg_match('/^CL1\*/',$seg)){$info[] = $seg;}
+		else{throw new Exception('error loading CL1');}
+		# Load AMT
+		if(preg_match('/^AMT\*F3\*/',$segments[0])){
+			$seg = array_shift($segments);
+			$info[] = $seg;
+		}
+		# Load REF
+		if(preg_match('/^REF\*4N\*/',$segments[0])){
+			$seg = array_shift($segments);
+			$info[] = $seg;
+		}
+		# Load REF
+		if(preg_match('/^REF\*D9\*/',$segments[0])){
+			$seg = array_shift($segments);
+			$info[] = $seg;
+		}
+		# Load HI
+		$seg = array_shift($segments);
+		if(preg_match('/^HI\*BK/',$seg)){$info[] = $seg;}
+		else{throw new Exception('error loading BK'.$seg);}
+		# Load HI
+		$seg = array_shift($segments);
+		if(preg_match('/^HI\*BE/',$seg)){$info[] = $seg;}
+		else{throw new Exception('error loading BK');}
+		# Load NM1
+		$seg = array_shift($segments);
+		if(preg_match('/^NM1\*71\*1\*/',$seg)){$info[] = $seg;}
+		else{throw new Exception('error loading NM1');}
+		# Load REF
+		$seg = array_shift($segments);
+		if(preg_match('/^REF\*0B\*/',$seg)){$info[] = $seg;}
+		else{throw new Exception('error loading REF');}
+		# Load NM1 
+		$seg = array_shift($segments);
+		if(preg_match('/^NM1\*77\*2\*/',$seg)){$info[] = $seg;}
+		else{throw new Exception('error loading NM1');}
+		# Load N3 
+		$seg = array_shift($segments);
+		if(preg_match('/^N3\*/',$seg)){$info[] = $seg;}
+		else{throw new Exception('error loading N3');}
+		# Load N4 
+		$seg = array_shift($segments);
+		if(preg_match('/^N4\*/',$seg)){$info[] = $seg;}
+		else{throw new Exception('error loading N4');}
+		# Load REF
+		$seg = array_shift($segments);
+		if(preg_match('/^REF\*0B\*/',$seg)){$info[] = $seg;}
+		else{throw new Exception('error loading REF');}
+		# Load Procedures
+		while(preg_match('/^LX\*\d+/',$segments[0])){
+			$seg = array_shift($segments);
+			$procedures[] = $this->loadProcedure($seg,$segments);
+		}
+
+		return array($info,$procedures);
+	}
+	private function loadEDI($x12){
+		$EDI = array();
+		$head = array();
+		$claims = array();
+		$segments = preg_split('/~/',$x12);
+
+		# Load ISA
+		$seg = array_shift($segments);
+		if(preg_match('/^ISA\*/',$seg)){$head[] = $seg;}
+		else{throw new Exception('error loading ISA');}
+		# Load GS
+		$seg = array_shift($segments);
+		if(preg_match('/^GS\*/',$seg)){$head[] = $seg;}
+		else{throw new Exception('error loading GS');}
+		# Load ST
+		$seg = array_shift($segments);
+		if(preg_match('/^ST\*/',$seg)){$head[] = $seg;}
+		else{throw new Exception('error loading ST');}
+		# Load BHT
+		$seg = array_shift($segments);
+		if(preg_match('/^BHT\*/',$seg)){$head[] = $seg;}
+		else{throw new Exception('error loading BHT');}
+		# Load NM1
+		$seg = array_shift($segments);
+		if(preg_match('/^NM1\*/',$seg)){ $head[] = $seg;}
+		else{throw new Exception('error loading NM1');}
+		# Load PER
+		$seg = array_shift($segments);
+		if(preg_match('/^PER\*/',$seg)){ $head[] = $seg;}
+		else{throw new Exception('error loading PER');}
+		# Load NM1
+		$seg = array_shift($segments);
+		if(preg_match('/^NM1\*/',$seg)){ $head[] = $seg;}
+		else{throw new Exception('error loading NM1');}
+
+		# Load BillingProvider
+		while(preg_match('/^HL\*\d+\*\*20\*/',$segments[0])){
+			$seg = array_shift($segments);
+			$billingProvider = $this->loadBillingProvider($seg,$segments);
+			while(preg_match('/^HL\*\d+\*\d+\*22\*/',$segments[0])){
+				$seg = array_shift($segments);
+				$claims[] = array(
+					$billingProvider,
+					$this->loadClaim($seg,$segments)
+				);
+			}
+		}
+
+		return array($head,$claims);
+	} # END LOAD EDI FILE
 	private function toTextX12($x12){
 		$segments = preg_split('/~/',$x12);
 		$ms = '';
