@@ -45,26 +45,35 @@ class Worker extends CI_Controller {
 		$nX12 = $this->processX12($x12);
 		$file = 'b.x12';
 		file_put_contents($this->filePath.$file,$nX12);
-		echo $this->toTextX12($nX12,$secret);
+		if($secret == 'all'){echo $this->toTextX12($nX12);}
+		if($secret == 'claims'){echo $this->getClaimList($nX12);}
 		#echo $this->toTextX12($x12);
 	}
-	private function toTextX12($x12,$secret){
+	private function getClaimList($x12){
 		$segments = preg_split('/~/',$x12);
 		$batchTotal = 0;
+		$myList = array();
+		foreach($segments as $seg){
+			if(preg_match('/^CLM\*/',$seg)){
+				$item = array();
+				$temp = preg_split('/\*/',$seg);
+				#$amt = $temp[2];
+				$item['Heading'] = implode('*',$temp); #."--$amt<br/>";
+				$item['Body'] = "Body";
+				$myList[] = $item;
+			}
+			if(preg_match('/^NM1\*IL\*1\*/',$seg)){
+				//$ms .= "$seg<br/>";
+			}
+		}
+		$parm = array('myList'=>$myList);
+		return $this->load->view('myList',$parm,true);
+	}
+	private function toTextX12($x12){
+		$segments = preg_split('/~/',$x12);
 		$ms = '';
 		foreach($segments as $seg){
-			if($secret == 'all'){
 				$ms .= "$seg<br/>";
-			}elseif($secret == 'claims'){
-				if(preg_match('/^CLM\*/',$seg)){
-					$temp = preg_split('/\*/',$seg);
-					$amt = $temp[2];
-					$ms .= implode('*',$temp)."--$amt<br/>";
-				}
-				if(preg_match('/^NM1\*IL\*1\*/',$seg)){
-					$ms .= "$seg<br/>";
-				}
-			}
 		}
 		return $ms;
 	}
