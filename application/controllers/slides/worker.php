@@ -37,19 +37,24 @@ class Worker extends CI_Controller {
 		$segments = preg_split('/~/',$x12);
 		$batchTotal = 0;
 		$myList = array();
+		$item = array('Heading'=>'head','Body'=>'body');
 		foreach($segments as $seg){
-			if(preg_match('/^CLM\*/',$seg)){
+			if(preg_match('/^HL\*[0-9]+\*[0-9]\*22\*/',$seg)){
+			#if(preg_match('/^HL\*[0-9]+\*\*20\*/',$seg)){
+			#if(preg_match('/^HL\*/',$seg)){
+				$myList[] = $item;
 				$item = array();
 				$temp = preg_split('/\*/',$seg);
 				#$amt = $temp[2];
 				$item['Heading'] = implode('*',$temp); #."--$amt<br/>";
-				$item['Body'] = "Body";
-				$myList[] = $item;
-			}
-			if(preg_match('/^NM1\*IL\*1\*/',$seg)){
-				//$ms .= "$seg<br/>";
+				$item['Body'] = "";
+			#}elseif(preg_match('/^NM1\*IL\*1\*/',$seg)){
+			#	//$ms .= "$seg<br/>";
+			}else{
+				$item['Body'] .= $seg."<br/>";
 			}
 		}
+		$myList[] = $item;
 		$parm = array('myList'=>$myList);
 		return $this->load->view('myList',$parm,true);
 	}
