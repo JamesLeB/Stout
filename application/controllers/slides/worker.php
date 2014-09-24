@@ -19,6 +19,22 @@ class Worker extends CI_Controller {
 		$ms .= "Done Test<br/>";
 		echo $ms;
 	}
+	public function accord(){
+		$myList = array();
+		$mh = 'Claim Line';
+		$mb = 'Detail';
+		$obj = array('Heading'=>$mh,'Body'=>$mb);
+		$myList[] = $obj;
+		$mh = 'Claim Line 2';
+		$mb = '2nd Detail pain';
+		$obj = array('Heading'=>$mh,'Body'=>$mb);
+		$myList[] = $obj;
+		$parm = array('myList'=>$myList);
+
+		$ms = 'try again';
+		$ms .= $this->load->view('myList',$parm,true);
+		echo $ms;
+	}
 	public function getTestFile(){
 		$secret = '';
 		if(isset($_REQUEST['secret'])){
@@ -34,12 +50,20 @@ class Worker extends CI_Controller {
 	}
 	private function toTextX12($x12,$secret){
 		$segments = preg_split('/~/',$x12);
+		$batchTotal = 0;
 		$ms = '';
 		foreach($segments as $seg){
 			if($secret == 'all'){
 				$ms .= "$seg<br/>";
-			}elseif($secret == 'claims' && preg_match('/^CLM\*/',$seg)){
-				$ms .= "$seg<br/>";
+			}elseif($secret == 'claims'){
+				if(preg_match('/^CLM\*/',$seg)){
+					$temp = preg_split('/\*/',$seg);
+					$amt = $temp[2];
+					$ms .= implode('*',$temp)."--$amt<br/>";
+				}
+				if(preg_match('/^NM1\*IL\*1\*/',$seg)){
+					$ms .= "$seg<br/>";
+				}
 			}
 		}
 		return $ms;
