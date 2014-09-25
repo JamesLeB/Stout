@@ -19,6 +19,27 @@ class Worker extends CI_Controller {
 		$ms .= "Done Test<br/>";
 		echo $ms;
 	}
+	private function removeInvalidCharacters($x12){
+		#$file = 'a.txt';
+		#$x12 = file_get_contents($this->filePath.$file);
+		$x12 = preg_replace('/,/','',$x12);
+		$x12 = preg_replace('/#/','',$x12);
+		$x12 = preg_replace('/"/','',$x12);
+		$x12 = preg_replace('/\t/','',$x12);
+		$x12 = preg_replace('/`/','',$x12);
+		$x12 = preg_replace('/\[/','',$x12);
+		$x12 = preg_replace('/&/','',$x12);
+		$x12 = preg_replace('/\//','',$x12);
+		return $x12;
+/*
+		if(preg_match('//',$x12)){
+			echo "Invalid<br/>";
+		}else{
+			echo "Everything Ok<br/>";
+		}
+		echo "Done";
+*/
+	}
 	public function getTestFile(){
 		$secret = '';
 		if(isset($_REQUEST['secret'])){
@@ -26,6 +47,7 @@ class Worker extends CI_Controller {
 		}
 		$file = 'a.txt';
 		$x12 = file_get_contents($this->filePath.$file);
+		$x12 = $this->removeInvalidCharacters($x12);
 		$nX12 = $this->processX12($x12);
 		$file = 'b.x12';
 		file_put_contents($this->filePath.$file,$nX12);
