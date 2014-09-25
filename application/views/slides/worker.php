@@ -17,6 +17,9 @@
 	</table>
 </div>
 <style>
+	#worker table{
+		width : 100%;
+	}
 	#worker td{
 		border-style : solid;
 		border-width ; 1px;
