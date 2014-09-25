@@ -16,12 +16,11 @@
 	</table>
 </div>
 <style>
-	#trader td{
+/*
 		border-color : #007A00;
 		border-style : dashed;
 		border-width: 1px;
-		padding : 5px;
-	}
+*/
 	#trader_Icon{
 		background : white;
 		text-align : center;
@@ -29,7 +28,15 @@
 	#trader_Icon img{
 		height : 50px;
 	}
+	#trader_Status{
+		border-color : #007A00;
+		border-style : dashed;
+		border-width: 1px;
+	}
 	#trader_Controls{
+		border-color : #007A00;
+		border-style : dashed;
+		border-width: 1px;
 		vertical-align : top;
 		width : 120px;
 		text-align : center;
@@ -38,12 +45,16 @@
 		width : 90px;
 	}
 	#trader_View{
+		border-color : #007A00;
+		border-style : dashed;
+		border-width: 1px;
 		vertical-align : top;
 		height : 400px;
 		width : 800px;
 		text-align : left;
 		font-size : 1.5em;
 		color : #66AF66;
+		padding : 10px;
 	}
 </style>
 <script>
