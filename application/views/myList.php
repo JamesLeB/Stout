@@ -36,9 +36,3 @@
 		padding : 5px;
 	}
 </style>
-<script>
-	$('.myBody').hide();
-	$('.myHeading button').click(function(){
-		$(this).parent().next().toggle();
-	});
-</script>
