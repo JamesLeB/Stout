@@ -9,6 +9,7 @@
 		<tr>
 			<td id='trader_Controls'>
 				<button>TEST</button>
+				<button>Mint</button>
 			</td>
 			<td id='trader_View'>View</td>
 		</tr>
@@ -46,11 +47,18 @@
 	}
 </style>
 <script>
-	var trader_Target = 'index.php?/slides/trader/';
-	// Test button
-	$('#trader_Controls button:nth-child(1)').click(function(){
-		var func = 'test';
-		var request = $.post(trader_Target+func,'',function(data){
+	$('#trader_Controls button').click(function(){
+		var target = 'index.php?/slides/trader/';
+		var func = '';
+		var a = $(this).first().html();
+		if(a=='Mint'){
+			func = 'mint';
+		}else{
+			func = 'test';
+		}
+		var p = 'Fun with code';
+		var parm = {'test':p};
+		var request = $.post(target+func,parm,function(data){
 			$('#trader_View').html(data);
 			var status = request.getResponseHeader('status');
 			if( status != null ){
@@ -59,8 +67,5 @@
 				$('#trader_Status').html('no status');
 			}
 		});
-		/*
-			$('#trader_View').html('TEST Button disabled');
-		*/
 	});
 </script>

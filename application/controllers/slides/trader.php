@@ -9,6 +9,15 @@ class Trader extends CI_Controller {
 		$this->load->model('Exchange');
 		$this->exchangeModel = $this->Exchange;
 	}
+	public function mint(){
+		$ms = array();
+		$status = "Load Mintpal Data";
+		header("status: $status");
+		$ms[] = 'Getting Mint data';
+		$e = '';
+		foreach($ms as $m){$e.=$m.'<br/>';}
+		echo $e;
+	}
 	public function test(){
 		$ms = array();
 		$status = "Test Mode";
@@ -16,8 +25,14 @@ class Trader extends CI_Controller {
 		$ms[] = 'Setting up Test Enviornment';
 		$ms[] = 'Connecting to Exchange model...';
 		$test = $this->exchangeModel->test('james');
-		$ms[] = 'Connected to model...';
+		$ms[] = 'Connected to model';
 		$ms[] = "Model test...$test";
+		$ms[] = 'Getting data from Request...';
+		$test = '';
+		if(isset($_REQUEST['test'])){
+			$test = $_REQUEST['test'];
+		}
+		$ms[] = "Request Test...$test";
 		$ms[] = 'Done Testing :)';
 		$e = '';
 		foreach($ms as $m){$e.=$m.'<br/>';}
