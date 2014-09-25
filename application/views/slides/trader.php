@@ -10,6 +10,7 @@
 			<td id='trader_Controls'>
 				<button>TEST</button>
 				<button>Mint</button>
+				<button>Buys</button>
 			</td>
 			<td id='trader_View'>View</td>
 		</tr>
@@ -25,10 +26,14 @@
 		background : white;
 		text-align : center;
 	}
+	#trader > table{
+		width : 100%;
+	}
 	#trader_Icon img{
 		height : 50px;
 	}
 	#trader_Status{
+		padding-left : 20px;
 		border-color : #007A00;
 		border-style : dashed;
 		border-width: 1px;
@@ -51,7 +56,6 @@
 		border-width: 1px;
 		vertical-align : top;
 		height : 400px;
-		width : 800px;
 		text-align : left;
 		font-size : 1.5em;
 		color : #66AF66;
@@ -65,6 +69,8 @@
 		var a = $(this).first().html();
 		if(a=='Mint'){
 			func = 'mint';
+		}else if(a=='Buys'){
+			func = 'getBuys';
 		}else{
 			func = 'test';
 		}

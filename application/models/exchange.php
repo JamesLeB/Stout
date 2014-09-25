@@ -7,6 +7,77 @@ class Exchange extends CI_Model{
 		parent::__construct();
 		#$this->db = $this->load->database('dentrix',true);
 	}
+	private function setScaleFactor($price){
+		$factor = 1;
+		while($price*pow(10,$factor) < 1000){
+			$factor++;
+		}
+		return $factor;
+	}
+	public function getBuys(){
+		$timeOffset = 60*60*4;
+		$json = file_get_contents('https://api.mintpal.com/v1/market/trades/LTC/BTC');
+		$obj = json_decode($json,TRUE);
+		$count = $obj['count'];
+		$trades = $obj['trades'];
+		usort($trades,'custSort');
+		$startTime = $trades[0]['time'];
+		$basePrice = $trades[0]['price'];
+		$scaleFactor = $this->setScaleFactor($basePrice);
+		$headings = array(
+			'index',
+			'time',
+			'type',
+			'price',
+			'scalePrice',
+			'amount',
+			'total',
+			'elaps'
+		);
+		$buyHeadings = array(
+			'time',
+			'price'
+		);
+		$lines = array();
+		$index = 1;
+		$buys = array();
+		$sells = array();
+		$countBuys = 0;
+		$countSells = 0;
+		foreach($trades as $trade){
+			$line = array();
+			$line[] = $index++;
+			#$line[] = $trade['time'];
+			$line[] = date('Y-m-d H:i:s',$trade['time']+$timeOffset);
+			$line[] = $trade['type'] == 0 ? 'Buy' : 'Sell';
+			$price = $trade['price'];
+			$line[] = $price;
+			$line[] = floor($price * pow(10,$scaleFactor));
+			$line[] = $trade['amount'];
+			$line[] = $trade['total'];
+			$elapsed = floor(($trade['time']-$startTime)/(60*60));
+			$line[] = $elapsed;
+			$lines[] = $line;
+			if($trade['type'] == 0){
+				$countBuys++;
+				$buys[] = array(
+					'time'  => $elapsed,
+					'price' => floor($price * pow(10,$scaleFactor))
+				);
+			}else{
+				$countSells++;
+			}
+		}
+		$htmlTable = renderTable($headings,$lines);
+		#$htmlTable = renderTable($buyHeadings,$buys);
+		$rtn  = "Count = $count<br/>";
+		$rtn .= "StartTime = $startTime<br/>";
+		$rtn .= "Buy Count = $countBuys<br/>";
+		$rtn .= "Sell Count = $countSells<br/>";
+		$rtn .= "Scale Factor = $scaleFactor<br/>";
+		$rtn .= $htmlTable;
+		echo $rtn;
+	} # END function getBuys
 	public function getMarket($incoming){
 		$echo = array();
 		$echo[] = 'Outlander';
