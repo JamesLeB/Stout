@@ -49,15 +49,18 @@
 	var trader_Target = 'index.php?/slides/trader/';
 	// Test button
 	$('#trader_Controls button:nth-child(1)').click(function(){
-		/*
 		var func = 'test';
-		var request = $.post(workerTarget+func,'',function(data){
-			$('#workerView').html(data);
-			//$('#workerView').html('TEST Button disabled');
-			//var scene = request.getResponseHeader('scene');
-			//if( scene == 1 ){stage();}
+		var request = $.post(trader_Target+func,'',function(data){
+			$('#trader_View').html(data);
+			var status = request.getResponseHeader('status');
+			if( status != null ){
+				$('#trader_Status').html(status);
+			}else{
+				$('#trader_Status').html('no status');
+			}
 		});
-		*/
+		/*
 			$('#trader_View').html('TEST Button disabled');
+		*/
 	});
 </script>
