@@ -32,6 +32,7 @@
 		border-color : #007A00;
 		border-style : dashed;
 		border-width: 1px;
+		color: white;
 	}
 	#trader_Controls{
 		border-color : #007A00;
@@ -54,7 +55,7 @@
 		text-align : left;
 		font-size : 1.5em;
 		color : #66AF66;
-		padding : 10px;
+		padding : 20px;
 	}
 </style>
 <script>
