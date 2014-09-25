@@ -47,19 +47,33 @@ class Worker extends CI_Controller {
 				);
 				# Add Claims to my List
 				$claimList = array();
+				$sumClaimAmount = 0;
 				foreach($edi[1] as $a){
-					$claimHead = "Claim";
+					$sumProcedureAmount = 0;
 					$claimInfo = '';
+					$claimAmount = 0;
 					foreach($a[1][0] as $b){
+						if(preg_match('/^CLM\*/',$b)){
+							$temp = preg_split('/\*/',$b);
+							$claimAmount= $temp[2];
+							$sumClaimAmount += $claimAmount;
+						}
 						$claimInfo .= "$b<br/>";
 					}
 					$procedureList = array();
 					foreach($a[1][1] as $b){
-						$procedureHead = $b[0];
 						$procedureBody = '';
+						$procedureAmount = 0;
 						foreach($b as $c){
+							if(preg_match('/^SV2\*/',$c)){
+								$temp = preg_split('/\*/',$c);
+								$procedureAmount = $temp[3];
+								$sumProcedureAmount += $procedureAmount;
+							}
 							$procedureBody .= "$c<br/>";
+						
 						}
+						$procedureHead = "Procedure - $ $procedureAmount";
 						$procedureList[] = array(
 							'Heading' => $procedureHead,
 							'Body'    => $procedureBody
@@ -73,7 +87,7 @@ class Worker extends CI_Controller {
 					}
 					$claim = array();
 					$claim[] = array(
-						'Heading' => 'Claim Info',
+						'Heading' => "Claim Info",
 						'Body'    => $claimInfo 
 					);
 					$claim[] = array(
@@ -81,17 +95,18 @@ class Worker extends CI_Controller {
 						'Body'    => $provider
 					);
 					$claim[] = array(
-						'Heading' => 'Procedures',
+						'Heading' => "Procedures - $ $claimAmount",
 						'Body'    => $procedures
 					);
 					$claimBody = $this->load->view('myList',array('myList'=>$claim),true);
+					$claimHead = "Claim - $ $sumProcedureAmount";
 					$claimList[] = array(
 						'Heading' => $claimHead,
 						'Body'    => $claimBody 
 					);
 				}
 				$claims = $this->load->view('myList',array('myList'=>$claimList),true);
-				$heading = 'Claim List';
+				$heading = "Claim List - $ $sumClaimAmount";
 				$body    = $claims;
 				$myList[] = array(
 					'Heading' => $heading,
