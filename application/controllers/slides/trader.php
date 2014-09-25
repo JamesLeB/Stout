@@ -16,6 +16,10 @@ class Trader extends CI_Controller {
 		header("status: $status");
 		$ms[] = 'Setting up Test Enviornment';
 		$ms[] = 'Connecting to Exchange model...';
+		$this->load->model('Exchange');
+		$test = $this->Exchange->test('james');
+		$ms[] = 'Connected to model...';
+		$ms[] = "Model test...$test";
 		$ms[] = 'Done Testing :)';
 		$e = '';
 		foreach($ms as $m){$e.=$m.'<br/>';}
