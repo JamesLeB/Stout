@@ -33,19 +33,82 @@ class Worker extends CI_Controller {
 		if($secret == 'claims'){
 			try{
 				$edi = $this->loadEDI($nX12);
+				$myList = array();
+				# Add head to my List
 				$ms = '';
 				foreach($edi[0] as $a){
 					$ms .= "$a<br/>";
 				}
 				$heading = 'Heading';
 				$body    = $ms;
-				$myList = array();
+				$myList[] = array(
+					'Heading' => $heading,
+					'Body'    => $body
+				);
+				# Add Claims to my List
+				$claimList = array();
+				foreach($edi[1] as $a){
+					$claimHead = "Claim";
+					$claimInfo = '';
+					foreach($a[1][0] as $b){
+						$claimInfo .= "$b<br/>";
+					}
+					$procedureList = array();
+					foreach($a[1][1] as $b){
+						$procedureHead = $b[0];
+						$procedureBody = '';
+						foreach($b as $c){
+							$procedureBody .= "$c<br/>";
+						}
+						$procedureList[] = array(
+							'Heading' => $procedureHead,
+							'Body'    => $procedureBody
+						);
+					}
+					$procedures = $this->load->view('myList',array('myList'=>$procedureList),true);
+					# Add Provider to my List
+					$provider = '';
+					foreach($a[0] as $b){
+						$provider .= "$b<br/>";
+					}
+					$claim = array();
+					$claim[] = array(
+						'Heading' => 'Claim Info',
+						'Body'    => $claimInfo 
+					);
+					$claim[] = array(
+						'Heading' => 'Provider',
+						'Body'    => $provider
+					);
+					$claim[] = array(
+						'Heading' => 'Procedures',
+						'Body'    => $procedures
+					);
+					$claimBody = $this->load->view('myList',array('myList'=>$claim),true);
+					$claimList[] = array(
+						'Heading' => $claimHead,
+						'Body'    => $claimBody 
+					);
+				}
+				$claims = $this->load->view('myList',array('myList'=>$claimList),true);
+				$heading = 'Claim List';
+				$body    = $claims;
 				$myList[] = array(
 					'Heading' => $heading,
 					'Body'    => $body
 				);
 				$parm = array('myList'=>$myList);
 				echo $this->load->view('myList',$parm,true);
+				# MUST LOAD JAVASCRIPT AFTER ALL myLists are added to the DOM
+				# to prevent multiple listeners from attaching to each item
+				echo "
+					<script>
+						$('.myBody').hide();
+						$('.myHeading button').click(function(){
+							$(this).parent().next().toggle();
+						});
+					</script>
+				";
 			} catch (Exception $e){
 				echo $e->getMessage();
 			}
@@ -56,7 +119,6 @@ class Worker extends CI_Controller {
 		#throw new Exception('not ready to load provider');
 		$provider = array();
 		$provider[] = $seg;
-
 		# Load PRV 
 		$seg = array_shift($segments);
 		if(preg_match('/^PRV\*/',$seg)){$provider[] = $seg;}
@@ -77,7 +139,6 @@ class Worker extends CI_Controller {
 		$seg = array_shift($segments);
 		if(preg_match('/^REF\*/',$seg)){$provider[] = $seg;}
 		else{throw new Exception('error loading REF');}
-
 		return $provider;
 	}
 	private function loadProcedure($seg,&$segments){
@@ -95,13 +156,11 @@ class Worker extends CI_Controller {
 		$seg = array_shift($segments);
 		if(preg_match('/^REF\*6R\*/',$seg)){$procedure[] = $seg;}
 		else{throw new Exception('error loading REF');}
-
 		return $procedure;
 	}
 	private function loadClaim($seg,&$segments){
 		$info = array();
 		$procedures = array();
-
 		$info[] = $seg;
 		# Load SBR 
 		$seg = array_shift($segments);
@@ -207,7 +266,6 @@ class Worker extends CI_Controller {
 			$seg = array_shift($segments);
 			$procedures[] = $this->loadProcedure($seg,$segments);
 		}
-
 		return array($info,$procedures);
 	}
 	private function loadEDI($x12){
@@ -215,7 +273,6 @@ class Worker extends CI_Controller {
 		$head = array();
 		$claims = array();
 		$segments = preg_split('/~/',$x12);
-
 		# Load ISA
 		$seg = array_shift($segments);
 		if(preg_match('/^ISA\*/',$seg)){$head[] = $seg;}
@@ -244,7 +301,6 @@ class Worker extends CI_Controller {
 		$seg = array_shift($segments);
 		if(preg_match('/^NM1\*/',$seg)){ $head[] = $seg;}
 		else{throw new Exception('error loading NM1');}
-
 		# Load BillingProvider
 		while(preg_match('/^HL\*\d+\*\*20\*/',$segments[0])){
 			$seg = array_shift($segments);
@@ -257,7 +313,6 @@ class Worker extends CI_Controller {
 				);
 			}
 		}
-
 		return array($head,$claims);
 	} # END LOAD EDI FILE
 	private function toTextX12($x12){
@@ -268,6 +323,7 @@ class Worker extends CI_Controller {
 		}
 		return $ms;
 	}
+	###  THIS IS the function I am using to correct bad axuim data
 	private function processX12($x12){
 		$segments = preg_split('/~/',$x12);
 		$fixed = array();
@@ -301,7 +357,6 @@ class Worker extends CI_Controller {
 				$temp[3] = 'NYSDOH';
 				$temp[9] = 141797357;
 				$fixed[] = implode('*',$temp);
-				#$fixed[] = $seg . ' -----  FLAG';
 			}else{
 				$fixed[] = $seg;
 			}
@@ -309,5 +364,4 @@ class Worker extends CI_Controller {
 		return implode('~',$fixed);
 	} # END processX12 function
 }
-
 ?>
