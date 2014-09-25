@@ -10,10 +10,12 @@ class Trader extends CI_Controller {
 		$this->exchangeModel = $this->Exchange;
 	}
 	public function mint(){
+		#$incoming = $this->uri->segment(3);
 		$ms = array();
 		$status = "Load Mintpal Data";
 		header("status: $status");
 		$ms[] = 'Getting Mint data';
+		$market = $this->exchangeModel->getMarket('trades');
 		$e = '';
 		foreach($ms as $m){$e.=$m.'<br/>';}
 		echo $e;
