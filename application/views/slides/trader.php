@@ -58,6 +58,13 @@
 		color : #66AF66;
 		padding : 20px;
 	}
+	.array2html{
+		color : green;
+	}
+	.array2html td{
+		border-right : solid 1px gray;
+		padding : 10px;
+	}
 </style>
 <script>
 	$('#trader_Controls button').click(function(){
