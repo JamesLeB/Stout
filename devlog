@@ -122,3 +122,7 @@ Wednesday 2014-09-24
 Thursday 2014-09-25
 	Back at work
 	Need to finish up work on the EDI reader today
+	Heading to bed now
+!!	Major issue with regression function
+	Trader view is adding css to format return from what
+	should be a utility function
