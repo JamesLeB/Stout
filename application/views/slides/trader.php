@@ -11,17 +11,13 @@
 				<button>TEST</button>
 				<button>Mint</button>
 				<button>Buys</button>
+				<button>Linear Regression</button>
 			</td>
 			<td id='trader_View'>View</td>
 		</tr>
 	</table>
 </div>
 <style>
-/*
-		border-color : #007A00;
-		border-style : dashed;
-		border-width: 1px;
-*/
 	#trader_Icon{
 		background : white;
 		text-align : center;
@@ -48,6 +44,7 @@
 		text-align : center;
 	}
 	#trader_Controls button{
+		margin-top : 5px;
 		width : 90px;
 	}
 	#trader_View{
@@ -67,13 +64,10 @@
 		var target = 'index.php?/slides/trader/';
 		var func = '';
 		var a = $(this).first().html();
-		if(a=='Mint'){
-			func = 'mint';
-		}else if(a=='Buys'){
-			func = 'getBuys';
-		}else{
-			func = 'test';
-		}
+		     if(a=='Mint')             {func = 'mint';}
+		else if(a=='Buys')             {func = 'getBuys';}
+		else if(a=='Linear Regression'){func = 'linearRegression';}
+		else                           {func = 'test';}
 		var p = 'Fun with code';
 		var parm = {'test':p};
 		var request = $.post(target+func,parm,function(data){
