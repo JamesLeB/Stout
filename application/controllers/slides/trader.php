@@ -9,6 +9,10 @@ class Trader extends CI_Controller {
 		$this->load->model('Exchange');
 		$this->exchangeModel = $this->Exchange;
 	}
+	public function linearRegression(){
+		$ms = 'linearRegression';
+		echo $ms;
+	}
 	public function getBuys(){
 		$ms = array();
 		$status = "Load mintPal buy Data";
