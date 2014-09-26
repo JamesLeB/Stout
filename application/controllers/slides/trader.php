@@ -9,10 +9,40 @@ class Trader extends CI_Controller {
 		$this->load->model('Exchange');
 		$this->exchangeModel = $this->Exchange;
 	}
+###
+### Linear Regression Work
+###
 	public function linearRegression(){
-		$ms = 'linearRegression';
-		echo $ms;
+		header("status: Calculating Linear Regression");
+		$ms = array();
+		$ms[] = 'Load X values';
+		$X = array('X series',1,2,3,4,5);
+		$ms[] = $this->array2html($X);
+		$ms[] = 'Load Y values';
+		$Y = array('Y series',1,2,3,4,5);
+		$ms[] = $this->array2html($Y);
+		try{
+			$ms[] = 'Validate Series Length';
+			if(sizeof($X) != sizeof($Y)){throw new Exception('Series not same size!!');}
+			$ms[] = '!!! NEED TO PASS SERIES DATA TO GRAPH !!!';
+			$ms[] = 'Load Graph';
+			$mark = time();
+			$ms[] = "<img src='lib/graphs/scatter.php?$mark' />";
+		}catch(Exception $e){
+			$ms[] = $e->getMessage();
+		}
+
+		$e = ''; foreach($ms as $m){$e.="$m<br/>";} echo $e;
 	}
+	private function array2html($a){
+		$html = "<table class='array2html'><tr>";
+		foreach($a as $e){$html .= "<td>$e</td>";}
+		$html .= "</tr></table>";
+		return $html;
+	}
+###
+### END Linear Regression Work
+###
 	public function getBuys(){
 		$ms = array();
 		$status = "Load mintPal buy Data";
