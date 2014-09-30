@@ -15,6 +15,12 @@ class Exchange extends CI_Model{
 		return $factor;
 	}
 	public function getBuys(){
+		$thing = $this->getTrades();
+		$data = $thing['data'];
+		$buys = $thing['buys'];
+		return $buys;
+	}
+	public function getTrades(){
 		$timeOffset = 60*60*4;
 		$json = file_get_contents('https://api.mintpal.com/v1/market/trades/LTC/BTC');
 		$obj = json_decode($json,TRUE);
@@ -76,8 +82,12 @@ class Exchange extends CI_Model{
 		$rtn .= "Sell Count = $countSells<br/>";
 		$rtn .= "Scale Factor = $scaleFactor<br/>";
 		$rtn .= $htmlTable;
-		echo $rtn;
-	} # END function getBuys
+		return array(
+			'data' => $rtn,
+			'buys' => $buys
+		);
+		#echo $rtn;
+	} # END function getTrades
 	public function getMarket($incoming){
 		$echo = array();
 		$echo[] = 'Outlander';
