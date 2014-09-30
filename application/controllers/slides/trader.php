@@ -17,15 +17,23 @@ class Trader extends CI_Controller {
 		$series = $this->getBuySeries();
 		$ms = array();
 		$_SESSION['seriesName'] = 'Coin something';
-		$X = $series[0]; $_SESSION['xSeries'] = $X;
-		$Y = $series[1]; $_SESSION['ySeries'] = $Y;
+		#$X = $series[0];
+		#$Y = $series[1];
+		$X = array('first',43,21,25,42,57,59);
+		$Y = array('second',99,65,79,75,87,81);
+
+		$_SESSION['xSeries'] = $X;
+		$_SESSION['ySeries'] = $Y;
 		#$ms[] = $this->array2html($X); #$ms[] = $this->array2html($Y);
 		try{
 			if(sizeof($X) != sizeof($Y)){throw new Exception('Series not same size!!');}
-			$mark = time();
-			#$ms[] = "<img src='lib/graphs/scatter.php?$mark' />";
+
 $ms[] = "Getting line equation";
 $ms[] = $this->getLinearEquation($X,$Y);
+
+			$mark = time();
+			$ms[] = "<img src='lib/graphs/scatter.php?$mark' />";
+
 		}catch(Exception $e){
 			$ms[] = $e->getMessage();
 		}
@@ -38,29 +46,40 @@ $ms[] = $this->getLinearEquation($X,$Y);
 		$ms = array();
 
 # X SERIES
-		$sizeX = sizeof($X);
+		$sampleSize = sizeof($X);
 		$sumX  = 0;
+		$sumY  = 0;
+		$sumXY = 0;
+		$sumXX = 0;
+		$sumYY = 0;
 		#$ms[] = "-----------------"; $ms[] = "X series"; $ms[] = "-----------------";
+		$index = 0;
 		foreach($X as $d){
-			$sumX += $d;
+			$sumXX += $d*$d;
+			$sumXY += $d*$Y[$index];
+			$sumX  += $d;
+			$index++;
 			#$ms[] = $d;
 		}
 # Y SERIES
-		$sizeY = sizeof($Y);
-		$sumY  = 0;
 		#$ms[] = "-----------------"; $ms[] = "Y series"; $ms[] = "-----------------";
 		foreach($Y as $d){
-			$sumY += $d;
+			$sumYY += $d*$d;
+			$sumY  += $d;
 			#$ms[] = $d;
 		}
 
 		$ms[] = "-----------------";
 		$ms[] = "Summary";
 		$ms[] = "-----------------";
-		$ms[] = "SizeX = $sizeX";
+
+		$ms[] = "Sample = $sampleSize";
 		$ms[] = "SumX  = $sumX";
-		$ms[] = "SizeY = $sizeY";
 		$ms[] = "SumY  = $sumY";
+		$ms[] = "SumXY = $sumXY";
+		$ms[] = "SumXX = $sumXX";
+		$ms[] = "SumYY = $sumYY";
+
 		$e = ''; foreach($ms as $m){$e.="$m<br/>";} return $e;
 	}
 	private function array2html($a){
