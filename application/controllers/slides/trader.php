@@ -23,12 +23,45 @@ class Trader extends CI_Controller {
 		try{
 			if(sizeof($X) != sizeof($Y)){throw new Exception('Series not same size!!');}
 			$mark = time();
-			$ms[] = "<img src='lib/graphs/scatter.php?$mark' />";
+			#$ms[] = "<img src='lib/graphs/scatter.php?$mark' />";
+$ms[] = "Getting line equation";
+$ms[] = $this->getLinearEquation($X,$Y);
 		}catch(Exception $e){
 			$ms[] = $e->getMessage();
 		}
 
 		$e = ''; foreach($ms as $m){$e.="$m<br/>";} echo $e;
+	}
+	private function getLinearEquation($X,$Y){
+		array_shift($X);
+		array_shift($Y);
+		$ms = array();
+
+# X SERIES
+		$sizeX = sizeof($X);
+		$sumX  = 0;
+		#$ms[] = "-----------------"; $ms[] = "X series"; $ms[] = "-----------------";
+		foreach($X as $d){
+			$sumX += $d;
+			#$ms[] = $d;
+		}
+# Y SERIES
+		$sizeY = sizeof($Y);
+		$sumY  = 0;
+		#$ms[] = "-----------------"; $ms[] = "Y series"; $ms[] = "-----------------";
+		foreach($Y as $d){
+			$sumY += $d;
+			#$ms[] = $d;
+		}
+
+		$ms[] = "-----------------";
+		$ms[] = "Summary";
+		$ms[] = "-----------------";
+		$ms[] = "SizeX = $sizeX";
+		$ms[] = "SumX  = $sumX";
+		$ms[] = "SizeY = $sizeY";
+		$ms[] = "SumY  = $sumY";
+		$e = ''; foreach($ms as $m){$e.="$m<br/>";} return $e;
 	}
 	private function array2html($a){
 		$html = "<table class='array2html'><tr>";
