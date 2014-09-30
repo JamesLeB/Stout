@@ -68,7 +68,7 @@ class Exchange extends CI_Model{
 				$countBuys++;
 				$buys[] = array(
 					'time'  => $elapsed,
-					'price' => floor($price * pow(10,$scaleFactor))
+					'price' => round($price * pow(10,$scaleFactor))
 				);
 			}else{
 				$countSells++;
