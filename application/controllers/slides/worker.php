@@ -70,6 +70,8 @@ class Worker extends CI_Controller {
 				# Add Claims to my List
 				$claimList = array();
 				$sumClaimAmount = 0;
+				$chartNumber = "";
+				$serviceDate = "";
 				foreach($edi[1] as $a){
 					$sumProcedureAmount = 0;
 					$claimInfo = '';
@@ -78,7 +80,14 @@ class Worker extends CI_Controller {
 						if(preg_match('/^CLM\*/',$b)){
 							$temp = preg_split('/\*/',$b);
 							$claimAmount= $temp[2];
+							$claimId = preg_split('/-/',$temp[1]);
+							$chartNumber = $claimId[0];
 							$sumClaimAmount += $claimAmount;
+						}
+						if(preg_match('/^DTP\*434\*/',$b)){
+							$temp = preg_split('/\*/',$b);
+							$dateRange = preg_split('/-/',$temp[3]);
+							$serviceDate = $dateRange[0];
 						}
 						$claimInfo .= "$b<br/>";
 					}
@@ -109,7 +118,7 @@ class Worker extends CI_Controller {
 					}
 					$claim = array();
 					$claim[] = array(
-						'Heading' => "Claim Info",
+						'Heading' => "Claim Info # $chartNumber --- $serviceDate",
 						'Body'    => $claimInfo 
 					);
 					$claim[] = array(
