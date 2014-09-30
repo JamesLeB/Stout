@@ -14,18 +14,14 @@ class Trader extends CI_Controller {
 ###
 	public function linearRegression(){
 		header("status: Calculating Linear Regression");
+		$series = $this->getBuySeries();
 		$ms = array();
-		$ms[] = 'Load X values';
-		$X = array('X series',1,2,3,4,5);
-		$ms[] = $this->array2html($X);
-		$ms[] = 'Load Y values';
-		$Y = array('Y series',1,2,3,4,5);
-		$ms[] = $this->array2html($Y);
+		$_SESSION['seriesName'] = 'Coin something';
+		$X = $series[0]; $_SESSION['xSeries'] = $X;
+		$Y = $series[1]; $_SESSION['ySeries'] = $Y;
+		#$ms[] = $this->array2html($X); #$ms[] = $this->array2html($Y);
 		try{
-			$ms[] = 'Validate Series Length';
 			if(sizeof($X) != sizeof($Y)){throw new Exception('Series not same size!!');}
-			$ms[] = '!!! NEED TO PASS SERIES DATA TO GRAPH !!!';
-			$ms[] = 'Load Graph';
 			$mark = time();
 			$ms[] = "<img src='lib/graphs/scatter.php?$mark' />";
 		}catch(Exception $e){
@@ -43,18 +39,32 @@ class Trader extends CI_Controller {
 ###
 ### END Linear Regression Work
 ###
+	private function getBuySeries(){
+		$buys = $this->exchangeModel->getBuys();
+		$time = array('Time');
+		$price = array('Price');
+		foreach($buys as $buy){
+			$time[]  = $buy['time'];
+			$price[] = $buy['price'];
+		}
+		return array($time,$price);
+	}
 	public function getBuys(){
 		$ms = array();
 		$status = "Load mintPal buy Data";
 		header("status: $status");
 		$ms[] = 'Getting Mint data';
-		$market = $this->exchangeModel->getBuys('trades');
+		$buys = $this->exchangeModel->getBuys();
+		foreach($buys as $buy){
+			$time  = $buy['time'];
+			$price = $buy['price'];
+			$ms[] = "$time\t$price";
+		}
 		$e = '';
 		foreach($ms as $m){$e.=$m.'<br/>';}
 		echo $e;
 	}
 	public function mint(){
-		#$incoming = $this->uri->segment(3);
 		$ms = array();
 		$status = "Load Mintpal Data";
 		header("status: $status");
@@ -65,6 +75,7 @@ class Trader extends CI_Controller {
 		echo $e;
 	}
 	public function test(){
+		#$incoming = $this->uri->segment(3);
 		$ms = array();
 		$status = "Test Mode";
 		header("status: $status");
@@ -85,5 +96,4 @@ class Trader extends CI_Controller {
 		echo $e;
 	}
 }
-
 ?>
