@@ -1,4 +1,5 @@
 <?php
+	session_start();
 /* pChart library inclusions */
 include("../pChart2.1.4/class/pData.class.php");
 include("../pChart2.1.4/class/pDraw.class.php");
@@ -32,8 +33,16 @@ $json = file_get_contents($file);
 $obj = json_decode($json,TRUE);
 */
 
-$xSeries = array(1,2,3);
-$ySeries = array(1,2,3);
+$seriesName = $_SESSION['seriesName'];
+$X = $_SESSION['xSeries'];
+$Y = $_SESSION['ySeries'];
+#$xSeries = array(1,2,3);
+#$ySeries = array(1,2,3);
+$xSeries = $X;
+$ySeries = $Y;
+$xName = array_shift($xSeries);
+$yName = array_shift($ySeries);
+
 $xMin  = $xSeries[0];
 $xMax  = $xSeries[0];
 $yMin  = $ySeries[0];
@@ -55,7 +64,7 @@ $myData = new pData();
  
 /* Create the X axis and the binded series */
 $myData->addPoints($xSeries,"xSeries");
-$myData->setAxisName(0,"X Axis");
+$myData->setAxisName(0,$xName);
 $myData->setAxisXY(0,AXIS_X);
 $myData->setAxisPosition(0,AXIS_POSITION_BOTTOM);
  
@@ -64,14 +73,14 @@ $myData->addPoints($ySeries,"ySeries");
 $myData->setSerieOnAxis("ySeries",1);
 #$myData->addPoints(array(1,1,1,1),"Sell");
 #$myData->setSerieOnAxis("Sell",1);
-$myData->setAxisName(1,"Y Axis");
+$myData->setAxisName(1,$yName);
 $myData->setAxisXY(1,AXIS_Y);
 #$myData->setAxisUnit(1," $");
 $myData->setAxisPosition(1,AXIS_POSITION_LEFT);
  
 /* Create the 1st scatter chart binding */
 $myData->setScatterSerie("xSeries","ySeries",0);
-$myData->setScatterSerieDescription(0,"Series1");
+$myData->setScatterSerieDescription(0,$seriesName);
 $myData->setScatterSerieColor(0,$seriesColor);
  
 /* Create the 2nd scatter chart binding */
