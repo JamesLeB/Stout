@@ -3,22 +3,22 @@ class makePDF {
 	private $sceneCount = 3;
 	private $model;
 	private $index    = 0;
-	private $maxIndex = 0;
+	private $maxIndex = 3;
 
 	function __construct($model){
 		$this->model = $model;
 	}
 	function getSceneCount(){ return $this->sceneCount; }
-	function stage(){
+	function scene(){
 		$ms = '';
-		    if($_SESSION['scene'] == 1){$ms .= $this->stage1();}
-		elseif($_SESSION['scene'] == 2){$ms .= $this->stage2();}
-		elseif($_SESSION['scene'] == 3){$ms .= $this->stage3();}
-		elseif($_SESSION['scene'] == 4){$ms .= $this->stage4();}
+		    if($_SESSION['scene'] == 1){$ms .= $this->scene1();}
+		elseif($_SESSION['scene'] == 2){$ms .= $this->scene2();}
+		elseif($_SESSION['scene'] == 3){$ms .= $this->scene3();}
+		elseif($_SESSION['scene'] == 4){$ms .= $this->scene4();}
 		else{ $ms .= 'ERROR - invalid scene number!!'; }
 		return $ms;
 	}
-	function stage1(){
+	function scene1(){
 		$index = $this->index;
 		$maxIndex = $this->maxIndex;
 		$ms = '';
@@ -26,23 +26,17 @@ class makePDF {
 		$ms .= '-- Setting up index<br/>';
 		$ms .= "-- Index is $index<br/>";
 		$ms .= "-- Max Index is $maxIndex<br/>";
-#REMOVE
-	#$_SESSION['index'] = $index;
-	#$_SESSION['maxIndex'] = $maxIndex;
 		$ms .= '-- Stage 1 Complete...';
 		return $ms;
 	}
-	function stage2(){
+	function scene2(){
 		$ms = '';
 		$ms .= 'Stage 2<br/>';
 		$ms .= '-- Loading chart list onto session<br/>';
-#REMOVE
-/* having performance problems with large array on session
-	going to try and improve the problem
-*/
 		$startIndex = $this->index;
 		$stopIndex  = $this->maxIndex;
-		$largeList = $this->model->getCharts();
+#$largeList = $this->model->getCharts();
+$largeList = array(0,1,2,3);
 		$smallList = array();
 		for($i=$startIndex;$i<=$stopIndex;$i++){
 			$smallList[] = $largeList[$i];
@@ -50,20 +44,15 @@ class makePDF {
 		$_SESSION['chartList'] = $smallList;
 		$_SESSION['index'] = 0;
 		$_SESSION['maxIndex'] = count($smallList)-1;
-#REMOVE
-		#$_SESSION['chartList'] = $this->model->getCharts();
-		#$_SESSION['chartList'] = '';
-/*
-		$_SESSION['chartList'] = array(
-			'U06453'
-		);
-*/
 		$ms .= '-- Stage 2 Complete...';
 		return $ms;
 	}
-	function stage3(){
+	function scene3(){
 		$ms = '';
 		$ms .= 'Stage 3<br/>';
+
+### HERE WE ARE #####
+/*
 		$index    = $_SESSION['index'];
 		$maxIndex = $_SESSION['maxIndex'];
 		if($index <= $maxIndex){
@@ -84,9 +73,10 @@ class makePDF {
 		}else{
 			$ms .= "-- Stage 3 complete...";
 		}
+*/
 		return $ms;
 	}
-	function stage4(){ return 'stage4'; }
+	function scene4(){ return 'scene4'; }
 	function createPDF($patient,$ledger){
 		$chart = $patient['chart'];
 		$headings = $ledger[0];
@@ -129,9 +119,11 @@ class makePDF {
 		$pdf->Output("files/ledgers/$chart.pdf",'F');
 	} # End createPDF function
 	function test(){
-		$largeList = $this->model->getCharts();
-		$size = count($largeList);
-		return "make pdf test<br/>Size = $size";
+		$d = $this->model->test("james");
+		return "return from model $d";
+		#$largeList = $this->model->getCharts();
+		#$size = count($largeList);
+		#return "make pdf test<br/>Size = $size";
 	}
 }
 ?>
