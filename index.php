@@ -12,7 +12,7 @@
 ### Loading library functions
 	include("lib/std.php");
 	#include("lib/classes/mintpal.php");
-	#include("lib/classes/makePDF.php");
+	include("lib/classes/makePDF.php");
 	include("lib/classes/actor.php");
 	putenv('FREETDSCONF=/usr/local/freetds/etc/freetds.conf');
 ###
