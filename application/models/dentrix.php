@@ -8,6 +8,8 @@ class Dentrix extends CI_Model{
 		$this->db = $this->load->database('dentrix',true);
 	}
 	function test($x){
+		return "dentrix model test function you sent $x";
+/*
 		$htmlTable = 'table';
 		$file = "lib/queries/patientLedger.sql";
 		if(file_exists($file)){
@@ -21,6 +23,7 @@ class Dentrix extends CI_Model{
 			}
 		}
 		return $htmlTable;
+*/
 	}
 	function getCharts(){
 		$json = file_get_contents('files/cleanChartList');
