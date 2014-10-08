@@ -17,11 +17,11 @@ class Stout extends CI_Controller {
 		$form['block2'] = $this->load->view('dnd/newCharFormBlock2','',true);
 */
 		$slide = array();
+		$slide[] = array('Stage',      $this->load->view('slides/stage','',true));
 		$slide[] = array('Trader',     $this->load->view('slides/trader','',true));
 		$slide[] = array('Worker',     $this->load->view('slides/worker','',true));
 		$slide[] = array('Grapher',    $this->load->view('grapher','',true));
 /*
-		$slide[] = array('Stage',      $this->load->view('slides/stage','',true));
 		$slide[] = array('WebGL',      $this->load->view('webgl','',true));
 		$slide[] = array('Reports',    $this->load->view('reports',$reports,true));
 		$slide[] = array('exchange',   $this->load->view('exchange','',true));

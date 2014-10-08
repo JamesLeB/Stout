@@ -2,8 +2,8 @@
 class makePDF {
 	private $sceneCount = 3;
 	private $model;
-	private $index    = 550001;
-	private $maxIndex = 634323;
+	private $index    = 0;
+	private $maxIndex = 0;
 
 	function __construct($model){
 		$this->model = $model;
@@ -26,8 +26,9 @@ class makePDF {
 		$ms .= '-- Setting up index<br/>';
 		$ms .= "-- Index is $index<br/>";
 		$ms .= "-- Max Index is $maxIndex<br/>";
-		#$_SESSION['index'] = $index;
-		#$_SESSION['maxIndex'] = $maxIndex;
+#REMOVE
+	#$_SESSION['index'] = $index;
+	#$_SESSION['maxIndex'] = $maxIndex;
 		$ms .= '-- Stage 1 Complete...';
 		return $ms;
 	}
@@ -35,6 +36,7 @@ class makePDF {
 		$ms = '';
 		$ms .= 'Stage 2<br/>';
 		$ms .= '-- Loading chart list onto session<br/>';
+#REMOVE
 /* having performance problems with large array on session
 	going to try and improve the problem
 */
@@ -48,6 +50,7 @@ class makePDF {
 		$_SESSION['chartList'] = $smallList;
 		$_SESSION['index'] = 0;
 		$_SESSION['maxIndex'] = count($smallList)-1;
+#REMOVE
 		#$_SESSION['chartList'] = $this->model->getCharts();
 		#$_SESSION['chartList'] = '';
 /*
