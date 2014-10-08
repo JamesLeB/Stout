@@ -6,8 +6,8 @@ class Stage extends CI_Controller {
 
 	public function setup(){
 		#$actor = new actor();
-		$this->load->model('dentrix');
-		$actor = new makePDF($this->dentrix);
+		$this->load->model('Dentrix');
+		$actor = new makePDF($this->Dentrix);
 		header('scene: 1');
 		$_SESSION['scene'] = 1;
 		$_SESSION['sceneCount'] = $actor->getSceneCount();
@@ -18,8 +18,8 @@ class Stage extends CI_Controller {
 		if( $_SESSION['scene'] <= $_SESSION['sceneCount'] ){
 			header('scene: 1');
 			#$actor = new actor();
-			$this->load->model('dentrix');
-			$actor = new makePDF($this->dentrix);
+			$this->load->model('Dentrix');
+			$actor = new makePDF($this->Dentrix);
 			$ms[] = $actor->scene();
 			$_SESSION['scene']++;
 		}else{
@@ -33,8 +33,8 @@ class Stage extends CI_Controller {
 	}
 	public function test(){
 		echo "Starting Test...<br/>";
-		$this->load->model('dentrix');
-		$actor = new makePDF($this->dentrix);
+		$this->load->model('Dentrix');
+		$actor = new makePDF($this->Dentrix);
 		$ms = $actor->test();
 		echo "$ms<br/>";
 		#$test = $this->Dentrix->test('H0904');
