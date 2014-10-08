@@ -5,7 +5,9 @@ class Stage extends CI_Controller {
 	public function index(){ echo "this is the index"; }
 
 	public function setup(){
-		$actor = new actor();
+		#$actor = new actor();
+		$this->load->model('dentrix');
+		$actor = new makePDF($this->dentrix);
 		header('scene: 1');
 		$_SESSION['scene'] = 1;
 		$_SESSION['sceneCount'] = $actor->getSceneCount();
@@ -15,7 +17,9 @@ class Stage extends CI_Controller {
 		$ms = array();
 		if( $_SESSION['scene'] <= $_SESSION['sceneCount'] ){
 			header('scene: 1');
-			$actor = new actor();
+			#$actor = new actor();
+			$this->load->model('dentrix');
+			$actor = new makePDF($this->dentrix);
 			$ms[] = $actor->scene();
 			$_SESSION['scene']++;
 		}else{
@@ -29,11 +33,12 @@ class Stage extends CI_Controller {
 	}
 	public function test(){
 		echo "Starting Test...<br/>";
-		#$this->load->model('Dentrix');
+		$this->load->model('dentrix');
+		$actor = new makePDF($this->dentrix);
+		$ms = $actor->test();
+		echo "$ms<br/>";
 		#$test = $this->Dentrix->test('H0904');
 		#echo "$test";
-		#$arg1 = $this->uri->segment(4);
-		#$this->load->model('warehouse');
 		echo "Test done :)<br/>";
 	}
 }
