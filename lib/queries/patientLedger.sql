@@ -3,7 +3,7 @@
 	parms   startdate  enddate  patient
 */
 
-declare @chart as varchar(32)
+declare @chart as int
 set @chart = ?
 	
 IF OBJECT_ID('tempdb..#DATA') IS NOT NULL DROP TABLE #DATA
@@ -19,6 +19,7 @@ SELECT
 		WHEN pl.CHART_STATUS = 90 AND pl.CLASS = 1 THEN 'PatientPayment'
 		WHEN pl.CHART_STATUS = 90 AND pl.CLASS = 2 THEN 'Adjustment'
 		WHEN pl.CHART_STATUS = 90 AND pl.CLASS = 3 THEN 'InsurancePayment'
+		WHEN pl.CHART_STATUS = 90 AND pl.CLASS = 0 THEN 'InitialBalance'
 		ELSE 'ERROR'
 	END AS lineType,
 	CAST(pl.CREATEDATE AS DATE) AS createDate,
@@ -37,6 +38,7 @@ SELECT
 		WHEN pl.CHART_STATUS = 90 AND pl.CLASS = 2 THEN
 			(SELECT d.Description FROM DDB_Def_RO AS d WHERE pl.ORD = d.DefID AND d.Type = 9)
 		WHEN pl.CHART_STATUS = 90 AND pl.CLASS = 3 THEN 'Prim Dent Ins. Payment'
+		WHEN pl.CHART_STATUS = 90 AND pl.CLASS = 0 THEN 'Initial Balance'
 		ELSE '--'
 	END AS description,
 	clinic.RSCID AS clinic,
@@ -67,13 +69,13 @@ FROM
 	JOIN DDB_RSC AS clinic ON pl.ClinicAppliedTo = clinic.URSCID
 	JOIN DDB_PAT AS pat ON pl.PATID = pat.PATID
 WHERE
-	pl.CREATEDATE >= '2009-09-01'
-	AND pat.CHART = @chart
+	pat.PATID = @chart
 	AND (
 		(pl.CHART_STATUS = 102) OR
 		(pl.CHART_STATUS = 90 AND pl.CLASS = 1) OR
 		(pl.CHART_STATUS = 90 AND pl.CLASS = 2) OR
-		(pl.CHART_STATUS = 90 AND pl.CLASS = 3)
+		(pl.CHART_STATUS = 90 AND pl.CLASS = 3) OR
+		(pl.CHART_STATUS = 90 AND pl.CLASS = 0 AND pl.HISTORY = 1)
 	)
 
 SELECT
@@ -97,7 +99,7 @@ FROM
 	JOIN DDB_PAT AS pat ON cl.PATID = pat.PATID
 	JOIN DDB_RSC AS clinic on cl.ClinicAppliedTo = clinic.URSCID
 WHERE
-	pat.CHART = @chart
+	pat.PATID = @chart
 
 INSERT INTO #CLAIMS
 SELECT
@@ -111,30 +113,7 @@ SELECT
 	lineType
 FROM #DATA
 
-DELETE FROM #CLAIMS WHERE createDate < '2009-09-01'
 UPDATE #CLAIMS SET amount = NULL WHERE lineType = 'Claim'
-
-INSERT INTO #CLAIMS VALUES ('2009-08-31','','','Initial Balance',
-(
-	select
-		CASE 
-			WHEN sum(proclog.AMOUNT) IS NULL THEN 0.00
-			ELSE sum(proclog.AMOUNT * .01) 
-		END as mAmount
-	from
-		DDB_PROC_LOG AS proclog
-		JOIN DDB_PAT AS patient on proclog.PATID = patient.PATID
-	where
-		patient.CHART = @chart AND
-		proclog.CREATEDATE < '2009-09-01' AND
-		(
-				proclog.CHART_STATUS = 102
-			OR ( proclog.CHART_STATUS = 90 AND proclog.CLASS = 1 )
-			OR ( proclog.CHART_STATUS = 90 AND proclog.CLASS = 2 )
-			OR ( proclog.CHART_STATUS = 90 AND proclog.CLASS = 3 )
-			OR ( proclog.CHART_STATUS = 90 AND proclog.CLASS = 0 AND proclog.HISTORY = 1 )
-		)
-),'','','')
 
 SELECT
 	*
