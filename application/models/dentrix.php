@@ -8,7 +8,17 @@ class Dentrix extends CI_Model{
 		$this->db = $this->load->database('dentrix',true);
 	}
 	function test($x){
-		return "dentrix model test function you sent $x";
+
+		$query = 'SELECT PATID FROM DDB_PAT';
+		$rs = $this->db->query($query);
+		$list = array();
+		foreach($rs->result_array() as $row){
+			$list[] = $row['PATID'];
+		}
+		$json = json_encode($list);
+		file_put_contents('files/chartList',$json);
+
+		return "list should be there";
 /*
 		$htmlTable = 'table';
 		$file = "lib/queries/patientLedger.sql";
@@ -25,8 +35,18 @@ class Dentrix extends CI_Model{
 		return $htmlTable;
 */
 	}
+	function getChartNumber($chart){
+		$parm = array($chart);
+		$query = 'SELECT CHART FROM DDB_PAT WHERE PATID = ? AND CHART IS NOT NULL';
+		$rs = $this->db->query($query,$parm);
+		$chartNumber = '';
+		foreach($rs->result_array() as $row){
+			$chartNumber = $row['CHART'];
+		}
+		return $chartNumber;
+	}
 	function getCharts(){
-		$json = file_get_contents('files/cleanChartList');
+		$json = file_get_contents('files/chartList');
 		$obj = json_decode($json);
 		return $obj;
 	}
