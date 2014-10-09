@@ -3,7 +3,7 @@ class makePDF {
 	private $sceneCount = 3;
 	private $model;
 	private $index    = 0;
-	private $maxIndex = 3;
+	private $maxIndex = 100000;
 
 	function __construct($model){
 		$this->model = $model;
@@ -35,8 +35,9 @@ class makePDF {
 		$ms .= '-- Loading chart list onto session<br/>';
 		$startIndex = $this->index;
 		$stopIndex  = $this->maxIndex;
-#$largeList = $this->model->getCharts();
-$largeList = array(0,1,2,3);
+$largeList = $this->model->getCharts();
+#$largeList = array();
+for($i=0;$i<=100;$i++){ $largeList[] = $i; }
 		$smallList = array();
 		for($i=$startIndex;$i<=$stopIndex;$i++){
 			$smallList[] = $largeList[$i];
@@ -50,9 +51,6 @@ $largeList = array(0,1,2,3);
 	function scene3(){
 		$ms = '';
 		$ms .= 'Stage 3<br/>';
-
-### HERE WE ARE #####
-/*
 		$index    = $_SESSION['index'];
 		$maxIndex = $_SESSION['maxIndex'];
 		if($index <= $maxIndex){
@@ -61,9 +59,8 @@ $largeList = array(0,1,2,3);
 			$chart = $_SESSION['chartList'][$index];
 			$ledgerData = $this->model->go($chart);
 			$ms .= $ledgerData[1];
-			$patient = array(
-				'chart' => $chart
-			);
+			$chartNumber = $this->model->getChartNumber($chart);
+			$patient = array( 'chart' => $chartNumber, 'patid' => $chart);
 			$ledger = $ledgerData[0];
 			$ms .= "processing $index of $maxIndex";
 			$this->createPDF($patient,$ledger);
@@ -73,12 +70,12 @@ $largeList = array(0,1,2,3);
 		}else{
 			$ms .= "-- Stage 3 complete...";
 		}
-*/
 		return $ms;
 	}
 	function scene4(){ return 'scene4'; }
 	function createPDF($patient,$ledger){
-		$chart = $patient['chart'];
+		$chartNumber = $patient['chart'];
+		$patid       = $patient['patid'];
 		$headings = $ledger[0];
 		$records = $ledger[1];
 		$colwidth = array(25,25,30,50,25,10,35,20,20);
@@ -116,7 +113,7 @@ $largeList = array(0,1,2,3);
 			$pdf->Cell($colwidth[8],10,$record[8],0,0,$align[8]);
 			$pdf->ln();
 		}
-		$pdf->Output("files/ledgers/$chart.pdf",'F');
+		$pdf->Output("files/ledgers/$patid.pdf",'F');
 	} # End createPDF function
 	function test(){
 		$d = $this->model->test("james");
