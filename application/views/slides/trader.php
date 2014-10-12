@@ -9,9 +9,11 @@
 		<tr>
 			<td id='trader_Controls'>
 				<button>TEST</button>
+				<button>Linear Regression</button>
+<!--
 				<button>Mint</button>
 				<button>Buys</button>
-				<button>Linear Regression</button>
+--!>
 			</td>
 			<td id='trader_View'>View</td>
 		</tr>
