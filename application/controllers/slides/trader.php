@@ -14,7 +14,7 @@ class Trader extends CI_Controller {
 ###
 	public function linearRegression(){
 		header("status: Calculating Linear Regression");
-		$series = $this->getBuySeries();
+		#$series = $this->getBuySeries();
 		$ms = array();
 		$_SESSION['seriesName'] = 'Coin something';
 		#$X = $series[0];
@@ -28,8 +28,8 @@ class Trader extends CI_Controller {
 		try{
 			if(sizeof($X) != sizeof($Y)){throw new Exception('Series not same size!!');}
 
-$ms[] = "Getting line equation";
-$ms[] = $this->getLinearEquation($X,$Y);
+			$ms[] = "Getting line equation - broken";
+			$ms[] = $this->getLinearEquation($X,$Y);
 
 			$mark = time();
 			$ms[] = "<img src='lib/graphs/scatter.php?$mark' />";
