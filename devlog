@@ -157,3 +157,6 @@ Saturday 2014-10-11
 	Got stout working on laptop
 	tomorrow I need to set up mysql
 	got mysql hooked up to laptop
+Tuesday 2014-10-14
+	Had a strange problem with program today had to resart apache to fix
+	removed some code that required local database to work
