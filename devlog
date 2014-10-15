@@ -160,3 +160,7 @@ Saturday 2014-10-11
 Tuesday 2014-10-14
 	Had a strange problem with program today had to resart apache to fix
 	removed some code that required local database to work
+Wednesday 2014-10-15
+	Finally cleared up the patient with bad insurance ids
+	tomorrow I need to start building a script to convert 837D to 837I
+
