@@ -44,6 +44,7 @@
 	}
 	#workerControls button{
 		width : 90px;
+		margin-top : 5px;
 	}
 	#workerView{
 		vertical-align : top;
@@ -58,47 +59,16 @@
 <script>
 	var workerTarget = 'index.php?/slides/worker/';
 	// Test button
-	$('#workerControls button:nth-child(1)').click(function(){
-		var func = 'test';
-		var request = $.post(workerTarget+func,'',function(data){
-			$('#workerView').html(data);
-			//$('#workerView').html('TEST Button disabled');
-			//var scene = request.getResponseHeader('scene');
-			//if( scene == 1 ){stage();}
-		});
-		/*
-			$('#workerView').html('TEST Button disabled');
-		*/
-	});
-	// Get file button
-	$('#workerControls button:nth-child(2)').click(function(){
-		var func = 'getTestFile';
+	$('#workerControls button').click(function(){
+		var target = 'index.php?/slides/worker/';
+		var func = '';
 		var parm = { secret: 'all' };
-		var request = $.post(workerTarget+func,parm,function(data){
+		var a = $(this).first().html();
+		     if(a=='Get File') {func='getTestFile';}
+		else if(a=='Claim')    {func='getTestFile'; parm = { secret: 'claims' }; }
+		else                   {func='test';}
+		var request = $.post(target+func,parm,function(data){
 			$('#workerView').html(data);
 		});
 	});
-	// Claim Line
-	$('#workerControls button:nth-child(3)').click(function(){
-		var func = 'getTestFile';
-		var parm = { secret: 'claims' };
-		var request = $.post(workerTarget+func,parm,function(data){
-			$('#workerView').html(data);
-		});
-	});
-/*
-	function stage(){
-		var func = 'running';
-		var request = $.post(target+func,'',function(data){
-			var scene = request.getResponseHeader('scene');
-			if( scene == 1 ){stage();}
-			var status = request.getResponseHeader('status');
-			if( status == 1 ){
-				$(stageStatus).html(data);
-			}else{
-				$(stageReturn).append(data);
-			}
-		});
-	}
-*/
 </script>
