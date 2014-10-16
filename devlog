@@ -163,4 +163,5 @@ Tuesday 2014-10-14
 Wednesday 2014-10-15
 	Finally cleared up the patient with bad insurance ids
 	tomorrow I need to start building a script to convert 837D to 837I
-
+Thursday 2014-10-16
+	Getting ready to write function to convert 837D to 837I
