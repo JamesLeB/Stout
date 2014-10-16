@@ -11,6 +11,7 @@
 				<button>TEST</button>
 				<button>Get File</button>
 				<button>Claim</button>
+				<button>Convert</button>
 			</td>
 			<td id='workerView'>View</td>
 		</tr>
@@ -66,6 +67,7 @@
 		var a = $(this).first().html();
 		     if(a=='Get File') {func='getTestFile';}
 		else if(a=='Claim')    {func='getTestFile'; parm = { secret: 'claims' }; }
+		else if(a=='Convert')  {func='convertEdi';}
 		else                   {func='test';}
 		var request = $.post(target+func,parm,function(data){
 			$('#workerView').html(data);

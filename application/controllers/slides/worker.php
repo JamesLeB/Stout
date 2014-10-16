@@ -19,6 +19,12 @@ class Worker extends CI_Controller {
 		$ms .= "Done Test<br/>";
 		echo $ms;
 	}
+	public function convertEdi(){
+		include('lib/classes/EDI837.php');
+		$EDI = new EDI837();
+		$test = $EDI->test();
+		echo "$test";
+	}
 	private function removeInvalidCharacters($x12){
 		#$file = 'a.txt';
 		#$x12 = file_get_contents($this->filePath.$file);
