@@ -20,10 +20,11 @@ class Worker extends CI_Controller {
 		echo $ms;
 	}
 	public function convertEdi(){
+		header('status: Converting Axium EDI');
 		include('lib/classes/EDI837.php');
 		$EDI = new EDI837();
-		$test = $EDI->test();
-		echo "$test";
+		$loadEdi = $EDI->loadEDI837D();
+		echo "$loadEdi";
 	}
 	private function removeInvalidCharacters($x12){
 		#$file = 'a.txt';

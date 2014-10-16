@@ -36,6 +36,8 @@
 	}
 	#workerStatus{
 		border-color : #D1D1AC;
+		color : #66AF66;
+		font-size : 1.5em;
 	}
 	#workerControls{
 		vertical-align : top;
@@ -70,6 +72,12 @@
 		else if(a=='Convert')  {func='convertEdi';}
 		else                   {func='test';}
 		var request = $.post(target+func,parm,function(data){
+			var status = request.getResponseHeader('status');
+			if(status != null){
+				$('#workerStatus').html(status);
+			}else{
+				$('#workerStatus').html('No Status');
+			}
 			$('#workerView').html(data);
 		});
 	});
