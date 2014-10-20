@@ -32,7 +32,7 @@ class Trader extends CI_Controller {
 			$ms[] = $this->getLinearEquation($X,$Y);
 
 			$mark = time();
-			$ms[] = "<img src='lib/graphs/scatter.php?$mark' />";
+			#$ms[] = "<img src='lib/graphs/scatter.php?$mark' />";
 
 		}catch(Exception $e){
 			$ms[] = $e->getMessage();
@@ -73,12 +73,22 @@ class Trader extends CI_Controller {
 		$ms[] = "Summary";
 		$ms[] = "-----------------";
 
+/*
 		$ms[] = "Sample = $sampleSize";
 		$ms[] = "SumX  = $sumX";
 		$ms[] = "SumY  = $sumY";
 		$ms[] = "SumXY = $sumXY";
 		$ms[] = "SumXX = $sumXX";
 		$ms[] = "SumYY = $sumYY";
+		$ms[] = "";
+*/
+
+		$intercept=(($sumY*$sumXX)-($sumX*$sumXY))/(($sampleSize*$sumXX)-($sumX*$sumX));
+		$slope=(($sampleSize*$sumXY)-($sumX*$sumY))/(($sampleSize*$sumXX)-($sumX*$sumX));
+
+		$ms[] = "Slope..b. $slope";
+		$ms[] = "Intercept..a. $intercept";
+		$ms[] = " y = a + bx";
 
 		$e = ''; foreach($ms as $m){$e.="$m<br/>";} return $e;
 	}
