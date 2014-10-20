@@ -93,6 +93,7 @@ class Exchange extends CI_Model{
 		$echo[] = 'Outlander';
 		$echo[] = $incoming;
 
+/*
 		$json = file_get_contents('https://api.mintpal.com/v1/market/trades/LTC/BTC');
 		$obj = json_decode($json,true);
 	
@@ -128,12 +129,12 @@ class Exchange extends CI_Model{
 		if( $incoming == 'sell'   ){$echo[] = renderTable($heading,$sellTrades);}
 		if( $incoming == 'buy'    ){$echo[] = renderTable($heading,$buyTrades);}
 
+*/
 		$msg = '';
 		foreach($echo as $e){
 			$msg .= "$e<br/>";
 		}
 		echo $msg;
-
 	}
 	function test($x){
 		return "return from model test function";
