@@ -6,6 +6,7 @@ class EDI837{
 	function __construct(){
 		$this->filepath = 'files/EDIbatches/';
 		require('lib/classes/EDI837D.php');
+		require('lib/classes/dentalClaim.php');
 	}
 
 	public function test(){
@@ -161,7 +162,11 @@ class EDI837{
 			}else{throw new exception("error loading N4<br/>---<br/>$seg<br/>---");}
 		
 			while(preg_match('/^HL\*2\*/',$segments[0])){
-				$this->loadDentalClaim($segments);
+				$claim = $this->loadDentalClaim($segments);
+				$m[] = '******************';
+				$m[] = 'Claim Data';
+				$m[] = $claim->toText();
+				$m[] = '******************';
 			}
 
 		###################################################
@@ -174,10 +179,12 @@ class EDI837{
 			$error = $e->getMessage();
 			$m[] = "Error: $error";
 		}
-		$m[] = '-----------------';
-		$m[] = 'EDI Object Output';
-		$text = $ediObj->toText();
-		$m[] = $text;
+
+		#$m[] = '-----------------';
+		#$m[] = 'EDI Object Output';
+		#$text = $ediObj->toText();
+		#$m[] = $text;
+
 /*
 		$m[] = "Step 3..Convert 837D to 837I";
 		$m[] = "Step 3..Create x12 file from 837I object";
@@ -187,12 +194,14 @@ class EDI837{
 		return "$e";
 	}
 	private function loadDentalClaim(&$segments){
+		$claim = new dentalClaim();
+		$claim->setClaimIndex(76);
 		#LOAD HL
 		$seg = array_shift($segments);
 		if(preg_match('/^HL\*/',$seg)){
 		}else{throw new exception("error loading HL<br/>---<br/>$seg<br/>---");}
 
-		return 0;
+		return $claim;
 	}
 }
 ?>
