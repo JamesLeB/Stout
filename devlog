@@ -169,3 +169,4 @@ Friday 2014-10-17
 	Working on edi conversion script
 Monday 2014-10-20
 	configure local database on dev machine
+	added dental claim object and function to load dental claim to worker
