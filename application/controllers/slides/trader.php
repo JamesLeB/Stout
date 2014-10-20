@@ -143,18 +143,16 @@ class Trader extends CI_Controller {
 		}
 		$ms[] = "Request Test...$test";
 
-#$ms[] = 'Connecting to DB...';
-#$db = $this->load->database('trader',true);
-#$ms[] = 'connection done...';
+		$ms[] = 'Connecting to DB...';
+		$db = $this->load->database('trader',true);
+		$ms[] = 'connection done...';
 
-/*
-$query = 'SELECT * FROM coins';
-$rs = $db->query($query);
-foreach($rs->result_array() as $row){
-	$id = $row['id'];
-	$ms[] = ".... id is $id";
-}
-*/
+		$query = 'SELECT * FROM coins';
+		$rs = $db->query($query);
+		foreach($rs->result_array() as $row){
+			$id = $row['id'];
+			$ms[] = ".... id is $id";
+		}
 
 		$ms[] = 'Done Testing :)';
 		$e = '';
