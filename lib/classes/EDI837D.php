@@ -12,6 +12,7 @@ class EDI837D{
 	private $ftype;
 	private $submitterName;
 	private $submitterPhone;
+/*
 	private $billingProviderSpecialty;
 	private $billingProviderName;
 	private $billingProviderNPI;
@@ -28,6 +29,7 @@ class EDI837D{
 	private $pay2City;
 	private $pay2State;
 	private $pay2Zip;
+*/
 
 
 	function __construct(){
@@ -42,6 +44,7 @@ class EDI837D{
 		$this->ftype = '';
 		$this->submitterName = '';
 		$this->submitterPhone = '';
+/*
 		$this->billingProviderSpecialty = '';
 		$this->billingProviderName = '';
 		$this->billingProviderNPI = '';
@@ -58,6 +61,7 @@ class EDI837D{
 		$this->pay2City = '';
 		$this->pay2State = '';
 		$this->pay2Zip = '';
+*/
 	}
 
 	# SETTERS
@@ -74,6 +78,7 @@ class EDI837D{
 	}
 	function setSubmitterName($x){ $this->submitterName = $x; }
 	function setSubmitterPhone($x){ $this->submitterPhone = $x; }
+/*
 	function setBillingProviderSpecialty($x){ $this->billingProviderSpecialty = $x; }
 	function setBillingProviderName($x){ $this->billingProviderName = $x; }
 	function setBillingProviderNPI($x){ $this->billingProviderNPI = $x; }
@@ -90,7 +95,7 @@ class EDI837D{
 	function setPay2City($x){ $this->pay2City = $x; }
 	function setPay2State($x){ $this->pay2State = $x; }
 	function setPay2Zip($x){ $this->pay2Zip = $x; }
-
+*/
 	function toText(){
 		#to text by defaul create a string ment to be viewed by html
 		$m = array();
@@ -105,6 +110,7 @@ class EDI837D{
 		$m[] = "ftype: ".$this->ftype;
 		$m[] = "SubmitterName: ".$this->submitterName;
 		$m[] = "SubmitterPhone: ".$this->submitterPhone;
+/*
 		$m[] = "BillingProviderSpecialty: ".$this->billingProviderSpecialty;
 		$m[] = "BillingProviderName: ".$this->billingProviderName;
 		$m[] = "BillingProviderNPI: ".$this->billingProviderNPI;
@@ -121,6 +127,7 @@ class EDI837D{
 		$m[] = "Pay2City: ".$this->pay2City;
 		$m[] = "Pay2State: ".$this->pay2State;
 		$m[] = "Pay2Zip: ".$this->pay2Zip;
+*/
 		$r = implode('<br/>',$m);
 		return $r;
 	}
