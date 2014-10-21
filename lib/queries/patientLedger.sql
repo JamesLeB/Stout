@@ -22,7 +22,7 @@ SELECT
 		WHEN pl.CHART_STATUS = 90 AND pl.CLASS = 0 THEN 'InitialBalance'
 		ELSE 'ERROR'
 	END AS lineType,
-	CAST(pl.CREATEDATE AS DATE) AS createDate,
+	CAST(pl.PLDATE AS DATE) AS createDate,
 	pl.AMOUNT * .01 AS amount,
 	CASE
 		WHEN pl.CHART_STATUS = 102 THEN pc.ADACODE

@@ -2,8 +2,8 @@
 class makePDF {
 	private $sceneCount = 3;
 	private $model;
-	private $index    = 450001;
-	private $maxIndex = 656824;
+	private $index    = 0;
+	private $maxIndex = 200000;
 
 	function __construct($model){
 		$this->model = $model;
@@ -35,9 +35,7 @@ class makePDF {
 		$ms .= '-- Loading chart list onto session<br/>';
 		$startIndex = $this->index;
 		$stopIndex  = $this->maxIndex;
-$largeList = $this->model->getCharts();
-#$largeList = array();
-for($i=0;$i<=100;$i++){ $largeList[] = $i; }
+		$largeList = $this->model->getCharts();
 		$smallList = array();
 		for($i=$startIndex;$i<=$stopIndex;$i++){
 			$smallList[] = $largeList[$i];
