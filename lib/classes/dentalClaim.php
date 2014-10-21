@@ -24,12 +24,23 @@ class dentalClaim{
 	private $claimId;
 	private $claimAmount;
 	private $facilityCode;
+	private $facilityName;
+	private $facilityId;
+	private $facilityId2;
+	private $facilityStreet;
+	private $facilityCity;
+	private $facilityState;
+	private $facilityZip;
 	private $signature;
 	private $assignmentCode;
 	private $assignmentStatus;
 	private $release;
 	private $serviceDate;
 	private $claimNote;
+	private $providerName;
+	private $providerId;
+	private $providerId2;
+	private $providerTaxonomy;
 
 	function __construct(){
 		$this->claimIndex = '';
@@ -56,12 +67,23 @@ class dentalClaim{
 		$this->claimId2 = '';
 		$this->claimAmount = '';
 		$this->facilityCode = '';
+		$this->facilityName = '';
+		$this->facilityId = '';
+		$this->facilityId2 = '';
+		$this->facilityStreet = '';
+		$this->facilityCity = '';
+		$this->facilityState = '';
+		$this->facilityZip = '';
 		$this->signature = '';
 		$this->assignmentCode = '';
 		$this->assignmentStatus = '';
 		$this->release = '';
 		$this->serviceDate = '';
 		$this->claimNote = '';
+		$this->providerName = '';
+		$this->providerId = '';
+		$this->providerId2 = '';
+		$this->providerTaxonomy = '';
 	}
 
 	# SETTERS
@@ -89,19 +111,41 @@ class dentalClaim{
 	function setClaimId2($x){ $this->claimId2 = $x; }
 	function setClaimAmount($x){ $this->claimAmount = $x; }
 	function setFacilityCode($x){ $this->facilityCode = $x; }
+	function setFacilityName($x){ $this->facilityName = $x; }
+	function setFacilityId($x){ $this->facilityId = $x; }
+	function setFacilityId2($x){ $this->facilityId2 = $x; }
+	function setFacilityStreet($x){ $this->facilityStreet = $x; }
+	function setFacilityCity($x){ $this->facilityCity = $x; }
+	function setFacilityState($x){ $this->facilityState = $x; }
+	function setFacilityZip($x){ $this->facilityZip = $x; }
 	function setSignature($x){ $this->signature = $x; }
 	function setAssignmentCode($x){ $this->assignmentCode = $x; }
 	function setAssignmentStatus($x){ $this->assignmentStatus = $x; }
 	function setRelease($x){ $this->release = $x; }
 	function setServiceDate($x){ $this->serviceDate = $x; }
 	function setClaimNote($x){ $this->claimNote = $x; }
+	function setProviderName($x){ $this->providerName = $x; }
+	function setProviderId($x){ $this->providerId = $x; }
+	function setProviderId2($x){ $this->providerId2 = $x; }
+	function setProviderTaxonomy($x){ $this->providerTaxonomy = $x; }
 
 	function toText(){
 		#to text by defaul create a string ment to be viewed by html
 		$m = array();
 		$m[] = "ClaimIndex: ".$this->claimIndex;
-		$m[] = "ClaimNote: ".$this->claimNote;
+		$m[] = "ProviderName: ".$this->providerName;
+		$m[] = "ProviderId: ".$this->providerId;
+		$m[] = "ProviderId2: ".$this->providerId2;
+		$m[] = "ProviderTaxonomy: ".$this->providerTaxonomy;
+		$m[] = "FacilityName: ".$this->facilityName;
+		$m[] = "FacilityId: ".$this->facilityId;
+		$m[] = "FacilityId2: ".$this->facilityId2;
+		$m[] = "FacilityStreet: ".$this->facilityStreet;
+		$m[] = "FacilityCity: ".$this->facilityCity;
+		$m[] = "FacilityState: ".$this->facilityState;
+		$m[] = "FacilityZip: ".$this->facilityZip;
 /*
+		$m[] = "ClaimNote: ".$this->claimNote;
 		$m[] = "ClaimId: ".$this->claimId;
 		$m[] = "ClaimId2: ".$this->claimId2;
 		$m[] = "ServiceDate: ".$this->serviceDate;
