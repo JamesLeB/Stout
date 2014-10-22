@@ -47,6 +47,7 @@ class billingProvider{
 
 	# GETTERS
 	function getClaims(){ return $this->claims; }
+	function getBillingProviderName(){ return $this->billingProviderName; }
 
 	# SETTERS
 	function setHeader($x){ $this->header = $x; }
@@ -71,7 +72,6 @@ class billingProvider{
 		#to text by defaul create a string ment to be viewed by html
 		$m = array();
 		$m[] = "Header: ".$this->header;
-/*
 		$m[] = "BillingProviderSpecialty: ".$this->billingProviderSpecialty;
 		$m[] = "BillingProviderName: ".$this->billingProviderName;
 		$m[] = "BillingProviderNPI: ".$this->billingProviderNPI;
@@ -88,7 +88,6 @@ class billingProvider{
 		$m[] = "Pay2City: ".$this->pay2City;
 		$m[] = "Pay2State: ".$this->pay2State;
 		$m[] = "Pay2Zip: ".$this->pay2Zip;
-*/
 		$r = implode('<br/>',$m);
 		return $r;
 	}
