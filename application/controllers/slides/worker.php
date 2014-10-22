@@ -24,7 +24,35 @@ class Worker extends CI_Controller {
 		include('lib/classes/EDI837.php');
 		$EDI = new EDI837();
 		$loadEdi = $EDI->loadEDI837D();
-		echo "$loadEdi";
+		$message = $loadEdi{'message'};
+		$ediObj = $loadEdi{'ediObj'};
+
+		$m = array();
+		$m[] = '-----------------';
+		$m[] = 'EDI Object Output';
+		$a = $ediObj->getProviders();
+		$b = sizeof($a);
+		$m[] = "size of array $b";
+		$myList = array();
+		foreach($a as $c){
+			$myList[] = array(
+				'Heading' => 'Heading',
+				'Body' => 'Body'
+			);
+		}
+		$parm = array('myList'=>$myList);
+		echo $this->load->view('myList',$parm,true);
+		echo "
+			<script>
+				$('.myBody').hide();
+				$('.myHeading button').click(function(){
+					$(this).parent().next().toggle();
+				});
+			</script>
+		";
+
+		#$e = ''; foreach($m as $mm){$e .= "$mm<br/>";}
+		#echo $e;
 	}
 	private function removeInvalidCharacters($x12){
 		#$file = 'a.txt';
