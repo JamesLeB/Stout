@@ -2,8 +2,8 @@
 class makePDF {
 	private $sceneCount = 3;
 	private $model;
-	private $index    = 0;
-	private $maxIndex = 200000;
+	private $index    = 300001;
+	private $maxIndex = 500000;
 
 	function __construct($model){
 		$this->model = $model;
