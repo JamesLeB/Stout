@@ -63,7 +63,7 @@ class EDI837D{
 		$m[] = "ftype: ".$this->ftype;
 		$m[] = "SubmitterName: ".$this->submitterName;
 		$m[] = "SubmitterPhone: ".$this->submitterPhone;
-		$m[] = "Providers: ".sizeof($this->providers);
+		$m[] = "ProviderCount: ".sizeof($this->providers);
 		$r = implode('<br/>',$m);
 		return $r;
 	}
