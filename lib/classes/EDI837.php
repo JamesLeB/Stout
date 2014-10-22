@@ -101,18 +101,8 @@ class EDI837{
 			$m[] = "Error: $error";
 		}
 
-		$m[] = '-----------------';
-		$m[] = 'EDI Object Output';
-		$text = $ediObj->toText();
-		$m[] = $text;
-
-/*
-		$m[] = "Step 3..Convert 837D to 837I";
-		$m[] = "Step 3..Create x12 file from 837I object";
-		$m[] = "Step 4..Write x12 to disk";
-*/
 		$e = ''; foreach($m as $mm){$e .= "$mm<br/>";}
-		return "$e";
+		return array('message'=>$e,'ediObj'=>$ediObj);
 	} # END function loadEDI837D
 	private function loadProvider(&$segments){
 		$provider = new billingProvider();
