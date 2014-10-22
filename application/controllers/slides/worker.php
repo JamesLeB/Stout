@@ -35,9 +35,21 @@ class Worker extends CI_Controller {
 		$m[] = "size of array $b";
 		$myList = array();
 		foreach($a as $c){
+			$provList = array();
+			$provList[] = array(
+				'Heading' => 'Data',
+				'Body' => $c->toText()
+			);
+			$provList[] = array(
+				'Heading' => 'Claims',
+				'Body' => 'ClaimList'
+			);
+			$parm = array('myList'=>$provList);
+			$body = $this->load->view('myList',$parm,true);
+			
 			$myList[] = array(
-				'Heading' => 'Heading',
-				'Body' => 'Body'
+				'Heading' => $c->getBillingProviderName(),
+				'Body' => $body
 			);
 		}
 		$parm = array('myList'=>$myList);
