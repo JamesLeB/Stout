@@ -153,7 +153,6 @@ class dentalClaim{
 		$m = array();
 		$m[] = "ClaimId: ".$this->claimId;
 		$m[] = "PatientPaid: ".$this->patientPaid;
-/*
 		$m[] = "ExceptionCode: ".$this->exceptionCode;
 		$m[] = "ClaimIndex: ".$this->claimIndex;
 		$m[] = "ProviderName: ".$this->providerName;
@@ -195,8 +194,6 @@ class dentalClaim{
 		$m[] = "AssignmentCode: ".$this->assignmentCode;
 		$m[] = "AssignmentStatus: ".$this->assignmentStatus;
 		$m[] = "Release: ".$this->release;
-*/
-
 		$r = implode('<br/>',$m);
 		return $r;
 	}
