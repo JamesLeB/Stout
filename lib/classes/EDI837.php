@@ -5,16 +5,12 @@ class EDI837{
 
 	function __construct(){
 		$this->filepath = 'files/EDIbatches/';
-		require('lib/classes/EDI837D.php');
-		require('lib/classes/dentalClaim.php');
-		require('lib/classes/billingProvider.php');
-		require('lib/classes/service.php');
-		require('lib/classes/patient.php');
 	}
 	public function test(){
 		return "Testing EDI837";
 	}
 	public function loadEDI837D(){
+
 		$m = array();
 
 		$m[] = "Step 1..Get x12 file from Axium";
