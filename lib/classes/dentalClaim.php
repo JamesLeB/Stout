@@ -2,6 +2,8 @@
 class dentalClaim{
 
 	private $claimIndex;
+	private $patient; #this is for the strange extra patient in some claims
+						#   look for HL loop   HL*x*x*23*0
 	private $patientFirst;
 	private $patientLast;
 	private $patientMiddle;
@@ -41,9 +43,13 @@ class dentalClaim{
 	private $providerId;
 	private $providerId2;
 	private $providerTaxonomy;
+	private $services;
+	private $exceptionCode;
+	private $patientPaid;
 
 	function __construct(){
 		$this->claimIndex = '';
+		$this->patient = '';
 		$this->patientFirst = '';
 		$this->patientLast = '';
 		$this->patientMiddle = '';
@@ -84,10 +90,22 @@ class dentalClaim{
 		$this->providerId = '';
 		$this->providerId2 = '';
 		$this->providerTaxonomy = '';
+		$this->services = array();
+		$this->exceptionCode = '';
+		$this->patientPaid = '';
 	}
+	
+	# ADDERS
+	function addService($x){$this->services[] = $x;}
+
+	# GETTERS
+	function getServices(){ return $this->services; }
+	function getPatient(){ return $this->patient; }
 
 	# SETTERS
+	function setPatientPaid($x){ $this->patientPaid = $x; }
 	function setClaimIndex($x){ $this->claimIndex = $x; }
+	function setPatient($x){ $this->patient = $x; }
 	function setPatientFirst($x){ $this->patientFirst = $x; }
 	function setPatientLast($x){ $this->patientLast = $x; }
 	function setPatientMiddle($x){ $this->patientMiddle = $x; }
@@ -128,10 +146,15 @@ class dentalClaim{
 	function setProviderId($x){ $this->providerId = $x; }
 	function setProviderId2($x){ $this->providerId2 = $x; }
 	function setProviderTaxonomy($x){ $this->providerTaxonomy = $x; }
+	function setExceptionCode($x){ $this->exceptionCode = $x; }
 
 	function toText(){
 		#to text by defaul create a string ment to be viewed by html
 		$m = array();
+		$m[] = "ClaimId: ".$this->claimId;
+		$m[] = "PatientPaid: ".$this->patientPaid;
+/*
+		$m[] = "ExceptionCode: ".$this->exceptionCode;
 		$m[] = "ClaimIndex: ".$this->claimIndex;
 		$m[] = "ProviderName: ".$this->providerName;
 		$m[] = "ProviderId: ".$this->providerId;
@@ -144,9 +167,7 @@ class dentalClaim{
 		$m[] = "FacilityCity: ".$this->facilityCity;
 		$m[] = "FacilityState: ".$this->facilityState;
 		$m[] = "FacilityZip: ".$this->facilityZip;
-/*
 		$m[] = "ClaimNote: ".$this->claimNote;
-		$m[] = "ClaimId: ".$this->claimId;
 		$m[] = "ClaimId2: ".$this->claimId2;
 		$m[] = "ServiceDate: ".$this->serviceDate;
 		$m[] = "PatientFirst: ".$this->patientFirst;
