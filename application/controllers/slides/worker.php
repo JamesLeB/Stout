@@ -65,7 +65,8 @@ class Worker extends CI_Controller {
 
 		#$e = ''; foreach($m as $mm){$e .= "$mm<br/>";}
 		#echo $e;
-	}
+
+	}# END function convertEdi
 	private function removeInvalidCharacters($x12){
 		#$file = 'a.txt';
 		#$x12 = file_get_contents($this->filePath.$file);
