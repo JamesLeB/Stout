@@ -1,18 +1,6 @@
 <?php
-class EDI837D{
+class billingProvider{
 
-	private $senderId;
-	private $senderName;
-	private $receiverId;
-	private $receiverName;
-	private $date;
-	private $time;
-	private $batch;
-	private $format;
-	private $ftype;
-	private $submitterName;
-	private $submitterPhone;
-/*
 	private $billingProviderSpecialty;
 	private $billingProviderName;
 	private $billingProviderNPI;
@@ -29,22 +17,9 @@ class EDI837D{
 	private $pay2City;
 	private $pay2State;
 	private $pay2Zip;
-*/
 
 
 	function __construct(){
-		$this->senderId = '';
-		$this->senderName = '';
-		$this->receiverId = '';
-		$this->receiverName = '';
-		$this->date = '';
-		$this->time = '';
-		$this->batch = '';
-		$this->format = '';
-		$this->ftype = '';
-		$this->submitterName = '';
-		$this->submitterPhone = '';
-/*
 		$this->billingProviderSpecialty = '';
 		$this->billingProviderName = '';
 		$this->billingProviderNPI = '';
@@ -61,24 +36,9 @@ class EDI837D{
 		$this->pay2City = '';
 		$this->pay2State = '';
 		$this->pay2Zip = '';
-*/
 	}
 
 	# SETTERS
-	function setSenderId($x){ $this->senderId = $x; }
-	function setSenderName($x){ $this->senderName = $x; }
-	function setReceiverId($x){ $this->receiverId = $x; }
-	function setReceiverName($x){ $this->receiverName = $x; }
-	function setDate($x){ $this->date = $x; }
-	function setTime($x){ $this->time = $x; }
-	function setBatch($x){ $this->batch = $x; }
-	function setformat($x){
-		$this->format = $x;
-		if($x=='005010X224A2'){$this->ftype = 'Dental';}else{$this->ftype = 'Error';}
-	}
-	function setSubmitterName($x){ $this->submitterName = $x; }
-	function setSubmitterPhone($x){ $this->submitterPhone = $x; }
-/*
 	function setBillingProviderSpecialty($x){ $this->billingProviderSpecialty = $x; }
 	function setBillingProviderName($x){ $this->billingProviderName = $x; }
 	function setBillingProviderNPI($x){ $this->billingProviderNPI = $x; }
@@ -95,22 +55,10 @@ class EDI837D{
 	function setPay2City($x){ $this->pay2City = $x; }
 	function setPay2State($x){ $this->pay2State = $x; }
 	function setPay2Zip($x){ $this->pay2Zip = $x; }
-*/
+
 	function toText(){
 		#to text by defaul create a string ment to be viewed by html
 		$m = array();
-		$m[] = "SenderId: ".$this->senderId;
-		$m[] = "SenderName: ".$this->senderName;
-		$m[] = "ReceiverId: ".$this->receiverId;
-		$m[] = "ReceiverName: ".$this->receiverName;
-		$m[] = "Date: ".$this->date;
-		$m[] = "Time: ".$this->time;
-		$m[] = "Batch: ".$this->batch;
-		$m[] = "Format: ".$this->format;
-		$m[] = "ftype: ".$this->ftype;
-		$m[] = "SubmitterName: ".$this->submitterName;
-		$m[] = "SubmitterPhone: ".$this->submitterPhone;
-/*
 		$m[] = "BillingProviderSpecialty: ".$this->billingProviderSpecialty;
 		$m[] = "BillingProviderName: ".$this->billingProviderName;
 		$m[] = "BillingProviderNPI: ".$this->billingProviderNPI;
@@ -127,7 +75,6 @@ class EDI837D{
 		$m[] = "Pay2City: ".$this->pay2City;
 		$m[] = "Pay2State: ".$this->pay2State;
 		$m[] = "Pay2Zip: ".$this->pay2Zip;
-*/
 		$r = implode('<br/>',$m);
 		return $r;
 	}
