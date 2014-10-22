@@ -21,19 +21,122 @@ class Worker extends CI_Controller {
 	}
 	public function convertEdi(){
 		header('status: Converting Axium EDI');
-		include('lib/classes/EDI837.php');
+		require('lib/classes/EDI837.php');
+		require('lib/classes/EDI837D.php');
+		require('lib/classes/dentalClaim.php');
+		require('lib/classes/billingProvider.php');
+		require('lib/classes/service.php');
+		require('lib/classes/patient.php');
 		$EDI = new EDI837();
-		$loadEdi = $EDI->loadEDI837D();
-		$message = $loadEdi{'message'};
-		$ediObj = $loadEdi{'ediObj'};
+
+		# LOAD and save EDI837D
+		#$obj = $EDI->loadEDI837D();
+		#$serial = serialize($obj);
+		#file_put_contents('files/a.ser',$serial);
+
+		$serial = file_get_contents('files/a.ser');
+		$obj = unserialize($serial);
+		$message = $obj{'message'};
+		$ediObj =  $obj{'ediObj'};
 
 		$m = array();
 		$m[] = '-----------------';
 		$m[] = 'EDI Object Output';
-		$a = $ediObj->getProviders();
-		$b = sizeof($a);
-		$m[] = "size of array $b";
+		$m[] = '-----------------';
+		$m[] = 'Load 837D message...';
+		$m[] = $message;
+		$m[] = '-----------------';
+		$e = ''; foreach($m as $mm){$e .= "$mm<br/>";}
+		echo $e;
+
+		# Create provider List
+		$providers = $ediObj->getProviders();
+		$l = array();
+		foreach($providers as $p){
+
+			# Create Provider Data
+			$ll = array();
+			$ll[] = array(
+				'Heading' => 'Data',
+				'Body'    => $p->toText()
+			);
+			# Create Claim List
+			$claims = $p->getClaims();
+			$claimL = array();
+			foreach($claims as $claim){
+				# Create Claim Body
+				$claimB = array();
+				$claimB[] = array(
+					'Heading' => 'Data',
+					'Body'    => $claim->toText()
+				);
+				# Create Procedure List
+				$procedures = $claim->getServices();
+				$procl = array();
+				foreach($procedures as $proc){
+					$procl[] = array(
+						'Heading' => 'Service',
+						'Body'    => $proc->toText()
+					);
+				}
+				$p = array('myList'=>$procl);
+				$procedureList = $this->load->view('myList',$p,true);
+				$claimB[] = array(
+					'Heading' => 'Services',
+					'Body'    => $procedureList
+				);
+				$p = array('myList'=>$claimB);
+				$claimBody = $this->load->view('myList',$p,true);
+				$claimL[] = array(
+					'Heading' => 'Claim',
+					'Body'    => $claimBody
+				);
+			}
+			$p = array('myList'=>$claimL);
+			$claimList = $this->load->view('myList',$p,true);
+			$ll[] = array(
+				'Heading' => 'Claims',
+				'Body'    => $claimList
+			);
+			$p = array('myList'=>$ll);
+			$providerData = $this->load->view('myList',$p,true);
+
+			$l[] = array(
+				'Heading' => 'Provider',
+				'Body'    => $providerData
+			);
+		}
+		$p = array('myList'=>$l);
+		$providerList = $this->load->view('myList',$p,true);
+		# Create 837D body
+		$l = array();
+		$l[] = array(
+			'Heading' => 'Data',
+			'Body'    => $ediObj->toText()
+		);
+		$l[] = array(
+			'Heading' => 'Providers',
+			'Body'    => $providerList
+		);
+		$p = array('myList'=>$l);
+		$body837D = $this->load->view('myList',$p,true);
+		# Create Final List
 		$myList = array();
+		$myList[] = array(
+			'Heading' => '837D',
+			'Body'    => $body837D
+		);
+		$parm = array('myList'=>$myList);
+		echo $this->load->view('myList',$parm,true);
+		echo "
+			<script>
+				$('.myBody').hide();
+				$('.myHeading button').click(function(){
+					$(this).parent().next().toggle();
+				});
+			</script>
+		";
+/*
 		foreach($a as $c){
 			$provList = array();
 			$provList[] = array(
@@ -52,20 +155,7 @@ class Worker extends CI_Controller {
 				'Body' => $body
 			);
 		}
-		$parm = array('myList'=>$myList);
-		echo $this->load->view('myList',$parm,true);
-		echo "
-			<script>
-				$('.myBody').hide();
-				$('.myHeading button').click(function(){
-					$(this).parent().next().toggle();
-				});
-			</script>
-		";
-
-		#$e = ''; foreach($m as $mm){$e .= "$mm<br/>";}
-		#echo $e;
-
+*/
 	}# END function convertEdi
 	private function removeInvalidCharacters($x12){
 		#$file = 'a.txt';
