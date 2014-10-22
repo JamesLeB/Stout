@@ -1,6 +1,7 @@
 <?php
 class billingProvider{
 
+	private $header;
 	private $billingProviderSpecialty;
 	private $billingProviderName;
 	private $billingProviderNPI;
@@ -17,9 +18,11 @@ class billingProvider{
 	private $pay2City;
 	private $pay2State;
 	private $pay2Zip;
+	private $claims;
 
 
 	function __construct(){
+		$this->header = '';
 		$this->billingProviderSpecialty = '';
 		$this->billingProviderName = '';
 		$this->billingProviderNPI = '';
@@ -36,9 +39,17 @@ class billingProvider{
 		$this->pay2City = '';
 		$this->pay2State = '';
 		$this->pay2Zip = '';
+		$this->claims = array();
 	}
 
+	# ADDERS
+	function addClaim($x){ $this->claims[] = $x; }
+
+	# GETTERS
+	function getClaims(){ return $this->claims; }
+
 	# SETTERS
+	function setHeader($x){ $this->header = $x; }
 	function setBillingProviderSpecialty($x){ $this->billingProviderSpecialty = $x; }
 	function setBillingProviderName($x){ $this->billingProviderName = $x; }
 	function setBillingProviderNPI($x){ $this->billingProviderNPI = $x; }
@@ -59,6 +70,8 @@ class billingProvider{
 	function toText(){
 		#to text by defaul create a string ment to be viewed by html
 		$m = array();
+		$m[] = "Header: ".$this->header;
+/*
 		$m[] = "BillingProviderSpecialty: ".$this->billingProviderSpecialty;
 		$m[] = "BillingProviderName: ".$this->billingProviderName;
 		$m[] = "BillingProviderNPI: ".$this->billingProviderNPI;
@@ -75,6 +88,7 @@ class billingProvider{
 		$m[] = "Pay2City: ".$this->pay2City;
 		$m[] = "Pay2State: ".$this->pay2State;
 		$m[] = "Pay2Zip: ".$this->pay2Zip;
+*/
 		$r = implode('<br/>',$m);
 		return $r;
 	}
