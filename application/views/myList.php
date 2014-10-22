@@ -17,12 +17,10 @@
 ?>
 <style>
 	.myList{
-		width : 95%;
-		margin-left : auto;
-		margin-right : auto;
 	}
 	.myHeading{
 		padding : 5px;
+		padding-right : 0px;
 		margin-top : 5px;
 		background : #434343;
 	}
@@ -31,8 +29,9 @@
 	}
 	.myBody{
 		background : #343434;
-		margin-left : 50px;
+		margin-left : 20px;
 		margin-bottom : 20px;
 		padding : 5px;
+		padding-right : 0px;
 	}
 </style>
