@@ -12,6 +12,7 @@
 				<button>Get File</button>
 				<button>Claim</button>
 				<button>Convert</button>
+				<button>Create</button>
 			</td>
 			<td id='workerView'>View</td>
 		</tr>
@@ -70,6 +71,7 @@
 		     if(a=='Get File') {func='getTestFile';}
 		else if(a=='Claim')    {func='getTestFile'; parm = { secret: 'claims' }; }
 		else if(a=='Convert')  {func='convertEdi';}
+		else if(a=='Create')   {func='create837D';}
 		else                   {func='test';}
 		var request = $.post(target+func,parm,function(data){
 			var status = request.getResponseHeader('status');
