@@ -151,24 +151,9 @@ class dentalClaim{
 	function toText(){
 		#to text by defaul create a string ment to be viewed by html
 		$m = array();
-		$m[] = "ClaimId: ".$this->claimId;
-		$m[] = "PatientPaid: ".$this->patientPaid;
-		$m[] = "ExceptionCode: ".$this->exceptionCode;
 		$m[] = "ClaimIndex: ".$this->claimIndex;
-		$m[] = "ProviderName: ".$this->providerName;
-		$m[] = "ProviderId: ".$this->providerId;
-		$m[] = "ProviderId2: ".$this->providerId2;
-		$m[] = "ProviderTaxonomy: ".$this->providerTaxonomy;
-		$m[] = "FacilityName: ".$this->facilityName;
-		$m[] = "FacilityId: ".$this->facilityId;
-		$m[] = "FacilityId2: ".$this->facilityId2;
-		$m[] = "FacilityStreet: ".$this->facilityStreet;
-		$m[] = "FacilityCity: ".$this->facilityCity;
-		$m[] = "FacilityState: ".$this->facilityState;
-		$m[] = "FacilityZip: ".$this->facilityZip;
-		$m[] = "ClaimNote: ".$this->claimNote;
-		$m[] = "ClaimId2: ".$this->claimId2;
-		$m[] = "ServiceDate: ".$this->serviceDate;
+		$m[] = "ClaimId: ".$this->claimId;
+# Subscriber
 		$m[] = "PatientFirst: ".$this->patientFirst;
 		$m[] = "PatientLast: ".$this->patientLast;
 		$m[] = "PatientMiddle: ".$this->patientMiddle;
@@ -179,6 +164,7 @@ class dentalClaim{
 		$m[] = "PatientZip: ".$this->patientZip;
 		$m[] = "PatientBirth: ".$this->patientBirth;
 		$m[] = "PatientSex: ".$this->patientSex;
+# Payer
 		$m[] = "PayerName: ".$this->payerName;
 		$m[] = "PayerId: ".$this->payerId;
 		$m[] = "Payer2ndId: ".$this->payer2ndId;
@@ -187,13 +173,33 @@ class dentalClaim{
 		$m[] = "PayerCity: ".$this->payerCity;
 		$m[] = "PayerState: ".$this->payerState;
 		$m[] = "PayerZip: ".$this->payerZip;
-		$m[] = "BillingProvider2ndId: ".$this->billingProvider2ndId;
+# Claim
+		$m[] = "PatientPaid: ".$this->patientPaid;
+		$m[] = "ExceptionCode: ".$this->exceptionCode;
+		$m[] = "ClaimId2: ".$this->claimId2;
+		$m[] = "ClaimNote: ".$this->claimNote;
+		$m[] = "ServiceDate: ".$this->serviceDate;
 		$m[] = "ClaimAmount: ".$this->claimAmount;
-		$m[] = "FacilityCode: ".$this->facilityCode;
 		$m[] = "Signature: ".$this->signature;
 		$m[] = "AssignmentCode: ".$this->assignmentCode;
 		$m[] = "AssignmentStatus: ".$this->assignmentStatus;
 		$m[] = "Release: ".$this->release;
+# Provider
+		$m[] = "ProviderName: ".$this->providerName;
+		$m[] = "ProviderId: ".$this->providerId;
+		$m[] = "ProviderId2: ".$this->providerId2;
+		$m[] = "ProviderTaxonomy: ".$this->providerTaxonomy;
+# Facility
+		$m[] = "FacilityCode: ".$this->facilityCode;
+		$m[] = "FacilityName: ".$this->facilityName;
+		$m[] = "FacilityId: ".$this->facilityId;
+		$m[] = "FacilityId2: ".$this->facilityId2;
+		$m[] = "FacilityStreet: ".$this->facilityStreet;
+		$m[] = "FacilityCity: ".$this->facilityCity;
+		$m[] = "FacilityState: ".$this->facilityState;
+		$m[] = "FacilityZip: ".$this->facilityZip;
+		$m[] = "BillingProvider2ndId: ".$this->billingProvider2ndId;
+
 		$r = implode('<br/>',$m);
 		return $r;
 	}
