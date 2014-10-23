@@ -19,6 +19,85 @@ class Worker extends CI_Controller {
 		$ms .= "Done Test<br/>";
 		echo $ms;
 	}
+	public function create837D(){
+
+		header('status: Creating 837D');
+
+		require('lib/classes/EDI837.php');
+		require('lib/classes/EDI837D.php');
+		require('lib/classes/dentalClaim.php');
+		require('lib/classes/billingProvider.php');
+		require('lib/classes/service.php');
+		require('lib/classes/patient.php');
+
+		$serial = file_get_contents('files/a.ser');
+		$obj = unserialize($serial);
+		$ediObj = $obj{'ediObj'};
+
+$date6 = '141023';
+$date8 = '20141023';
+$time = '1200';
+$gsControl = '000000064';
+
+		$x12 = array();
+# ADD HEADER
+		$x12[] = "ISA*00*          *00*          *ZZ*F00            *ZZ*EMEDNYBAT      *$date6*$time*U*00501*$gsControl*0*P*:";
+		$x12[] = "GS*HC*F00*EMEDNYBAT*$date8*$time*$gsControl*X*005010X223A2";
+		$x12[] = "ST*837*$gsControl*005010X223A2";
+		$x12[] = "BHT*0019*00*$gsControl*$date8*$time*CH";
+		$x12[] = "NM1*41*2*NEW YORK UNIV DENTAL CTR*****46*F00";
+		$x12[] = "PER*IC*TYKIEYEN MOORE*TE*2129989879";
+		$x12[] = "NM1*40*2*NYSDOH*****46*141797357";
+		$x12[] = "HL*1**20*1";
+		$x12[] = "NM1*85*2*NEW YORK UNIV DENTAL CTR*****XX*1164555124";
+		$x12[] = "N3*345 E 24TH ST 213S";
+		$x12[] = "N4*NEW YORK*NY*100104020";
+		$x12[] = "REF*EI*135562308";
+
+$HL = 2;
+$last = 'lastName';
+$first = 'firstName';
+$subscriberId = 'medicaidNumber';
+$birthdate = 'birthday';
+$sex = 'sex';
+$claimId = 'claimId';
+$claimAmount = 'amount';
+$claimServiceDate = "claim date of service";
+
+# ADD SUBSCRIBER
+		$x12[] = "HL*$HL*1*22*0";
+		$x12[] = "SBR*P*18*******MC";
+		$x12[] = "NM1*IL*1*$last*$first****MI*$subscriberId";
+		$x12[] = "DMG*D8*$birthdate*$sex";
+		$x12[] = "NM1*PR*2*NYSDOH*****PI*141797357";
+		$x12[] = "CLM*$claimId*$claimAmount***79:A:1**A*Y*Y";
+		$x12[] = "DTP*434*RD8*$claimServiceDate-$claimServiceDate";
+		$x12[] = "CL1*1*7*30";
+		$x12[] = "HI*BK:52100";
+		$x12[] = "HI*BE:24:::1428";
+		$x12[] = "NM1*71*1*DESTENO*COSMO*****XX*1518920727";
+
+$serviceIndex = "line number";
+$adaCode = 'adacode';
+$lineAmount = 'line amount';
+$lineServiceDate = "line date of service";
+# ADD SERVICE
+		$x12[] = "LX*$serviceIndex";
+		$x12[] = "SV2*0512*HC:$adaCode*$lineAmount*UN*1";
+		$x12[] = "DTP*472*RD8*$lineServiceDate-$lineServiceDate";
+
+$segmentCount = sizeof($x12)-1;
+# ADD FOOTER
+		$x12[] = "SE*$segmentCount*$gsControl";
+		$x12[] = "GE*1*$gsControl";
+		$x12[] = "IEA*1*$gsControl";
+
+		$x12 = implode("~\n",$x12);
+		file_put_contents('files/edi/a.x12',$x12);
+
+		echo "Done..";
+
+	}
 	public function convertEdi(){
 		header('status: Converting Axium EDI');
 		require('lib/classes/EDI837.php');
