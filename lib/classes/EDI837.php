@@ -216,8 +216,8 @@ class EDI837{
 		$seg = array_shift($segments);
 		if(preg_match('/^NM1\*IL\*1\*/',$seg)){
 			$temp = preg_split('/\*/',$seg);
-			$claim->setPatientFirst($temp[3]);
-			$claim->setPatientLast($temp[4]);
+			$claim->setPatientFirst($temp[4]);
+			$claim->setPatientLast($temp[3]);
 			$claim->setPatientMiddle($temp[5]);
 			$claim->setPatientId($temp[9]);
 		}else{throw new exception("error loading SBR<br/>---<br/>$seg<br/>---");}
