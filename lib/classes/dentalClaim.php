@@ -101,6 +101,18 @@ class dentalClaim{
 	# GETTERS
 	function getServices(){ return $this->services; }
 	function getPatient(){ return $this->patient; }
+	function getStuff(){
+		return array(
+			'last'    => $this->patientLast,
+			'first'   => $this->patientFirst,
+			'id'      => $this->patientId,
+			'birth'   => $this->patientBirth,
+			'sex'     => $this->patientSex,
+			'claimid' => $this->claimId,
+			'date'    => $this->serviceDate,
+			'amount'  => $this->claimAmount
+		);
+	}
 
 	# SETTERS
 	function setPatientPaid($x){ $this->patientPaid = $x; }
