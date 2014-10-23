@@ -34,6 +34,14 @@ class EDI837D{
 
 	#GETTERS
 	function getProviders(){return $this->providers;}
+	function getStuff(){
+		return array(
+			'date'      => $this->date,
+			'time'      => $this->time,
+			'batch'     => $this->batch,
+			'providers' => $this->providers
+		);
+	}
 
 	# SETTERS
 	function setSenderId($x){ $this->senderId = $x; }
