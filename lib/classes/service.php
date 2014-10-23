@@ -17,6 +17,16 @@ class service{
 		$this->toothNumber = '';
 	}
 
+	# GETTERS
+	function getStuff(){
+		return array(
+			'number'  => $this->lineNumber,
+			'adacode' => $this->adaCode,
+			'amount'  => $this->lineAmount,
+			'date'    => $this->serviceDate
+		);
+	}
+
 	# SETTERS
 	function setLineNumber($x){ $this->lineNumber = $x; }
 	function setAdaCode($x){ $this->adaCode = $x; }
