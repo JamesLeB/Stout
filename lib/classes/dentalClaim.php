@@ -2,6 +2,7 @@
 class dentalClaim{
 
 	private $claimIndex;
+	private $tcn;
 	private $patient; #this is for the strange extra patient in some claims
 						#   look for HL loop   HL*x*x*23*0
 	private $patientFirst;
@@ -46,9 +47,12 @@ class dentalClaim{
 	private $services;
 	private $exceptionCode;
 	private $patientPaid;
+	private $supplementalInfo;
 
 	function __construct(){
 		$this->claimIndex = '';
+		$this->tcn = '';
+		$this->supplementalInfo = '';
 		$this->patient = '';
 		$this->patientFirst = '';
 		$this->patientLast = '';
@@ -116,6 +120,8 @@ class dentalClaim{
 
 	# SETTERS
 	function setPatientPaid($x){ $this->patientPaid = $x; }
+	function setTcn($x){ $this->tcn = $x; }
+	function setSupplementalInfo($x){ $this->supplementalInfo = $x; }
 	function setClaimIndex($x){ $this->claimIndex = $x; }
 	function setPatient($x){ $this->patient = $x; }
 	function setPatientFirst($x){ $this->patientFirst = $x; }
@@ -165,6 +171,8 @@ class dentalClaim{
 		$m = array();
 		$m[] = "ClaimIndex: ".$this->claimIndex;
 		$m[] = "ClaimId: ".$this->claimId;
+		$m[] = "TCN: ".$this->tcn;
+		$m[] = "SupplementalInfo: ".$this->supplementalInfo;
 # Subscriber
 		$m[] = "PatientFirst: ".$this->patientFirst;
 		$m[] = "PatientLast: ".$this->patientLast;
