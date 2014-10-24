@@ -127,7 +127,7 @@ class Worker extends CI_Controller {
 		
 			# SAVE FILE TO DISK
 			$x12 = implode("~",$x12);
-			file_put_contents('files/edi/a.x12',$x12);
+			file_put_contents('files/edi/z.x12',$x12);
 
 			#throw new exception("this is an error");
 			$m[] = 'OK';
