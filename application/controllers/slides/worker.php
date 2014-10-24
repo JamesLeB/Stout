@@ -32,6 +32,9 @@ class Worker extends CI_Controller {
 
 		$m = array();
 		$m[] = "Messages...";
+		$batchCount  = 0;
+		$batchAmount = 0;
+		$batchNumber;
 
 		try{
 			# LOAD HEADER
@@ -43,6 +46,7 @@ class Worker extends CI_Controller {
 			$date8 = "20$date6";
 			$time = $edi{'time'};
 			$batch = $edi{'batch'};
+			$batchNumber = $batch;
 			$x12 = array();
 			$x12[] = "ISA*00*          *00*          *ZZ*F00            *ZZ*EMEDNYBAT      *$date6*$time*U*00501*$batch*0*P*:";
 			$x12[] = "GS*HC*F00*EMEDNYBAT*$date8*$time*$batch*X*005010X223A2";
@@ -74,6 +78,9 @@ class Worker extends CI_Controller {
 					$claimId          = $claimData{'claimid'};
 					$claimServiceDate = $claimData{'date'};
 					$claimAmount      = $claimData{'amount'};
+
+					$batchCount++;
+					$batchAmount += $claimAmount;
 
 					$HL++;
 					$x12[] = "HL*$HL*1*22*0";
@@ -131,6 +138,9 @@ class Worker extends CI_Controller {
 
 			#throw new exception("this is an error");
 			$m[] = 'OK';
+			$m[] = "Batch Number: $batchNumber";
+			$m[] = "Batch Count: $batchCount";
+			$m[] = "Batch Amount: $batchAmount";
 
 		}catch(exception $e){
 			$error = $e->getMessage();
