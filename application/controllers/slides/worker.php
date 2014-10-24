@@ -133,8 +133,10 @@ class Worker extends CI_Controller {
 			$x12[] = "IEA*1*$batch";
 		
 			# SAVE FILE TO DISK
+			$file = "B".substr($batchNumber,strlen($batchNumber)-4,4);
 			$x12 = implode("~",$x12);
-			file_put_contents('files/edi/z.x12',$x12);
+			file_put_contents("files/edi/$file.x12",$x12);
+			file_put_contents("files/edi/z.x12",$x12);
 
 			#throw new exception("this is an error");
 			$m[] = 'OK';
