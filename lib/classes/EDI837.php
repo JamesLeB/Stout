@@ -144,21 +144,21 @@ class EDI837{
 		#LOAD REF    I think this segment is how axium send the site id to emdeon
 		if(preg_match('/^REF\*G5\*/',$segments[0])){
 			$seg = array_shift($segments);
-		}#else{throw new exception("error loading REF xx<br/>---<br/>$seg<br/>---");}
+		}#else{throw new exception("erroc loading REF<br/>---<br/>$seg<br/>---");}
 	
 		#LOAD REF
 		$seg = array_shift($segments);
 		if(preg_match('/^REF\*EI\*/',$seg)){
 			$temp = preg_split('/\*/',$seg);
 			$provider->setBillingProviderTaxId($temp[2]);
-		}else{throw new exception("error loading REF<br/>---<br/>$seg<br/>---");}
+		}else{throw new exception("erroc loading REF<br/>---<br/>$seg<br/>---");}
 	
 		#LOAD REF
 		$seg = array_shift($segments);
 		if(preg_match('/^REF\*0B\*/',$seg)){
 			$temp = preg_split('/\*/',$seg);
 			$provider->setBillingProviderLicense($temp[2]);
-		}else{throw new exception("error loading REF<br/>---<br/>$seg<br/>---");}
+		}else{throw new exception("erroc loading REF<br/>---<br/>$seg<br/>---");}
 	
 		#LOAD REF
 		$seg = array_shift($segments);
@@ -166,7 +166,7 @@ class EDI837{
 			$temp = preg_split('/\*/',$seg);
 			$provider->setBillingProviderContactName($temp[2]);
 			$provider->setBillingProviderContactNumber($temp[4]);
-		}else{throw new exception("error loading REF<br/>---<br/>$seg<br/>---");}
+		}else{throw new exception("erroc loading REF<br/>---<br/>$seg<br/>---");}
 	
 		#LOAD NM1
 		if(preg_match('/^NM1\*87\*/',$segments[0])){
@@ -276,14 +276,14 @@ class EDI837{
 		if(preg_match('/^REF\*FY\*/',$seg)){
 			$temp = preg_split('/\*/',$seg);
 			$claim->setPayer2ndId($temp[2]);
-		}else{throw new exception("error loading REF<br/>---<br/>$seg<br/>---");}
+		}else{throw new exception("erroc loading REF<br/>---<br/>$seg<br/>---");}
 
 		#LOAD REF
 		$seg = array_shift($segments);
 		if(preg_match('/^REF\*G2\*/',$seg)){
 			$temp = preg_split('/\*/',$seg);
 			$claim->setBillingProvider2ndId($temp[2]);
-		}else{throw new exception("error loading REF<br/>---<br/>$seg<br/>---");}
+		}else{throw new exception("erroc loading REF<br/>---<br/>$seg<br/>---");}
 
 		#LOAD REF
 		if(preg_match('/^HL\*[0-9]+\*[0-9]+\*23\*/',$segments[0])){
@@ -311,10 +311,24 @@ class EDI837{
 			$claim->setServiceDate($temp[3]);
 		}else{throw new exception("error loading DTP<br/>---<br/>$seg<br/>---");}
 
+		#LOAD PWK
+		if(preg_match('/^PWK\*/',$segments[0])){
+			$temp = preg_split('/\*/',$segments[0]);
+			$claim->setSupplementalInfo($segments[0]);
+			$seg = array_shift($segments);
+		}
+
 		#LOAD AMT
 		if(preg_match('/^AMT\*F5\*/',$segments[0])){
 			$temp = preg_split('/\*/',$segments[0]);
 			$claim->setPatientPaid($temp[2]);
+			$seg = array_shift($segments);
+		}
+
+		#LOAD REF
+		if(preg_match('/^REF\*G3\*/',$segments[0])){
+			$temp = preg_split('/\*/',$segments[0]);
+			$claim->setTcn($temp[2]);
 			$seg = array_shift($segments);
 		}
 
@@ -359,7 +373,7 @@ class EDI837{
 		if(preg_match('/^REF\*G2\*/',$seg)){
 			$temp = preg_split('/\*/',$seg);
 			$claim->setProviderId2($temp[2]);
-		}else{throw new exception("error loading REF<br/>---<br/>$seg<br/>---");}
+		}else{throw new exception("erroc loading REF<br/>---<br/>$seg<br/>---");}
 
 		#LOAD NM1
 		$seg = array_shift($segments);
@@ -390,7 +404,7 @@ class EDI837{
 		if(preg_match('/^REF\*0B\*/',$seg)){
 			$temp = preg_split('/\*/',$seg);
 			$claim->setFacilityId2($temp[2]);
-		}else{throw new exception("error loading REF<br/>---<br/>$seg<br/>---");}
+		}else{throw new exception("erroc loading REF<br/>---<br/>$seg<br/>---");}
 
 		while(preg_match('/^LX\*/',$segments[0])){
 			$service = $this->loadService($segments);
@@ -486,7 +500,7 @@ class EDI837{
 		if(preg_match('/^REF\*6R\*/',$seg)){
 			$temp = preg_split('/\*/',$seg);
 			$service->setLineControl($temp[2]);
-		}else{throw new exception("error loading REF<br/>---<br/>$seg<br/>---");}
+		}else{throw new exception("erroc loading REF<br/>---<br/>$seg<br/>---");}
 
 		return $service;
 	}# END function loadService
