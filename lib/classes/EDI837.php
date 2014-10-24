@@ -4,7 +4,7 @@ class EDI837{
 	private $filepath;
 
 	function __construct(){
-		$this->filepath = 'files/EDIbatches/';
+		$this->filepath = 'files/edi/';
 	}
 	public function test(){
 		return "Testing EDI837";
@@ -14,7 +14,7 @@ class EDI837{
 		$m = array();
 
 		$m[] = "Step 1..Get x12 file from Axium";
-		$file = 'a.x12';
+		$file = 'a.txt';
 		$x12 = file_get_contents($this->filepath.$file);
 		$segments = preg_split('/~/',$x12);
 
@@ -142,9 +142,9 @@ class EDI837{
 		}else{throw new exception("error loading N4<br/>---<br/>$seg<br/>---");}
 	
 		#LOAD REF    I think this segment is how axium send the site id to emdeon
-		$seg = array_shift($segments);
-		if(preg_match('/^REF\*G5\*/',$seg)){
-		}else{throw new exception("error loading REF<br/>---<br/>$seg<br/>---");}
+		if(preg_match('/^REF\*G5\*/',$segments[0])){
+			$seg = array_shift($segments);
+		}#else{throw new exception("error loading REF xx<br/>---<br/>$seg<br/>---");}
 	
 		#LOAD REF
 		$seg = array_shift($segments);
@@ -169,26 +169,26 @@ class EDI837{
 		}else{throw new exception("error loading REF<br/>---<br/>$seg<br/>---");}
 	
 		#LOAD NM1
-		$seg = array_shift($segments);
-		if(preg_match('/^NM1\*87\*/',$seg)){
-		}else{throw new exception("error loading NM1<br/>---<br/>$seg<br/>---");}
+		if(preg_match('/^NM1\*87\*/',$segments[0])){
+			$seg = array_shift($segments);
+		}#else{throw new exception("error loading NM1<br/>---<br/>$seg<br/>---");}
 	
 		#LOAD N3
-		$seg = array_shift($segments);
-		if(preg_match('/^N3\*/',$seg)){
+		if(preg_match('/^N3\*/',$segments[0])){
+			$seg = array_shift($segments);
 			$temp = preg_split('/\*/',$seg);
 			$provider->setPay2Name($temp[1]);
 			if(isset($temp[2])){$provider->setPay2Street($temp[2]);}
-		}else{throw new exception("error loading N3<br/>---<br/>$seg<br/>---");}
+		}#else{throw new exception("error loading N3<br/>---<br/>$seg<br/>---");}
 	
 		#LOAD N4
-		$seg = array_shift($segments);
-		if(preg_match('/^N4\*/',$seg)){
+		if(preg_match('/^N4\*/',$segments[0])){
+			$seg = array_shift($segments);
 			$temp = preg_split('/\*/',$seg);
 			$provider->setPay2City($temp[1]);
 			$provider->setPay2State($temp[2]);
 			$provider->setPay2Zip($temp[3]);
-		}else{throw new exception("error loading N4<br/>---<br/>$seg<br/>---");}
+		}#else{throw new exception("error loading N4<br/>---<br/>$seg<br/>---");}
 
 		while(preg_match('/^HL\*[0-9]+\*[0-9]+\*22\*/',$segments[0])){
 			$claim = $this->loadDentalClaim($segments);
