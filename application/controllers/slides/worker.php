@@ -108,7 +108,7 @@ class Worker extends CI_Controller {
 						$x12[] = "CL1*1*7*30";
 						$x12[] = "HI*BK:52100";
 						$x12[] = "HI*BE:24:::1428";
-						$x12[] = "NM1*71*1*DESTENO*COSMO*****XX*1518920727";
+						$x12[] = "NM1*71*1*DESTENO*COSMO****XX*1518920727";
 	
 						$services = $claim->getServices();
 	
