@@ -46,6 +46,7 @@ class Worker extends CI_Controller {
 			$date8 = "20$date6";
 			$time = $edi{'time'};
 			$batch = $edi{'batch'};
+			$batch = preg_replace('/^0/','1',$batch);
 			$batchNumber = $batch;
 			$x12 = array();
 			$x12[] = "ISA*00*          *00*          *ZZ*F00            *ZZ*EMEDNYBAT      *$date6*$time*U*00501*$batch*0*P*:";
