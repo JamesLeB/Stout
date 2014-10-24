@@ -68,61 +68,81 @@ class Worker extends CI_Controller {
 			foreach($providers as $provider){
 				$claims = $provider->getClaims();
 				foreach($claims as $claim){
-					$claimData = $claim->getStuff();
-		
-					$last             = $claimData{'last'};
-					$first            = $claimData{'first'};
-					$subscriberId     = $claimData{'id'};
-					$birthdate        = $claimData{'birth'};
-					$sex              = $claimData{'sex'};
-					$claimId          = $claimData{'claimid'};
-					$claimServiceDate = $claimData{'date'};
-					$claimAmount      = $claimData{'amount'};
 
-					$batchCount++;
-					$batchAmount += $claimAmount;
-
-					$HL++;
-					$x12[] = "HL*$HL*1*22*0";
-					$x12[] = "SBR*P*18*******MC";
-					$x12[] = "NM1*IL*1*$last*$first****MI*$subscriberId";
-					$x12[] = "DMG*D8*$birthdate*$sex";
-					$x12[] = "NM1*PR*2*NYSDOH*****PI*141797357";
-					$x12[] = "CLM*$claimId*$claimAmount***79:A:1**A*Y*Y";
-					$x12[] = "DTP*434*RD8*$claimServiceDate-$claimServiceDate";
-					$x12[] = "CL1*1*7*30";
-					$x12[] = "HI*BK:52100";
-					$x12[] = "HI*BE:24:::1428";
-					$x12[] = "NM1*71*1*DESTENO*COSMO*****XX*1518920727";
-
+					# Check for Claims that have no valid ADA codes
+					$checkForValidAda = 0;
 					$services = $claim->getServices();
-					$serviceIndex = 0;
-					$serviceTotal = 0;
 					foreach($services as $service){
 						$serviceData = $service->getStuff();
-						$adaCode         = $serviceData{'adacode'};
-						$lineAmount      = $serviceData{'amount'};
-						$lineServiceDate = $serviceData{'date'};
-
+						$adaCode = $serviceData{'adacode'};
 						$adaCode = preg_split('/:/',$adaCode);
 						$adaCode  = $adaCode[1];
-
-						if($lineServiceDate != $claimServiceDate){
-							# disabled
-							#throw new exception("Date miss match $claimId");
-						}
-						if($adaCode != '1428'){
-							$serviceIndex++;
-							$serviceTotal += $lineAmount ;
-							$x12[] = "LX*$serviceIndex";
-							$x12[] = "SV2*0512*HC:$adaCode*$lineAmount*UN*1";
-							$x12[] = "DTP*472*RD8*$lineServiceDate-$lineServiceDate";
-						}
-					}# end services loop
-					if(round($claimAmount,2) != round($serviceTotal,2)){
-						throw new exception("Claim Out of Balance
-							$claimAmount:$serviceTotal - $claimId");
+						if($adaCode != 1428){$checkForValidAda = 1;}
 					}
+
+					if($checkForValidAda){
+	
+						$claimData = $claim->getStuff();
+			
+						$last             = $claimData{'last'};
+						$first            = $claimData{'first'};
+						$subscriberId     = $claimData{'id'};
+						$birthdate        = $claimData{'birth'};
+						$sex              = $claimData{'sex'};
+						$claimId          = $claimData{'claimid'};
+						$claimServiceDate = $claimData{'date'};
+						$claimAmount      = $claimData{'amount'};
+	
+						$batchCount++;
+						$batchAmount += $claimAmount;
+	
+						$HL++;
+						$x12[] = "HL*$HL*1*22*0";
+						$x12[] = "SBR*P*18*******MC";
+						$x12[] = "NM1*IL*1*$last*$first****MI*$subscriberId";
+						$x12[] = "DMG*D8*$birthdate*$sex";
+						$x12[] = "NM1*PR*2*NYSDOH*****PI*141797357";
+						$x12[] = "CLM*$claimId*$claimAmount***79:A:1**A*Y*Y";
+						$x12[] = "DTP*434*RD8*$claimServiceDate-$claimServiceDate";
+						$x12[] = "CL1*1*7*30";
+						$x12[] = "HI*BK:52100";
+						$x12[] = "HI*BE:24:::1428";
+						$x12[] = "NM1*71*1*DESTENO*COSMO*****XX*1518920727";
+	
+						$services = $claim->getServices();
+	
+						$serviceIndex = 0;
+						$serviceTotal = 0;
+						foreach($services as $service){
+							$serviceData = $service->getStuff();
+							$adaCode         = $serviceData{'adacode'};
+							$lineAmount      = $serviceData{'amount'};
+							$lineServiceDate = $serviceData{'date'};
+	
+							$adaCode = preg_split('/:/',$adaCode);
+							$adaCode  = $adaCode[1];
+	
+							if($lineServiceDate != $claimServiceDate){
+								# disabled
+								#throw new exception("Date miss match $claimId");
+							}
+							if($adaCode != '1428'){
+								$serviceIndex++;
+								$serviceTotal += $lineAmount ;
+								$x12[] = "LX*$serviceIndex";
+								$x12[] = "SV2*0512*HC:$adaCode*$lineAmount*UN*1";
+								$x12[] = "DTP*472*RD8*$lineServiceDate-$lineServiceDate";
+							}
+						}# end services loop
+						if(round($claimAmount,2) != round($serviceTotal,2)){
+							throw new exception("Claim Out of Balance
+								$claimAmount:$serviceTotal - $claimId");
+						}
+					}else{
+						$claimData = $claim->getStuff();
+						$claimId = $claimData{'claimid'};
+						$m[] = "Bad Claim $claimId";
+					}# END IF
 				}# end claims loop
 			}# end providers loop
 		
@@ -134,7 +154,7 @@ class Worker extends CI_Controller {
 		
 			# SAVE FILE TO DISK
 			$file = "B".substr($batchNumber,strlen($batchNumber)-4,4);
-			$x12 = implode("~",$x12);
+			$x12 = implode("~",$x12)."~";
 			file_put_contents("files/edi/$file.x12",$x12);
 			file_put_contents("files/edi/z.x12",$x12);
 
