@@ -18,6 +18,7 @@
 				<clock>clock</clock>
 				<?php $message = file_get_contents('files/message'); ?>
 				<p><?php echo $message; ?></p>
+				<button id='logout'>logout</button>
 			</div>
 			<?php echo $slideTray ?>
 		</div>
