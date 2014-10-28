@@ -1,5 +1,6 @@
 <html>
 <head>
+	<script src='js/jquery-1.10.2.js'></script>
 	<style>
 		#wrapper{
 			border: 2px solid;
@@ -39,6 +40,7 @@
 	</style>
 </head>
 <body>
+	<button id='logout'>logout</button>
 	<div id='wrapper'>
 		<div id='notes'>NOTES</div>
 		<p>Hello <?php echo $user ?></p>
@@ -58,5 +60,13 @@
 			echo $html;
 		?>
 	</div>
+	<script>
+		$('#logout').click(function(){
+			var target = 'index.php?/stout/logout';
+			var request = $.post(target,'',function(data){
+				window.location.href = "index.php";
+			});
+		});
+	</script>
 </body>
 </html>
