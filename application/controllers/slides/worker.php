@@ -19,6 +19,10 @@ class Worker extends CI_Controller {
 		$ms .= "Done Test<br/>";
 		echo $ms;
 	}
+	public function read277(){
+		header('status: Reading 277');
+		echo 'reading 277';
+	}
 	public function create837D(){
 
 		header('status: Creating 837D');
