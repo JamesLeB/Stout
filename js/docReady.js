@@ -20,6 +20,13 @@ $(document).ready(function(){
 	*/
 	$("#tabs").tabs();
 	//$("#accordion").accordion();
+
+	$('#logout').click(function(){
+		var target = 'index.php?/stout/logout';
+		var request = $.post(target,'',function(data){
+			window.location.href = "index.php";
+		});
+	});
 });
 /*
 *	END Document Ready Fuction
