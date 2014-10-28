@@ -21,7 +21,17 @@ class Worker extends CI_Controller {
 	}
 	public function read277(){
 		header('status: Reading 277');
-		echo 'reading 277';
+		$x12 = file_get_contents('files/edi/277/a.x12');
+		$segments = preg_split('/~/',$x12);
+		$m = array();
+		try{
+			throw new exception("Fuck");
+			$m[] = "ok yes";
+		}catch(exception $e){
+			$error = $e->getMessage();
+			$m[] = "Error: $error";
+		}
+		$e='';foreach($m as $mm){$e .= "$mm<br/>";}echo $e;
 	}
 	public function create837D(){
 
