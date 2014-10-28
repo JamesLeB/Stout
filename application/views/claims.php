@@ -28,7 +28,7 @@
 		#notes{
 			position : absolute;
 			height : 400px;
-			width : 400px;
+			width : 500px;
 			border : 1px solid black;
 			border-radius : 20px;
 			padding : 10px;
@@ -37,12 +37,25 @@
 			left : 0;
 			margin : auto;
 		}
+		#hideNote{
+			float : right;
+		}
+		#addNote{
+			float : right;
+			margin-right : 20px;
+		}
 	</style>
 </head>
 <body>
 	<button id='logout'>logout</button>
 	<div id='wrapper'>
-		<div id='notes'>NOTES</div>
+		<div id='notes'>
+			NOTES
+			<button id='hideNote'>Close</button>
+			<button id='addNote'>Add</button>
+			<ul>
+			</ul>
+		</div>
 		<p>Hello <?php echo $user ?></p>
 		<?php
 			$array = array(
@@ -54,18 +67,32 @@
 			$html .= '<ul>';
 			foreach($array as $a){
 				
-				$html .= "<li><span>$a</span><span>hell</span><span><button>go</button></span></li>";
+				$html .= "<li>
+					<span>$a</span>
+					<span>hell</span>
+					<span><button class='viewNote'>Notes</button></span>
+				</li>";
 			}
 			$html .= '</ul>';
 			echo $html;
 		?>
 	</div>
 	<script>
+		$('#notes').hide();
 		$('#logout').click(function(){
 			var target = 'index.php?/stout/logout';
 			var request = $.post(target,'',function(data){
 				window.location.href = "index.php";
 			});
+		});
+		$('.viewNote').click(function(){
+			$('#notes').show();
+		});
+		$('#hideNote').click(function(){
+			$('#notes').hide();
+		});
+		$('#addNote').click(function(){
+			$('#notes').append("<li>item1</li>");
 		});
 	</script>
 </body>
