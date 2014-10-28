@@ -4,6 +4,8 @@ class Stout extends CI_Controller {
 
 	public function index()
 	{
+$user = $_SESSION['user'];
+#unset($_SESSION['user']);
 /*
 		$development['market']    = $this->load->view('bit/bitMarket','',true);
 		$development['buy']       = $this->load->view('bit/bitBuy','',true);
@@ -34,6 +36,11 @@ class Stout extends CI_Controller {
 */
 		$slides['slides'] = $slide;
 		$data['slideTray'] = $this->load->view('slideTray',$slides,true);
-		$this->load->view('home',$data);
+		if($user == 'james'){
+			$this->load->view('home',$data);
+		}elseif($user == 'john'){
+			$d['user'] = $user;
+			$this->load->view('claims',$d);
+		}
 	}
 }
