@@ -43,4 +43,7 @@ $user = $_SESSION['user'];
 			$this->load->view('claims',$d);
 		}
 	}
+	public function logout(){
+		unset($_SESSION['user']);
+	}
 }
