@@ -1,5 +1,5 @@
 <div id='worker'>
-	<table>
+	<table id='workerTable'>
 		<tr>
 			<td id='workerIcon'>
 				<img src='lib/images/rat.jpg' />
@@ -20,10 +20,10 @@
 	</table>
 </div>
 <style>
-	#worker table{
+	#worker > table{
 		width : 100%;
 	}
-	#worker td{
+	#workerTable > tbody > tr > td{
 		border-style : solid;
 		border-width ; 1px;
 		padding : 5px;
