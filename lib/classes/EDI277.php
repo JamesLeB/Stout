@@ -32,7 +32,8 @@ class EDI277{
 			'Status',
 			'Amount',
 			'TCN',
-			'Date'
+			'Date',
+			'Line'
 		);
 		$data = array();
 		foreach($this->subscribers as $subscriber){
@@ -46,6 +47,7 @@ class EDI277{
 			$row[] = $subscriber['amount'];
 			$row[] = $subscriber['tcn'];
 			$row[] = $subscriber['dos'];
+			$row[] = $subscriber['line'];
 			$data[] = $row;
 		}
 		return renderTable($heading,$data);
@@ -65,6 +67,7 @@ class EDI277{
 		$xls .=	"Amount\t";
 		$xls .=	"TCN\t";
 		$xls .=	"Date\n";
+		$xls .=	"Line\n";
 		foreach($this->subscribers as $subscriber){
 			$row = array();
 			$row[] = $subscriber['last'];
@@ -76,6 +79,7 @@ class EDI277{
 			$row[] = $subscriber['amount'];
 			$row[] = $subscriber['tcn'];
 			$row[] = $subscriber['dos'];
+			$row[] = $subscriber['line'];
 			$xls .= implode("\t",$row)."\n";
 		}
 		file_put_contents($this->filepath.$this->batch.'.xls',$xls);
@@ -222,6 +226,8 @@ class EDI277{
 			if(preg_match('/^IEA\*/',$seg)){
 			}else{throw new exception("error loading IEA<br/>---<br/>$seg<br/>---");}
 
+			file_put_contents($this->filepath.$this->batch.'.x12',$x12);
+
 		}catch(exception $e){
 			$error = $e->getMessage();
 			$m[] = "Error: $error";
@@ -243,6 +249,7 @@ class EDI277{
 			'amount'  => '',
 			'tcn'     => '',
 			'dos'     => '',
+			'line'    => '',
 		);
 
 			#LOAD Subscriber 
@@ -294,6 +301,28 @@ class EDI277{
 				$temp = preg_split('/\*/',$seg);
 				$subscriber['dos'] = $temp[3];
 			}else{throw new exception("Loading Claim Date<br/>---<br/>$seg<br/>---");}
+
+			# LOAD Service line data
+			$line = array();
+			while(preg_match('/^SVC\*/',$segments[0])){
+				if(preg_match('/^SVC\*/',$segments[0])){
+					$seg = array_shift($segments);
+					$temp = preg_split('/\*/',$seg);
+					$line[] = $temp[1];
+				}
+				if(preg_match('/^STC\*/',$segments[0])){
+					$seg = array_shift($segments);
+					$temp = preg_split('/\*/',$seg);
+					$line[] = $temp[1];
+				}
+				if(preg_match('/^REF\*/',$segments[0])){
+					$seg = array_shift($segments);
+				}
+				if(preg_match('/^DTP\*/',$segments[0])){
+					$seg = array_shift($segments);
+				}
+			}
+			$subscriber['line'] = implode('|',$line);
 
 			return array($subscriber,$seg);
 
