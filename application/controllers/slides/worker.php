@@ -11,13 +11,9 @@ class Worker extends CI_Controller {
 		#$this->model = $this->Character_model;
 	}
 	public function test(){
-		$ms = 'Starting test<br/>';
-		#$dbtest = $this->model->test();
-		$file = 'test.txt';
-		$ms .= "Saving file<br/>";
-		file_put_contents($this->filePath.$file,"ready to move file and open it lunch time");
-		$ms .= "Done Test<br/>";
-		echo $ms;
+		$m = array();
+		$m[] = "Testing";
+		$e = '';foreach($m as $mm){$e .= "$mm<br/>";}echo "$e";
 	}
 	public function read277(){
 		header('status: Reading 277');
