@@ -82,7 +82,7 @@ class EDI277{
 			$row[] = $subscriber['line'];
 			$xls .= implode("\t",$row)."\n";
 		}
-		file_put_contents($this->filepath.$this->batch.'.xls',$xls);
+		file_put_contents($this->filepath.$this->batch.'.xlsx',$xls);
 	}
 	public function load277(){
 		$m = array();
