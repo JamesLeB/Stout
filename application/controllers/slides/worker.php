@@ -21,10 +21,9 @@ class Worker extends CI_Controller {
 		header('status: Reading 277');
 		$edi = new EDI277();
 		$m[] = $edi->load277();
-		$m[] = $edi->toText();
-$t = $edi->getSubscribers();
-$m[] = $edi->toTextSubscriber($t[0]);
-		$e='';foreach($m as $mm){$e .= "$mm<br/>";}echo $e;
+		echo $edi->toText();
+		echo $edi->getSubscribersData();
+		echo $edi->saveExcel();
 	} # END FUNCTION read277
 
 	public function create837D(){
