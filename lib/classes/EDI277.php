@@ -12,7 +12,7 @@ class EDI277{
 	private $subscribers = array();
 
 	function __construct(){
-		$this->filepath = 'files/edi/';
+		$this->filepath = 'files/edi/277/';
 		$this->batch = '';
 		$this->receiverStatus = '';
 		$this->receiverAmount = '';
@@ -21,15 +21,70 @@ class EDI277{
 		$this->acceptedAmount = '';
 		$this->rejectedAmount = '';
 	}
+
+	public function getSubscribersData(){
+		$heading = array(
+			'LastName',
+			'FirstName',
+			'ID',
+			'Chart',
+			'ClaimId',
+			'Status',
+			'Amount',
+			'TCN',
+			'Date'
+		);
+		$data = array();
+		foreach($this->subscribers as $subscriber){
+			$row = array();
+			$row[] = $subscriber['last'];
+			$row[] = $subscriber['first'];
+			$row[] = $subscriber['id'];
+			$row[] = $subscriber['chart'];
+			$row[] = $subscriber['claimId'];
+			$row[] = $subscriber['status'];
+			$row[] = $subscriber['amount'];
+			$row[] = $subscriber['tcn'];
+			$row[] = $subscriber['dos'];
+			$data[] = $row;
+		}
+		return renderTable($heading,$data);
+	}
 	public function getSubscribers(){return $this->subscribers;}
 	public function test(){
 		return "Testing EDI837";
+	}
+	public function saveExcel(){
+		$xls = '';
+		$xls .= "LastName\t";
+		$xls .=	"FirstName\t";
+		$xls .=	"ID\t";
+		$xls .=	"Chart\t";
+		$xls .=	"ClaimId\t";
+		$xls .=	"Status\t";
+		$xls .=	"Amount\t";
+		$xls .=	"TCN\t";
+		$xls .=	"Date\n";
+		foreach($this->subscribers as $subscriber){
+			$row = array();
+			$row[] = $subscriber['last'];
+			$row[] = $subscriber['first'];
+			$row[] = $subscriber['id'];
+			$row[] = $subscriber['chart'];
+			$row[] = $subscriber['claimId'];
+			$row[] = $subscriber['status'];
+			$row[] = $subscriber['amount'];
+			$row[] = $subscriber['tcn'];
+			$row[] = $subscriber['dos'];
+			$xls .= implode("\t",$row)."\n";
+		}
+		file_put_contents($this->filepath.$this->batch.'.xls',$xls);
 	}
 	public function load277(){
 		$m = array();
 		try{
 			$m[] = "loading 277";
-			$x12 = file_get_contents($this->filepath.'277/a.x12');
+			$x12 = file_get_contents($this->filepath.'a.x12');
 			$x12 = preg_replace('/\r\n/','',$x12);
 			$segments = preg_split('/~/',$x12);
 
@@ -245,17 +300,16 @@ class EDI277{
 	} # END function loadSubsciber
 
 	public function toText(){
+		$heading = array('Key','Value');
 		$m = array();
-		$m[] = "toText";
-		$m[] = "Batch : ".$this->batch;
-		$m[] = "RecStatus : ".$this->receiverStatus;
-		$m[] = "RecAmount : ".$this->receiverAmount;
-		$m[] = "AccCount : ".$this->acceptedCount;
-		$m[] = "AccAmount : ".$this->acceptedAmount;
-		$m[] = "RejCount: ".$this->rejectedCount;
-		$m[] = "RejAmount: ".$this->rejectedAmount;
-
-		$e='';foreach($m as $mm){$e .= "$mm<br/>";}return $e;
+		$m[] = array("Batch",$this->batch);
+		$m[] = array("RecStatus",$this->receiverStatus);
+		$m[] = array("RecAmount",$this->receiverAmount);
+		$m[] = array("AccCount",$this->acceptedCount);
+		$m[] = array("AccAmount",$this->acceptedAmount);
+		$m[] = array("RejCount",$this->rejectedCount);
+		$m[] = array("RejAmount",$this->rejectedAmount);
+		return renderTable($heading,$m);
 	}
 	public function toTextSubscriber($subscriber){
 		$m = array();
