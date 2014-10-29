@@ -15,20 +15,18 @@ class Worker extends CI_Controller {
 		$m[] = "Testing";
 		$e = '';foreach($m as $mm){$e .= "$mm<br/>";}echo "$e";
 	}
+
 	public function read277(){
+		require('lib/classes/EDI277.php');
 		header('status: Reading 277');
-		$x12 = file_get_contents('files/edi/277/a.x12');
-		$segments = preg_split('/~/',$x12);
-		$m = array();
-		try{
-			throw new exception("Fuck");
-			$m[] = "ok yes";
-		}catch(exception $e){
-			$error = $e->getMessage();
-			$m[] = "Error: $error";
-		}
+		$edi = new EDI277();
+		$m[] = $edi->load277();
+		$m[] = $edi->toText();
+$t = $edi->getSubscribers();
+$m[] = $edi->toTextSubscriber($t[0]);
 		$e='';foreach($m as $mm){$e .= "$mm<br/>";}echo $e;
-	}
+	} # END FUNCTION read277
+
 	public function create837D(){
 
 		header('status: Creating 837D');
