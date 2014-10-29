@@ -66,7 +66,7 @@ class EDI277{
 		$xls .=	"Status\t";
 		$xls .=	"Amount\t";
 		$xls .=	"TCN\t";
-		$xls .=	"Date\n";
+		$xls .=	"Date\t";
 		$xls .=	"Line\n";
 		foreach($this->subscribers as $subscriber){
 			$row = array();
