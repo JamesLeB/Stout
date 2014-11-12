@@ -82,7 +82,7 @@ class EDI277{
 			$row[] = $subscriber['line'];
 			$xls .= implode("\t",$row)."\n";
 		}
-		file_put_contents($this->filepath.$this->batch.'.xlsx',$xls);
+		file_put_contents($this->filepath.$this->batch.'.xls',$xls);
 	}
 	public function load277(){
 		$m = array();
@@ -226,7 +226,7 @@ class EDI277{
 			if(preg_match('/^IEA\*/',$seg)){
 			}else{throw new exception("error loading IEA<br/>---<br/>$seg<br/>---");}
 
-			file_put_contents($this->filepath.$this->batch.'.x12',$x12);
+			#file_put_contents($this->filepath.$this->batch.'.x12',$x12);
 
 		}catch(exception $e){
 			$error = $e->getMessage();
