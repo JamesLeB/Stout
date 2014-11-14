@@ -183,12 +183,43 @@ class Worker extends CI_Controller {
 
 	}
 	public function loadEdi2DB(){
+		require('lib/classes/EDI837.php');
+		require('lib/classes/EDI837D.php');
+		require('lib/classes/dentalClaim.php');
+		require('lib/classes/billingProvider.php');
+		require('lib/classes/service.php');
+		require('lib/classes/patient.php');
 		$m = array();
 		$m[] = 'Loading DenialMangement Model...';
 		$this->load->model('denialmangement');
-		$m[] = $this->denialmangement->test();
+		$serial = file_get_contents('files/a.ser');
+		$obj = unserialize($serial);
+		$ediObj =  $obj{'ediObj'};
+		$providers = $ediObj->getProviders();
+		foreach($providers as $prov){
+			$claims = $prov->getClaims();
+			foreach($claims as $claim){
+				$stuff = $claim->getStuff();
+				$batch = $ediObj->getStuff();
+				$stuff['batch'] = $batch['batch'];
+				$claimid = $stuff['claimid'];
+				$check = $this->denialmangement->checkClaim($claimid);
+				if($check == 0){
+					$this->denialmangement->insertClaim($stuff);
+					$serviceLines = $claim->getServices();
+					foreach($serviceLines as $line){
+						$parm = $line->getStuff();
+						$parm['claimid'] = $claimid;
+						$this->denialmangement->insertService($parm);
+					}
+				}
+
+			}
+		}
+		$m[] = "loading done";
 		$m = implode("<br/>",$m);
 		echo $m;
+
 	}# END function loadEdi2DB
 	public function convertEdi(){
 		header('status: Converting Axium EDI');
@@ -200,7 +231,7 @@ class Worker extends CI_Controller {
 		require('lib/classes/patient.php');
 		$EDI = new EDI837();
 
-		if(1){
+		if(0){
 			# LOAD and save EDI837D
 			$obj = $EDI->loadEDI837D();
 			$serial = serialize($obj);
@@ -219,96 +250,98 @@ class Worker extends CI_Controller {
 		$m[] = 'Load 837D message...';
 		$m[] = $message;
 		$m[] = '-----------------';
-		$e = ''; foreach($m as $mm){$e .= "$mm<br/>";}
-		echo $e;
+		$m = implode("<br/>",$m);
+		echo $m;
 
-		# Create provider List
-		$providers = $ediObj->getProviders();
-		$l = array();
-		foreach($providers as $p){
-
-			# Create Provider Data
-			$ll = array();
-			$ll[] = array(
-				'Heading' => 'Data',
-				'Body'    => $p->toText()
-			);
-			# Create Claim List
-			$claims = $p->getClaims();
-			$claimL = array();
-			foreach($claims as $claim){
-				# Create Claim Body
-				$claimB = array();
-				$claimB[] = array(
+		if(0){
+			# Create provider List
+			$providers = $ediObj->getProviders();
+			$l = array();
+			foreach($providers as $p){
+	
+				# Create Provider Data
+				$ll = array();
+				$ll[] = array(
 					'Heading' => 'Data',
-					'Body'    => $claim->toText()
+					'Body'    => $p->toText()
 				);
-				# Create Procedure List
-				$procedures = $claim->getServices();
-				$procl = array();
-				foreach($procedures as $proc){
-					$procl[] = array(
-						'Heading' => 'Service',
-						'Body'    => $proc->toText()
+				# Create Claim List
+				$claims = $p->getClaims();
+				$claimL = array();
+				foreach($claims as $claim){
+					# Create Claim Body
+					$claimB = array();
+					$claimB[] = array(
+						'Heading' => 'Data',
+						'Body'    => $claim->toText()
+					);
+					# Create Procedure List
+					$procedures = $claim->getServices();
+					$procl = array();
+					foreach($procedures as $proc){
+						$procl[] = array(
+							'Heading' => 'Service',
+							'Body'    => $proc->toText()
+						);
+					}
+					$p = array('myList'=>$procl);
+					$procedureList = $this->load->view('myList',$p,true);
+					$claimB[] = array(
+						'Heading' => 'Services',
+						'Body'    => $procedureList
+					);
+					$p = array('myList'=>$claimB);
+					$claimBody = $this->load->view('myList',$p,true);
+					$claimL[] = array(
+						'Heading' => 'Claim',
+						'Body'    => $claimBody
 					);
 				}
-				$p = array('myList'=>$procl);
-				$procedureList = $this->load->view('myList',$p,true);
-				$claimB[] = array(
-					'Heading' => 'Services',
-					'Body'    => $procedureList
+				$p = array('myList'=>$claimL);
+				$claimList = $this->load->view('myList',$p,true);
+				$ll[] = array(
+					'Heading' => 'Claims',
+					'Body'    => $claimList
 				);
-				$p = array('myList'=>$claimB);
-				$claimBody = $this->load->view('myList',$p,true);
-				$claimL[] = array(
-					'Heading' => 'Claim',
-					'Body'    => $claimBody
+				$p = array('myList'=>$ll);
+				$providerData = $this->load->view('myList',$p,true);
+	
+				$l[] = array(
+					'Heading' => 'Provider',
+					'Body'    => $providerData
 				);
 			}
-			$p = array('myList'=>$claimL);
-			$claimList = $this->load->view('myList',$p,true);
-			$ll[] = array(
-				'Heading' => 'Claims',
-				'Body'    => $claimList
-			);
-			$p = array('myList'=>$ll);
-			$providerData = $this->load->view('myList',$p,true);
-
+			$p = array('myList'=>$l);
+			$providerList = $this->load->view('myList',$p,true);
+			# Create 837D body
+			$l = array();
 			$l[] = array(
-				'Heading' => 'Provider',
-				'Body'    => $providerData
+				'Heading' => 'Data',
+				'Body'    => $ediObj->toText()
 			);
+			$l[] = array(
+				'Heading' => 'Providers',
+				'Body'    => $providerList
+			);
+			$p = array('myList'=>$l);
+			$body837D = $this->load->view('myList',$p,true);
+			# Create Final List
+			$myList = array();
+			$myList[] = array(
+				'Heading' => '837D',
+				'Body'    => $body837D
+			);
+			$parm = array('myList'=>$myList);
+			echo $this->load->view('myList',$parm,true);
+			echo "
+				<script>
+					$('.myBody').hide();
+					$('.myHeading button').click(function(){
+						$(this).parent().next().toggle();
+					});
+				</script>
+			";
 		}
-		$p = array('myList'=>$l);
-		$providerList = $this->load->view('myList',$p,true);
-		# Create 837D body
-		$l = array();
-		$l[] = array(
-			'Heading' => 'Data',
-			'Body'    => $ediObj->toText()
-		);
-		$l[] = array(
-			'Heading' => 'Providers',
-			'Body'    => $providerList
-		);
-		$p = array('myList'=>$l);
-		$body837D = $this->load->view('myList',$p,true);
-		# Create Final List
-		$myList = array();
-		$myList[] = array(
-			'Heading' => '837D',
-			'Body'    => $body837D
-		);
-		$parm = array('myList'=>$myList);
-		echo $this->load->view('myList',$parm,true);
-		echo "
-			<script>
-				$('.myBody').hide();
-				$('.myHeading button').click(function(){
-					$(this).parent().next().toggle();
-				});
-			</script>
-		";
 /*
 		foreach($a as $c){
 			$provList = array();
