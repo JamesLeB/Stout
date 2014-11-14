@@ -1,6 +1,7 @@
 <html>
 <head>
 	<script src='js/jquery-1.10.2.js'></script>
+	<script src='js/jquery-ui-1.10.4.custom.js'></script>
 	<style>
 		#wrapper{
 			border: 2px solid;
@@ -10,10 +11,9 @@
 			margin : auto;
 			margin : auto;
 			padding : 20px;
+			margin-top : 30px;
 		}
-		ul{
-		}
-		li{
+		.claim{
 			list-style-type : none;
 			padding : 10px;
 			border : 1px solid gray;
@@ -23,7 +23,6 @@
 			display : inline-block;
 			margin-right : 10px;
 			width : 100px;
-			
 		}
 		#notes{
 			position : absolute;
@@ -31,32 +30,79 @@
 			width : 500px;
 			border : 1px solid black;
 			border-radius : 20px;
-			padding : 10px;
+			padding : 20px;
 			background : lightgray;
 			right : 0;
 			left : 0;
 			margin : auto;
+			margin-top : 50px;
+			z-index : 3;
+			opacity : 0;
+		}
+		.note{
+			margin : 10px;
 		}
 		#hideNote{
 			float : right;
+			margin-right : 20px;
 		}
 		#addNote{
 			float : right;
 			margin-right : 20px;
 		}
+		.screen{
+			position : absolute;
+			left : 0;
+			top : 0;
+			width : 100%;
+			height : 100%;
+		}
+		#scn1{
+			background : gray;
+			opacity : 0;
+		}
 	</style>
+	<script>
+		$(document).ready(function(){
+			$('#scn1').zIndex(0);
+			$('#scn2').zIndex(1);
+			$('#fade').click(function(){
+			});
+			$('#notes').hide();
+			$('#logout').click(function(){
+				var target = 'index.php?/stout/logout';
+				var request = $.post(target,'',function(data){
+					window.location.href = "index.php";
+				});
+			});
+			$('.viewNote').click(function(){
+				$('#scn1').zIndex(2);
+				$('#scn1').fadeTo(500,.8,function(){
+					$('#notes').show();
+				});
+				$('#notes').fadeTo(500,1);
+			});
+			$('#hideNote').click(function(){
+				$('#notes').fadeTo(500,0,function(){
+					$('#notes').hide();
+				});
+				$('#scn1').fadeTo(500,0,function(){
+					$('#scn1').zIndex(0);
+				});
+			});
+			$('#addNote').click(function(){
+				$('#notes').append("<div class='note'>item1</div>");
+			});
+		});
+	</script>
 </head>
 <body>
-	<button id='logout'>logout</button>
+	<div class='screen' id='scn1'></div>
+	<div class='screen' id='scn2'>
 	<div id='wrapper'>
-		<div id='notes'>
-			NOTES
-			<button id='hideNote'>Close</button>
-			<button id='addNote'>Add</button>
-			<ul>
-			</ul>
-		</div>
-		<p>Hello <?php echo $user ?></p>
+		<p><?php echo "User: $user" ?></p>
+		<button id='logout'>logout</button>
+		<button id='fade'>fade</button>
 		<?php
 			$array = array(
 				'first',
@@ -64,36 +110,23 @@
 				'third'
 			);
 			$html = '';
-			$html .= '<ul>';
 			foreach($array as $a){
-				
-				$html .= "<li>
-					<span>$a</span>
-					<span>hell</span>
-					<span><button class='viewNote'>Notes</button></span>
-				</li>";
+				$html .= "<div class='claim'>";
+				$html .= "<span class='field'>$a</span>";
+				$html .= "<span class='field'>two</span>";
+				$html .= "<span class='field'>";
+				$html .= "<button class='viewNote'>Notes</button>";
+				$html .= "</span>";
+				$html .= "</div>";
 			}
-			$html .= '</ul>';
 			echo $html;
 		?>
 	</div>
-	<script>
-		$('#notes').hide();
-		$('#logout').click(function(){
-			var target = 'index.php?/stout/logout';
-			var request = $.post(target,'',function(data){
-				window.location.href = "index.php";
-			});
-		});
-		$('.viewNote').click(function(){
-			$('#notes').show();
-		});
-		$('#hideNote').click(function(){
-			$('#notes').hide();
-		});
-		$('#addNote').click(function(){
-			$('#notes').append("<li>item1</li>");
-		});
-	</script>
+	</div>
+	<div id='notes'>
+		NOTES
+		<button id='hideNote'>Close</button>
+		<button id='addNote'>Add</button>
+	</div>
 </body>
 </html>
