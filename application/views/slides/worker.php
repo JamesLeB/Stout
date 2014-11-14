@@ -14,6 +14,7 @@
 				<button>Convert</button>
 				<button>Create</button>
 				<button>Read277</button>
+				<button>LoadEDI</button>
 			</td>
 			<td id='workerView'>View</td>
 		</tr>
@@ -74,6 +75,7 @@
 		else if(a=='Convert')  {func='convertEdi';}
 		else if(a=='Create')   {func='create837D';}
 		else if(a=='Read277')  {func='read277';}
+		else if(a=='LoadEDI')  {func='loadEdi2DB';}
 		else                   {func='test';}
 		var request = $.post(target+func,parm,function(data){
 			var status = request.getResponseHeader('status');
