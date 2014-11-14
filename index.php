@@ -7,6 +7,7 @@
 	if(isset($_SESSION['user'])){
 	}else{
 		header('location:signin.php');
+		die();
 	}
 ###
 ### Loading library functions
