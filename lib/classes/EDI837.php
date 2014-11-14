@@ -97,8 +97,8 @@ class EDI837{
 			$m[] = "Error: $error";
 		}
 
-		$e = ''; foreach($m as $mm){$e .= "$mm<br/>";}
-		return array('message'=>$e,'ediObj'=>$ediObj);
+		$m = implode("<br/>",$m);
+		return array('message'=>$m,'ediObj'=>$ediObj);
 	} # END function loadEDI837D
 	private function loadProvider(&$segments){
 		$provider = new billingProvider();
