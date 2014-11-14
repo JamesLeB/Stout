@@ -38,6 +38,7 @@
 			margin-top : 50px;
 			z-index : 3;
 			opacity : 0;
+			box-shadow : 3px 3px 3px black;
 		}
 		.note{
 			margin : 10px;
@@ -60,14 +61,14 @@
 		#scn1{
 			background : gray;
 			opacity : 0;
+			z-index : 0;
+		}
+		#scn2{
+			z-index : 1;
 		}
 	</style>
 	<script>
 		$(document).ready(function(){
-			$('#scn1').zIndex(0);
-			$('#scn2').zIndex(1);
-			$('#fade').click(function(){
-			});
 			$('#notes').hide();
 			$('#logout').click(function(){
 				var target = 'index.php?/stout/logout';
@@ -102,7 +103,6 @@
 	<div id='wrapper'>
 		<p><?php echo "User: $user" ?></p>
 		<button id='logout'>logout</button>
-		<button id='fade'>fade</button>
 		<?php
 			$array = array(
 				'first',
