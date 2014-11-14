@@ -183,8 +183,13 @@ class Worker extends CI_Controller {
 
 	}
 	public function loadEdi2DB(){
-		echo "lets load the EDI to the DB";
-	}
+		$m = array();
+		$m[] = 'Loading DenialMangement Model...';
+		$this->load->model('denialmangement');
+		$m[] = $this->denialmangement->test();
+		$m = implode("<br/>",$m);
+		echo $m;
+	}# END function loadEdi2DB
 	public function convertEdi(){
 		header('status: Converting Axium EDI');
 		require('lib/classes/EDI837.php');
