@@ -231,7 +231,7 @@ class Worker extends CI_Controller {
 		require('lib/classes/patient.php');
 		$EDI = new EDI837();
 
-		if(0){
+		if(1){
 			# LOAD and save EDI837D
 			$obj = $EDI->loadEDI837D();
 			$serial = serialize($obj);
@@ -253,7 +253,7 @@ class Worker extends CI_Controller {
 		$m = implode("<br/>",$m);
 		echo $m;
 
-		if(0){
+		if(1){
 			# Create provider List
 			$providers = $ediObj->getProviders();
 			$l = array();
