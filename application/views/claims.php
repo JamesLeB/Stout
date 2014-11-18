@@ -4,25 +4,54 @@
 	<script src='js/jquery-ui-1.10.4.custom.js'></script>
 	<style>
 		#wrapper{
-			border: 2px solid;
+			border: 1px solid;
 			border-radius : 25px;
-			width : 800px;
+			width : 85%;
 			height : 500px;
 			margin : auto;
 			margin : auto;
 			padding : 20px;
 			margin-top : 30px;
+			box-shadow : 3px 3px 3px black;
+		}
+		#claimList{
+			overflow: auto;
+			height : 400px;
 		}
 		.claim{
 			list-style-type : none;
-			padding : 10px;
-			border : 1px solid gray;
-			margin : 10px;
 		}
-		span{
+		.claim span{
 			display : inline-block;
 			margin-right : 10px;
 			width : 100px;
+			margin : 5px;
+			padding : 5px;
+		}
+		.claim span:nth-child(1){
+			width : 150px;
+		}
+		.claim span:nth-child(2){
+			width : 120px;
+		}
+		.claim span:nth-child(3){
+			width : 120px;
+		}
+		.claim span:nth-child(4){
+			text-align : center;
+		}
+		.claim span:nth-child(5){
+			text-align : right;
+		}
+		.claim span:nth-child(6){
+			text-align : center;
+		}
+		#claimHeading{
+			margin-top : 20px;
+		}
+		#claimHeading span{
+			background : lightblue;
+			text-align : center;
 		}
 		#notes{
 			position : absolute;
@@ -92,7 +121,7 @@
 				});
 			});
 			$('#addNote').click(function(){
-				$('#notes').append("<div class='note'>item1</div>");
+				$('#notes').append("<div class='note'>New Note</div>");
 			});
 		});
 	</script>
@@ -101,24 +130,27 @@
 	<div class='screen' id='scn1'></div>
 	<div class='screen' id='scn2'>
 	<div id='wrapper'>
-		<p><?php echo "User: $user" ?></p>
 		<button id='logout'>logout</button>
 		<?php
-			$array = array(
-				'first',
-				'second',
-				'third'
-			);
+			# Set headings
 			$html = '';
-			foreach($array as $a){
+			$html .= "<div id='claimHeading' class='claim'>";
+			foreach($claims['headings'] as $h){
+				$html .= "<span class='field'>$h</span>";
+			}
+			$html .= "</div>";
+			$html .= "<div id='claimList'>";
+			foreach($claims['rows'] as $a){
 				$html .= "<div class='claim'>";
-				$html .= "<span class='field'>$a</span>";
-				$html .= "<span class='field'>two</span>";
+				foreach($a as $e){
+					$html .= "<span class='field'>$e</span>";
+				}
 				$html .= "<span class='field'>";
 				$html .= "<button class='viewNote'>Notes</button>";
 				$html .= "</span>";
 				$html .= "</div>";
 			}
+			$html .= "</div>";
 			echo $html;
 		?>
 	</div>

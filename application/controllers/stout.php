@@ -40,6 +40,13 @@ $user = $_SESSION['user'];
 			$this->load->view('home',$data);
 		}elseif($user == 'john'){
 			$d['user'] = $user;
+
+#GET LIST OF CLAIMS
+$claimList['headings'] = array('Id','Last','First','Date','Amount','Status');
+$this->load->model('denialmangement');
+$claimList['rows'] = $this->denialmangement->getClaimList();
+$d['claims'] = $claimList;
+
 			$this->load->view('claims',$d);
 		}
 	}
