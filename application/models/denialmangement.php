@@ -7,6 +7,23 @@ class DenialMangement extends CI_Model{
 		parent::__construct();
 		$this->db = $this->load->database('denial',true);
 	}
+	function getClaimList(){
+		$row = array();
+		$data = array();
+		$query = 'select * from claims';
+		$rs = $this->db->query($query);
+		foreach($rs->result_array() as $row){
+			$line = array();
+			$line[] = $row['id'];
+			$line[] = $row['lastName'];
+			$line[] = $row['firstName'];
+			$line[] = $row['dos'];
+			$line[] = number_format($row['amount'],2);
+			$line[] = $row['status'];
+			$data[] = $line;
+		}
+		return $data;
+	}
 	function test(){
 		$headings = array(
 			'Batch',
