@@ -235,7 +235,7 @@ class EDI837{
 			$temp = preg_split('/\*/',$seg);
 			$claim->setPatientCity($temp[1]);
 			$claim->setPatientState($temp[2]);
-			$claim->setPatientZip($temp[3]);
+			if(isset($temp[3])){$claim->setPatientZip($temp[3]);}
 		}else{throw new exception("error loading N4<br/>---<br/>$seg<br/>---");}
 
 		#LOAD DMG
