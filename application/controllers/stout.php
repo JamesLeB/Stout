@@ -50,7 +50,9 @@ class Stout extends CI_Controller {
 			$d['claims'] = $claimList;
 
 			//$this->load->view('claims',$d);
-			$this->load->view('landing');
+			$jtable = $this->load->view('classes/jtable','',true);
+			$data['jtable'] = $jtable;
+			$this->load->view('landing',$data);
 		}
 	}
 	public function logout(){
