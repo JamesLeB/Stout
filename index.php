@@ -6,7 +6,7 @@
 	session_start();
 	if(isset($_SESSION['user'])){
 	}else{
-		header('location:signin.php');
+		header('location:login.php');
 		die();
 	}
 ###
