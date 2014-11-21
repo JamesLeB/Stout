@@ -4,8 +4,7 @@ class Stout extends CI_Controller {
 
 	public function index()
 	{
-$user = $_SESSION['user'];
-#unset($_SESSION['user']);
+		$user = $_SESSION['user'];
 /*
 		$development['market']    = $this->load->view('bit/bitMarket','',true);
 		$development['buy']       = $this->load->view('bit/bitBuy','',true);
@@ -36,21 +35,25 @@ $user = $_SESSION['user'];
 */
 		$slides['slides'] = $slide;
 		$data['slideTray'] = $this->load->view('slideTray',$slides,true);
-		if($user == 'james'){
+
+		if($user == 'james')
+		{
 			$this->load->view('home',$data);
-		}elseif($user == 'john'){
+		}
+		elseif($user == 'john')
+		{
 			$d['user'] = $user;
 
-#GET LIST OF CLAIMS
-$claimList['headings'] = array('Id','Last','First','Date','Amount','Status');
-$this->load->model('denialmangement');
-$claimList['rows'] = $this->denialmangement->getClaimList();
-$d['claims'] = $claimList;
+			$claimList['headings'] = array('Id','Last','First','Date','Amount','Status');
+			$this->load->model('denialmangement');
+			$claimList['rows'] = $this->denialmangement->getClaimList();
+			$d['claims'] = $claimList;
 
-			$this->load->view('claims',$d);
+			//$this->load->view('claims',$d);
+			$this->load->view('landing');
 		}
 	}
 	public function logout(){
-		unset($_SESSION['user']);
+		session_unset();
 	}
 }
