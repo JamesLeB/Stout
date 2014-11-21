@@ -1,6 +1,5 @@
 database.php
-getSession.php
-signin.php
+validateUser.php
 james
 temp
 files
