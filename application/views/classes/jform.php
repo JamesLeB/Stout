@@ -77,11 +77,15 @@
 				var charName  = this.charName.value;
 				var charRace  = this.charRace.value;
 				var charClass = this.charClass.value;
+parm = $(this).serialize();
 				//alert('name '+charName+'\\nrace '+charRace+'\\nclass '+charClass);
 				this.charName.value = '';
 				this.charRace.value = 'Human';
 				this.charClass.value = 'Fighter';
-				$('#debug').html('Working');
+
+				$.post('index.php?/classes/characterSheet',parm,function(data){
+					$('#debug').html(data);
+				});
 				return false;
 			});
 		</script>
