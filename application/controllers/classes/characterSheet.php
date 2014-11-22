@@ -32,8 +32,13 @@ class CharacterSheet extends CI_Controller {
 			'colWidth' => $colWidth
 		);
 		# END SETUP Char table
-		#$rtn = $this->load->view('classes/jtable',$charTable,true);
-		$rtn = "loading database";
+		$rtn = $this->load->view('classes/jtable',$charTable,true);
 		echo $rtn;
+	}
+	public function create(){
+		echo "createing database";
+	}
+	public function test(){
+		echo "test function";
 	}
 }
