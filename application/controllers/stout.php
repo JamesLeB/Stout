@@ -44,12 +44,13 @@ class Stout extends CI_Controller {
 		{
 			$d['user'] = $user;
 
+/*
 			$claimList['headings'] = array('Id','Last','First','Date','Amount','Status');
 			$this->load->model('denialmangement');
 			$claimList['rows'] = $this->denialmangement->getClaimList();
 			$d['claims'] = $claimList;
-
-			//$this->load->view('claims',$d);
+			$this->load->view('claims',$d);
+*/
 			$jtable = $this->load->view('classes/jtable','',true);
 			$data['jtable'] = $jtable;
 			$this->load->view('landing',$data);
