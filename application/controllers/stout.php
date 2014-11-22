@@ -51,8 +51,44 @@ class Stout extends CI_Controller {
 			$d['claims'] = $claimList;
 			$this->load->view('claims',$d);
 */
-			$jtable = $this->load->view('classes/jtable','',true);
-			$data['jtable'] = $jtable;
+
+	# SETUP JTABLE
+	$heading = array('Name','Address','Sex');
+	$row = array('James','New York','Male');
+	$rows = array();
+	for($i=0;$i<100;$i++){
+		$rows[] = $row;
+	}
+	$colWidth = array(100,200,100);
+	$obj = array(
+		'jname'    => 'jtable',
+		'heading'  => $heading,
+		'rows'     => $rows,
+		'jWidth'   => 500,
+		'colWidth' => $colWidth
+	);
+	# END SETUP JTABLE
+
+	# SETUP Char table
+	$heading = array('ID','Name','Race','Class');
+	$rows = array();
+	for($i=0;$i<10;$i++){
+		$row = array($i,'Alpha','Human','Fighter');
+		$rows[] = $row;
+	}
+	$colWidth = array(50,200,100,100);
+	$charTable = array(
+		'jname'    => 'CharactersDB',
+		'heading'  => $heading,
+		'rows'     => $rows,
+		'jWidth'   => 600,
+		'colWidth' => $colWidth
+	);
+	# END SETUP Char table
+	$d['charTable'] = $this->load->view('classes/jtable',$charTable,true);
+	$data['jCharacter'] = $this->load->view('classes/jCharacter',$d,true);
+
+			$data['jtable'] = $this->load->view('classes/jtable',$obj,true);
 			$this->load->view('landing',$data);
 		}
 	}

@@ -1,12 +1,7 @@
 <?php
-	$jtableName = "jtable";
-	$heading = array('Name','Address','Sex');
-	$row = array('James','New York','Male');
-	$rows = array();
-	for($i=0;$i<100;$i++){
-		$rows[] = $row;
-	}
-	$jtable = "<div id='$jtableName'>"; #open jtable
+# move to controler
+#
+	$jtable = "<div id='$jname'>"; #open jtable
 	$jtable .= "<div>"; #open heading
 	$jtable .= "<div>"; #open heading row
 	foreach($heading as $head){
@@ -26,55 +21,59 @@
 	$jtable .= "</div>"; #jtable
 	echo $jtable;
 
+
+$colWidthCss = '';
+$i = 0;
+foreach($colWidth as $w){
+	$i++;
+	$colWidthCss .= "
+		#$jname span:nth-child($i){
+			width : {$w}px;
+		}
+	";
+}
+
 $style = "
 <style>
-	#$jtableName{
-		width : 500px;
+	#$jname{
+		width : {$jWidth}px;
 		margin-left : auto;
 		margin-right : auto;
 		border : 1px solid black;
 		border-radius : 10px;
 		box-shadow : 3px 3px 3px black;
 	}
-	#$jtableName div{
+	#$jname div{
 		margin : 0;
 		border : none;
 	}
-	#$jtableName > div:nth-child(1){
+	#$jname > div:nth-child(1){
 		margin-top : 10px;
 	}
-	#$jtableName > div:nth-child(2){
+	#$jname > div:nth-child(2){
 		height : 300px;
 		overflow : auto;
 		margin-right : 10px;
 		margin-bottom : 10px;
 	}
-	#$jtableName > div:nth-child(1) > div > span{
+	#$jname > div:nth-child(1) > div > span{
 		background : blue;
 		color : white;
 		text-align : center;
 		padding-top : 2px;
 		padding-bottom : 2px;
 	}
-	#$jtableName > div > div > span:nth-child(1){
+	#$jname > div > div > span:nth-child(1){
 		margin-left : 20px;
 	}
-	#$jtableName span{
+	#$jname span{
 		display : inline-block;
 		margin : 5px;
 	}
-	#$jtableName > div:nth-child(2) span{
+	#$jname > div:nth-child(2) span{
 		padding-left : 5px;
 	}
-	#$jtableName span:nth-child(1){
-		width : 100px;
-	}
-	#$jtableName span:nth-child(2){
-		width : 200px;
-	}
-	#$jtableName span:nth-child(3){
-		width : 100px;
-	}
+	$colWidthCss;
 </style>";
 echo $style;
 ?>

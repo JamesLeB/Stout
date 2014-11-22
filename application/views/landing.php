@@ -29,6 +29,7 @@
 			padding : 5px;
 		}
 		#wrapper div:nth-child(1) > img{
+			/* Incon size */
 			height :50px;
 		}
 		#logout{
@@ -60,6 +61,7 @@
 		<div>
 			<div id='tabs'>
 				<ul>
+					<li><a href='#tab3'>Character</a></li>
 					<li><a href='#tab1'>Batches</a></li>
 					<li><a href='#tab2'>Claims</a></li>
 				</ul>
@@ -68,6 +70,9 @@
 				</div>
 				<div id='tab2'>
 					<span>Claims</span>
+				</div>
+				<div id='tab3'>
+					<?php echo $jCharacter ?>
 				</div>
 			</div>
 		</div>
