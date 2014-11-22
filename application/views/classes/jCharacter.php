@@ -1,8 +1,6 @@
 <div id='characterSheet'>
-	<div id='charTable'>
-		<?php echo $charTable; ?>
-	</div>
-	<div id='charSheet'></div>
+	<div id='charTable'><?php echo $charTable; ?></div>
+	<div id='charSheet'><?php echo $charSheet; ?></div>
 </div>
 <style>
 	#characterSheet{
@@ -15,8 +13,11 @@
 		float : right;
 	}
 	#charSheet{
-		width : 100px;
+		width : 500px;
 		height : 500px;
-		background : lightblue;
+		background : lightgreen;
 	}
 </style>
+<script>
+	$('#charTable').hide();
+</script>
