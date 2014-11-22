@@ -69,24 +69,9 @@ class Stout extends CI_Controller {
 	);
 	# END SETUP JTABLE
 
-	# SETUP Char table
-	$heading = array('ID','Name','Race','Class');
-	$rows = array();
-	for($i=0;$i<10;$i++){
-		$row = array($i,'Alpha','Human','Fighter');
-		$rows[] = $row;
-	}
-	$colWidth = array(50,200,100,100);
-	$charTable = array(
-		'jname'    => 'CharactersDB',
-		'heading'  => $heading,
-		'rows'     => $rows,
-		'jWidth'   => 600,
-		'colWidth' => $colWidth
-	);
-	# END SETUP Char table
-	$d['charTable'] = $this->load->view('classes/jtable',$charTable,true);
-	$d['charSheet'] = $this->load->view('classes/jform',$charTable,true);
+	#$d['charTable'] = $this->load->view('classes/jtable',$charTable,true);
+	$d['charTable'] = '';
+	$d['charSheet'] = $this->load->view('classes/jform','',true);
 	
 			$data['jCharacter'] = $this->load->view('classes/jCharacter',$d,true);
 			$data['jtable'] = $this->load->view('classes/jtable',$obj,true);
