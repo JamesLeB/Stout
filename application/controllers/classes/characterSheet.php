@@ -4,6 +4,15 @@ class CharacterSheet extends CI_Controller {
 
 	public function index()
 	{
-		echo "hello from character Sheet";
+		$name  = $_POST['charName'];
+		$race  = $_POST['charRace'];
+		$class = $_POST['charClass'];
+		$rtn = '';
+		$rtn .= "Name $name<br/>";
+		$rtn .= "Race $race<br/>";
+		$rtn .= "Class $class<br/>";
+		$rtn .= "";
+
+		echo $rtn;
 	}
 }
