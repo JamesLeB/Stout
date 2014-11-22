@@ -27,6 +27,9 @@
 			border : 1px solid green;
 			background : white;
 			padding : 5px;
+			width : 95%;
+			margin-left : auto;
+			margin-right : auto;
 		}
 		#wrapper div:nth-child(1) > img{
 			/* Incon size */
