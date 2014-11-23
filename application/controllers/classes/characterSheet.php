@@ -38,6 +38,11 @@ class CharacterSheet extends CI_Controller {
 	public function create(){
 		echo "createing database";
 	}
+	public function check(){
+		$this->load->model('local');
+		$data = $this->local->get();
+		echo "$data";
+	}
 	public function test(){
 		echo "test function";
 	}
