@@ -35,6 +35,7 @@
 		var a = $(this).first().html();
 		     if(a=='Load')  {func = 'load';}
 		else if(a=='Create'){func = 'create';}
+		else if(a=='Check') {func = 'check';}
 		else                {func = 'test';}
 		//$.post('index.php?/classes/characterSheet/load','',function(data){
 		$.post(target+func,'',function(data){
