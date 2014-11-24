@@ -44,34 +44,34 @@ class Stout extends CI_Controller {
 		{
 			$d['user'] = $user;
 
-/*
 			$claimList['headings'] = array('Id','Last','First','Date','Amount','Status');
 			$this->load->model('denialmangement');
 			$claimList['rows'] = $this->denialmangement->getClaimList();
 			$d['claims'] = $claimList;
 			$this->load->view('claims',$d);
-*/
 
-	# SETUP JTABLE
-	$heading = array('Name','Address','Sex');
-	$row = array('James','New York','Male');
-	$rows = array();
-	for($i=0;$i<100;$i++){
-		$rows[] = $row;
-	}
-	$colWidth = array(100,200,100);
-	$obj = array(
-		'jname'    => 'jtable',
-		'heading'  => $heading,
-		'rows'     => $rows,
-		'jWidth'   => 500,
-		'colWidth' => $colWidth
-	);
-	# END SETUP JTABLE
+		}elseif($user == 'james1'){
 
-	#$d['charTable'] = $this->load->view('classes/jtable',$charTable,true);
-	$d['charTable'] = '';
-	$d['charSheet'] = $this->load->view('classes/jform','',true);
+			# SETUP JTABLE
+			$heading = array('Name','Address','Sex');
+			$row = array('James','New York','Male');
+			$rows = array();
+			for($i=0;$i<100;$i++){
+				$rows[] = $row;
+			}
+			$colWidth = array(100,200,100);
+			$obj = array(
+				'jname'    => 'jtable',
+				'heading'  => $heading,
+				'rows'     => $rows,
+				'jWidth'   => 500,
+				'colWidth' => $colWidth
+			);
+			# END SETUP JTABLE
+
+			#$d['charTable'] = $this->load->view('classes/jtable',$charTable,true);
+			$d['charTable'] = '';
+			$d['charSheet'] = $this->load->view('classes/jform','',true);
 	
 			$data['jCharacter'] = $this->load->view('classes/jCharacter',$d,true);
 			$data['jtable'] = $this->load->view('classes/jtable',$obj,true);
