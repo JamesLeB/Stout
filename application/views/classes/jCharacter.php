@@ -13,6 +13,7 @@
 	#characterSheet{
 	}
 	#charTable{
+		border : 1px solid red;
 		width : 650px;
 		padding : 10px;
 		float : right;
@@ -29,6 +30,12 @@
 	}
 </style>
 <script>
+
+	// Code to trigger a button durning testingg
+	$.post('index.php?/classes/characterSheet/check','',function(data){
+			$('#charTable > div:nth-child(2)').html(data);
+	});
+
 	$('#charTable > div:nth-child(1) > button').click(function(){
 		var target = 'index.php?/classes/characterSheet/';
 		var func = '';
