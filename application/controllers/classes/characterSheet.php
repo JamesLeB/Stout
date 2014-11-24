@@ -36,11 +36,28 @@ class CharacterSheet extends CI_Controller {
 		echo $rtn;
 	}
 	public function create(){
-		echo "createing database";
+		$table  = $_POST['table'];
+		$action = $_POST['action'];
+
+		$this->load->model('local');
+		$rtn = 'ss';
+		if($action == 'Create'){
+			$rtn = $this->local->createTable($table);
+		}elseif($action == 'Delete'){
+			$rtn = $this->local->deleteTable($table);
+		}else{
+			$rtn = "Bad command";
+		}
+
+		echo "Comand: $action $table<br/>From model: $rtn";
 	}
 	public function check(){
 		$this->load->model('local');
-		$data = $this->local->get();
+		$tables = $this->local->getTableStatus();
+
+		$d['objName'] = 'databaseTables';
+		$d['tables'] = $tables;
+		$data = $this->load->view('classes/localdb',$d,true);
 		echo "$data";
 	}
 	public function test(){
