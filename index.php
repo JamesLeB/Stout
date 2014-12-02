@@ -1,7 +1,7 @@
 <?php
 
 ### This is my basic security
-#	don't you feel safer now?
+###	don't you feel safer now?
 
 	session_start();
 	if(isset($_SESSION['user'])){
