@@ -14,6 +14,14 @@
 				});
 			});
 			$('#tabs').tabs();
+			$('#juniorTasks > div:nth-child(1) > button').click(function(){
+				var action = $(this).first().html();
+				if(action == 'Clear'){
+					$('#juniorTasks > div:nth-child(2)').html('');
+				}else{
+					$('#juniorTasks > div:nth-child(2)').html(action);
+				}
+			});
 		});
 	</script>
 	<style>
@@ -52,6 +60,33 @@
 			z-index : -1;
 			background : gray;
 		}
+		#juniorTasks{
+			border : 1px solid gray;
+			border-radius : 20px;
+			box-shadow : 3px 3px 3px black;
+			height : 300px;
+			margin : 20px;
+		}
+		#juniorTasks > div{
+			height : 200px;
+			float : left;
+			margin-top : 40px;
+		}
+		#juniorTasks > div:nth-child(1){
+			width : 120px;
+			margin-left : 100px;
+			padding-top : 20px;
+		}
+		#juniorTasks > div:nth-child(2){
+			width : 500px;
+			margin-left : 10px;
+			border : 2px inset gray;
+			padding : 10px;
+		}
+		#juniorTasks > div:nth-child(1) > button{
+			width : 100px;
+			margin-bottom : 15px;
+		}
 	</style>
 </head>
 <body>
@@ -69,7 +104,16 @@
 					<li><a href='#tab3'>Three</a></li>
 				</ul>
 				<div id='tab1'>
-					First
+<!-- START Junior page 1 -->
+					<div id='juniorTasks'>
+						<div>
+							<button>One</button>
+							<button>Two</button>
+							<button>Clear</button>
+						</div>
+						<div></div>
+					</div>
+<!-- END Junior page 1 -->
 				</div>
 				<div id='tab2'>
 					Second
