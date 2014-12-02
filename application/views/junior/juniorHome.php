@@ -19,7 +19,14 @@
 				if(action == 'Clear'){
 					$('#juniorTasks > div:nth-child(2)').html('');
 				}else{
-					$('#juniorTasks > div:nth-child(2)').html(action);
+					$('#juniorTasks').css('background','lightgray');
+					var target = 'index.php?/junior/';
+					var func = 'action';
+					var parm = {message: action};
+					var request = $.post(target+func,parm,function(data){
+						$('#juniorTasks').css('background','white');
+						$('#juniorTasks > div:nth-child(2)').html(data);
+					});
 				}
 			});
 		});
@@ -81,6 +88,7 @@
 			width : 500px;
 			margin-left : 10px;
 			border : 2px inset gray;
+			background : white;
 			padding : 10px;
 		}
 		#juniorTasks > div:nth-child(1) > button{
