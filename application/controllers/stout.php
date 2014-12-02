@@ -18,6 +18,10 @@ class Stout extends CI_Controller {
 			$data['slideTray'] = $this->load->view('slideTray',$slides,true);
 			$this->load->view('home',$data);
 		}
+		elseif($user == 'junior')
+		{
+			$this->load->view('junior/juniorHome');
+		}
 		elseif($user == 'john')
 		{
 			$d['user'] = $user;
