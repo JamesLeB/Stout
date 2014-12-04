@@ -18,6 +18,34 @@
 				var action = $(this).first().html();
 				if(action == 'Clear'){
 					$('#juniorTasks > div:nth-child(2)').html('');
+					$('#juniorTasks > div:nth-child(3)').html('');
+				}else if(action == 'Two'){
+					$('#juniorTasks').css('background','lightgray');
+					var target = 'index.php?/junior/';
+					var func = 'getFtpBatchList';
+					var request = $.post(target+func,parm,function(data){
+						var obj = $.parseJSON(data);
+						var html = '<div>';
+						obj.forEach(function(e){
+							var test = e.match(/\./);
+							if(test){html += '<div>'+e+'</div>';}
+						});
+						html += '</div>';
+						$('#juniorTasks').css('background','white');
+						$('#juniorTasks > div:nth-child(3)').html(html);
+						$('#juniorTasks > div:nth-child(3) > div > div').unbind('mouseover');
+						$('#juniorTasks > div:nth-child(3) > div > div').unbind('mouseout');
+						$('#juniorTasks > div:nth-child(3) > div > div').unbind('click');
+						$('#juniorTasks > div:nth-child(3) > div > div').mouseover(function(){
+							$(this).css({'background':'blue','color':'white'});
+						});
+						$('#juniorTasks > div:nth-child(3) > div >div').mouseout(function(){
+							$(this).css({'background':'white','color':'black'});
+						});
+						$('#juniorTasks > div:nth-child(3) > div >div').click(function(){
+							alert('here we go');
+						});
+					});
 				}else{
 					$('#juniorTasks').css('background','lightgray');
 					var target = 'index.php?/junior/';
@@ -28,7 +56,8 @@
 						$('#juniorTasks > div:nth-child(2)').html(data);
 					});
 				}
-			});
+			});// END Button click function
+			$('#juniorTasks > div:nth-child(1) > button:nth-child(2)').trigger('click');
 		});
 	</script>
 	<style>
@@ -81,15 +110,30 @@
 		}
 		#juniorTasks > div:nth-child(1){
 			width : 120px;
-			margin-left : 100px;
+			margin-left : 50px;
 			padding-top : 20px;
 		}
 		#juniorTasks > div:nth-child(2){
-			width : 500px;
+			width : 400px;
 			margin-left : 10px;
 			border : 2px inset gray;
 			background : white;
 			padding : 10px;
+			overflow : auto;
+		}
+		#juniorTasks > div:nth-child(3){
+			width : 300px;
+			margin-left : 10px;
+			border : 2px inset gray;
+			background : white;
+			padding : 10px;
+		}
+		#juniorTasks > div:nth-child(3) > div{
+		}
+		#juniorTasks > div:nth-child(3) > div > div{
+			width : 200px;
+			margin-bottom : 5px;
+			padding : 2px;
 		}
 		#juniorTasks > div:nth-child(1) > button{
 			width : 100px;
@@ -120,6 +164,7 @@
 							<button>Clear</button>
 						</div>
 						<div></div>
+						<div>filelist</div>
 					</div>
 <!-- END Junior page 1 -->
 				</div>
