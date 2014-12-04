@@ -32,17 +32,17 @@
 						});
 						html += '</div>';
 						$('#juniorTasks').css('background','white');
-						$('#juniorTasks > div:nth-child(3)').html(html);
-						$('#juniorTasks > div:nth-child(3) > div > div').unbind('mouseover');
-						$('#juniorTasks > div:nth-child(3) > div > div').unbind('mouseout');
-						$('#juniorTasks > div:nth-child(3) > div > div').unbind('click');
-						$('#juniorTasks > div:nth-child(3) > div > div').mouseover(function(){
+						$('#juniorTasks > div:nth-child(3) > div').html(html);
+						$('#juniorTasks > div:nth-child(3) > div > div > div').unbind('mouseover');
+						$('#juniorTasks > div:nth-child(3) > div > div > div').unbind('mouseout');
+						$('#juniorTasks > div:nth-child(3) > div > div > div').unbind('click');
+						$('#juniorTasks > div:nth-child(3) > div > div > div').mouseover(function(){
 							$(this).css({'background':'blue','color':'white'});
 						});
-						$('#juniorTasks > div:nth-child(3) > div >div').mouseout(function(){
+						$('#juniorTasks > div:nth-child(3) > div > div > div').mouseout(function(){
 							$(this).css({'background':'white','color':'black'});
 						});
-						$('#juniorTasks > div:nth-child(3) > div >div').click(function(){
+						$('#juniorTasks > div:nth-child(3) > div > div > div').click(function(){
 							alert('here we go');
 						});
 					});
@@ -100,44 +100,58 @@
 			border : 1px solid gray;
 			border-radius : 20px;
 			box-shadow : 3px 3px 3px black;
-			height : 300px;
+			height : 500px;
 			margin : 20px;
 		}
+		#juniorTasks div{
+			/*
+			border : 1px gray dashed;
+			*/
+		}
 		#juniorTasks > div{
-			height : 200px;
+			height : 300px;
 			float : left;
 			margin-top : 40px;
 		}
 		#juniorTasks > div:nth-child(1){
 			width : 120px;
 			margin-left : 50px;
-			padding-top : 20px;
 		}
-		#juniorTasks > div:nth-child(2){
+		#juniorTasks > div:nth-child(1) > button{
+			width : 100px;
+			margin-bottom : 15px;
+			margin-left : 10px;
+		}
+		#juniorTasks > div:nth-child(1) > button:nth-child(1){
+			margin-top : 30px;
+		}
+		#juniorTasks > div:nth-child(2) > span{
+			padding-left : 60px;
+		}
+		#juniorTasks > div:nth-child(2) > div{
 			width : 400px;
+			height : 200px;
 			margin-left : 10px;
 			border : 2px inset gray;
 			background : white;
 			padding : 10px;
 			overflow : auto;
 		}
-		#juniorTasks > div:nth-child(3){
+		#juniorTasks > div:nth-child(3) > span{
+			padding-left : 60px;
+		}
+		#juniorTasks > div:nth-child(3) > div{
 			width : 300px;
-			margin-left : 10px;
+			height : 200px;
+			margin-left : 20px;
 			border : 2px inset gray;
 			background : white;
 			padding : 10px;
 		}
-		#juniorTasks > div:nth-child(3) > div{
-		}
-		#juniorTasks > div:nth-child(3) > div > div{
+		#juniorTasks > div:nth-child(3) > div > div > div{
 			width : 200px;
 			margin-bottom : 5px;
 			padding : 2px;
-		}
-		#juniorTasks > div:nth-child(1) > button{
-			width : 100px;
-			margin-bottom : 15px;
 		}
 	</style>
 </head>
@@ -163,8 +177,8 @@
 							<button>Two</button>
 							<button>Clear</button>
 						</div>
-						<div></div>
-						<div>filelist</div>
+						<div><span>Name</span><div></div></div>
+						<div><span>File List</span><div></div></div>
 					</div>
 <!-- END Junior page 1 -->
 				</div>
