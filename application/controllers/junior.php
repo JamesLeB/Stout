@@ -5,16 +5,24 @@ class Junior extends CI_Controller {
 	public function action(){
 		$m = array();
 		$message = $_POST['message'];
-		$m[] = "Hello from Junior action function";
-		$m[] = $message;
+		$m[] = "Action function";
 		if($message == 'One'){
-			$m[] = 'Testing FTP';
-			$m[] = $this->getFTP();
+			$m[] = '<br/>Testing FTP get';
+			$a = $this->getFTP('testGet');
+			$m[] = $a[0];
+			$m[] = '<br/>Testing FTP put';
+			$a = $this->getFTP('testPut');
+			$m[] = $a[0];
 		}
 		$m = implode('<br/>',$m); echo $m;
 	}
-	private function getFTP(){
+	public function getFtpBatchList(){
+		$a = $this->getFTP('getFtpBatchList');
+		echo "$a[1]";
+	}
+	private function getFTP($task){
 		$m = array();
+		$json = 'json here';
 		$c = file_get_contents('files/config/juniorFTPpass');
 		$c = preg_split('/\s/',$c);
 		$ftp_server    = $c[0];
@@ -27,21 +35,36 @@ class Junior extends CI_Controller {
 			$login = ftp_login($conn,$ftp_user_name,$ftp_user_pass);
 			if($login){
 				$m[] = "Login Success";
-				# Get file from FTP server
-				$local_file = 'files/zork';
-				$remote_file = 'README.txt';
-				if(ftp_get($conn,$local_file,$remote_file,FTP_BINARY)){
-					$m[] = "File retrieved";
-				}else{
-					$m[] = "Failed to retrieve file";
-				}
-				# Put file on FTP server
-				$local_file = 'files/york';
-				$remote_file = 'test.txt';
-				if(ftp_put($conn,$remote_file,$local_file,FTP_BINARY)){
-					$m[] = "File Uploaded";
-				}else{
-					$m[] = "Failed to Upload file";
+				if($task == 'testGet'){
+					# Get file from FTP server
+					$local_file = 'files/zork';
+					$remote_file = 'README.txt';
+					if(ftp_get($conn,$local_file,$remote_file,FTP_BINARY)){
+						$m[] = "File retrieved";
+					}else{
+						$m[] = "Failed to retrieve file";
+					}
+				}elseif($task == 'testPut'){
+					# Put file on FTP server
+					$local_file = 'files/york';
+					$remote_file = 'test.txt';
+					if(ftp_put($conn,$remote_file,$local_file,FTP_BINARY)){
+						$m[] = "File Uploaded";
+					}else{
+						$m[] = "Failed to Upload file";
+					}
+				}elseif($task == 'getFtpBatchList'){
+					# Get list of files
+							$fileList = ftp_nlist($conn,'');
+					if($fileList){
+						$m[] = "YES list";
+						foreach($fileList as $f){
+							$m[] = "$f";
+						}
+						$json = json_encode($fileList);
+					}else{
+						$m[] = "NO list";
+					}
 				}
 				# Close FTP connection
 				if(ftp_close($conn)){
@@ -56,6 +79,6 @@ class Junior extends CI_Controller {
 			$m[] = "Connection Failed";
 		}
 		restore_error_handler();
-		$m = implode('<br/>',$m); return $m;
+		$m = implode('<br/>',$m); return array($m,$json);
 	}
 }
