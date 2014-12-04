@@ -17,8 +17,8 @@
 			$('#juniorTasks > div:nth-child(1) > button').click(function(){
 				var action = $(this).first().html();
 				if(action == 'Clear'){
-					$('#juniorTasks > div:nth-child(2)').html('');
-					$('#juniorTasks > div:nth-child(3)').html('');
+					$('#juniorTasks > div:nth-child(2) > div').html('');
+					$('#juniorTasks > div:nth-child(3) > div').html('');
 				}else if(action == 'Two'){
 					$('#juniorTasks').css('background','lightgray');
 					var target = 'index.php?/junior/';
@@ -58,6 +58,7 @@
 				}
 			});// END Button click function
 			$('#juniorTasks > div:nth-child(1) > button:nth-child(2)').trigger('click');
+			$('#juniorTasks > div:nth-child(2)').hide();
 		});
 	</script>
 	<style>
