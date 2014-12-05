@@ -7,6 +7,10 @@
 			</div>";
 	}
 	$html = "
+		<div id='aptTesting'>
+			<button>TEST</button>
+			<div>Result</div>
+		</div>
 		<div id='coinList'>
 			<div>Coin List</div>
 			<div>$coinList</div>
@@ -22,14 +26,23 @@
 				font-family: 'PermanentMarker';
 				src : url('lib/fonts/PermanentMarker.ttf')
 			}
+			#aptTesting{
+				border : 1px solid red;
+				width : 400px;
+				float : right;
+				margin : 20px;
+			}
+			#aptTesting > div{
+				border : 1px gray dashed;
+				height : 300px;
+				margin : 10px;
+			}
 			#coinList{
 				border : 1px solid gray;
 				box-shadow : 3px 3px 3px;
 				border-radius : 20px;
 				width : 600px;
 				margin : 20px;
-				margin-left : auto;
-				margin-right : auto;
 				background-image : url('lib/images/wood1.jpg');
 				padding-bottom : 20px;
 			}
