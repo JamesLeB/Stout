@@ -27,14 +27,19 @@
 				src : url('lib/fonts/PermanentMarker.ttf')
 			}
 			#aptTesting{
-				border : 1px solid red;
 				width : 400px;
 				float : right;
 				margin : 20px;
 			}
 			#aptTesting > div{
-				border : 1px gray dashed;
 				height : 300px;
+				overflow : auto;
+				padding : 5px;
+				border : 2px inset gray;
+			}
+			#aptTesting > button{
+				background : blue;
+				color : white;
 				margin : 10px;
 			}
 			#coinList{
@@ -44,14 +49,21 @@
 				width : 600px;
 				margin : 20px;
 				background-image : url('lib/images/wood1.jpg');
-				padding-bottom : 20px;
 			}
 			#coinList > div:nth-child(1){
 				font-family: 'PermanentMarker';
 				font-size : 200%;
-				margin-top : 10px;
-				margin-bottom : 10px;
 				text-align : center;
+				padding : 10px;
+			}
+			#coinList > div:nth-child(2){
+				overflow : auto;
+				height : 400px;
+				border : 2px gray inset;
+				margin-left : 20px;
+				margin-right : 20px;
+				margin-bottom : 20px;
+				padding-top : 20px;
 			}
 			#coinList > div:nth-child(2) > div{
 				border : 1px solid gray;
@@ -73,6 +85,16 @@
 			}
 		</style>
 	";
+	$script = "
+		<script>
+			$('#aptTesting').click(function(){
+				$.post('index.php?/stout/getBter','',function(data){
+					$('#aptTesting > div').html(data);
+				});
+			});
+		</script>
+	";
 	echo $style;
 	echo $html;
+	echo $script;
 ?>
