@@ -23,7 +23,7 @@
 				margin : 20px;
 				margin-left : auto;
 				margin-right : auto;
-				background : #F0F0F0;
+				background-image : url('lib/images/wood1.jpg');
 			}
 			#coinList div{
 				margin : 10px;
@@ -38,10 +38,12 @@
 				border-radius : 20px;
 				margin-bottom : 20px;
 				background : white;
+				background-image : url('lib/images/slate1.jpg');
 			}
 			#coinList > div:nth-child(2) > div > div{
 				width : 200px;
 				margin-left : 20px;
+				color : white;
 			}
 		</style>
 	";
