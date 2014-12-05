@@ -55,7 +55,8 @@ class Stout extends CI_Controller {
 			$data['jCharacter'] = $this->load->view('classes/jCharacter',$d,true);
 			$data['jtable'] = $this->load->view('classes/jtable',$obj,true);
 			# Load coins
-			$data['coins'] = $this->load->view('classes/coins','',true);
+			$coins['list'] = array('btc','ltc','otc');
+			$data['coins'] = $this->load->view('classes/coins',$coins,true);
 			# Load Laning page
 			$this->load->view('landing',$data);
 		}
