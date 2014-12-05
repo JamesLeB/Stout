@@ -3,6 +3,19 @@
 class Stout extends CI_Controller {
 
 	public function logout(){ session_unset(); }
+	public function getBter(){
+		$obj = $this->getBterCoinList();
+		$html = "";
+		foreach($obj as $d){
+			$html .= "$d<br/>";
+		}
+		echo $html;
+	}
+	private function getBterCoinList(){
+		$json = file_get_contents('http://data.bter.com/api/1/pairs');
+		$obj = json_decode($json,TRUE);
+		return $obj;
+	}
 	public function index()
 	{
 		$user = $_SESSION['user'];
@@ -55,7 +68,7 @@ class Stout extends CI_Controller {
 			$data['jCharacter'] = $this->load->view('classes/jCharacter',$d,true);
 			$data['jtable'] = $this->load->view('classes/jtable',$obj,true);
 			# Load coins
-			$coins['list'] = array('btc','ltc','otc');
+			$coins['list'] = $this->getBterCoinList();
 			$data['coins'] = $this->load->view('classes/coins',$coins,true);
 			# Load Laning page
 			$this->load->view('landing',$data);
