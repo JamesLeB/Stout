@@ -13,7 +13,7 @@
 					window.location.href = "index.php";
 				});
 			});
-			$('#tabs').tabs({active:3});
+			$('#tabs').tabs({active:4});
 		});
 	</script>
 	<style>
@@ -60,8 +60,9 @@
 				<ul>
 					<li><a href='#tab1'>Batches</a></li>
 					<li><a href='#tab2'>Claims</a></li>
-					<li><a href='#tab3'>Character</a></li>
+					<li><a href='#tab3'>NewCharacter</a></li>
 					<li><a href='#tab4'>Coins</a></li>
+					<li><a href='#tab5'>CharacterSheet</a></li>
 				</ul>
 				<div id='tab1'>
 					<?php echo $jtable ?>
@@ -74,6 +75,9 @@
 				</div>
 				<div id='tab4'>
 					<?php echo $coins ?>
+				</div>
+				<div id='tab5'>
+					<?php echo $characterSheet ?>
 				</div>
 			</div>
 		</div>
