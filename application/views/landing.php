@@ -86,7 +86,7 @@
 					<?php #echo $coins ?>
 				</div>
 				<div id='tab5'>
-					<?php #echo $characterSheet ?>
+					<?php echo $characterSheet ?>
 				</div>
 				<div id='tab6'>
 					<?php echo $database ?>

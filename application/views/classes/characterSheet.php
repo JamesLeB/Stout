@@ -23,7 +23,6 @@
 			<div id='characterAbilities'>
 				<div>Abilities</div>
 				<div>$abilitesHtml</div>
-				</div>
 			</div>
 		</div>
 	";
@@ -84,6 +83,7 @@
 				font-family: 'rocksalt';
 				text-align : center;
 				font-weight : bold;
+				font-size : 120%;
 			}
 			#characterAbilities > div:nth-child(2) > div > div:nth-child(1){
 				width : 30px;
