@@ -13,7 +13,7 @@
 					window.location.href = "index.php";
 				});
 			});
-			$('#tabs').tabs({active:4});
+			$('#tabs').tabs({active:2});
 		});
 	</script>
 	<style>
