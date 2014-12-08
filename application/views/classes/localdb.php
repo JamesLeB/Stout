@@ -1,59 +1,83 @@
 <?php
-	# args = $objName, $tables
-
-	$tableHtml = '';
-	foreach($tables as $t){
-		$name   = $t['name'];
-		$status = $t['status'];
-		$tableHtml .= "<div class='databaseTable'>";
-		$tableHtml .= "<div>$name</div>";
-		$tableHtml .= "<div>$status</div>";
+	$tableList = array('Characters','Inventory');
+	$tableHtml = "";
+	foreach($tableList as $t){
+		$tableHtml .= "<div>";
+		$tableHtml .= "<div>$t</div>";
+		$tableHtml .= "<div></div>";
 		$tableHtml .= "<div><button>Create</button></div>";
-		$tableHtml .= "<div><button>Delete</button></div>";
+		$tableHtml .= "<div><button>Drop</button></div>";
 		$tableHtml .= "</div>";
 	}
 	$html = "
-		<div id='$objName'>
-			<div>Database Tables</div>
-			$tableHtml
-			<div class='debug'></div>
+		<div id='localDbTables'>
+			<div>
+				<button>GO</button>
+				<button>Test</button>
+			</div>
+			<div>$tableHtml</div>
 		</div>
+		<div id='error'></div>
 	";
 	$style = "
 		<style>
-		#$objName{
-			background : lightgreen;
-			border-radius : 10px;
-			box-shadow : 2px 2px 2px gray;
-			padding : 10px;
-		}
-		#$objName > div{
-			margin : 10px;
-		}
-		#$objName > div.databaseTable{
-			background : lightgray;
-			border-radius : 10px;
-			box-shadow : 2px 2px 2px gray;
-		}
-		#$objName > div > div{
-			display : inline-block;
-			padding : 5px;
-			margin : 5px;
-		}
-		#$objName > div > div:nth-child(1){ width : 150px; }
-		#$objName > div > div:nth-child(2){ width : 100px; }
+			#localDbTables{
+				border : 1px solid blue;
+			}
+			#localDbTables div{
+				border : 1px dotted gray;
+				margin : 10px;
+			}
+			#localDbTables > div:nth-child(2) > div{
+				height : 50px;
+			}
+			#localDbTables > div:nth-child(2) > div > div{
+				width : 150px;
+				height : 30px;
+				float : left;
+			}
+			#localDbTables > div:nth-child(2) > div{
+				border : 1px solid red;
+			}
 		</style>
 	";
 	$script = "
 		<script>
-			$('#$objName button').click(function(){
-				var n = $(this).first().html();
+			$('#localDbTables > div:nth-child(2) button').click(function(){
+				var target = 'index.php?/classes/database/';
+				var func = '';
+				var a = $(this).html();
 				var t = $(this).parent().parent().children().first().html();
-				var parm = { table:t, action:n };
-				$.post('index.php?/classes/characterSheet/create',parm,function(data){
-					$('#$objName .debug').html(data);
+				var parm = {table: t};
+				     if(a=='Create'){func = 'create';}
+				else if(a=='Drop')  {func = 'drop';}
+				$.post(target+func,parm,function(data){
+					$('#error').html(data);
 				});
 			});
+			$('#localDbTables > div:nth-child(1) > button:nth-child(1)').click(function(){
+				var target = 'index.php?/classes/database/';
+				var func = 'go';
+				$.post(target+func,'',function(data){
+					obj = $.parseJSON(data);
+					$('#localDbTables > div:nth-child(2) > div').each(function(i,e){
+						var tableX = $(e).children().first().html();
+						var test = 'false';
+						obj.forEach(function(e){
+							if(e == tableX){test = 'true';}
+						});
+						$(e).children(':nth-child(2)').html(test);
+					});
+				});
+			});
+			$('#localDbTables > div:nth-child(1) > button:nth-child(2)').click(function(){
+				var target = 'index.php?/classes/database/';
+				var func = 'test';
+				$.post(target+func,'',function(data){
+					$('#error').html(data);
+				});
+			});
+			$('#localDbTables > div:nth-child(1) > button:nth-child(1)').trigger('click');
 		</script>
 	";
 	echo $html;
