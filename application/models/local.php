@@ -7,28 +7,21 @@ class Local extends CI_Model{
 		parent::__construct();
 		$this->db = $this->load->database('local',true);
 	}
-	function get(){
+	function test(){
+		return "testing shit";
+	}
+	function go(){
+		$test = $this->getTableList();
+		return json_encode($test);
+	}
+	private function getTableList(){
 		$query = 'show tables';
 		$rs = $this->db->query($query);
-		$rtn = 'Table List<br/>';
+		$rtn = array();
 		foreach($rs->result_array() as $row){
-			$rtn .= $row['Tables_in_local'].'<br/>';
+			$rtn[] = $row['Tables_in_trader'];
 		}
 		return $rtn;
-	}
-	function getTableStatus(){
-		$tables = array();
-		$table = array(
-			'name' => 'Characters',
-			'status' => 'Offline'
-		);
-		$tables[] = $table;
-		$table = array(
-			'name' => 'Inventory',
-			'status' => 'Offline'
-		);
-		$tables[] = $table;
-		return $tables;
 	}
 	function createTable($t){
 		$m = array();
