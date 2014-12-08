@@ -1,4 +1,4 @@
-<div id='characterSheet'>
+<div id='newCharacterSheet'>
 	<div id='charTable'>
 		<div>
 			<button>Load</button>
@@ -10,19 +10,20 @@
 	<div id='charSheet'><?php echo $charSheet; ?></div>
 </div>
 <style>
-	#characterSheet{
+	#newCharacterSheet{
+		border : 1px black solid;
+		padding : 10px;
+		height : 300px;
 	}
 	#charTable{
-		border : 1px solid red;
+		border : 1px solid blue;
 		width : 650px;
 		padding : 10px;
-		float : right;
+	}
+	#charTable div{
+		border : 1px dashed gray;
 	}
 	#charTable > div:nth-child(1){
-		margin-bottom : 10px;
-		width : 80%;
-		margin-left : auto;
-		margin-right : auto;
 	}
 	#charSheet{
 		width : 500px;
@@ -30,11 +31,14 @@
 	}
 </style>
 <script>
+	$('#charSheet').hide();
 
 	// Code to trigger a button durning testingg
+/*
 	$.post('index.php?/classes/characterSheet/check','',function(data){
 			$('#charTable > div:nth-child(2)').html(data);
 	});
+*/
 
 	$('#charTable > div:nth-child(1) > button').click(function(){
 		var target = 'index.php?/classes/characterSheet/';
@@ -44,9 +48,8 @@
 		else if(a=='Create'){func = 'create';}
 		else if(a=='Check') {func = 'check';}
 		else                {func = 'test';}
-		//$.post('index.php?/classes/characterSheet/load','',function(data){
 		$.post(target+func,'',function(data){
-			$('#charTable > div:nth-child(2)').html(data);
+			$('#charTable > div:nth-child(2)').html(func);
 		});
 	});
 </script>
