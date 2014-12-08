@@ -17,6 +17,14 @@
 		});
 	</script>
 	<style>
+		@font-face{
+			font-family: 'rocksalt';
+			src : url('lib/fonts/rocksalt.ttf')
+		}
+		@font-face{
+			font-family: 'PermanentMarker';
+			src : url('lib/fonts/PermanentMarker.ttf')
+		}
 		#wrapper{
 			border : 1px solid green;
 			background : white;
