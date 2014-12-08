@@ -62,7 +62,7 @@ class Stout extends CI_Controller {
 			# END SETUP JTABLE
 
 			#$d['charTable'] = $this->load->view('classes/jtable',$charTable,true);
-			$d['charTable'] = '';
+			$d['charTable'] = 'charTable here';
 			$d['charSheet'] = $this->load->view('classes/jform','',true);
 	
 			$data['jCharacter'] = $this->load->view('classes/jCharacter',$d,true);
