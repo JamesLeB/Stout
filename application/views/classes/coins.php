@@ -18,14 +18,6 @@
 	";
 	$style = "
 		<style>
-			@font-face{
-				font-family: 'rocksalt';
-				src : url('lib/fonts/rocksalt.ttf')
-			}
-			@font-face{
-				font-family: 'PermanentMarker';
-				src : url('lib/fonts/PermanentMarker.ttf')
-			}
 			#aptTesting{
 				width : 400px;
 				float : right;
