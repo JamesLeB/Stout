@@ -17,6 +17,14 @@ class CharacterSheet extends CI_Controller {
 */
 		echo "index";
 	}
+	public function addCharacter(){
+		$name  = $_POST['name'];
+		$race  = $_POST['race'];
+		$class = $_POST['class'];
+		$this->load->model('local');
+		$rtn = $this->local->addCharacter($name,$race,$class);
+		echo "$rtn";
+	}
 	public function loadCharacterTable(){
 		# SETUP Char table
 		# Load data
