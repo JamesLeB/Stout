@@ -1,58 +1,62 @@
 <?php
-	$scale = 20;
-	$size  = 5;
+	$scaleX = 50;
+	$scaleY = 40;
+	$sizeX  = 10;
+	$sizeY  = 6;
+	$sh=$scaleY;
+	$sw=$scaleX;
+	$ph=$scaleY+4;
+	$pw=$scaleX+4;
 	$html = '';
-	for($i=0;$i<$size;$i++){
-		$html .= "<div class='row'>";
-		for($j=0;$j<$size;$j++){
-			$html .= "<div class='space'></div>";
+	$html .= "<table>";
+	for($i=0;$i<$sizeY;$i++){
+		$html .= "<tr>";
+		for($j=0;$j<$sizeX;$j++){
+			$html .= "<td><div class='space emptySpace'></div></td>";
 		}
+		$html .= "</tr>";
 		$html .= "</div>";
 	}
-	$mh=$size;
-	$mw=$mh;
-	$sh=$scale;
-	$sw=$scale;
-	$rh=$scale+2;
-	$rw=$rh*$size;
-	$mapw=$rw;
+	$html .= "</table>";
 	$style = "
 		<style>
 			.space{
-				background : lightgray;
 				height : {$sh}px;
 				width  : {$sw}px;
-				float : left;
 			}
-			.row{
-				height : {$rh}px;
-				width  : {$rw}px;
-			}
-			#map{
+			#map table{
 				border : 1px solid green;
-				width : {$mapw}px;
+				background : lightgray;
+				border-collapse: collapse;
 			}
 		</style>
 	";
 	$script = "
 	";
 	$factoryHtml = "
-		<div class='piece'></div>
+		<div class='space'>
+			<div class='tile'></div>
+		</div>
+		<div class='space'>
+			<div class='tile'></div>
+		</div>
 	";
 	$factoryStyle = "
 		<style>
 			#factory{
 				border : 1px brown solid;
-				width  : 100px;
-				height : 100px;
+				width  : 150px;
+				height : 200px;
 				float : right;
 			}
-			.piece{
-				margin-top  : 10px;
+			#factory .space{
 				margin-left : 10px;
-				height : {$sh}px;
-				width  : {$sw}px;
-				background : lightblue;
+				margin-top  : 10px;
+			}
+			.tile{
+				height : {$ph}px;
+				width  : {$pw}px;
+				background : purple;
 			}
 		</style>
 	";
@@ -62,15 +66,48 @@
 <div id='factory'><?php echo $factoryHtml.$factoryStyle.$factoryScript ?></div>
 <div id='map'><?php echo $html.$style.$script ?></div>
 <script>
-	var c = 'transparent';
+	//var c = 'transparent';
 	var c = 'gray';
 	$('.space').css('border','1px dotted '+c);
+/*
 	$('.space').mouseenter(function(){
 		$(this).css('border-color','yellow');
 	});
 	$('.space').mouseleave(function(){
 		$(this).css('border-color',c);
 	});
+*/
+	$('.space').droppable({
+		drop: function(event,ui){
+			var test = $(this).hasClass('emptySpace');
+			if(test){
+				var obj = ui.draggable;
+				$(obj).parent().removeClass('filledSpace');
+				$(obj).parent().addClass('emptySpace');
+				ui.draggable.detach().appendTo($(this));
+				$(this).removeClass('emptySpace');
+				$(this).addClass('filledSpace');
+			}
+		}
+	});
+	$('.tile').draggable({containment:'document'});
+	$('.tile').draggable('option','revert',true);
+	$('.tile').draggable('option','revertDuration',0);
+	$('.tile').draggable('enable');
+	$('.tile').draggable({
+		stop: function(event,ui){
+			$(this).css('top',-2);
+			$(this).css('left',-2);
+			$(this).css('z-index',1);
+		}
+	});
+	$('.tile').draggable({
+		start: function(event,ui){
+			$(this).css('z-index',2);
+		}
+	});
+	$('.tile').css('top',-2);
+	$('.tile').css('left',-2);
 </script>
 <style>
 </style>
