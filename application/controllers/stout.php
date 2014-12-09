@@ -45,6 +45,7 @@ class Stout extends CI_Controller {
 			$this->load->view('claims',$d);
 		}elseif($user == 'james1'){
 			# SETUP JTABLE
+/*
 			$heading = array('Name','Address','Sex');
 			$row = array('James','New York','Male');
 			$rows = array();
@@ -60,13 +61,14 @@ class Stout extends CI_Controller {
 				'colWidth' => $colWidth
 			);
 			# END SETUP JTABLE
+*/
 
 			#$d['charTable'] = $this->load->view('classes/jtable',$charTable,true);
 			$d['charTable'] = 'charTable here';
 			$d['charSheet'] = $this->load->view('classes/jform','',true);
 	
 			$data['jCharacter'] = $this->load->view('classes/jCharacter',$d,true);
-			$data['jtable'] = $this->load->view('classes/jtable',$obj,true);
+			#$data['jtable'] = $this->load->view('classes/jtable',$obj,true);
 			# Load coins
 			$coins['list'] = array(); #$this->getBterCoinList();
 			$data['coins'] = $this->load->view('classes/coins',$coins,true);
