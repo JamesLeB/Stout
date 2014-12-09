@@ -16,16 +16,17 @@
 		border : 1px dotted gray;
 		margin-left : 0px;
 		margin-top  : 0px;
-		padding     : 10px;
-		width : 800px;
+		width : 620px;
+		float : right;
 	}
 	#charSheet{
+		border : 1px dotted gray;
 		width : 500px;
 		height : 450px;
 	}
 </style>
 <script>
-	$('#charSheet').hide();
+	//$('#charSheet').hide();
 
 	function loadCharacterTable(){
 		var target = 'index.php?/classes/characterSheet/';
