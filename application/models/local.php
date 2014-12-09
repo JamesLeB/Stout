@@ -10,6 +10,12 @@ class Local extends CI_Model{
 	function test(){
 		return "testing shit";
 	}
+	function addCharacter($name,$race,$class){
+		# check to database first
+		$q = "insert into Characters (name,race,class) values ('$name','$race','$class')";
+		$rs = $this->db->query($q);
+		return "success";
+	}
 	function getCharacterList(){
 		$head = array('Name','Race','Class');
 		$q = 'select * from Characters';
@@ -17,9 +23,11 @@ class Local extends CI_Model{
 		$data = array();
 		$ct = 0;
 		foreach($rs->result_array() as $row){
-			$data[] = $row['name'];
-			$data[] = $row['race'];
-			$data[] = $row['class'];
+			$d = array();
+			$d[] = $row['name'];
+			$d[] = $row['race'];
+			$d[] = $row['class'];
+			$data[] = $d;
 			$ct++;
 		}
 		return array($head,$data);
