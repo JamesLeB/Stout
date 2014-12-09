@@ -1,5 +1,3 @@
-<?php
-?>
 <div id='newCharacterForm'>
 	<div>
 		<div><input type='textbox' maxlength='16'/></div>
@@ -37,6 +35,8 @@
 	#newCharacterForm{
 		font-family : 'rocksalt';
 		width : 380px;
+		margin-left : auto;
+		margin-right : auto;
 		border : solid 1px black;
 		border-radius : 20px;
 		box-shadow : 3px 3px 3px black;
@@ -51,16 +51,18 @@
 		margin-right : 30px;
 	}
 	#newCharacterForm > div > div:nth-child(2){
-		margin-left : 30px;
+		margin-left : 40px;
 		height : 50px;
 	}
 	#newCharacterForm > div:nth-child(4) > button{
 		background : blue;
 		color : white;
 		width : 100px;
+		margin-top : 20px;
+		margin-left : 20px;
 	}
-	#newCharacterForm > div:nth-child(4) > button{
-		margin-left : 50px;
+	#newCharacterForm > div:nth-child(4) > button:nth-child(1){
+		margin-left : 80px;
 	}
 	#newCharacterForm > div > div:nth-child(1){ width : 220px; }
 	#newCharacterForm > div > div:nth-child(2){ width : 80px; }

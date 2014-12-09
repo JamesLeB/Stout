@@ -1,7 +1,5 @@
 <div id='newCharacterSheet'>
-	<div id='charTable'>
-		<?php echo $charTable; ?>
-	</div>
+	<div id='charTable'></div>
 	<div id='charSheet'><?php echo $charSheet; ?></div>
 </div>
 <style>
