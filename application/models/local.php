@@ -43,7 +43,7 @@ class Local extends CI_Model{
 			$query = "drop table $t";
 			$m[] = "Dropping table";
 			$rs = $this->db->query($query);
-			//$m[] = $rs ? 'TRUE' : 'FALSE';
+			$m[] = $rs ? 'TRUE' : 'FALSE';
 		}
 		return implode('<br/>',$m);
 	}
