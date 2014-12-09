@@ -22,6 +22,10 @@
 		width : 500px;
 		height : 450px;
 	}
+	#CharactersDB button{
+		color : red;
+		font-weight : bold;
+	}
 </style>
 <script>
 	//$('#charSheet').hide();
@@ -30,6 +34,17 @@
 		var func = 'loadCharacterTable';
 		$.post(target+func,'',function(data){
 			$('#charTable').html(data);
+			$('#CharactersDB button').click(function(){
+				var test = confirm('Delete');
+				if(test){
+					func = 'deleteCharacter';
+					var charName = $(this).parent().parent().children().first().html();
+					var parm = {charName: charName};
+					$.post(target+func,parm,function(data){
+						loadCharacterTable();
+					});
+				}
+			});
 		});
 	}
 	loadCharacterTable();

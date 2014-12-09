@@ -16,6 +16,12 @@ class Local extends CI_Model{
 		$rs = $this->db->query($q);
 		return "success";
 	}
+	function deleteCharacter($charName){
+		$q = "delete from Characters where name='$charName'";
+		$rs = $this->db->query($q);
+		$t = $rs ? 'TRUE' : 'FALSE';
+		return "Deleted $charName $t";
+	}
 	function getCharacterList(){
 		$head = array('Name','Race','Class');
 		$q = 'select * from Characters';

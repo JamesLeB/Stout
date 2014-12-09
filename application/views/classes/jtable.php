@@ -14,6 +14,7 @@
 		foreach($row as $cell){
 			$jtable .= "<span>$cell</span>"; #put cell 
 		}
+		$jtable .= "<span><button>X</button></span>";      #put delete button 
 		$jtable .= "</div>";             #close body row
 	}
 	$jtable .= "</div>";               #close body

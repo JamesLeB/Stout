@@ -25,6 +25,12 @@ class CharacterSheet extends CI_Controller {
 		$rtn = $this->local->addCharacter($name,$race,$class);
 		echo "$rtn";
 	}
+	public function deleteCharacter(){
+		$charName = $_POST['charName'];
+		$this->load->model('local');
+		$rtn = $this->local->deleteCharacter($charName);
+		echo $rtn;
+	}
 	public function loadCharacterTable(){
 		# SETUP Character table
 		# Load data
