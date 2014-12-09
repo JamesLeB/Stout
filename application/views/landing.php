@@ -13,7 +13,7 @@
 					window.location.href = "index.php";
 				});
 			});
-			$('#tabs').tabs({active:6});
+			$('#tabs').tabs({active:5});
 		});
 	</script>
 	<style>
@@ -90,10 +90,10 @@
 					<?php #echo $characterSheet ?>
 				</div>
 				<div id='tab6'>
-					<?php #echo $database ?>
+					<?php echo $database ?>
 				</div>
 				<div id='tab7'>
-					<?php echo $map ?>
+					<?php #echo $map ?>
 				</div>
 			</div>
 		</div>
