@@ -13,7 +13,7 @@
 					window.location.href = "index.php";
 				});
 			});
-			$('#tabs').tabs({active:5});
+			$('#tabs').tabs({active:2});
 		});
 	</script>
 	<style>
@@ -81,7 +81,7 @@
 					<span>Claims</span>
 				</div>
 				<div id='tab3'>
-					<?php #echo $jCharacter ?>
+					<?php echo $jCharacter ?>
 				</div>
 				<div id='tab4'>
 					<?php #echo $coins ?>
