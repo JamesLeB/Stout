@@ -3,7 +3,7 @@
 	$tableHtml = "";
 	foreach($tableList as $t){
 		$tableHtml .= "
-			<div class='missing'>
+			<div>
 				<div>$t</div>
 				<div></div>
 				<div><button>Create</button></div>
@@ -50,12 +50,6 @@
 				padding-left : 20px;
 				margin : 20px;
 			}
-			#localDbTables > div:nth-child(2) .active{
-				background : lightgreen;
-			}
-			#localDbTables > div:nth-child(2) .missing{
-				background : pink;
-			}
 			#error{margin-top: 20px;}
 		</style>
 	";
@@ -70,6 +64,7 @@
 				     if(a=='Create'){func = 'create';}
 				else if(a=='Drop')  {func = 'drop';}
 				$.post(target+func,parm,function(data){
+					$('#localDbTables > div:nth-child(1) > button:nth-child(1)').trigger('click');
 					$('#error').html(data);
 				});
 			});
@@ -84,10 +79,13 @@
 						obj.forEach(function(f){
 							if(f == tableX){
 								tableStatus = 'Active';
-								$(e).removeClass('missing');
-								$(e).addClass('active');
 							}
 						});
+						if(tableStatus == 'Active'){
+							$(e).css('background','lightGreen');
+						}else{
+							$(e).css('background','pink');
+						}
 						$(e).children(':nth-child(2)').html(tableStatus);
 					});
 				});
