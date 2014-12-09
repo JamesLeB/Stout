@@ -1,11 +1,6 @@
 <div id='newCharacterSheet'>
 	<div id='charTable'>
-		<div>
-			<button>Go</button>
-			<button>Load</button>
-			<button>Test</button>
-		</div>
-		<div><?php echo $charTable; ?></div>
+		<?php echo $charTable; ?>
 	</div>
 	<div id='charSheet'><?php echo $charSheet; ?></div>
 </div>
@@ -15,21 +10,14 @@
 		border-radius : 20px;
 		box-shadow : 2px 2px 2px black;
 		padding : 10px;
-		height : 300px;
+		height : 500px;
 	}
 	#charTable{
-		border : 1px solid blue;
-		margin-left : 30px;
-		margin-top : 30px;
-		width : 650px;
-		padding : 10px;
-	}
-	#charTable > div:nth-child(1) > button{
-		margin-bottom : 10px;
-		margin-left : 20px;
-	}
-	#charTable > div:nth-child(2){
-		border : 1px dashed gray;
+		border : 1px dotted gray;
+		margin-left : 0px;
+		margin-top  : 0px;
+		padding     : 10px;
+		width : 800px;
 	}
 	#charSheet{
 		width : 500px;
@@ -39,16 +27,13 @@
 <script>
 	$('#charSheet').hide();
 
-	$('#charTable > div:nth-child(1) > button').click(function(){
+	function loadCharacterTable(){
 		var target = 'index.php?/classes/characterSheet/';
-		var func = '';
-		var a = $(this).first().html();
-		     if(a=='Go')    {func = 'index';}
-		else if(a=='Load')  {func = 'loadCharacterTable';}
-		else if(a=='Test')  {func = 'test';}
+		var func = 'loadCharacterTable';
 		$.post(target+func,'',function(data){
-			$('#charTable > div:nth-child(2)').html(data);
+			$('#charTable').html(data);
 			//$('#error').html(func);
 		});
-	});
+	}
+	loadCharacterTable();
 </script>

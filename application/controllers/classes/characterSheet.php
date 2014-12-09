@@ -18,8 +18,6 @@ class CharacterSheet extends CI_Controller {
 		echo "index";
 	}
 	public function loadCharacterTable(){
-		echo "load character sheet";
-/*
 		# SETUP Char table
 		$heading = array('ID','Name','Race','Class');
 		$rows = array();
@@ -32,12 +30,13 @@ class CharacterSheet extends CI_Controller {
 			'jname'    => 'CharactersDB',
 			'heading'  => $heading,
 			'rows'     => $rows,
-			'jWidth'   => 600,
+			'jWidth'   => 700,
 			'colWidth' => $colWidth
 		);
 		# END SETUP Char table
 		$rtn = $this->load->view('classes/jtable',$charTable,true);
 		echo $rtn;
+/*
 */
 	}
 	public function test(){
