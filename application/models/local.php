@@ -27,9 +27,12 @@ class Local extends CI_Model{
 		$m = array();
 		$m[] = "Creating table: $t";
 		if($t == 'Characters'){
-			$m[] = "Loading Query to create Character Table";
-			$query = "Create table $t (id int)";
-			$m[] = "Dropping Table";
+			$query = "create table $t (id int)";
+			$rs = $this->db->query($query);
+			$m[] = $rs ? 'TRUE' : 'FALSE';
+		}
+		elseif($t == 'Inventory'){
+			$query = "create table $t (id int)";
 			$rs = $this->db->query($query);
 			$m[] = $rs ? 'TRUE' : 'FALSE';
 		}
@@ -39,9 +42,12 @@ class Local extends CI_Model{
 		$m = array();
 		$m[] = "Dropping table: $t";
 		if($t == 'Characters'){
-			$m[] = "Loading Query to drop character table";
 			$query = "drop table $t";
-			$m[] = "Dropping table";
+			$rs = $this->db->query($query);
+			$m[] = $rs ? 'TRUE' : 'FALSE';
+		}
+		elseif($t == 'Inventory'){
+			$query = "drop table $t";
 			$rs = $this->db->query($query);
 			$m[] = $rs ? 'TRUE' : 'FALSE';
 		}
