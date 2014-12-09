@@ -26,23 +26,14 @@ class CharacterSheet extends CI_Controller {
 		echo "$rtn";
 	}
 	public function loadCharacterTable(){
-		# SETUP Char table
+		# SETUP Character table
 		# Load data
 		$this->load->model('local');
 		$obj = $this->local->getCharacterList();
-/*
-		$heading = array('ID','Name','Race','Class');
-		$rows = array();
-		for($i=0;$i<10;$i++){
-			$row = array($i,'Alpha','Human','Fighter');
-			$rows[] = $row;
-		}
-		$obj = array($heading,$rows);
-*/
 		$heading = $obj[0];
 		$rows    = $obj[1];
 		# Format table
-		$colWidth = array(200,150,150);
+		$colWidth = array(150,150,150);
 		$charTable = array(
 			'jname'    => 'CharactersDB',
 			'heading'  => $heading,

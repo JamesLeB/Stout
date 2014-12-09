@@ -25,13 +25,11 @@
 </style>
 <script>
 	//$('#charSheet').hide();
-
 	function loadCharacterTable(){
 		var target = 'index.php?/classes/characterSheet/';
 		var func = 'loadCharacterTable';
 		$.post(target+func,'',function(data){
 			$('#charTable').html(data);
-			//$('#error').html(func);
 		});
 	}
 	loadCharacterTable();

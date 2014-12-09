@@ -19,7 +19,6 @@ class Stout extends CI_Controller {
 	public function index()
 	{
 		$user = $_SESSION['user'];
-
 		if($user == 'james')
 		{
 			$slide = array();
@@ -44,31 +43,9 @@ class Stout extends CI_Controller {
 			$d['claims'] = $claimList;
 			$this->load->view('claims',$d);
 		}elseif($user == 'james1'){
-			# SETUP JTABLE
-/*
-			$heading = array('Name','Address','Sex');
-			$row = array('James','New York','Male');
-			$rows = array();
-			for($i=0;$i<100;$i++){
-				$rows[] = $row;
-			}
-			$colWidth = array(100,200,100);
-			$obj = array(
-				'jname'    => 'jtable',
-				'heading'  => $heading,
-				'rows'     => $rows,
-				'jWidth'   => 500,
-				'colWidth' => $colWidth
-			);
-			# END SETUP JTABLE
-*/
-
-			#$d['charTable'] = $this->load->view('classes/jtable',$charTable,true);
-			$d['charTable'] = 'charTable here';
+			# Load Character
 			$d['charSheet'] = $this->load->view('classes/jform','',true);
-	
 			$data['jCharacter'] = $this->load->view('classes/jCharacter',$d,true);
-			#$data['jtable'] = $this->load->view('classes/jtable',$obj,true);
 			# Load coins
 			$coins['list'] = array(); #$this->getBterCoinList();
 			$data['coins'] = $this->load->view('classes/coins',$coins,true);
