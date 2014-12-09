@@ -28,22 +28,22 @@ class Local extends CI_Model{
 		$m[] = "Creating table: $t";
 		if($t == 'Characters'){
 			$m[] = "Loading Query to create Character Table";
-			$query = "Create table Characters (id int)";
+			$query = "Create table $t (id int)";
 			$m[] = "Dropping Table";
 			$rs = $this->db->query($query);
 			$m[] = $rs ? 'TRUE' : 'FALSE';
 		}
 		return implode('<br/>',$m);
 	}
-	function deleteTable($t){
+	function dropTable($t){
 		$m = array();
-		$m[] = "Deleting table: $t";
+		$m[] = "Dropping table: $t";
 		if($t == 'Characters'){
-			$m[] = "Loading Query to delete Character Table";
-			$query = "drop table Characters";
+			$m[] = "Loading Query to drop character table";
+			$query = "drop table $t";
 			$m[] = "Dropping table";
 			$rs = $this->db->query($query);
-			$m[] = $rs ? 'TRUE' : 'FALSE';
+			//$m[] = $rs ? 'TRUE' : 'FALSE';
 		}
 		return implode('<br/>',$m);
 	}
