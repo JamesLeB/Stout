@@ -10,6 +10,20 @@ class Local extends CI_Model{
 	function test(){
 		return "testing shit";
 	}
+	function getCharacterList(){
+		$head = array('Name','Race','Class');
+		$q = 'select * from Characters';
+		$rs = $this->db->query($q);
+		$data = array();
+		$ct = 0;
+		foreach($rs->result_array() as $row){
+			$data[] = $row['name'];
+			$data[] = $row['race'];
+			$data[] = $row['class'];
+			$ct++;
+		}
+		return array($head,$data);
+	}
 	function go(){
 		$test = $this->getTableList();
 		return json_encode($test);
@@ -27,7 +41,7 @@ class Local extends CI_Model{
 		$m = array();
 		$m[] = "Creating table: $t";
 		if($t == 'Characters'){
-			$query = "create table $t (id int)";
+			$query = "create table $t (name varchar(16),race varchar(16),class varchar(16))";
 			$rs = $this->db->query($query);
 			$m[] = $rs ? 'TRUE' : 'FALSE';
 		}
