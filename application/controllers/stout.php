@@ -73,6 +73,8 @@ class Stout extends CI_Controller {
 			$data['characterSheet'] = $this->load->view('classes/characterSheet','',true);
 			# Load database controls
 			$data['database'] = $this->load->view('classes/localdb','',true);
+			# Load Map
+			$data['map'] = $this->load->view('classes/map','',true);
 			# Load Laning page
 			$this->load->view('landing',$data);
 		}
