@@ -29,7 +29,7 @@
 		<button>Submit</button>
 		<button>Clear</button>
 	</div>
-	<div></div>
+	<div>&nbsp</div>
 </div>
 <style>
 	#newCharacterForm{
@@ -41,7 +41,7 @@
 		border-radius : 20px;
 		box-shadow : 3px 3px 3px black;
 		padding-top : 30px;
-		padding-bottom : 20px;
+		padding-bottom : 10px;
 		background-image : url('lib/images/wood1.jpg');
 	}
 	#newCharacterForm div{
@@ -64,23 +64,45 @@
 	#newCharacterForm > div:nth-child(4) > button:nth-child(1){
 		margin-left : 80px;
 	}
+	#newCharacterForm > div:nth-child(5){
+		color : red;
+		text-align : center;
+		font-size : 120%;
+		margin-top : 10px;
+	}
 	#newCharacterForm > div > div:nth-child(1){ width : 220px; }
 	#newCharacterForm > div > div:nth-child(2){ width : 80px; }
 </style>
 <script>
-	$('#newCharacterForm form').submit(function(){
-		var charName  = this.charName.value;
-		var charRace  = this.charRace.value;
-		var charClass = this.charClass.value;
-		parm = $(this).serialize();
-		//alert('name '+charName+'\\nrace '+charRace+'\\nclass '+charClass);
-		this.charName.value = '';
-		this.charRace.value = 'Human';
-		this.charClass.value = 'Fighter';
+	$('#newCharacterForm button').click(function(){
+		var action = $(this).html();
 
-		$.post('index.php?/classes/characterSheet',parm,function(data){
-			$('#debug').html(data);
-		});
-		return false;
+		var charName  = $('#newCharacterForm > div:nth-child(1) > div:nth-child(1) > input').val();
+		var charRace  = $('#newCharacterForm > div:nth-child(2) > div:nth-child(1) > select').val();
+		var charClass = $('#newCharacterForm > div:nth-child(3) > div:nth-child(1) > select').val();
+		if(action=='Clear'){
+			$('#newCharacterForm > div:nth-child(1) > div:nth-child(1) > input').val('');
+			$('#newCharacterForm > div:nth-child(2) > div:nth-child(1) > select').val('Human');
+			$('#newCharacterForm > div:nth-child(3) > div:nth-child(1) > select').val('Fighter');
+			$('#newCharacterForm > div:nth-child(5)').html('&nbsp');
+		}else if(action=='Submit' && charName != ''){
+			var target = 'index.php?/classes/characterSheet/';
+			var func   = 'addCharacter';
+			var parm = {
+				name: charName,
+				race: charRace,
+				class: charClass
+			};
+			$.post(target+func,parm,function(data){
+				$('#newCharacterForm > div:nth-child(5)').html(data);
+			});
+			$('#newCharacterForm > div:nth-child(1) > div:nth-child(1) > input').val('');
+			$('#newCharacterForm > div:nth-child(2) > div:nth-child(1) > select').val('Human');
+			$('#newCharacterForm > div:nth-child(3) > div:nth-child(1) > select').val('Fighter');
+			$('#newCharacterForm > div:nth-child(5)').html('&nbsp');
+			loadCharacterTable();
+		}else{
+			$('#newCharacterForm > div:nth-child(5)').html('Invalid Name');
+		}
 	});
 </script>
