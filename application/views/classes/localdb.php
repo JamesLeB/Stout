@@ -19,7 +19,6 @@
 			</div>
 			<div>$tableHtml</div>
 		</div>
-		<div id='error'></div>
 	";
 	$style = "
 		<style>
@@ -50,11 +49,11 @@
 				padding-left : 20px;
 				margin : 20px;
 			}
-			#error{margin-top: 20px;}
 		</style>
 	";
 	$script = "
 		<script>
+			$('#localDbTables > div:nth-child(1)').hide();
 			$('#localDbTables > div:nth-child(2) button').click(function(){
 				var target = 'index.php?/classes/database/';
 				var func = '';
