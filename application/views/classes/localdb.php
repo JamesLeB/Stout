@@ -2,12 +2,14 @@
 	$tableList = array('Characters','Inventory');
 	$tableHtml = "";
 	foreach($tableList as $t){
-		$tableHtml .= "<div>";
-		$tableHtml .= "<div>$t</div>";
-		$tableHtml .= "<div></div>";
-		$tableHtml .= "<div><button>Create</button></div>";
-		$tableHtml .= "<div><button>Drop</button></div>";
-		$tableHtml .= "</div>";
+		$tableHtml .= "
+			<div class='missing'>
+				<div>$t</div>
+				<div></div>
+				<div><button>Create</button></div>
+				<div><button>Drop</button></div>
+			</div>
+		";
 	}
 	$html = "
 		<div id='localDbTables'>
@@ -22,23 +24,39 @@
 	$style = "
 		<style>
 			#localDbTables{
-				border : 1px solid blue;
+				border : 1px solid gray;
+				background : #e0e0e0;
+				border-radius : 20px;
+				box-shadow : 3px 3px 3px black;
+				padding : 10px;
 			}
-			#localDbTables div{
-				border : 1px dotted gray;
-				margin : 10px;
+			#localDbTables > div:nth-child(1){
+				margin-top : 10px;
 			}
-			#localDbTables > div:nth-child(2) > div{
-				height : 50px;
+			#localDbTables > div:nth-child(1) > button{
+				margin-left : 30px;
 			}
 			#localDbTables > div:nth-child(2) > div > div{
 				width : 150px;
 				height : 30px;
 				float : left;
+				margin-top : 10px;
 			}
 			#localDbTables > div:nth-child(2) > div{
-				border : 1px solid red;
+				height : 50px;
+				border : 1px solid gray;
+				border-radius : 20px;
+				box-shadow : 1px 1px 1px gray;
+				padding-left : 20px;
+				margin : 20px;
 			}
+			#localDbTables > div:nth-child(2) .active{
+				background : lightgreen;
+			}
+			#localDbTables > div:nth-child(2) .missing{
+				background : pink;
+			}
+			#error{margin-top: 20px;}
 		</style>
 	";
 	$script = "
@@ -62,11 +80,15 @@
 					obj = $.parseJSON(data);
 					$('#localDbTables > div:nth-child(2) > div').each(function(i,e){
 						var tableX = $(e).children().first().html();
-						var test = 'false';
-						obj.forEach(function(e){
-							if(e == tableX){test = 'true';}
+						var tableStatus = 'Missing';
+						obj.forEach(function(f){
+							if(f == tableX){
+								tableStatus = 'Active';
+								$(e).removeClass('missing');
+								$(e).addClass('active');
+							}
 						});
-						$(e).children(':nth-child(2)').html(test);
+						$(e).children(':nth-child(2)').html(tableStatus);
 					});
 				});
 			});
