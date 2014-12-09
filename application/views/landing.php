@@ -99,6 +99,7 @@
 		</div>
 		<div>
 			<span>Footer</span>
+			<div id='error'></div>
 		</div>
 	</div>
 </body>
