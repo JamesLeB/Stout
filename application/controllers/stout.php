@@ -4,7 +4,13 @@ class Stout extends CI_Controller {
 
 	public function logout(){ session_unset(); }
 	public function getBter(){
-		$html = "Test something";
+		#ticker
+		$json = file_get_contents('http://data.bter.com/api/1/ticker/BTC_CNY');
+		#depth
+		#$json = file_get_contents('http://data.bter.com/api/1/depth/btc_cny');
+		#history
+		#$json = file_get_contents('http://data.bter.com/api/1/trade/btc_cny');
+		$html = $json;
 		echo $html;
 	}
 	private function getBterCoinList(){
@@ -43,8 +49,8 @@ class Stout extends CI_Controller {
 			$d['charSheet'] = $this->load->view('classes/jform','',true);
 			$data['jCharacter'] = $this->load->view('classes/jCharacter',$d,true);
 			# Load coins
-			#$coins['list'] = array();
-			$coins['list'] = $this->getBterCoinList();
+			$coins['list'] = array();
+			#$coins['list'] = $this->getBterCoinList();
 			$data['coins'] = $this->load->view('classes/coins',$coins,true);
 			# Load character Sheet
 			$data['characterSheet'] = $this->load->view('classes/characterSheet','',true);
