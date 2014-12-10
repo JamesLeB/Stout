@@ -14,6 +14,7 @@
 				});
 			});
 			$('#tabs').tabs();
+			$('#tabs').tabs({active:2});
 			$('#juniorTasks > div:nth-child(1) > button').click(function(){
 				var action = $(this).first().html();
 				if(action == 'Clear'){
@@ -154,6 +155,9 @@
 			margin-bottom : 5px;
 			padding : 2px;
 		}
+		li{
+			margin-top : 10px;
+		}
 	</style>
 </head>
 <body>
@@ -166,9 +170,9 @@
 		<div>
 			<div id='tabs'>
 				<ul>
-					<li><a href='#tab1'>One</a></li>
-					<li><a href='#tab2'>Two</a></li>
-					<li><a href='#tab3'>Three</a></li>
+					<li><a href='#tab1'>Tasks</a></li>
+					<li><a href='#tab2'>ToDo</a></li>
+					<li><a href='#tab3'>DEV</a></li>
 				</ul>
 				<div id='tab1'>
 <!-- START Junior page 1 -->
@@ -184,11 +188,71 @@
 <!-- END Junior page 1 -->
 				</div>
 				<div id='tab2'>
-					Second
+					<h3>Stuff to do</h3>
+					<ul>
+						<li>Move axium batch sheet to google drive</li>
+						<li>Design view of folder contents</li>
+						<li>Develop function to move selected file</li>
+						<li>Design view of imported file</li>
+						<li>Develop function to convert select file</li>
+						<li>Desing view of processed files</li>
+						<li>Develop function to move file to ftp server</li>
+						<li></li>
+					</ul>
 				</div>
+<!-- Start Dev CSS --!>
+<style>
+	#juniorBiller{
+		background : lightgray;
+		border-radius : 20px;
+		box-shadow : 3px 3px 3px black;
+		padding : 30px;
+	}
+	#juniorBiller > div{
+		border : 1px dotted black;
+		margin : 10px;
+		padding : 10px;
+	}
+	#juniorBiller > div:nth-child(2){
+		width : 400px;
+	}
+	#juniorBiller > div:nth-child(2) > div:nth-child(1){
+		font-size : 120%;
+		width : 100px;
+		margin-left : 100px;
+		margin-bottom : 10px;
+	}
+</style>
+<!-- End Dev CSS --!>
 				<div id='tab3'>
-					Third
+<!-- Start Dev Html--!>
+					<div id='juniorBiller'>
+						<div>
+							<button>GO</button>
+						</div>
+						<div>
+							<div>Batches</div>
+							<div></div>
+						</div>
+						<div>local input folder</div>
+						<div>local processed folder</div>
+						<div>ftp x12 folder</div>
+					</div>
+<!-- End Dev Html--!>
 				</div>
+<!-- Start Dev --!>
+<script>
+	$('#juniorBiller > div:nth-child(2)').hide();
+	$('#juniorBiller button').click(function(){
+		var target = 'index.php?/junior/';
+		var func = 'go';
+		$.post(target+func,'',function(data){
+			$('#juniorBiller > div:nth-child(2) > div:nth-child(2)').html(data);
+		});
+	});
+	$('#juniorBiller button').trigger('click');
+</script>
+<!-- End Dev --!>
 			</div>
 		</div>
 		<div>
