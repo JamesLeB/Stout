@@ -13,7 +13,7 @@
 					window.location.href = "index.php";
 				});
 			});
-			$('#tabs').tabs({active:2});
+			$('#tabs').tabs({active:3});
 		});
 	</script>
 	<style>
@@ -81,16 +81,16 @@
 					<span>Claims</span>
 				</div>
 				<div id='tab3'>
-					<?php echo $jCharacter ?>
+					<?php #echo $jCharacter ?>
 				</div>
 				<div id='tab4'>
-					<?php #echo $coins ?>
+					<?php echo $coins ?>
 				</div>
 				<div id='tab5'>
 					<?php #echo $characterSheet ?>
 				</div>
 				<div id='tab6'>
-					<?php echo $database ?>
+					<?php #echo $database ?>
 				</div>
 				<div id='tab7'>
 					<?php #echo $map ?>
