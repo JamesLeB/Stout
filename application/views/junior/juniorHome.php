@@ -191,11 +191,8 @@
 					<h3>Stuff to do</h3>
 					<ul>
 						<li>Move axium batch sheet to google drive</li>
-						<li>Design view of folder contents</li>
 						<li>Develop function to move selected file</li>
-						<li>Design view of imported file</li>
 						<li>Develop function to convert select file</li>
-						<li>Desing view of processed files</li>
 						<li>Develop function to move file to ftp server</li>
 						<li></li>
 					</ul>
@@ -206,21 +203,22 @@
 		background : lightgray;
 		border-radius : 20px;
 		box-shadow : 3px 3px 3px black;
-		padding : 30px;
+		height : 600px;
+		position : relative;
 	}
 	#juniorBiller > div{
-		border : 1px dotted black;
-		margin : 10px;
-		padding : 10px;
+		width : 250px;
+		position : absolute;
 	}
-	#juniorBiller > div:nth-child(2){
-		width : 400px;
-	}
-	#juniorBiller > div:nth-child(2) > div:nth-child(1){
+	#juniorBiller > div:nth-child(1){ top : 20px; left :  50px;}
+	#juniorBiller > div:nth-child(2){ top : 20px; left : 350px;}
+	#juniorBiller > div:nth-child(3){ top : 20px; left : 650px;}
+	#juniorBiller > div:nth-child(4){ top : 20px; left : 950px;}
+	#juniorBiller > div > div:nth-child(1){
 		font-size : 120%;
-		width : 100px;
-		margin-left : 100px;
-		margin-bottom : 10px;
+		width : 300px;
+		margin-left : 20px;
+		margin-bottom : 5px;
 	}
 </style>
 <!-- End Dev CSS --!>
@@ -228,29 +226,35 @@
 <!-- Start Dev Html--!>
 					<div id='juniorBiller'>
 						<div>
-							<button>GO</button>
-						</div>
-						<div>
-							<div>Batches</div>
+							<div>Batch</div>
 							<div></div>
 						</div>
-						<div>local input folder</div>
-						<div>local processed folder</div>
-						<div>ftp x12 folder</div>
+						<div>
+							<div>To Process</div>
+							<div></div>
+						</div>
+						<div>
+							<div>Processed</div>
+							<div></div>
+						</div>
+						<div>
+							<div>To Send</div>
+							<div></div>
+						</div>
 					</div>
 <!-- End Dev Html--!>
 				</div>
 <!-- Start Dev --!>
 <script>
-	$('#juniorBiller > div:nth-child(2)').hide();
-	$('#juniorBiller button').click(function(){
-		var target = 'index.php?/junior/';
-		var func = 'go';
-		$.post(target+func,'',function(data){
-			$('#juniorBiller > div:nth-child(2) > div:nth-child(2)').html(data);
-		});
+	var target = 'index.php?/junior/';
+	var func = 'go';
+	$.post(target+func,'',function(data){
+		var obj = $.parseJSON(data);
+		$('#juniorBiller > div:nth-child(1) > div:nth-child(2)').html(obj[0]);
+		$('#juniorBiller > div:nth-child(2) > div:nth-child(2)').html(obj[1]);
+		$('#juniorBiller > div:nth-child(3) > div:nth-child(2)').html(obj[2]);
+		$('#juniorBiller > div:nth-child(4) > div:nth-child(2)').html(obj[3]);
 	});
-	$('#juniorBiller button').trigger('click');
 </script>
 <!-- End Dev --!>
 			</div>
