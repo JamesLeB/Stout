@@ -3,18 +3,54 @@
 class Junior extends CI_Controller {
 
 	public function go(){
+		# Get ftp batch list
 		$a = $this->getFTP('getFtpBatchList');
 		$list = JSON_decode($a[1],true);
-		$m = 'testing';
-		$e = 'Default';
+		$checkedList = array();
 		if(is_array($list)){
-			#foreach($list as $z){$m .= "<br/>$z";}
-			$d['folderName'] = 'zork';
-			$d['list'] = $list;
-			$e = $this->load->view('junior/folderView',$d,true);
+			foreach($list as $l){$checkedList[]=$l;}
 		}
-		echo $e;
-		#echo "$a[1]";
+		$d['folderName'] = 'zork';
+		$d['list'] = $checkedList;
+		$e = $this->load->view('junior/folderView',$d,true);
+		# Get local unproccesed list
+		$list = scandir('files/edi');
+		$checkedList = array();
+		if(is_array($list)){
+			foreach($list as $l){
+				if(preg_match('/\.x12/',$l)){$checkedList[] = $l;}
+			}
+		}
+		$d['folderName'] = 'zork1';
+		$d['list'] = $checkedList;
+		$e1 = $this->load->view('junior/folderView',$d,true);
+		# Get local proccessed list
+		$list = scandir('files/edi/SENT');
+		$checkedList = array();
+		if(is_array($checkedList)){
+			foreach($list as $l){
+				if(preg_match('/\.x12/',$l)){$checkedList[] = $l;}
+			}
+		}
+		$d['folderName'] = 'zork2';
+		$d['list'] = $checkedList;
+		$e2 = $this->load->view('junior/folderView',$d,true);
+		# Get ftp x12 folder
+		$a = $this->getFTP('getFtpX12List');
+		$list = JSON_decode($a[1],true);
+		$checkedList = array();
+		if(is_array($list)){
+			foreach($list as $l){
+				if(preg_match('/\.x12/',$l)){$checkedList[] = $l;}
+			}
+		}
+		$d['folderName'] = 'zork3';
+		$d['list'] = $checkedList;
+		$e3 = $this->load->view('junior/folderView',$d,true);
+		#pack file lists into object
+		$obj = array($e,$e1,$e2,$e3);
+		$json = JSON_encode($obj);
+		echo $json;
 	}
 	public function action(){
 		$m = array();
@@ -70,6 +106,18 @@ class Junior extends CI_Controller {
 				}elseif($task == 'getFtpBatchList'){
 					# Get list of files
 					$fileList = ftp_nlist($conn,'batches');
+					if($fileList){
+						$m[] = "YES list";
+						foreach($fileList as $f){
+							$m[] = "$f";
+						}
+						$json = json_encode($fileList);
+					}else{
+						$m[] = "NO list";
+					}
+				}elseif($task == 'getFtpX12List'){
+					# Get list of files
+					$fileList = ftp_nlist($conn,'x12');
 					if($fileList){
 						$m[] = "YES list";
 						foreach($fileList as $f){
