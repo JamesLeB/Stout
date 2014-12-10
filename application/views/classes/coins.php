@@ -15,9 +15,23 @@
 			<div>Coin List</div>
 			<div>$coinList</div>
 		</div>
+		<div id='coinData'>
+			<div>Ticker</div>
+			<div>Depth</div>
+			<div>Trades</div>
+		</div>
 	";
 	$style = "
 		<style>
+			#coinData{
+				height : 500px;
+			}
+			#coinData > div{
+				border : 1px dotted gray;
+				width : 600px;
+				margin : 20px;
+				padding : 10px;
+			}
 			#aptTesting{
 				width : 500px;
 				float : right;
@@ -84,6 +98,7 @@
 					$('#aptTesting > div').html(data);
 				});
 			});
+			$('#coinList').hide();
 		</script>
 	";
 	echo $style;
