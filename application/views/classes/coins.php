@@ -7,33 +7,65 @@
 			</div>";
 	}
 	$html = "
-		<div id='aptTesting'>
-			<button>TEST</button>
-			<div></div>
-		</div>
-		<div id='coinList'>
-			<div>Coin List</div>
-			<div>$coinList</div>
-		</div>
-		<div id='coinData'>
-			<div>Ticker</div>
-			<div>Depth</div>
-			<div>Trades</div>
+		<div id='coinExchange'>
+			<div id='aptTesting'>
+				<button>TEST</button>
+				<div></div>
+			</div>
+			<div id='coinList'>
+				<div>Coin List</div>
+				<div>$coinList</div>
+			</div>
+			<div id='coinData'>
+				<div></div>
+				<div></div>
+				<div></div>
+				<div></div>
+			</div>
 		</div>
 	";
 	$style = "
 		<style>
-			#coinData{
-				height : 500px;
+			#coinExchange{
+				border : 1px solid gray;
+				border-radius : 20px;
+				position : relative;
+				height : 650px;
+				box-shadow : 3px 3px 3px black;
 			}
-			#coinData > div{
-				border : 1px dotted gray;
-				width : 600px;
-				margin : 20px;
+			#coinData table td{
+				background : lightgray;
 				padding : 10px;
 			}
+			#coinData > div{
+				border : 1px inset gray;
+				width : 750px;
+				margin : 20px;
+				padding : 10px;
+				overflow : auto;
+				position : absolute;
+			}
+			#coinData > div:nth-child(1){
+				height : 250px;
+			}
+			#coinData > div:nth-child(2){
+				height : 250px;
+				width  : 350px;
+				top    : 300px;
+				left   : 800px;
+			}
+			#coinData > div:nth-child(3){
+				height : 250px;
+				width  : 350px;
+				left   : 800px;
+			}
+			#coinData > div:nth-child(4){
+				height : 250px;
+				width  : 750px;
+				top    : 300px;
+			}
 			#aptTesting{
-				width : 500px;
+				width : 400px;
 				float : right;
 				margin : 20px;
 			}
@@ -93,10 +125,28 @@
 	";
 	$script = "
 		<script>
+			$.post('index.php?/stout/getBter','',function(data){
+				var obj = $.parseJSON(data)
+				$('#coinData > div:nth-child(1)').html(obj[0]);
+				$('#coinData > div:nth-child(2)').html(obj[1]);
+				$('#coinData > div:nth-child(3)').html(obj[2]);
+				$('#coinData > div:nth-child(4)').html(obj[3]);
+			});
+/*
+			$('#coinData > div:nth-child(1)').hide();
+			$('#coinData > div:nth-child(2)').hide();
+			$('#coinData > div:nth-child(3)').hide();
+			$('#coinData > div:nth-child(4)').hide();
+			$('#coinData > div:nth-child(5)').hide();
+*/
+			$('#aptTesting').hide();
 			$('#aptTesting').click(function(){
+				$('#aptTesting > div').html('testing');
+/*
 				$.post('index.php?/stout/getBter','',function(data){
 					$('#aptTesting > div').html(data);
 				});
+*/
 			});
 			$('#coinList').hide();
 		</script>
