@@ -2,6 +2,20 @@
 
 class Junior extends CI_Controller {
 
+	public function go(){
+		$a = $this->getFTP('getFtpBatchList');
+		$list = JSON_decode($a[1],true);
+		$m = 'testing';
+		$e = 'Default';
+		if(is_array($list)){
+			#foreach($list as $z){$m .= "<br/>$z";}
+			$d['folderName'] = 'zork';
+			$d['list'] = $list;
+			$e = $this->load->view('junior/folderView',$d,true);
+		}
+		echo $e;
+		#echo "$a[1]";
+	}
 	public function action(){
 		$m = array();
 		$message = $_POST['message'];
@@ -55,7 +69,7 @@ class Junior extends CI_Controller {
 					}
 				}elseif($task == 'getFtpBatchList'){
 					# Get list of files
-							$fileList = ftp_nlist($conn,'');
+					$fileList = ftp_nlist($conn,'batches');
 					if($fileList){
 						$m[] = "YES list";
 						foreach($fileList as $f){
