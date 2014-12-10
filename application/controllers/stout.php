@@ -142,7 +142,7 @@ class Stout extends CI_Controller {
 			# Load coins
 			$coins['list'] = array();
 			#$coins['list'] = $this->getBterCoinList();
-			$data['coins'] = $this->load->view('classes/coins',$coins,true);
+			$data['coins'] = "coins";#$this->load->view('classes/coins',$coins,true);
 			# Load character Sheet
 			$data['characterSheet'] = $this->load->view('classes/characterSheet','',true);
 			# Load database controls
