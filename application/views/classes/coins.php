@@ -9,7 +9,7 @@
 	$html = "
 		<div id='aptTesting'>
 			<button>TEST</button>
-			<div>Result</div>
+			<div></div>
 		</div>
 		<div id='coinList'>
 			<div>Coin List</div>
@@ -19,7 +19,7 @@
 	$style = "
 		<style>
 			#aptTesting{
-				width : 400px;
+				width : 500px;
 				float : right;
 				margin : 20px;
 			}
