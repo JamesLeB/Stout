@@ -6,4 +6,5 @@ files
 lib/graphs/data
 sandbox/kara/put
 sandbox/kara/get
+sandbox/coins/logs
 bter.json
