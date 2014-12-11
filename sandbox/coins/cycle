@@ -1,0 +1,8 @@
+#!/bin/bash
+
+logfile=logs/cycleLog
+
+echo "*****************************************" >> $logfile
+echo " LOAD BTER DATA TO MYSQL                 " >> $logfile
+echo "*****************************************" >> $logfile
+wget -O - localhost/james/Stout/sandbox/coins/loadbter.php >> $logfile 2>&1
