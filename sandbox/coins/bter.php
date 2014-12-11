@@ -1,4 +1,8 @@
 <?php
+	include("localdb.php");
+	$db = new localdb();
+	#$db->execute(1);
+
 	# Get Current History Table
 	$currentHistoryTable = "Current History Table";
 	if(1){
@@ -16,31 +20,52 @@
 			<table>
 				<thead>
 					<tr>
+						<td>Index</td>
 						<td>Timestamp</td>
 						<td>Price</td>
 						<td>Amount</td>
 						<td>Tid</td>
 						<td>Type</td>
 						<td>Date</td>
+						<td>Check</td>
+						<td>Match</td>
 					</tr>
 				</thead>
 				<tbody>
 		";
+		$count = 0;
 		foreach($tradeData as $trade){
+			$count++;
 			$timeStamp = $trade['date'];
 			$price     = $trade['price'];
 			$amount    = $trade['amount'];
 			$tid       = $trade['tid'];
 			$type      = $trade['type'];
-			$data      = date('Y-m-d H:i:s',$trade['date']);
+			$date      = date('Y-m-d H:i:s',$trade['date']);
+			# Insert record
+			$nTrade = array(
+				'timeStamp' => $timeStamp,
+				'price'     => $price,
+				'amount'    => $amount,
+				'tid'       => $tid,
+				'type'      => $type,
+				'date'      => $date
+			);
+			$check = $db->insertBterTrade($nTrade);
+			$match = $db->checkBterTrade($nTrade);
+
+			# Add record to html table
 			$currentHistoryTable .= "
 				<tr>
+					<td>$count</td>
 					<td>$timeStamp</td>
 					<td>$price</td>
 					<td>$amount</td>
 					<td>$tid</td>
 					<td>$type</td>
-					<td>$data</td>
+					<td>$date</td>
+					<td>$check</td>
+					<td>$match</td>
 				</tr>
 			";
 		}
@@ -49,41 +74,6 @@
 	# END Get Current History Table
 	# Get Data from MYSQL
 	$mysqlData = "MYSQL Data";
-	if(1){
-		$c = file_get_contents('../../files/james');
-		$c = preg_split('/\s/',$c);
-		$user = $c[0];
-		$pass = $c[1];
-		$db   = $c[2];
-		$link = mysqli_connect('localhost',$user,$pass,$db);
-		$m = array();
-		if($link){
-			$m[] = 'Columns';
-/*
-			$query = "drop table bter";
-			$result = $link->query($query);
-			$query = "create table bter (
-				time_stamp int,
-				price float,
-				amount float,
-				tid int,
-				type varchar(8),
-				date datetime
-			)";
-			$result = $link->query($query);
-*/
-			$query = "show columns from bter";
-			$result = $link->query($query);
-			while($row = mysqli_fetch_array($result)){
-				$m[] = $row[0]." ".$row[1];
-			}
-			mysqli_close($link);
-		}else{
-			$m[] = 'Connection Failed';
-		}
-		$m = implode('<br/>',$m);
-		$mysqlData = $m;
-	}
 	# END Get Data from MYSQL
 ?>
 <div id='wrapper'>
@@ -93,7 +83,7 @@
 <style>
 	#wrapper{
 		border : 1px gray solid;
-		width : 1000px;
+		width : 1200px;
 		margin-left : auto;
 		margin-right : auto;
 		margin-top : 30px;
@@ -113,10 +103,10 @@
 		overflow : auto;
 	}
 	#currentHistory{
-		width : 700px;
+		width : 900px;
 	}
 	#mysqlData{
-		left : 750px;
+		left : 950px;
 		width : 200px;
 	}
 	table td{
