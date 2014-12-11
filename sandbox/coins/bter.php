@@ -2,7 +2,13 @@
 	# Get Current History Table
 	$currentHistoryTable = "Current History Table";
 	if(1){
-		$tradesJson = file_get_contents('http://data.bter.com/api/1/trade/btc_cny');
+		$tradesJson = "";
+		if(0){
+			$tradesJson = file_get_contents('http://data.bter.com/api/1/trade/btc_cny');
+			file_put_contents('bter.json',$tradesJson);
+		}else{
+			$tradesJson = file_get_contents('bter.json');
+		}
 		$tradesObj = JSON_decode($tradesJson,true);
 		$tradeData = $tradesObj['data'];
 		$currentHistoryTable = "
@@ -53,6 +59,7 @@
 		$m = array();
 		if($link){
 			$m[] = 'Columns';
+/*
 			$query = "drop table bter";
 			$result = $link->query($query);
 			$query = "create table bter (
@@ -64,6 +71,7 @@
 				date datetime
 			)";
 			$result = $link->query($query);
+*/
 			$query = "show columns from bter";
 			$result = $link->query($query);
 			while($row = mysqli_fetch_array($result)){
