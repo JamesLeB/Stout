@@ -1,6 +1,6 @@
 #!/bin/bash
 
-logfile=logs/cycleLog
+logfile=/home/james/www/Stout/sandbox/coins/logs/cycleLog
 
 echo "*****************************************" >> $logfile
 echo " LOAD BTER DATA TO MYSQL                 " >> $logfile
