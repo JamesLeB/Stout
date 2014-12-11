@@ -19,11 +19,20 @@ class localdb {
 	public function test(){
 		return "testing";
 	}
+	public function getBterTrade($trade){
+		$query = $this->getQuery(5);
+		$stmt = mysqli_prepare($this->link_,$query);
+		$stmt->bind_param('i',$tid);
+		$tid = $trade['tid'];
+		$stmt->execute();
+		$stmt->bind_result($stamp,$price,$amount,$type);
+		$stmt->fetch();
+		return array($stamp,$price,$amount,$type);
+	}
 	public function checkBterTrade($trade){
 		$r = 0;
 		$query = $this->getQuery(5);
 		$stmt = mysqli_prepare($this->link_,$query);
-
 		$stmt->bind_param('i',$tid);
 		$tid = $trade['tid'];
 		$stmt->execute();
