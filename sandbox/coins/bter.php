@@ -2,12 +2,11 @@
 	include("localdb.php");
 	$db = new localdb();
 	#$db->execute(1);
-
 	# Get Current History Table
 	$currentHistoryTable = "Current History Table";
 	if(1){
 		$tradesJson = "";
-		if(0){
+		if(1){
 			$tradesJson = file_get_contents('http://data.bter.com/api/1/trade/btc_cny');
 			file_put_contents('bter.json',$tradesJson);
 		}else{
@@ -53,7 +52,23 @@
 			);
 			$check = $db->insertBterTrade($nTrade);
 			$match = $db->checkBterTrade($nTrade);
-
+			if(!$match){
+				$tt = date('Y-m-d H:i');
+				$abter = $db->getBterTrade($nTrade);
+				$m = "\n\n**************************************************\n";
+				$m .= "Bad Trad Error on $tt\n";
+				$m .= "**************************************************\n\n";
+				$m .= "Trade $tid does not match stored trade\n\n";
+				$m .= "MYSQL - ";
+				foreach($abter as $a){$m .= "$a : ";}
+				$m .= "\n";
+				$m .= "BTER  - ";
+				$m .= "$timeStamp : ";
+				$m .= "$price : ";
+				$m .= "$amount : ";
+				$m .= "$type : ";
+				file_put_contents('logs/errors',$m,FILE_APPEND);
+			}
 			# Add record to html table
 			$currentHistoryTable .= "
 				<tr>
