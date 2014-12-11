@@ -149,6 +149,8 @@ class Stout extends CI_Controller {
 			$data['database'] = $this->load->view('classes/localdb','',true);
 			# Load Map
 			$data['map'] = $this->load->view('classes/map','',true);
+			# Load Spash
+			$data['splash'] = $this->load->view('slides/splash','',true);
 			# Load Laning page
 			$this->load->view('landing',$data);
 		}
