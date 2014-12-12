@@ -1,34 +1,45 @@
 <div id='splash'>
 		<button>GO</button>
+		<button>HA</button>
 		<textarea></textarea>
 </div>
 <style>
 	#splash{
 		background : gray;
-		height : 400px;
-		width :  800px;
+		height : 600px;
+		width :  900px;
 		margin-left  : auto;
 		margin-right : auto;
 		position : relative;
 	}
 	#splash textarea{
 		resize : none;
-		height : 300px;
-		width  : 600px;
+		height : 500px;
+		width  : 700px;
 		position : absolute;
 		left : 100px;
 		top : 20px;
 		padding : 10px;
 	}
-	#splash button{
+	#splash button:nth-child(1){
 		position : absolute;
 		left : 20px;
 		top : 20px;
 	}
+	#splash button:nth-child(2){
+		position : absolute;
+		left : 20px;
+		top : 80px;
+	}
 </style>
 <script>
-	$('#splash button').click(function(){
-alert('ya');
-		$('#splash textarea').html('input here \nnext');
+	$('#splash button:nth-child(1)').click(function(){
+		$.get('sandbox/coins/loadbter.php','',function(data){
+			$('#splash textarea').val(data);
+		});
 	});
+	$('#splash button:nth-child(2)').click(function(){
+		$('#splash textarea').val('');
+	});
+	$('#splash button:nth-child(1)').trigger('click');
 </script>
