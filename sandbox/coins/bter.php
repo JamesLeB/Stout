@@ -1,46 +1,17 @@
 <?php
-	#$db->execute(1);
-/*
-	function historyTable(){
-		$currentHistoryTable = "Current History Table";
-		$currentHistoryTable = "
-			<div class='label'>History</div>
-			<table>
-				<thead>
-					<tr>
-						<td>Index</td>
-						<td>Timestamp</td>
-						<td>Price</td>
-						<td>Amount</td>
-						<td>Tid</td>
-						<td>Type</td>
-						<td>Date</td>
-						<td>Check</td>
-						<td>Match</td>
-					</tr>
-				</thead>
-				<tbody>
-		";
-			$currentHistoryTable .= "
-				<tr>
-					<td>$count</td>
-					<td>$timeStamp</td>
-					<td>$price</td>
-					<td>$amount</td>
-					<td>$tid</td>
-					<td>$type</td>
-					<td>$date</td>
-					<td>$check</td>
-					<td>$match</td>
-				</tr>
-			";
-		$currentHistoryTable .= "</tbody></table>";
-	} # END History table
-*/
-	# Get Current History Data
-	function uploadBterData($pair){
+class bter{
+	private $db = '';
+	public function __construct(){
 		include("localdb.php");
-		$db = new localdb();
+		$this->db = new localdb();
+		#$this->db->execute(1);
+	}
+	public function test(){
+		return "hello from bter :)";
+	}
+	public function uploadBterData($pair){
+		$obj = array();
+		$obj['message'] = 'object message';
 		$tradesJson = "";
 		if(1){
 			$tradesJson = file_get_contents("http://data.bter.com/api/1/trade/$pair");
@@ -50,9 +21,10 @@
 		}
 		$tradesObj = JSON_decode($tradesJson,true);
 		$tradeData = $tradesObj['data'];
-		$count = 0;
+		$obj['records'] = 0;
+		$obj['errors'] = 0;
 		foreach($tradeData as $trade){
-			$count++;
+			$obj['records']++;
 			$timeStamp = $trade['date'];
 			$price     = $trade['price'];
 			$amount    = $trade['amount'];
@@ -61,6 +33,7 @@
 			$date      = date('Y-m-d H:i:s',$trade['date']);
 			# Insert record
 			$nTrade = array(
+				'pair'      => $pair,
 				'timeStamp' => $timeStamp,
 				'price'     => $price,
 				'amount'    => $amount,
@@ -68,25 +41,30 @@
 				'type'      => $type,
 				'date'      => $date
 			);
-			$check = $db->insertBterTrade($nTrade);
-			$match = $db->checkBterTrade($nTrade);
+			$check = $this->db->insertBterTrade($nTrade);
+			$match = $this->db->checkBterTrade($nTrade);
 			if(!$match){
+				$obj['errors']++;
 				$tt = date('Y-m-d H:i');
-				$abter = $db->getBterTrade($nTrade);
+				$abter = $this->db->getBterTrade($nTrade);
 				$m = "\n\n**************************************************\n";
-				$m .= "Bad Trad Error on $tt\n";
+				$m .= "Bad Trade Error on $tt\n";
 				$m .= "**************************************************\n\n";
 				$m .= "Trade $tid does not match stored trade\n\n";
 				$m .= "MYSQL - ";
 				foreach($abter as $a){$m .= "$a : ";}
 				$m .= "\n";
 				$m .= "BTER  - ";
+				$m .= "$pair : ";
 				$m .= "$timeStamp : ";
 				$m .= "$price : ";
 				$m .= "$amount : ";
 				$m .= "$type : ";
+				$m .= "\n\n";
 				file_put_contents('logs/errors',$m,FILE_APPEND);
 			}
-		}
+		} # END Trade Data loop
+		return $obj;
 	} # END Upload bter data
+}
 ?>
