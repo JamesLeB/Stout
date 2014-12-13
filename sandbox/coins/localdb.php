@@ -25,9 +25,9 @@ class localdb {
 		$stmt->bind_param('i',$tid);
 		$tid = $trade['tid'];
 		$stmt->execute();
-		$stmt->bind_result($stamp,$price,$amount,$type);
+		$stmt->bind_result($pair,$stamp,$price,$amount,$type);
 		$stmt->fetch();
-		return array($stamp,$price,$amount,$type);
+		return array($pair,$stamp,$price,$amount,$type);
 	}
 	public function checkBterTrade($trade){
 		$r = 0;
@@ -36,9 +36,10 @@ class localdb {
 		$stmt->bind_param('i',$tid);
 		$tid = $trade['tid'];
 		$stmt->execute();
-		$stmt->bind_result($stamp,$price,$amount,$type);
+		$stmt->bind_result($pair,$stamp,$price,$amount,$type);
 		$stmt->fetch();
 		if(
+			$pair   == $trade['pair'] && 
 			$stamp  == $trade['timeStamp'] && 
 			$price  == $trade['price'] &&
 			$amount == $trade['amount'] &&
@@ -53,7 +54,8 @@ class localdb {
 		if($this->link_ && 1){
 			$query = $this->getQuery(4);
 			$stmt = mysqli_prepare($this->link_,$query);
-			$stmt->bind_param('iddiss',$time_stamp,$price,$amount,$tid,$type,$date);
+			$stmt->bind_param('siddiss',$pair,$time_stamp,$price,$amount,$tid,$type,$date);
+			$pair       = $trade['pair'];
 			$time_stamp = $trade['timeStamp'];
 			$price      = $trade['price'];
 			$amount     = $trade['amount'];
@@ -115,6 +117,7 @@ class localdb {
 			case 1:
 				return "
 					CREATE TABLE bter (
+						pair varchar(16),
 						time_stamp int,
 						price decimal(16,8),
 						amount decimal(16,8),
@@ -130,16 +133,17 @@ class localdb {
 			case 4:
 				return "
 					INSERT INTO bter (
+						pair,
 						time_stamp,
 						price,
 						amount,
 						tid,
 						type,
 						date
-					) values (?,?,?,?,?,?)
+					) values (?,?,?,?,?,?,?)
 				";
 			case 5:
-				return "SELECT time_stamp,price,amount,type FROM bter WHERE tid = ?";
+				return "SELECT pair,time_stamp,price,amount,type FROM bter WHERE tid = ?";
 			case 6:
 				return "DELETE FROM bter";
 		}
