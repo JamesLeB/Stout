@@ -1,4 +1,5 @@
 <?php
+	set_time_limit(6000);
 	$startTime = time();
 	include("bter.php");
 	$rtn = array();
