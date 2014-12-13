@@ -1,19 +1,7 @@
 <?php
-	include("localdb.php");
-	$db = new localdb();
-	#$db->execute(1);
-	# Get Current History Table
-	$currentHistoryTable = "Current History Table";
-	if(1){
-		$tradesJson = "";
-		if(1){
-			$tradesJson = file_get_contents('http://data.bter.com/api/1/trade/btc_cny');
-			file_put_contents('bter.json',$tradesJson);
-		}else{
-			$tradesJson = file_get_contents('bter.json');
-		}
-		$tradesObj = JSON_decode($tradesJson,true);
-		$tradeData = $tradesObj['data'];
+/*
+	function historyTable(){
+		$currentHistoryTable = "Current History Table";
 		$currentHistoryTable = "
 			<div class='label'>History</div>
 			<table>
@@ -32,6 +20,36 @@
 				</thead>
 				<tbody>
 		";
+			$currentHistoryTable .= "
+				<tr>
+					<td>$count</td>
+					<td>$timeStamp</td>
+					<td>$price</td>
+					<td>$amount</td>
+					<td>$tid</td>
+					<td>$type</td>
+					<td>$date</td>
+					<td>$check</td>
+					<td>$match</td>
+				</tr>
+			";
+		$currentHistoryTable .= "</tbody></table>";
+	} # END History table
+*/
+	#$db->execute(1);
+	# Get Current History Data
+	function uploadBterData($pair){
+		include("localdb.php");
+		$db = new localdb();
+		$tradesJson = "";
+		if(1){
+			$tradesJson = file_get_contents("http://data.bter.com/api/1/trade/$pair");
+			file_put_contents('bter.json',$tradesJson);
+		}else{
+			$tradesJson = file_get_contents('bter.json');
+		}
+		$tradesObj = JSON_decode($tradesJson,true);
+		$tradeData = $tradesObj['data'];
 		$count = 0;
 		foreach($tradeData as $trade){
 			$count++;
@@ -69,24 +87,12 @@
 				$m .= "$type : ";
 				file_put_contents('logs/errors',$m,FILE_APPEND);
 			}
-			# Add record to html table
-			$currentHistoryTable .= "
-				<tr>
-					<td>$count</td>
-					<td>$timeStamp</td>
-					<td>$price</td>
-					<td>$amount</td>
-					<td>$tid</td>
-					<td>$type</td>
-					<td>$date</td>
-					<td>$check</td>
-					<td>$match</td>
-				</tr>
-			";
 		}
-		$currentHistoryTable .= "</tbody></table>";
-	}
-	# END Get Current History Table
+	} # END Upload bter data
+
+	uploadBterData('btc_cny');
+	# Create History Table
+	$currentHistoryTable = "Current History Table";
 	# Get Data from MYSQL
 	$mysqlData = "MYSQL Data";
 	# END Get Data from MYSQL
