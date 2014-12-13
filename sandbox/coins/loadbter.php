@@ -10,18 +10,15 @@
 	$rtn[] = "\t$pairs pairs";
 
 	$rtn[] = "Second...Load trades into DB";
-	$obj = $bter->uploadBterData('btc_cny');
 	$count   = 0;
 	$records = 0;
 	$errors  = 0;
-	$records += $obj['records'];
-	$errors  += $obj['errors'];
-/*
 	foreach($list as $l){
 		$count++;
-		$rtn[] = "\t$l";
+		$obj = $bter->uploadBterData($l);
+		$records += $obj['records'];
+		$errors  += $obj['errors'];
 	}
-*/
 	$rtn[] = "\t$count pairs loaded";
 
 	$rtn[] = "Third...Create final report";
