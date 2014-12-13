@@ -1,4 +1,5 @@
 <?php
+	#$db->execute(1);
 /*
 	function historyTable(){
 		$currentHistoryTable = "Current History Table";
@@ -36,7 +37,6 @@
 		$currentHistoryTable .= "</tbody></table>";
 	} # END History table
 */
-	#$db->execute(1);
 	# Get Current History Data
 	function uploadBterData($pair){
 		include("localdb.php");
@@ -89,60 +89,4 @@
 			}
 		}
 	} # END Upload bter data
-
-	uploadBterData('btc_cny');
-	# Create History Table
-	$currentHistoryTable = "Current History Table";
-	# Get Data from MYSQL
-	$mysqlData = "MYSQL Data";
-	# END Get Data from MYSQL
 ?>
-<div id='wrapper'>
-	<div id="currentHistory"><?php echo $currentHistoryTable; ?></div>
-	<div id="mysqlData"><?php echo $mysqlData; ?></div>
-</div>
-<style>
-	#wrapper{
-		border : 1px gray solid;
-		width : 1200px;
-		margin-left : auto;
-		margin-right : auto;
-		margin-top : 30px;
-		padding : 20px;
-		border-radius : 20px;
-		box-shadow : 3px 3px 3px black;
-		font-size : 24px;
-		height : 500px;
-		position : relative;
-	}
-	#wrapper > div{
-		border : 1px inset gray;
-		margin : 10px;
-		position : absolute;
-		height : 400px;
-		padding : 5px;
-		overflow : auto;
-	}
-	#currentHistory{
-		width : 900px;
-	}
-	#mysqlData{
-		left : 950px;
-		width : 200px;
-	}
-	table td{
-		padding : 10px;
-	}
-	tbody td{
-		background : lightgray;
-	}
-	thead td{
-		background : green;
-		color : white;
-		font-weight : bold;
-		text-align : center;
-	}
-	.label{
-		Font-size : 30px;
-	}
-</style>
