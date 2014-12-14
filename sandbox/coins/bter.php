@@ -15,7 +15,7 @@ class bter{
 		$tradesJson = "";
 		if(1){
 			$tradesJson = file_get_contents("http://data.bter.com/api/1/trade/$pair");
-			file_put_contents('bter.json',$tradesJson);
+			#file_put_contents('bter.json',$tradesJson);
 		}else{
 			$tradesJson = file_get_contents('bter.json');
 		}
