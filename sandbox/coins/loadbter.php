@@ -20,7 +20,7 @@
 		$obj = $bter->uploadBterData($l);
 		$records += $obj['records'];
 		$errors  += $obj['errors'];
-		$rtn[] = "\t$l";
+		#$rtn[] = "\t$l";
 	}
 	$rtn[] = "\tPairs loaded: $count";
 
