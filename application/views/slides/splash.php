@@ -6,7 +6,7 @@
 <style>
 	#splash{
 		background : gray;
-		height : 600px;
+		height : 500px;
 		width :  900px;
 		margin-left  : auto;
 		margin-right : auto;
@@ -14,17 +14,17 @@
 	}
 	#splash textarea{
 		resize : none;
-		height : 500px;
+		height : 400px;
 		width  : 700px;
 		position : absolute;
 		left : 100px;
-		top : 20px;
+		top  : 20px;
 		padding : 10px;
 	}
 	#splash button:nth-child(1){
 		position : absolute;
 		left : 20px;
-		top : 20px;
+		top  : 20px;
 	}
 	#splash button:nth-child(2){
 		position : absolute;
