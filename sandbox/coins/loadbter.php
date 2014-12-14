@@ -4,13 +4,14 @@
 	include("bter.php");
 	$rtn = array();
 	$bter = new bter();
-	$json = file_get_contents('http://data.bter.com/api/1/pairs');
-	$list = json_decode($json,true);
-	$rtn[] = "First...Get list of trading pairs";
-	$pairs = count($list);
-	$rtn[] = "\t$pairs pairs";
 
-	$rtn[] = "Second...Load trades into DB";
+	$rtn[] = "\nGet list of trading pairs";
+	#$json = file_get_contents('http://data.bter.com/api/1/pairs');
+	$list = array('btc_usd');#json_decode($json,true);
+	$pairs = count($list);
+	$rtn[] = "\tPairs retrieved: $pairs";
+
+	$rtn[] = "Load trade history";
 	$count   = 0;
 	$records = 0;
 	$errors  = 0;
@@ -19,16 +20,17 @@
 		$obj = $bter->uploadBterData($l);
 		$records += $obj['records'];
 		$errors  += $obj['errors'];
+		$rtn[] = "\t$l";
 	}
-	$rtn[] = "\t$count pairs loaded";
+	$rtn[] = "\tPairs loaded: $count";
 
-	$rtn[] = "Third...Create final report";
+	$rtn[] = "Final report";
 	$endTime = time();
-	$st = date('Y-m-d H:i:s',$startTime);
-	$et = date('Y-m-d H:i:s',$endTime);
+	$st = date('H:i:s',$startTime);
+	$et = date('H:i:s',$endTime);
 	$rtn[] = "\tS Time : $st";
 	$rtn[] = "\tE Time : $et";
-	$rtn[] = "\tRecords: $records";
-	$rtn[] = "\tErrors: $errors";
+	$rtn[] = "\tRecords loaded: $records";
+	$rtn[] = "\tErrors found: $errors\n";
 	echo implode("\n",$rtn);
 ?>
