@@ -34,6 +34,7 @@
 </style>
 <script>
 	$('#splash button:nth-child(1)').click(function(){
+		$('#splash textarea').val('Loading bter data...');
 		$.get('sandbox/coins/loadbter.php','',function(data){
 			$('#splash textarea').val(data);
 		});
