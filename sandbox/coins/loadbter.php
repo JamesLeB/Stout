@@ -28,6 +28,7 @@
 
 	$rtn[] = "Final report";
 	$endTime = time();
+	$sd = date('Y-m-d',$startTime);
 	$st = date('H:i:s',$startTime);
 	$et = date('H:i:s',$endTime);
 	$rtn[] = "\tS Time : $st";
@@ -35,5 +36,7 @@
 	$rtn[] = "\tRecords loaded: $records";
 	$rtn[] = "\tRecords added: $check";
 	$rtn[] = "\tErrors found: $errors\n";
+	$report = "Loadbter Report $sd $st - $et Records:$records Added:$check Errors:$errors\n";
+	file_put_contents('logs/loadbter',$report,FILE_APPEND);
 	echo implode("\n",$rtn);
 ?>
