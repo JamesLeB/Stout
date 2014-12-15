@@ -13,7 +13,7 @@
 				width : 90%;
 				margin-left : auto;
 				margin-right : auto;
-				height : 250px;
+				height : 200px;
 				overflow : auto;
 				font-size : 75%;
 			}

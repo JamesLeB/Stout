@@ -203,7 +203,7 @@
 		background : lightgray;
 		border-radius : 20px;
 		box-shadow : 3px 3px 3px black;
-		height : 600px;
+		height : 650px;
 		position : relative;
 	}
 	#juniorBiller > div{
@@ -220,11 +220,14 @@
 		margin-bottom : 5px;
 	}
 	#debug{
-		height : 100px;
-		width : 400px;
-		border : 1px solid green;
-		top : 400px;
+		padding : 20px;
+		height : 250px;
+		width : 800px;
+		border : 1px inset green;
+		top : 300px;
 		left : 100px;
+		background : white;
+		overflow : auto;
 	}
 </style>
 <!-- End Dev CSS --!>
