@@ -4,7 +4,7 @@ class bter{
 	public function __construct(){
 		include("localdb.php");
 		$this->db = new localdb();
-		#$this->db->execute(1);
+		#$this->db->execute(0); $this->db->execute(1);
 	}
 	public function test(){
 		return "hello from bter :)";
