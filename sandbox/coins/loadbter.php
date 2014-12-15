@@ -6,8 +6,9 @@
 	$bter = new bter();
 
 	$rtn[] = "\nGet list of trading pairs";
-	#$json = file_get_contents('http://data.bter.com/api/1/pairs');
-	$list = array('btc_usd');#json_decode($json,true);
+	$json = file_get_contents('http://data.bter.com/api/1/pairs');
+	#$list = array('btc_usd');
+	$list = json_decode($json,true);
 	$pairs = count($list);
 	$rtn[] = "\tPairs retrieved: $pairs";
 
