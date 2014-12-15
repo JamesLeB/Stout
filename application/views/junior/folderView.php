@@ -43,7 +43,14 @@
 						$('#juniorBiller button').trigger('click');
 					});
 				}else if(todo == 'To Process'){
-					$('#debug').html('process '+fileName);
+					$('#debug').html('processing '+fileName);
+					var target = 'index.php?/slides/worker/';
+					var func = 'convertEdi';
+					var parm = { file: fileName };
+					$.post(target+func,parm,function(data){
+						$('#debug').append('<br/>'+data);
+						$('#juniorBiller button').trigger('click');
+					});
 				}else{
 					$('#debug').html('Now what '+todo);
 				}
