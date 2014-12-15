@@ -14,11 +14,13 @@
 	$rtn[] = "Load trade history";
 	$count   = 0;
 	$records = 0;
+	$check   = 0;
 	$errors  = 0;
 	foreach($list as $l){
 		$count++;
 		$obj = $bter->uploadBterData($l);
 		$records += $obj['records'];
+		$check   += $obj['check'];
 		$errors  += $obj['errors'];
 		#$rtn[] = "\t$l";
 	}
@@ -31,6 +33,7 @@
 	$rtn[] = "\tS Time : $st";
 	$rtn[] = "\tE Time : $et";
 	$rtn[] = "\tRecords loaded: $records";
+	$rtn[] = "\tRecords added: $check";
 	$rtn[] = "\tErrors found: $errors\n";
 	echo implode("\n",$rtn);
 ?>

@@ -2,7 +2,6 @@
 
 class localdb {
 	
-	private $db;
 	private $user_;
 	private $pass_;
 	private $base_;
