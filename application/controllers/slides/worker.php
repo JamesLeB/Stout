@@ -27,7 +27,7 @@ class Worker extends CI_Controller {
 		echo $edi->saveExcel();
 	} # END FUNCTION read277
 
-	private function create837D($obj){
+	private function create837D($obj,$fileName){
 
 		#header('status: Creating 837D');
 
@@ -167,9 +167,11 @@ class Worker extends CI_Controller {
 			$file = "B".substr($batchNumber,strlen($batchNumber)-4,4);
 			$x12 = implode("~",$x12)."~";
 			file_put_contents("files/edi/$file.x12",$x12);
+			file_put_contents("files/edi/SENT/$file.x12",$x12);
+			unlink("files/edi/$fileName");
 
 			#throw new exception("this is an error");
-			$m[] = 'OK';
+			$m[] = '-----';
 			$m[] = "Batch Number: $batchNumber";
 			$m[] = "Batch Count: $batchCount";
 			$m[] = "Batch Amount: $batchAmount";
@@ -251,7 +253,7 @@ class Worker extends CI_Controller {
 		$m[] = '-----------------';
 		$m[] = $message;
 		$m[] = 'Create X12 file';
-		$m[] = $this->create837D($obj);
+		$m[] = $this->create837D($obj,$fileName);
 		$m[] = '-----------------';
 		$m = implode("<br/>",$m);
 		

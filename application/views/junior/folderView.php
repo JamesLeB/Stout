@@ -33,7 +33,7 @@
 			$('#$folderName > div').click(function(){
 				var fileName = $(this).html();
 				var todo = $(this).parent().parent().parent().children().first().html();
-				if(todo == 'Batch')
+				if(todo == 'Batches')
 				{
 					$('#debug').html('Move '+fileName);
 					var target = 'index.php?/junior/';
