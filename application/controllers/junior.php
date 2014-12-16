@@ -2,6 +2,10 @@
 
 class Junior extends CI_Controller {
 
+	public function get277List(){
+		$a = $this->getFTP('get277List','');
+		echo $a[1];
+	}
 	public function saveLog(){
 		$file = $_POST['file'];
 		$data = $_POST['log'];
@@ -153,9 +157,25 @@ class Junior extends CI_Controller {
 					}else{
 						$m[] = "NO list";
 					}
-				}elseif($task == 'getFtpX12List'){
+				}
+				elseif($task == 'getFtpX12List')
+				{
 					# Get list of files
 					$fileList = ftp_nlist($conn,'x12');
+					if($fileList){
+						$m[] = "YES list";
+						foreach($fileList as $f){
+							$m[] = "$f";
+						}
+						$json = json_encode($fileList);
+					}else{
+						$m[] = "NO list";
+					}
+				}
+				elseif($task == 'get277List')
+				{
+					# Get list of files
+					$fileList = ftp_nlist($conn,'x277');
 					if($fileList){
 						$m[] = "YES list";
 						foreach($fileList as $f){
