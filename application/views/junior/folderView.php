@@ -33,7 +33,8 @@
 			$('#$folderName > div').click(function(){
 				var fileName = $(this).html();
 				var todo = $(this).parent().parent().parent().children().first().html();
-				if(todo == 'Batch'){
+				if(todo == 'Batch')
+				{
 					$('#debug').html('Move '+fileName);
 					var target = 'index.php?/junior/';
 					var func = 'getBatchFile';
@@ -42,7 +43,9 @@
 						$('#debug').append('<br/>'+data);
 						$('#juniorBiller button').trigger('click');
 					});
-				}else if(todo == 'To Process'){
+				}
+				else if(todo == 'To Process')
+				{
 					$('#debug').html('processing '+fileName);
 					var target = 'index.php?/slides/worker/';
 					var func = 'convertEdi';
@@ -51,7 +54,20 @@
 						$('#debug').append('<br/>'+data);
 						$('#juniorBiller button').trigger('click');
 					});
-				}else{
+				}
+				else if(todo == 'To Transfer')
+				{
+					$('#debug').html('Transfering '+fileName);
+					var target = 'index.php?/junior/';
+					var func = 'transferX12';
+					var parm = { file: fileName };
+					$.post(target+func,parm,function(data){
+						$('#debug').append('<br/>'+data);
+						$('#juniorBiller button').trigger('click');
+					});
+				}
+				else
+				{
 					$('#debug').html('Now what '+todo);
 				}
 			});
