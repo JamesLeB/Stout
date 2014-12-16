@@ -170,11 +170,11 @@ class EDI277{
 			}else{throw new exception("Loading accepted count<br/>---<br/>$seg<br/>---");}
 
 			#LOAD rejected count
-			$seg = array_shift($segments);
-			if(preg_match('/^QTY\*AA\*/',$seg)){
+			if(preg_match('/^QTY\*AA\*/',$segments[0])){
+				$seg = array_shift($segments);
 				$temp = preg_split('/\*/',$seg);
 				$this->rejectedCount = $temp[2];
-			}else{throw new exception("Loading rejected count<br/>---<br/>$seg<br/>---");}
+			}#else{throw new exception("Loading rejected count<br/>---<br/>$seg<br/>---");}
 
 			#LOAD accepted amount
 			$seg = array_shift($segments);
@@ -184,11 +184,11 @@ class EDI277{
 			}else{throw new exception("Loading accepted amount<br/>---<br/>$seg<br/>---");}
 
 			#LOAD rejected amount
-			$seg = array_shift($segments);
-			if(preg_match('/^AMT\*YY\*/',$seg)){
+			if(preg_match('/^AMT\*YY\*/',$segments[0])){
+				$seg = array_shift($segments);
 				$temp = preg_split('/\*/',$seg);
 				$this->rejectedAmount = $temp[2];
-			}else{throw new exception("Loading rejected amount<br/>---<br/>$seg<br/>---");}
+			}#else{throw new exception("Loading rejected amount<br/>---<br/>$seg<br/>---");}
 
 			#LOAD Provider 
 			$seg = array_shift($segments);
