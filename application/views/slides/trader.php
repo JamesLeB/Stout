@@ -1,92 +1,54 @@
+<div id='controls'>
+	<button>Exchanges</button>
+	<button>Trades</button>
+	<button>Accounts</button>
+	<button>Regression</button>
+</div>
 <div id='trader'>
-	<table>
-		<tr>
-			<td id='trader_Icon'>
-				<img src='lib/images/cricket.png' />
-			</td>
-			<td id='trader_Status'>Status</td>
-		</tr>
-		<tr>
-			<td id='trader_Controls'>
-				<button>TEST</button>
-				<button>Linear Regression</button>
-<!--
-				<button>Mint</button>
-				<button>Buys</button>
---!>
-			</td>
-			<td id='trader_View'>View</td>
-		</tr>
-	</table>
+	<div>
+		<div>Heading: Exchange</div>
+		<div>Pairs
+			<div>Pair</div>
+			<div>Pair</div>
+			<div>Pair</div>
+			<div>Pair</div>
+		</div>
+	</div>
 </div>
 <style>
-	#trader_Icon{
-		background : white;
-		text-align : center;
+	#controls{
+		border : blue solid 1px;
 	}
-	#trader > table{
-		width : 100%;
+	#controls button{
+		margin : 5px;
 	}
-	#trader_Icon img{
-		height : 50px;
+	#trader{
+		border : 5px ridge green;
+		margin : 20px;
+		height : 500px;
+		overflow : auto;
 	}
-	#trader_Status{
-		padding-left : 20px;
-		border-color : #007A00;
-		border-style : dashed;
-		border-width: 1px;
-		color: white;
-	}
-	#trader_Controls{
-		border-color : #007A00;
-		border-style : dashed;
-		border-width: 1px;
-		vertical-align : top;
-		width : 120px;
-		text-align : center;
-	}
-	#trader_Controls button{
-		margin-top : 5px;
-		width : 90px;
-	}
-	#trader_View{
-		border-color : #007A00;
-		border-style : dashed;
-		border-width: 1px;
-		vertical-align : top;
-		height : 400px;
-		text-align : left;
-		font-size : 1.5em;
-		color : #66AF66;
-		padding : 20px;
-	}
-	.array2html{
-		color : green;
-	}
-	.array2html td{
-		border-right : solid 1px gray;
+	#trader div{
+		border : 1px dotted gray;
+		margin : 20px;
 		padding : 10px;
 	}
 </style>
 <script>
-	$('#trader_Controls button').click(function(){
+	var target = 'index.php?/slides/trader/';
+	var request = $.post(target,'',function(data){
+		//$('#trader').html(data);
+	});
+	$('#controls button').click(function(){
 		var target = 'index.php?/slides/trader/';
 		var func = '';
 		var a = $(this).first().html();
-		     if(a=='Mint')             {func = 'mint';}
-		else if(a=='Buys')             {func = 'getBuys';}
-		else if(a=='Linear Regression'){func = 'linearRegression';}
-		else                           {func = 'test';}
-		var p = 'Fun with code';
-		var parm = {'test':p};
-		var request = $.post(target+func,parm,function(data){
-			$('#trader_View').html(data);
-			var status = request.getResponseHeader('status');
-			if( status != null ){
-				$('#trader_Status').html(status);
-			}else{
-				$('#trader_Status').html('no status');
-			}
+		     if(a=='Exchanges') {func = 'exchanges';}
+		else if(a=='Trades')    {func = '';}
+		else if(a=='Accounts')  {func = '';}
+		else if(a=='Regression'){func = '';}
+		var request = $.post(target+func,'',function(data){
+			$('#trader').html(data);
 		});
 	});
 </script>
