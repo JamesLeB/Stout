@@ -9,10 +9,16 @@ class Trader extends CI_Controller {
 		$this->load->model('Exchange');
 		$this->exchangeModel = $this->Exchange;
 	}
+	public function index(){
+		echo "Message from Trader Controler";
+	}
+	public function exchanges(){
+		echo "Exchanges";
+	}
 ###
 ### Linear Regression Work
 ###
-	public function linearRegression(){
+	private function linearRegression(){
 		header("status: Calculating Linear Regression");
 		#$series = $this->getBuySeries();
 		$ms = array();
@@ -101,73 +107,5 @@ class Trader extends CI_Controller {
 ###
 ### END Linear Regression Work
 ###
-	private function getBuySeries(){
-		$buys = $this->exchangeModel->getBuys();
-		$time = array('Time');
-		$price = array('Price');
-		foreach($buys as $buy){
-			$time[]  = $buy['time'];
-			$price[] = $buy['price'];
-		}
-		return array($time,$price);
-	}
-	public function getBuys(){
-		$ms = array();
-		$status = "Load mintPal buy Data";
-		header("status: $status");
-		$ms[] = 'Getting Mint data';
-		$buys = $this->exchangeModel->getBuys();
-		foreach($buys as $buy){
-			$time  = $buy['time'];
-			$price = $buy['price'];
-			$ms[] = "$time\t$price";
-		}
-		$e = '';
-		foreach($ms as $m){$e.=$m.'<br/>';}
-		echo $e;
-	}
-	public function mint(){
-		$ms = array();
-		$status = "Load Mintpal Data";
-		header("status: $status");
-		$ms[] = 'Getting Mint data';
-		$market = $this->exchangeModel->getMarket('trades');
-		$e = '';
-		foreach($ms as $m){$e.=$m.'<br/>';}
-		echo $e;
-	}
-	public function test(){
-		#$incoming = $this->uri->segment(3);
-		$ms = array();
-		$status = "Test Mode";
-		header("status: $status");
-		$ms[] = 'Setting up Test Enviornment';
-		$ms[] = 'Connecting to Exchange model...';
-		$test = $this->exchangeModel->test('james');
-		$ms[] = 'Connected to model';
-		$ms[] = "Model test...$test";
-		$ms[] = 'Getting data from Request...';
-		$test = '';
-		if(isset($_REQUEST['test'])){
-			$test = $_REQUEST['test'];
-		}
-		$ms[] = "Request Test...$test";
-
-		$ms[] = 'Connecting to DB...';
-		$db = $this->load->database('trader',true);
-		$ms[] = 'connection done...';
-
-		$query = 'SELECT * FROM coins';
-		$rs = $db->query($query);
-		foreach($rs->result_array() as $row){
-			$id = $row['id'];
-			$ms[] = ".... id is $id";
-		}
-
-		$ms[] = 'Done Testing :)';
-		$e = '';
-		foreach($ms as $m){$e.=$m.'<br/>';}
-		echo $e;
-	}
 }
 ?>
