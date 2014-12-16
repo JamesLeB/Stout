@@ -9,19 +9,19 @@ class EDI837{
 	public function test(){
 		return "Testing EDI837";
 	}
-	public function loadEDI837D(){
+	public function loadEDI837D($file){
 
 		$m = array();
 
-		$m[] = "Step 1..Get x12 file from Axium";
-		$file = 'a.txt';
+		$m[] = "Step 1..Get x12 file from Axium: $file";
+		#$file = 'a.txt';
 		$x12 = file_get_contents($this->filepath.$file);
 		$segments = preg_split('/~/',$x12);
 
 		$m[] = "Step 2..Read file and load into 837D object";
 		$ediObj = new EDI837D();
+if(1){
 		try{
-
 			#LOAD ISA
 			$seg = array_shift($segments);
 			if(preg_match('/^ISA\*/',$seg)){
@@ -96,6 +96,7 @@ class EDI837{
 			$error = $e->getMessage();
 			$m[] = "Error: $error";
 		}
+}
 
 		$m = implode("<br/>",$m);
 		return array('message'=>$m,'ediObj'=>$ediObj);

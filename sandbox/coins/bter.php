@@ -4,7 +4,7 @@ class bter{
 	public function __construct(){
 		include("localdb.php");
 		$this->db = new localdb();
-		#$this->db->execute(1);
+		#$this->db->execute(0); $this->db->execute(1);
 	}
 	public function test(){
 		return "hello from bter :)";
@@ -22,7 +22,8 @@ class bter{
 		$tradesObj = JSON_decode($tradesJson,true);
 		$tradeData = $tradesObj['data'];
 		$obj['records'] = 0;
-		$obj['errors'] = 0;
+		$obj['check']   = 0;
+		$obj['errors']  = 0;
 		foreach($tradeData as $trade){
 			$obj['records']++;
 			$timeStamp = $trade['date'];
@@ -41,7 +42,7 @@ class bter{
 				'type'      => $type,
 				'date'      => $date
 			);
-			$check = $this->db->insertBterTrade($nTrade);
+			$obj['check'] += $this->db->insertBterTrade($nTrade);
 			$match = $this->db->checkBterTrade($nTrade);
 			if(!$match){
 				$obj['errors']++;

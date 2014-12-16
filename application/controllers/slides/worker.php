@@ -27,16 +27,18 @@ class Worker extends CI_Controller {
 		echo $edi->saveExcel();
 	} # END FUNCTION read277
 
-	public function create837D(){
+	private function create837D($obj){
 
-		header('status: Creating 837D');
+		#header('status: Creating 837D');
 
+/*
 		require('lib/classes/EDI837.php');
 		require('lib/classes/EDI837D.php');
 		require('lib/classes/dentalClaim.php');
 		require('lib/classes/billingProvider.php');
 		require('lib/classes/service.php');
 		require('lib/classes/patient.php');
+*/
 
 		$m = array();
 		$m[] = "Messages...";
@@ -46,8 +48,8 @@ class Worker extends CI_Controller {
 
 		try{
 			# LOAD HEADER
-			$serial = file_get_contents('files/a.ser');
-			$obj = unserialize($serial);
+			#$serial = file_get_contents('files/a.ser');
+			#$obj = unserialize($serial);
 			$ediObj = $obj{'ediObj'};
 			$edi = $ediObj->getStuff();
 			$date6 = $edi{'date'};
@@ -165,7 +167,6 @@ class Worker extends CI_Controller {
 			$file = "B".substr($batchNumber,strlen($batchNumber)-4,4);
 			$x12 = implode("~",$x12)."~";
 			file_put_contents("files/edi/$file.x12",$x12);
-			file_put_contents("files/edi/z.x12",$x12);
 
 			#throw new exception("this is an error");
 			$m[] = 'OK';
@@ -179,7 +180,7 @@ class Worker extends CI_Controller {
 		}
 
 		$m = implode("<br/>",$m);
-		echo $m;
+		return $m;
 
 	}
 	public function loadEdi2DB(){
@@ -222,7 +223,8 @@ class Worker extends CI_Controller {
 
 	}# END function loadEdi2DB
 	public function convertEdi(){
-		header('status: Converting Axium EDI');
+		$fileName = $_POST['file'];
+		header("status: Converting Axium EDI $fileName");
 		require('lib/classes/EDI837.php');
 		require('lib/classes/EDI837D.php');
 		require('lib/classes/dentalClaim.php');
@@ -231,17 +233,17 @@ class Worker extends CI_Controller {
 		require('lib/classes/patient.php');
 		$EDI = new EDI837();
 
-		if(1){
+		if(0){
 			# LOAD and save EDI837D
-			$obj = $EDI->loadEDI837D();
-			$serial = serialize($obj);
-			file_put_contents('files/a.ser',$serial);
+			#$serial = file_get_contents('files/a.ser');
+			#$obj = unserialize($serial);
 		}
 
-		$serial = file_get_contents('files/a.ser');
-		$obj = unserialize($serial);
+		$obj = $EDI->loadEDI837D($fileName);
+		#$serial = serialize($obj);
+		#file_put_contents('files/a.ser',$serial);
 		$message = $obj{'message'};
-		$ediObj =  $obj{'ediObj'};
+		$ediObj  = $obj{'ediObj'};
 
 		$m = array();
 		$m[] = '-----------------';
@@ -249,11 +251,15 @@ class Worker extends CI_Controller {
 		$m[] = '-----------------';
 		$m[] = 'Load 837D message...';
 		$m[] = $message;
+		$m[] = 'Create X12 file';
+		$m[] = $this->create837D($obj);
 		$m[] = '-----------------';
 		$m = implode("<br/>",$m);
+		
 		echo $m;
 
-		if(1){
+		# This code creates a view of the claim batch object
+		if(0){
 			# Create provider List
 			$providers = $ediObj->getProviders();
 			$l = array();

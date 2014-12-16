@@ -2,9 +2,15 @@
 
 class Junior extends CI_Controller {
 
+	public function getBatchFile(){
+		$file = $_POST['file'];
+		$a = $this->getFTP('moveFile',$file);
+		$b = $a[1];
+		echo "getting file $file<br/>$b";
+	}
 	public function go(){
 		# Get ftp batch list
-		$a = $this->getFTP('getFtpBatchList');
+		$a = $this->getFTP('getFtpBatchList','');
 		$list = JSON_decode($a[1],true);
 		$checkedList = array();
 		if(is_array($list)){
@@ -18,7 +24,7 @@ class Junior extends CI_Controller {
 		$checkedList = array();
 		if(is_array($list)){
 			foreach($list as $l){
-				if(preg_match('/\.x12/',$l)){$checkedList[] = $l;}
+				if(preg_match('/\.txt/',$l)){$checkedList[] = $l;}
 			}
 		}
 		$d['folderName'] = 'zork1';
@@ -36,7 +42,7 @@ class Junior extends CI_Controller {
 		$d['list'] = $checkedList;
 		$e2 = $this->load->view('junior/folderView',$d,true);
 		# Get ftp x12 folder
-		$a = $this->getFTP('getFtpX12List');
+		$a = $this->getFTP('getFtpX12List','');
 		$list = JSON_decode($a[1],true);
 		$checkedList = array();
 		if(is_array($list)){
@@ -58,19 +64,19 @@ class Junior extends CI_Controller {
 		$m[] = "Action function";
 		if($message == 'One'){
 			$m[] = '<br/>Testing FTP get';
-			$a = $this->getFTP('testGet');
+			$a = $this->getFTP('testGet','');
 			$m[] = $a[0];
 			$m[] = '<br/>Testing FTP put';
-			$a = $this->getFTP('testPut');
+			$a = $this->getFTP('testPut','');
 			$m[] = $a[0];
 		}
 		$m = implode('<br/>',$m); echo $m;
 	}
 	public function getFtpBatchList(){
-		$a = $this->getFTP('getFtpBatchList');
+		$a = $this->getFTP('getFtpBatchList','');
 		echo "$a[1]";
 	}
-	private function getFTP($task){
+	private function getFTP($task,$data){
 		$m = array();
 		$json = 'json here';
 		$c = file_get_contents('files/config/juniorFTPpass');
@@ -127,6 +133,17 @@ class Junior extends CI_Controller {
 					}else{
 						$m[] = "NO list";
 					}
+				}elseif($task == 'moveFile'){
+					# Move file from ftp server to local disk
+					$local_file = "files/edi/$data";
+					$remote_file = "batches/$data";
+					if(ftp_get($conn,$local_file,$remote_file,FTP_BINARY)){
+						ftp_delete($conn,$remote_file);
+						$json = 'it worked';
+					}else{
+						$json = 'DOHHH';
+					}
+					#$d = ftp_nlist($conn,'x12');
 				}
 				# Close FTP connection
 				if(ftp_close($conn)){

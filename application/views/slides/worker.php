@@ -68,7 +68,7 @@
 	$('#workerControls button').click(function(){
 		var target = 'index.php?/slides/worker/';
 		var func = '';
-		var parm = { secret: 'all' };
+		var parm = { secret: 'all', file: '2014_12_10_Medicaid_01.txt' };
 		var a = $(this).first().html();
 		     if(a=='Get File') {func='getTestFile';}
 		else if(a=='Claim')    {func='getTestFile'; parm = { secret: 'claims' }; }
@@ -77,6 +77,7 @@
 		else if(a=='Read277')  {func='read277';}
 		else if(a=='LoadEDI')  {func='loadEdi2DB';}
 		else                   {func='test';}
+
 		var request = $.post(target+func,parm,function(data){
 			var status = request.getResponseHeader('status');
 			if(status != null){

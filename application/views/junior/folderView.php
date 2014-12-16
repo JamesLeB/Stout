@@ -13,8 +13,9 @@
 				width : 90%;
 				margin-left : auto;
 				margin-right : auto;
-				height : 250px;
+				height : 200px;
 				overflow : auto;
+				font-size : 75%;
 			}
 			#$folderName > div{
 				padding : 5px;
@@ -31,7 +32,28 @@
 			});
 			$('#$folderName > div').click(function(){
 				var fileName = $(this).html();
-				alert('you clicked '+fileName);
+				var todo = $(this).parent().parent().parent().children().first().html();
+				if(todo == 'Batch'){
+					$('#debug').html('Move '+fileName);
+					var target = 'index.php?/junior/';
+					var func = 'getBatchFile';
+					var parm = { file: fileName };
+					$.post(target+func,parm,function(data){
+						$('#debug').append('<br/>'+data);
+						$('#juniorBiller button').trigger('click');
+					});
+				}else if(todo == 'To Process'){
+					$('#debug').html('processing '+fileName);
+					var target = 'index.php?/slides/worker/';
+					var func = 'convertEdi';
+					var parm = { file: fileName };
+					$.post(target+func,parm,function(data){
+						$('#debug').append('<br/>'+data);
+						$('#juniorBiller button').trigger('click');
+					});
+				}else{
+					$('#debug').html('Now what '+todo);
+				}
 			});
 		</script>
 	";
