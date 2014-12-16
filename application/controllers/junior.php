@@ -2,6 +2,14 @@
 
 class Junior extends CI_Controller {
 
+	public function transferX12(){
+		# This function is going to move the 837I files from local system to ftp server
+		$file = $_POST['file'];
+				#elseif($task == 'moveFileBack')
+		$a = $this->getFTP('moveFileBack',$file);
+		$b = $a[1];
+		echo "Transfering file $file<br/>$b";
+	} # END function transferX12
 	public function getBatchFile(){
 		$file = $_POST['file'];
 		$a = $this->getFTP('moveFile',$file);
@@ -9,6 +17,7 @@ class Junior extends CI_Controller {
 		echo "getting file $file<br/>$b";
 	}
 	public function go(){
+
 		# Get ftp batch list
 		$a = $this->getFTP('getFtpBatchList','');
 		$list = JSON_decode($a[1],true);
@@ -19,6 +28,7 @@ class Junior extends CI_Controller {
 		$d['folderName'] = 'zork';
 		$d['list'] = $checkedList;
 		$e = $this->load->view('junior/folderView',$d,true);
+
 		# Get local unproccesed list
 		$list = scandir('files/edi');
 		$checkedList = array();
@@ -30,6 +40,7 @@ class Junior extends CI_Controller {
 		$d['folderName'] = 'zork1';
 		$d['list'] = $checkedList;
 		$e1 = $this->load->view('junior/folderView',$d,true);
+
 		# Get local proccessed list
 		$list = scandir('files/edi/SENT');
 		$checkedList = array();
@@ -41,6 +52,19 @@ class Junior extends CI_Controller {
 		$d['folderName'] = 'zork2';
 		$d['list'] = $checkedList;
 		$e2 = $this->load->view('junior/folderView',$d,true);
+
+		# Get local To Transfer list
+		$list = scandir('files/edi');
+		$checkedList = array();
+		if(is_array($checkedList)){
+			foreach($list as $l){
+				if(preg_match('/\.x12/',$l)){$checkedList[] = $l;}
+			}
+		}
+		$d['folderName'] = 'zork3';
+		$d['list'] = $checkedList;
+		$e3 = $this->load->view('junior/folderView',$d,true);
+
 		# Get ftp x12 folder
 		$a = $this->getFTP('getFtpX12List','');
 		$list = JSON_decode($a[1],true);
@@ -50,11 +74,12 @@ class Junior extends CI_Controller {
 				if(preg_match('/\.x12/',$l)){$checkedList[] = $l;}
 			}
 		}
-		$d['folderName'] = 'zork3';
+		$d['folderName'] = 'zork4';
 		$d['list'] = $checkedList;
-		$e3 = $this->load->view('junior/folderView',$d,true);
+		$e4 = $this->load->view('junior/folderView',$d,true);
+
 		#pack file lists into object
-		$obj = array($e,$e1,$e2,$e3);
+		$obj = array($e,$e1,$e2,$e3,$e4);
 		$json = JSON_encode($obj);
 		echo $json;
 	}
@@ -133,12 +158,27 @@ class Junior extends CI_Controller {
 					}else{
 						$m[] = "NO list";
 					}
-				}elseif($task == 'moveFile'){
+				}
+				elseif($task == 'moveFile')
+				{
 					# Move file from ftp server to local disk
 					$local_file = "files/edi/$data";
 					$remote_file = "batches/$data";
 					if(ftp_get($conn,$local_file,$remote_file,FTP_BINARY)){
 						ftp_delete($conn,$remote_file);
+						$json = 'it worked';
+					}else{
+						$json = 'DOHHH';
+					}
+					#$d = ftp_nlist($conn,'x12');
+				}
+				elseif($task == 'moveFileBack')
+				{
+					# Move file from local disk to ftp server
+					$local_file = "files/edi/$data";
+					$remote_file = "x12/$data";
+					if(ftp_put($conn,$remote_file,$local_file,FTP_BINARY)){
+						unlink($local_file);
 						$json = 'it worked';
 					}else{
 						$json = 'DOHHH';
