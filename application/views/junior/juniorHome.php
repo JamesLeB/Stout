@@ -262,6 +262,7 @@
 				</div>
 <!-- Start Dev --!>
 <script>
+	$('#juniorBiller button').hide();
 	$('#juniorBiller button').click(function(){
 		var target = 'index.php?/junior/';
 		var func = 'go';

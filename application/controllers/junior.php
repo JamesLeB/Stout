@@ -7,7 +7,7 @@ class Junior extends CI_Controller {
 		$data = $_POST['log'];
 		$a = $this->getFTP('saveLog',array($file,$data));
 		$b = $a[1];
-		echo "Saving log $file<br/><br/>$data";
+		echo "<br/>Saving log $file<br/><br/>$data";
 	}
 	public function transferX12(){
 		# This function is going to move the 837I files from local system to ftp server
@@ -15,13 +15,13 @@ class Junior extends CI_Controller {
 				#elseif($task == 'moveFileBack')
 		$a = $this->getFTP('moveFileBack',$file);
 		$b = $a[1];
-		echo "Transfering file $file<br/>$b";
+		echo "<br/>Transfering $file<br/><br/>$b";
 	} # END function transferX12
 	public function getBatchFile(){
 		$file = $_POST['file'];
 		$a = $this->getFTP('moveFile',$file);
 		$b = $a[1];
-		echo "getting file $file<br/>$b";
+		echo "<br/>Moving $file<br/><br/>$b";
 	}
 	public function go(){
 
@@ -143,7 +143,7 @@ class Junior extends CI_Controller {
 					}
 				}elseif($task == 'getFtpBatchList'){
 					# Get list of files
-					$fileList = ftp_nlist($conn,'batches');
+					$fileList = ftp_nlist($conn,'Batches');
 					if($fileList){
 						$m[] = "YES list";
 						foreach($fileList as $f){
@@ -170,12 +170,12 @@ class Junior extends CI_Controller {
 				{
 					# Move file from ftp server to local disk
 					$local_file = "files/edi/$data";
-					$remote_file = "batches/$data";
+					$remote_file = "Batches/$data";
 					if(ftp_get($conn,$local_file,$remote_file,FTP_BINARY)){
 						ftp_delete($conn,$remote_file);
-						$json = 'it worked';
+						$json = 'Success :)';
 					}else{
-						$json = 'DOHHH';
+						$json = 'ERROR!';
 					}
 					#$d = ftp_nlist($conn,'x12');
 				}
@@ -186,9 +186,9 @@ class Junior extends CI_Controller {
 					$remote_file = "x12/$data";
 					if(ftp_put($conn,$remote_file,$local_file,FTP_BINARY)){
 						unlink($local_file);
-						$json = 'it worked';
+						$json = 'Success :)';
 					}else{
-						$json = 'DOHHH';
+						$json = 'ERROR!';
 					}
 					#$d = ftp_nlist($conn,'x12');
 				}

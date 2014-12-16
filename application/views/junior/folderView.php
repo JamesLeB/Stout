@@ -35,7 +35,7 @@
 				var todo = $(this).parent().parent().parent().children().first().html();
 				if(todo == 'Batches')
 				{
-					$('#debug').html('Move '+fileName);
+					$('#debug').html('Move '+fileName+'...');
 					var target = 'index.php?/junior/';
 					var func = 'getBatchFile';
 					var parm = { file: fileName };
@@ -46,7 +46,7 @@
 				}
 				else if(todo == 'To Process')
 				{
-					$('#debug').html('Processing '+fileName+'...');
+					$('#debug').html('Process '+fileName+'...');
 					var target = 'index.php?/slides/worker/';
 					var func = 'convertEdi';
 					var parm = { file: fileName };
@@ -60,7 +60,7 @@
 				}
 				else if(todo == 'To Transfer')
 				{
-					$('#debug').html('Transfering '+fileName);
+					$('#debug').html('Transfer '+fileName+'...');
 					var target = 'index.php?/junior/';
 					var func = 'transferX12';
 					var parm = { file: fileName };
