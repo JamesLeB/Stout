@@ -51,8 +51,11 @@
 					var func = 'convertEdi';
 					var parm = { file: fileName };
 					$.post(target+func,parm,function(data){
-						$('#debug').append('<br/>'+data);
-						$('#juniorBiller button').trigger('click');
+						var p = { log: data, file: fileName };
+						$.post('index.php?/junior/saveLog',p,function(dta){
+							$('#debug').append('<br/>'+dta);
+							$('#juniorBiller button').trigger('click');
+						});
 					});
 				}
 				else if(todo == 'To Transfer')
