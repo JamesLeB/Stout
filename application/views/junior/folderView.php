@@ -46,7 +46,7 @@
 				}
 				else if(todo == 'To Process')
 				{
-					$('#debug').html('processing '+fileName);
+					$('#debug').html('Processing '+fileName+'...');
 					var target = 'index.php?/slides/worker/';
 					var func = 'convertEdi';
 					var parm = { file: fileName };

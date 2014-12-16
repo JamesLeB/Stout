@@ -7,7 +7,7 @@ class Junior extends CI_Controller {
 		$data = $_POST['log'];
 		$a = $this->getFTP('saveLog',array($file,$data));
 		$b = $a[1];
-		echo "from getFTP $b<br/> saving log $file<br/>$data";
+		echo "Saving log $file<br/><br/>$data";
 	}
 	public function transferX12(){
 		# This function is going to move the 837I files from local system to ftp server
