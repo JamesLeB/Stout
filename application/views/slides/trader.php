@@ -5,15 +5,6 @@
 	<button>Regression</button>
 </div>
 <div id='trader'>
-	<div>
-		<div>Heading: Exchange</div>
-		<div>Pairs
-			<div>Pair</div>
-			<div>Pair</div>
-			<div>Pair</div>
-			<div>Pair</div>
-		</div>
-	</div>
 </div>
 <style>
 	#controls{
@@ -44,9 +35,9 @@
 		var func = '';
 		var a = $(this).first().html();
 		     if(a=='Exchanges') {func = 'exchanges';}
-		else if(a=='Trades')    {func = '';}
-		else if(a=='Accounts')  {func = '';}
-		else if(a=='Regression'){func = '';}
+		else if(a=='Trades')    {func = 'trades';}
+		else if(a=='Accounts')  {func = 'accounts';}
+		else if(a=='Regression'){func = 'regression';}
 		var request = $.post(target+func,'',function(data){
 			$('#trader').html(data);
 		});

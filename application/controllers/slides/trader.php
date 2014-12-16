@@ -13,7 +13,16 @@ class Trader extends CI_Controller {
 		echo "Message from Trader Controler";
 	}
 	public function exchanges(){
-		echo "Exchanges";
+		echo $this->load->view('slides/trader/exchanges','',true);
+	}
+	public function trades(){
+		echo $this->load->view('slides/trader/trades','',true);
+	}
+	public function accounts(){
+		echo $this->load->view('slides/trader/accounts','',true);
+	}
+	public function regression(){
+		echo $this->load->view('slides/trader/regression','',true);
 	}
 ###
 ### Linear Regression Work
