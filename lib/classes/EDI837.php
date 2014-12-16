@@ -13,12 +13,10 @@ class EDI837{
 
 		$m = array();
 
-		$m[] = "Step 1..Get x12 file from Axium: $file";
+		$m[] = "Converting: $file";
 		#$file = 'a.txt';
 		$x12 = file_get_contents($this->filepath.$file);
 		$segments = preg_split('/~/',$x12);
-
-		$m[] = "Step 2..Read file and load into 837D object";
 		$ediObj = new EDI837D();
 if(1){
 		try{
