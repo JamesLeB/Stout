@@ -13,7 +13,7 @@
 					window.location.href = "index.php";
 				});
 			});
-			$('#tabs').tabs({active:0});
+			$('#tabs').tabs({active:1});
 		});
 	</script>
 	<style>
@@ -59,44 +59,34 @@
 <body>
 	<div id='screen'></div>
 	<div id='wrapper'>
+		<!-- HEADER --!>
 		<div>
 			<img src='lib/images/cricket.png'>
+			<span>Welcome Message..</span>
 			<button id='logout'><img src='lib/images/exit.png'></button>
 		</div>
+		<!-- BODY --!>
 		<div>
 			<div id='tabs'>
 				<ul>
 					<li><a href='#tab1'>Spash</a></li>
-					<li><a href='#tab2'>Claims</a></li>
+					<li><a href='#tab2'>Trader</a></li>
 					<li><a href='#tab3'>NewCharacter</a></li>
 					<li><a href='#tab4'>Coins</a></li>
 					<li><a href='#tab5'>CharacterSheet</a></li>
 					<li><a href='#tab6'>Database</a></li>
 					<li><a href='#tab7'>Map</a></li>
 				</ul>
-				<div id='tab1'>
-					<?php echo $splash ?>
-				</div>
-				<div id='tab2'>
-					<span>Claims</span>
-				</div>
-				<div id='tab3'>
-					<?php #echo $jCharacter ?>
-				</div>
-				<div id='tab4'>
-					<?php echo $coins ?>
-				</div>
-				<div id='tab5'>
-					<?php #echo $characterSheet ?>
-				</div>
-				<div id='tab6'>
-					<?php #echo $database ?>
-				</div>
-				<div id='tab7'>
-					<?php #echo $map ?>
-				</div>
+				<div id='tab1'><?php #echo $splash ?></div>
+				<div id='tab2'><?php echo $trader ?></div>
+				<div id='tab3'><?php #echo $jCharacter ?></div>
+				<div id='tab4'><?php #echo $coins ?></div>
+				<div id='tab5'><?php #echo $characterSheet ?></div>
+				<div id='tab6'><?php #echo $database ?></div>
+				<div id='tab7'><?php #echo $map ?></div>
 			</div>
 		</div>
+		<!-- FOOTER --!>
 		<div>
 			<span>Footer</span>
 			<div id='error'></div>
