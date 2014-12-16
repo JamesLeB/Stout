@@ -60,13 +60,13 @@
 		<div>
 			<div id='tabs'>
 				<ul>
-					<li><a href='#tab1'>Tasks</a></li>
-					<li><a href='#tab2'>ToDo</a></li>
-					<li><a href='#tab3'>Bill Medicaid</a></li>
+					<li><a href='#tab1'>ToDo</a></li>
+					<li><a href='#tab2'>Bill Medicaid</a></li>
+					<li><a href='#tab3'>Load 277</a></li>
 				</ul>
-				<div id='tab1'><!-- Junior Tasks --></div>
-				<div id='tab2'><!-- To Do --></div>
-				<div id='tab3'><!-- Bill Medicaid --></div>
+				<div id='tab1'><?php echo $todo ?></div>
+				<div id='tab2'><?php echo $billMedicaid ?></div>
+				<div id='tab3'><?php echo $load277 ?></div>
 			</div>
 		</div>
 		<!-- Footer -->
