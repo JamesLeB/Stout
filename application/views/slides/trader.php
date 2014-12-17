@@ -4,8 +4,7 @@
 	<button>Accounts</button>
 	<button>Regression</button>
 </div>
-<div id='trader'>
-</div>
+<div id='trader'></div>
 <style>
 	#controls{
 		border : blue solid 1px;
@@ -14,22 +13,13 @@
 		margin : 5px;
 	}
 	#trader{
-		border : 5px ridge green;
-		margin : 20px;
-		height : 500px;
+		border   : 5px ridge green;
+		margin   : 20px;
+		height   : 500px;
 		overflow : auto;
-	}
-	#trader div{
-		border : 1px dotted gray;
-		margin : 20px;
-		padding : 10px;
 	}
 </style>
 <script>
-	var target = 'index.php?/slides/trader/';
-	var request = $.post(target,'',function(data){
-		//$('#trader').html(data);
-	});
 	$('#controls button').click(function(){
 		var target = 'index.php?/slides/trader/';
 		var func = '';
@@ -42,4 +32,5 @@
 			$('#trader').html(data);
 		});
 	});
+	$('#controls button:nth-child(1)').trigger('click');
 </script>
