@@ -13,7 +13,15 @@ class Trader extends CI_Controller {
 		echo "Message from Trader Controler";
 	}
 	public function exchanges(){
-		echo $this->load->view('slides/trader/exchanges','',true);
+		$pairs = array();
+		$pairs[] = array('name'=>'btc_uds');
+		$pairs[] = array('name'=>'btc_cyn');
+		$exchange = array(
+			'name' => 'Bter',
+			'pairs' => $pairs
+		);
+		$d['exchanges'] = array($exchange);
+		echo $this->load->view('slides/trader/exchanges',$d,true);
 	}
 	public function trades(){
 		echo $this->load->view('slides/trader/trades','',true);
