@@ -13,7 +13,7 @@
 					window.location.href = "index.php";
 				});
 			});
-			$('#tabs').tabs({active:1});
+			$('#tabs').tabs({active:7});
 		});
 	</script>
 	<style>
@@ -76,6 +76,7 @@
 					<li><a href='#tab5'>CharacterSheet</a></li>
 					<li><a href='#tab6'>Database</a></li>
 					<li><a href='#tab7'>Map</a></li>
+					<li><a href='#tab8'>WebGL</a></li>
 				</ul>
 				<div id='tab1'><?php #echo $splash ?></div>
 				<div id='tab2'><?php echo $trader ?></div>
@@ -84,6 +85,7 @@
 				<div id='tab5'><?php #echo $characterSheet ?></div>
 				<div id='tab6'><?php #echo $database ?></div>
 				<div id='tab7'><?php #echo $map ?></div>
+				<div id='tab8'><?php echo $webgl ?></div>
 			</div>
 		</div>
 		<!-- FOOTER --!>
