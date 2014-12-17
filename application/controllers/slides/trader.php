@@ -13,14 +13,7 @@ class Trader extends CI_Controller {
 		echo "Message from Trader Controler";
 	}
 	public function exchanges(){
-		$pairs = array();
-		$pairs[] = array('name'=>'btc_uds');
-		$pairs[] = array('name'=>'btc_cyn');
-		$exchange = array(
-			'name' => 'Bter',
-			'pairs' => $pairs
-		);
-		$d['exchanges'] = array($exchange);
+		$d['exchanges'] = $this->exchangeModel->getExchanges();
 		echo $this->load->view('slides/trader/exchanges',$d,true);
 	}
 	public function trades(){
@@ -31,6 +24,10 @@ class Trader extends CI_Controller {
 	}
 	public function regression(){
 		echo $this->load->view('slides/trader/regression','',true);
+	}
+	public function viewHistory(){
+		$d['history'] = $this->exchangeModel->getHistory();
+		echo $this->load->view('slides/trader/viewHistory',$d,true);
 	}
 ###
 ### Linear Regression Work
