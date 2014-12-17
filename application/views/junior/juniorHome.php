@@ -13,7 +13,7 @@
 				});
 			});
 			$('#tabs').tabs();
-			$('#tabs').tabs({active:2});
+			$('#tabs').tabs({active:3});
 		}); // END doc ready function
 	</script>
 	<style>
@@ -63,10 +63,12 @@
 					<li><a href='#tab1'>ToDo</a></li>
 					<li><a href='#tab2'>Bill Medicaid</a></li>
 					<li><a href='#tab3'>Load 277</a></li>
+					<li><a href='#tab4'>Tables</a></li>
 				</ul>
 				<div id='tab1'><?php echo $todo ?></div>
 				<div id='tab2'><?php echo $billMedicaid ?></div>
 				<div id='tab3'><?php echo $load277 ?></div>
+				<div id='tab4'><?php echo $dbtables ?></div>
 			</div>
 		</div>
 		<!-- Footer -->

@@ -22,6 +22,7 @@ class Stout extends CI_Controller {
 			$d['load277'] = $this->load->view('junior/load277','',true);
 			$d['todo'] = $this->load->view('junior/todo','',true);
 			$d['billMedicaid'] = $this->load->view('junior/billMedicaid','',true);
+			$d['dbtables'] = $this->load->view('junior/dbtables','',true);
 			$this->load->view('junior/juniorHome',$d);
 		}
 		elseif($user == 'john')
