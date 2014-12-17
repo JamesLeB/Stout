@@ -3,6 +3,7 @@
 	<button>Trades</button>
 	<button>Accounts</button>
 	<button>Regression</button>
+	<button>ViewHistory</button>
 </div>
 <div id='trader'></div>
 <style>
@@ -24,13 +25,14 @@
 		var target = 'index.php?/slides/trader/';
 		var func = '';
 		var a = $(this).first().html();
-		     if(a=='Exchanges') {func = 'exchanges';}
-		else if(a=='Trades')    {func = 'trades';}
-		else if(a=='Accounts')  {func = 'accounts';}
-		else if(a=='Regression'){func = 'regression';}
+		     if(a=='Exchanges')  {func = 'exchanges';}
+		else if(a=='Trades')     {func = 'trades';}
+		else if(a=='Accounts')   {func = 'accounts';}
+		else if(a=='Regression') {func = 'regression';}
+		else if(a=='ViewHistory'){func = 'viewHistory';}
 		var request = $.post(target+func,'',function(data){
 			$('#trader').html(data);
 		});
 	});
-	$('#controls button:nth-child(1)').trigger('click');
+	$('#controls button:nth-child(5)').trigger('click');
 </script>
