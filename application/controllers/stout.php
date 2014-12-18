@@ -55,12 +55,13 @@ class Stout extends CI_Controller {
 
 			# Load Spash
 			#$data['splash'] = $this->load->view('slides/splash','',true);
+			$data['splash'] = $this->load->view('slides/lampSetup','',true);
 
 			# LOAD TRADER
-			$data['trader'] = $this->load->view('slides/trader.php','',true);
+			#$data['trader'] = $this->load->view('slides/trader.php','',true);
 
 			# LOAD WEBGL
-			$data['webgl'] = $this->load->view('slides/webgl.php','',true);
+			#$data['webgl'] = $this->load->view('slides/webgl.php','',true);
 
 			# Load Laning page
 			$this->load->view('landing',$data);
