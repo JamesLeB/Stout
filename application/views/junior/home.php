@@ -51,10 +51,21 @@
 			background : gray;
 			opacity : 0;
 		}
+		#special
+		{
+			position : fixed;
+			margin : 0px;
+			top : 0;
+			left : 0;
+			width : 100%;
+			height : 100%;
+			z-index : -1;
+		}
 	</style>
 </head>
 <body>
 	<div id='screen'></div>
+	<div id='special'></div>
 	<div id='wrapper'>
 		<!-- Header -->
 		<div>
