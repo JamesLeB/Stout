@@ -69,6 +69,14 @@
 						$('#juniorBiller button').trigger('click');
 					});
 				}
+				else if(todo == 'Processed')
+				{
+					$('#debug').html('Load batch view');
+					$('#screen').zIndex(2);
+					$('#screen').fadeTo(500,.8,function(){
+						$('#screen').html('BATCH VIEW');
+					});
+				}
 				else
 				{
 					$('#debug').html('Now what '+todo);
