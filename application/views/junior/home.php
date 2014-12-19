@@ -17,6 +17,10 @@
 		}); // END doc ready function
 	</script>
 	<style>
+		body
+		{
+			background : gray;
+		}
 		#wrapper{
 			border : 1px solid green;
 			background : white;
@@ -45,6 +49,7 @@
 			height : 100%;
 			z-index : -1;
 			background : gray;
+			opacity : 0;
 		}
 	</style>
 </head>
