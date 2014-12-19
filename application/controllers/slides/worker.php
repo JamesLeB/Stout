@@ -15,7 +15,9 @@ class Worker extends CI_Controller {
 		$m[] = "Testing";
 		$e = '';foreach($m as $mm){$e .= "$mm<br/>";}echo "$e";
 	}
-
+	public function getBatch(){
+		echo "I am Groot.. lets get a claim batch..";
+	}
 	public function read277(){
 		require('lib/classes/EDI277.php');
 		header('status: Reading 277');
