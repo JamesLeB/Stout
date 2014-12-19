@@ -3,6 +3,188 @@
 class Stout extends CI_Controller {
 
 	public function logout(){ session_unset(); }
+private function openInstitutionalBatch($batch) # returns a array of claims
+{
+	$m = array();
+	$m[] = "I am Groot";
+	$segments = preg_split('/~/',$batch);
+	try
+	{
+		$seg = array_shift($segments);
+		if(preg_match('/^ISA\*/',$seg)) { } else { throw new exception(":( $seg"); }
+
+		$seg = array_shift($segments);
+		if(preg_match('/^GS\*/',$seg)) { } else { throw new exception("$seg"); }
+
+		$seg = array_shift($segments);
+		if(preg_match('/^ST\*/',$seg)) { } else { throw new exception("$seg"); }
+
+		$seg = array_shift($segments);
+		if(preg_match('/^BHT\*/',$seg)) { } else { throw new exception("$seg"); }
+
+		$seg = array_shift($segments);
+		if(preg_match('/^NM1\*/',$seg)) { } else { throw new exception("$seg"); }
+
+		$seg = array_shift($segments);
+		if(preg_match('/^PER\*/',$seg)) { } else { throw new exception("$seg"); }
+
+		$seg = array_shift($segments);
+		if(preg_match('/^NM1\*/',$seg)) { } else { throw new exception("$seg"); }
+
+		$seg = array_shift($segments);
+		if(preg_match('/^HL\*/',$seg)) { } else { throw new exception("$seg"); }
+
+		$seg = array_shift($segments);
+		if(preg_match('/^NM1\*/',$seg)) { } else { throw new exception("$seg"); }
+
+		$seg = array_shift($segments);
+		if(preg_match('/^N3\*/',$seg)) { } else { throw new exception("$seg"); }
+	
+		$seg = array_shift($segments);
+		if(preg_match('/^N4\*/',$seg)) { } else { throw new exception("$seg"); }
+
+		$seg = array_shift($segments);
+		if(preg_match('/^REF\*/',$seg)) { } else { throw new exception("$seg"); }
+
+		$claims = array();
+		while(preg_match('/^HL\*[0-9]+\*1\*22/',$segments[0]))
+		{
+			$claim = array();
+
+			$seg = array_shift($segments);
+			if(preg_match('/^HL\*[0-9]+\*1\*22/',$seg)) { } else { throw new exception("$seg"); }
+
+			$seg = array_shift($segments);
+			if(preg_match('/^SBR\*/',$seg)) { } else { throw new exception("$seg"); }
+
+			$seg = array_shift($segments);
+			if(preg_match('/^NM1\*/',$seg))
+			{
+				$temp = preg_split('/\*/',$seg);
+				$claim['first']    = $temp[4];
+				$claim['last']     = $temp[3];
+				$claim['medicaid'] = $temp[9];
+			}
+			else
+			{
+				throw new exception("$seg");
+			}
+
+			$seg = array_shift($segments);
+			if(preg_match('/^DMG\*/',$seg))
+			{
+				$temp = preg_split('/\*/',$seg);
+				$claim['birth'] = $temp[2];
+				$claim['sex']   = $temp[3];
+			}
+			else
+			{
+				throw new exception("$seg");
+			}
+
+			$seg = array_shift($segments);
+			if(preg_match('/^NM1\*/',$seg)) { } else { throw new exception("$seg"); }
+
+			$seg = array_shift($segments);
+			if(preg_match('/^CLM\*/',$seg))
+			{
+				$temp = preg_split('/\*/',$seg);
+				$trak = preg_split('/-/',$temp[1]);
+				$claim['chart']   = $trak[0];
+				$claim['claimId'] = $trak[1];
+				$claim['amount']  = $temp[2];
+			}
+			else
+			{
+				throw new exception("$seg");
+			}
+
+			$seg = array_shift($segments);
+			if(preg_match('/^DTP\*/',$seg))
+			{
+				$temp = preg_split('/\*/',$seg);
+				$trak = preg_split('/-/',$temp[3]);
+				$claim['serviceDate'] = $trak[0];
+			}
+			else
+			{
+				throw new exception("$seg");
+			}
+
+			$seg = array_shift($segments);
+			if(preg_match('/^CL1\*/',$seg)) { } else { throw new exception("$seg"); }
+
+			$seg = array_shift($segments);
+			if(preg_match('/^HI\*BK/',$seg)) { } else { throw new exception("$seg"); }
+
+			$seg = array_shift($segments);
+			if(preg_match('/^HI\*BE/',$seg)) { } else { throw new exception("$seg"); }
+
+			$seg = array_shift($segments);
+			if(preg_match('/^NM1\*/',$seg)) { } else { throw new exception("$seg"); }
+
+			$lines = array();
+			while(preg_match('/^LX\*[0-9]+/',$segments[0]))
+			{
+				$line = array();
+
+				$seg = array_shift($segments);
+				if(preg_match('/^LX\*[0-9]+/',$seg)) { } else { throw new exception("$seg"); }
+
+				$seg = array_shift($segments);
+				if(preg_match('/^SV2\*/',$seg))
+				{
+					$temp = preg_split('/\*/',$seg);
+					$trak = preg_split('/:/',$temp[2]);
+					$line['adacode'] = $trak[1];
+					$line['amount']  = $temp[3];
+				}
+				else
+				{
+					throw new exception("$seg");
+				}
+
+				$seg = array_shift($segments);
+				if(preg_match('/^DTP\*472/',$seg))
+				{
+					$temp = preg_split('/\*/',$seg);
+					$trak = preg_split('/-/',$temp[3]);
+					$line['date'] = $trak[0];
+				}
+				else
+				{
+					throw new exception("$seg");
+				}
+
+				$lines[] = $line;
+
+			}
+
+			$claim['lines'] = $lines;
+			$claims[] = $claim;
+
+		}
+
+		$seg = array_shift($segments);
+		if(preg_match('/^SE\*/',$seg)) { } else { throw new exception("$seg"); }
+
+		$seg = array_shift($segments);
+		if(preg_match('/^GE\*/',$seg)) { } else { throw new exception("$seg"); }
+
+		$seg = array_shift($segments);
+		if(preg_match('/^IEA\*/',$seg)) { } else { throw new exception("$seg"); }
+
+		$m[] = "All good :)";
+	}
+	catch(exception $e)
+	{
+		$error = $e->getMessage();
+		$m[] = "ERROR!! $error";
+		return implode('<br/>',$m);
+	}
+	#foreach($segments as $seg) { $m[] = $seg; }
+	return $claims;
+}
 	public function index()
 	{
 		$user = $_SESSION['user'];
@@ -21,7 +203,35 @@ class Stout extends CI_Controller {
 		{
 			$d['load277'] = $this->load->view('junior/load277','',true);
 			$d['todo'] = $this->load->view('junior/todo','',true);
-			$d['billMedicaid'] = $this->load->view('junior/billMedicaid','',true);
+			#$d['billMedicaid'] = $this->load->view('junior/billMedicaid','',true);
+
+# Move this code to c/slides/worker getBatch function
+$batch = 'B0068';
+$dd['batch'] = $batch;
+$a = file_get_contents("files/edi/SENT/$batch.x12");
+$claimList = $this->openInstitutionalBatch($a);
+$html = "";
+foreach($claimList as $claim)
+{
+	$keys = array_keys($claim);
+	foreach($keys as $key)
+	{
+		#$html .= "$key ";
+	}
+	$html .= $claim['first']." "; ;
+	$html .= $claim['last']." "; ;
+	$html .= $claim['medicaid']." "; ;
+	$html .= $claim['birth']." "; ;
+	$html .= $claim['sex']." "; ;
+	$html .= $claim['chart']." "; ;
+	$html .= $claim['claimId']." "; ;
+	$html .= $claim['amount']." "; ;
+	$html .= $claim['serviceDate']." "; ;
+	$html .= "<br/>";
+}
+$dd['batchData'] = $html;
+$d['billMedicaid'] = $this->load->view('junior/batchView',$dd,true);
+
 			$d['dbtables'] = $this->load->view('junior/dbtables','',true);
 			$this->load->view('junior/home',$d);
 		}
