@@ -13,7 +13,7 @@
 				});
 			});
 			$('#tabs').tabs();
-			$('#tabs').tabs({active:3});
+			$('#tabs').tabs({active:1});
 		}); // END doc ready function
 	</script>
 	<style>
@@ -77,4 +77,4 @@
 		</div>
 	</div>
 </body>
-<html>
+</html>
