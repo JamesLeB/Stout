@@ -2,6 +2,10 @@
 
 class Junior extends CI_Controller {
 
+	public function loadBatch()
+	{
+		echo $this->load->view('junior/batchView','',true);
+	}
 	public function get277List(){
 		$a = $this->getFTP('get277List','');
 		echo $a[1];

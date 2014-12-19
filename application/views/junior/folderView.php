@@ -74,7 +74,9 @@
 					$('#debug').html('Load batch view');
 					$('#screen').zIndex(2);
 					$('#screen').fadeTo(500,.8,function(){
-						$('#screen').html('BATCH VIEW');
+						$.post('index.php?/junior/loadBatch','',function(data){
+							$('#screen').html(data);
+						});
 					});
 				}
 				else
