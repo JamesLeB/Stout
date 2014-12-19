@@ -175,7 +175,8 @@ class Junior extends CI_Controller {
 				elseif($task == 'get277List')
 				{
 					# Get list of files
-					$fileList = ftp_nlist($conn,'x277');
+					#$fileList = ftp_nlist($conn,'x277');
+					$fileList = array('a');
 					if($fileList){
 						$m[] = "YES list";
 						foreach($fileList as $f){
