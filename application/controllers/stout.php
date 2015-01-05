@@ -203,8 +203,9 @@ private function openInstitutionalBatch($batch) # returns a array of claims
 		{
 			$d['load277'] = $this->load->view('junior/load277','',true);
 			$d['todo'] = $this->load->view('junior/todo','',true);
-			#$d['billMedicaid'] = $this->load->view('junior/billMedicaid','',true);
+			$d['billMedicaid'] = $this->load->view('junior/billMedicaid','',true);
 
+/*
 # Move this code to c/slides/worker getBatch function
 $batch = 'B0068';
 $dd['batch'] = $batch;
@@ -231,6 +232,7 @@ foreach($claimList as $claim)
 }
 $dd['batchData'] = $html;
 $d['billMedicaid'] = $this->load->view('junior/batchView',$dd,true);
+*/
 
 			$d['dbtables'] = $this->load->view('junior/dbtables','',true);
 			$this->load->view('junior/home',$d);
