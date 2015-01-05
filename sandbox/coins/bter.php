@@ -62,13 +62,17 @@ class bter{
 				$m .= "$amount : ";
 				$m .= "$type : ";
 				$m .= "\n\n";
+/*
 # Delete record from MYSQL
-$m .= "--------------------";
-$m .= "Deleting old record!!!"
+$m .= "--------------------\n";
+$m .= "Deleting old record!!!\n";
+$m .= $this->db->deleteBterTrade($nTrade) . " deleted\n";
 # Insert new record
-$m .= "inserting new record!!!"
+$m .= "inserting new record!!!\n";
+$m .= $this->db->insertBterTrade($nTrade) . " inserted\n";
 $m .= "--------------------";
 $m .= "\n\n";
+*/
 				file_put_contents('logs/errors',$m,FILE_APPEND);
 			}
 		} # END Trade Data loop

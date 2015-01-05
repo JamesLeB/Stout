@@ -65,6 +65,17 @@ class localdb {
 		}
 		return $r;
 	}
+	public function deleteBterTrade($trade){
+		$r = 0;
+		if($this->link_ && 1){
+			$query = $this->getQuery(7);
+			$stmt = mysqli_prepare($this->link_,$query);
+			$stmt->bind_param('i',$tid);
+			$tid        = $trade['tid'];
+			$r = $stmt->execute() ? 1 : 0;
+		}
+		return $r;
+	}
 	public function execute($x){
 		$m = array();
 		#$link = mysqli_connect('localhost',$this->user_,$this->pass_,$this->base_);
@@ -145,6 +156,8 @@ class localdb {
 				return "SELECT pair,time_stamp,price,amount,type FROM bter WHERE tid = ?";
 			case 6:
 				return "DELETE FROM bter";
+			case 7:
+				return "DELETE FROM bter WHERE tid = ?";
 		}
 	} # END getQuery function
 
