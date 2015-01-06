@@ -1,11 +1,13 @@
 <?php
 	$coinList = '';
+/*
 	foreach($list as $coin){
 		$coinList .= "
 			<div>
 				<div>$coin</div>
 			</div>";
 	}
+*/
 	$html = "
 		<div id='coinExchange'>
 			<div id='aptTesting'>
@@ -151,7 +153,8 @@
 			$('#coinList').hide();
 		</script>
 	";
-	echo $style;
-	echo $html;
-	echo $script;
+	#echo $style;
+	#echo $html;
+	#echo $script;
+	echo "Time to build the coin list view";
 ?>

@@ -255,7 +255,7 @@ $d['billMedicaid'] = $this->load->view('junior/batchView',$dd,true);
 			# Load coins
 			#$coins['list'] = array();
 			#$coins['list'] = $this->getBterCoinList();
-			#$data['coins'] = "coins";#$this->load->view('classes/coins',$coins,true);
+			$data['coins'] = $this->load->view('classes/coins','',true);
 
 			# Load character Sheet
 			#$data['characterSheet'] = $this->load->view('classes/characterSheet','',true);
