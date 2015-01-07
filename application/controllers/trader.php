@@ -11,31 +11,8 @@ class Trader extends CI_Controller {
 	}
 	public function index(){
 		$a = $this->exchangeModel->test();
-		$h = '<table>';
-		foreach($a as $b)
-		{
-			$h .= "<tr>";
-			foreach($b as $c)
-			{
-				$h .= "<td>$c</td>";
-			}
-			$h .= "</tr>";
-		}
-		$h .= "</table>";
-$style = "
-	<style>
-		table td
-		{
-			border : 1px solid gray;
-			padding : 5px;
-		}
-		table td:nth-child(1)
-		{
-			padding-right : 20px;
-		}
-	</style>
-";
-		echo "$h $style";
+		$json = json_encode($a);
+		echo "$json";
 	}
 	public function exchanges(){
 		$d['exchanges'] = $this->exchangeModel->getExchanges();
