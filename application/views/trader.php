@@ -1,6 +1,11 @@
 <?php
 	$html = "
-I am groot
+		<ul>
+			<li>Open database connection</li>
+			<li>Get List of coins</li>
+			<li>Create table view of coins</li>
+		</ul>
+		<div id='trader'></div>
 	";
 	$style = "
 		<style>
@@ -10,6 +15,9 @@ I am groot
 	";
 	$script = "
 		<script>
+			$.post('index.php?/trader','',function(data){
+				$('#trader').html(data);
+			});
 /*
 			$.post('index.php?/stout/getBter','',function(data){
 				var obj = $.parseJSON(data)
