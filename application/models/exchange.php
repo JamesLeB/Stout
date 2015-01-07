@@ -8,14 +8,28 @@ class Exchange extends CI_Model{
 		$this->db = $this->load->database('trader',true);
 	}
 	public function test(){
-		$q = 'select pair,count(pair) from bter group by pair';
+		$q = 'select pair,count(pair) as count from bter group by pair';
 		$rs = $this->db->query($q);
 		$rows = array();
 		$ct = 0;
 		foreach($rs->result_array() as $row)
 		{
 			$ct++;
-			$rows[] = $row;
+
+$pair = $row['pair'];
+$parm = array($pair);
+$sq = "select * from bter where pair = ?";
+$rs1 = $this->db->query($sq,$parm);
+$list = array();
+foreach($rs1->result_array() as $row1)
+{
+	$list[] = $row1;
+}
+			$r = array();
+			$r[] = $row['pair'];
+			$r[] = $row['count'];
+			$r[] = $list;
+			$rows[] = $r;
 		}
 		return $rows;
 	}
