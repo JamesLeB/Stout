@@ -5,10 +5,19 @@ class Exchange extends CI_Model{
 
 	function __construct(){
 		parent::__construct();
-		$this->db = $this->load->database('local',true);
+		$this->db = $this->load->database('trader',true);
 	}
-	public function index(){
-		return "message from exchange model";
+	public function test(){
+		$q = 'select pair,count(pair) from bter group by pair';
+		$rs = $this->db->query($q);
+		$rows = array();
+		$ct = 0;
+		foreach($rs->result_array() as $row)
+		{
+			$ct++;
+			$rows[] = $row;
+		}
+		return $rows;
 	}
 	public function getExchanges(){
 		$pairs = array();
