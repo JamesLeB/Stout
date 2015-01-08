@@ -20,38 +20,63 @@
 				}
 				.pair > div:nth-child(1)
 				{
+					height : 30px;
+				}
+				.pair > div:nth-child(1) > div
+				{
+					border : 1px dotted gray;
+					float : left;
+					width : 200px;
+				}
+				.pair > div:nth-child(1) > div:nth-child(1)
+				{
+					width : 200px;
+				}
+				.pair > div:nth-child(1) > div:nth-child(2)
+				{
 					width : 200px;
 				}
 				.pair > div:nth-child(2)
 				{
-					margin-left : 100px;
-				}
-				.pair table
-				{
+					height : 50px;
 					border : 1px solid green;
-				}
-				.pair table td
-				{
+					width : 900px;
 					padding : 10px;
-				}
-				.pair table thead td
-				{
-					background : green;
-					color : white;
-					text-align : center;
+					margin-left   : auto;
+					margin-right  : auto;
+					margin-top    : 10px;
+					margin-bottom :  5px;
 				}
 		</style>
 	";
 	$script = "
 		<script>
+var groot = 'i groot';
 			$.post('index.php?/trader','',function(data){
 				var obj = $.parseJSON(data)
 				var html = '';
 				obj.forEach(function(a){
 					html += '<div class=\'pair\'>';
-					html += '<div>' + a[0] + ' ' + a[1] + '</div>';
-					var list = a[2];
-
+					 html += '<div>';
+					  html += '<div>' + a[0] + '</div>';
+					  html += '<div>' + a[1] + '</div>';
+					 html += '</div>';
+					 html += '<div>';
+					  html += '<div>' + groot + '</div>';
+					 html += '</div>';
+					html += '</div>';
+				});
+				$('#trader').html(html);
+				//$('#trader').html(data);
+			});
+		</script>
+	";
+	echo $style;
+	echo $html;
+	echo $script;
+## TEMP
+/*
+var list = a[2];
 var count = 0;
 var trades = '<table>';
 trades += '<thead>';
@@ -79,22 +104,22 @@ list.forEach(function(b){
 	trades += '</tr>';
 });
 trades += '</table>';
-
-					html += '<div>' + trades + '</div>';
-					html += '</div>';
-				});
-				$('#trader').html(html);
-				//$('#trader').html(data);
-			});
-/*
-			$.post('index.php?/stout/getBter','',function(data){
-				var obj = $.parseJSON(data)
-				$('#coinData > div:nth-child(1)').html(obj[0]);
-			});
+		<style>
+				.pair table
+				{
+					border : 1px solid green;
+				}
+				.pair table td
+				{
+					padding : 10px;
+				}
+				.pair table thead td
+				{
+					background : green;
+					color : white;
+					text-align : center;
+				}
+		</style>
 */
-		</script>
-	";
-	echo $style;
-	echo $html;
-	echo $script;
+## TEMP
 ?>

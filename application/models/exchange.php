@@ -16,6 +16,7 @@ class Exchange extends CI_Model{
 		{
 			$ct++;
 
+/*
 $pair = $row['pair'];
 $parm = array($pair);
 $sq = "select * from bter where pair = ?";
@@ -25,10 +26,10 @@ foreach($rs1->result_array() as $row1)
 {
 	$list[] = $row1;
 }
+*/
 			$r = array();
 			$r[] = $row['pair'];
 			$r[] = $row['count'];
-			$r[] = $list;
 			$rows[] = $r;
 		}
 		return $rows;

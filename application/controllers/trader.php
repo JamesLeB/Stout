@@ -4,16 +4,23 @@ class Trader extends CI_Controller {
 
 	private $exchangeModel;
 
-	function __construct(){
+	function __construct()
+	{
 		parent::__construct();
 		$this->load->model('Exchange');
 		$this->exchangeModel = $this->Exchange;
 	}
-	public function index(){
+	public function index()
+	{
 		$a = $this->exchangeModel->test();
 		$json = json_encode($a);
 		echo "$json";
 	}
+	public function getData()
+	{
+		echo "watching a movie";
+	}
+/*
 	public function exchanges(){
 		$d['exchanges'] = $this->exchangeModel->getExchanges();
 		echo $this->load->view('slides/trader/exchanges',$d,true);
@@ -31,6 +38,7 @@ class Trader extends CI_Controller {
 		$d['history'] = $this->exchangeModel->getHistory();
 		echo $this->load->view('slides/trader/viewHistory',$d,true);
 	}
+*/
 ###
 ### Linear Regression Work
 ###
