@@ -12,9 +12,14 @@ class Trader extends CI_Controller {
 	}
 	public function index()
 	{
-		$a = $this->exchangeModel->test();
-		$json = json_encode($a);
-		echo "$json";
+		$coins = array();
+		$list = $this->exchangeModel->getCoinList();
+		foreach($list as $coin)
+		{
+			$buyCount = $this->exchangeModel->getBuyCount($coin);
+			$coins[] = array($coin,$buyCount,'groot');
+		}
+		echo json_encode($coins);
 	}
 	public function getData()
 	{

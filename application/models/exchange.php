@@ -1,13 +1,32 @@
 <?php
-class Exchange extends CI_Model{
+class Exchange extends CI_Model
+{
 
 	private $db;
 
-	function __construct(){
+	function __construct()
+	{
 		parent::__construct();
 		$this->db = $this->load->database('trader',true);
 	}
-	public function test(){
+	public function getCoinList()
+	{
+		$rows = array();
+		$q = 'select pair from bter group by pair';
+		$rs = $this->db->query($q);
+		foreach($rs->result_array() as $row)
+		{
+			$r = array();
+			$rows[] = $row['pair'];
+		}
+		return $rows;
+	}
+	public function getBuyCount($a)
+	{
+		return "16 $a";
+	}
+	public function test()
+	{
 		$q = 'select pair,count(pair) as count from bter group by pair';
 		$rs = $this->db->query($q);
 		$rows = array();

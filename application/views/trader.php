@@ -62,7 +62,7 @@ var groot = 'i groot';
 					  html += '<div>' + a[1] + '</div>';
 					 html += '</div>';
 					 html += '<div>';
-					  html += '<div>' + groot + '</div>';
+					  html += '<div>' + a[2] + '</div>';
 					 html += '</div>';
 					html += '</div>';
 				});
