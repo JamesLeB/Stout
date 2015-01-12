@@ -35,7 +35,8 @@ class Exchange extends CI_Model
 	}
 	public function getBuys($a)
 	{
-		$list = array();
+		$list    = array();
+		$under24 = array();
 
 		$p = array($a);
 		$q = "select * from bter where pair = ? and type = 'buy' order by time_stamp asc";
@@ -48,6 +49,7 @@ class Exchange extends CI_Model
 		#$t .= "<td>Elaps</td>";
 		#$t .= "</tr>";
 		$start = 0;
+		$current = time();
 		foreach($r->result_array() as $row)
 		{
 			$start = $start ? $start : $row['time_stamp'];
@@ -59,9 +61,12 @@ class Exchange extends CI_Model
 			$amount     = $row['amount'];
 			$date       = $row['date'];
 
-			$elaps = ($time_stamp - $start) / (60);
+			$elaps = ($time_stamp - $start)   / (60);
+			$age   = ($current - $time_stamp) / (60*60);
 
-			$list[] = array($elaps,$price);
+			$record = array($elaps,$price,$age,$date);
+			$list[] = $record;
+			if($age < 24){$under24[] = $record;} 
 
 			#$t .= "
 			#	<td>$date</td>
@@ -74,7 +79,9 @@ class Exchange extends CI_Model
 		}
 		#$t .= "</table>";
 		#$t .= "<style>td{padding:10px}</style>";
-		return $list;
+
+		#return $list;
+		return $under24;
 	}
 	public function test()
 	{
