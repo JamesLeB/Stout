@@ -110,11 +110,12 @@ if(1){
 		}else{throw new exception("error loading HL Billing Provider<br/>---<br/>$seg<br/>---");}
 	
 		#LOAD PRV 
-		$seg = array_shift($segments);
-		if(preg_match('/^PRV\*/',$seg)){
+		$provider->setBillingProviderSpecialty('');
+		if(preg_match('/^PRV\*/',$segments[0])){
+			$seg = array_shift($segments);
 			$temp = preg_split('/\*/',$seg);
 			$provider->setBillingProviderSpecialty($temp[3]);
-		}else{throw new exception("error loading PRV<br/>---<br/>$seg<br/>---");}
+		}#else{throw new exception("error loading PRV xx<br/>---<br/>$seg<br/>---");}
 	
 		#LOAD NM1 
 		$seg = array_shift($segments);
@@ -146,11 +147,13 @@ if(1){
 		}#else{throw new exception("erroc loading REF<br/>---<br/>$seg<br/>---");}
 	
 		#LOAD REF
-		$seg = array_shift($segments);
-		if(preg_match('/^REF\*EI\*/',$seg)){
+
+		$provider->setBillingProviderTaxId('');
+		if(preg_match('/^REF\*EI\*/',$segments[0])){
+			$seg = array_shift($segments);
 			$temp = preg_split('/\*/',$seg);
 			$provider->setBillingProviderTaxId($temp[2]);
-		}else{throw new exception("erroc loading REF<br/>---<br/>$seg<br/>---");}
+		}#else{throw new exception("erroc loading REF<br/>---<br/>$seg<br/>---");}
 	
 		#LOAD REF
 		$seg = array_shift($segments);
@@ -362,9 +365,12 @@ if(1){
 
 		#LOAD PRV
 		$seg = array_shift($segments);
-		if(preg_match('/^PRV\*PE\*PXC\*/',$seg)){
+		if(preg_match('/^PRV\*PE\*PXC/',$seg)){
 			$temp = preg_split('/\*/',$seg);
-			$claim->setProviderTaxonomy($temp[3]);
+			if(isset($temp[3]))
+			{
+				$claim->setProviderTaxonomy($temp[3]);
+			}
 		}else{throw new exception("error loading PRV<br/>---<br/>$seg<br/>---");}
 
 		#LOAD REF
