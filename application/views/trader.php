@@ -39,13 +39,15 @@
 	.pair > div:nth-child(2)
 	{
 		height : 50px;
-		border : 1px solid white;
-		width : 900px;
+		border : 5px inset gray;
+		width : 1000px;
+		height : 400px;
 		padding : 10px;
 		margin-left   : auto;
 		margin-right  : auto;
 		margin-top    : 10px;
 		margin-bottom :  5px;
+		overflow : auto;
 	}
 </style>
 <script>

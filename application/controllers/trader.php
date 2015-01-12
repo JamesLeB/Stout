@@ -17,7 +17,8 @@ class Trader extends CI_Controller {
 		foreach($list as $coin)
 		{
 			$buyCount = $this->exchangeModel->getBuyCount($coin);
-			$coins[] = array($coin,$buyCount,'groot');
+			$buys = $this->exchangeModel->getBuys($coin);
+			$coins[] = array($coin,$buyCount,$buys);
 		}
 		echo json_encode($coins);
 	}

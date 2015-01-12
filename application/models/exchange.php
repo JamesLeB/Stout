@@ -12,7 +12,7 @@ class Exchange extends CI_Model
 	public function getCoinList()
 	{
 		$rows = array();
-		$q = 'select pair from bter group by pair';
+		$q = "select pair from bter where pair like '%btc_usd%' group by pair";
 		$rs = $this->db->query($q);
 		foreach($rs->result_array() as $row)
 		{
@@ -23,7 +23,58 @@ class Exchange extends CI_Model
 	}
 	public function getBuyCount($a)
 	{
-		return "16 $a";
+		$p = array($a);
+		$q = 'select count(pair) count from bter where pair = ?';
+		$r = $this->db->query($q,$p);
+		$c = 0;
+		foreach($r->result_array() as $row)
+		{
+			$c = $row['count'];
+		}
+		return "$c";
+	}
+	public function getBuys($a)
+	{
+		$p = array($a);
+		$q = "select * from bter where pair = ?";
+		$r = $this->db->query($q,$p);
+		$t = "<table>";
+		$t .= "<tr>";
+		$t .= "<td>Pair</td>";
+		$t .= "<td>Stamp</td>";
+		$t .= "<td>Price</td>";
+		$t .= "<td>Amount</td>";
+		$t .= "<td>Tid</td>";
+		$t .= "<td>Type</td>";
+		$t .= "<td>Date</td>";
+		$t .= "</tr>";
+		foreach($r->result_array() as $row)
+		{
+			$t .= "<tr>";
+
+			$pair       = $row['pair'];
+			$time_stamp = $row['time_stamp'];
+			$price      = $row['price'];
+			$amount     = $row['amount'];
+			$tid        = $row['tid'];
+			$type       = $row['type'];
+			$date       = $row['date'];
+
+			$t .= "
+				<td>$pair</td>
+				<td>$time_stamp</td>
+				<td>$price</td>
+				<td>$amount</td>
+				<td>$tid</td>
+				<td>$type</td>
+				<td>$date</td>
+			";
+
+			$t .= "</tr>";
+		}
+		$t .= "</table>";
+		$t .= "<style>td{padding:10px}</style>";
+		return "$t";
 	}
 	public function test()
 	{
