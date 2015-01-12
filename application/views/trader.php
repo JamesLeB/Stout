@@ -51,7 +51,6 @@
 	";
 	$script = "
 		<script>
-var groot = 'i groot';
 			$.post('index.php?/trader','',function(data){
 				var obj = $.parseJSON(data)
 				var html = '';
