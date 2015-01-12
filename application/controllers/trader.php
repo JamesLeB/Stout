@@ -18,7 +18,17 @@ class Trader extends CI_Controller {
 		{
 			$buyCount = $this->exchangeModel->getBuyCount($coin);
 			$buys = $this->exchangeModel->getBuys($coin);
-			$coins[] = array($coin,$buyCount,$buys);
+$ll = "<table>";
+foreach($buys as $b)
+{
+	$ll .= "<tr>";
+	$ll .= "<td>$b[0]</td>";
+	$ll .= "<td>$b[1]</td>";
+	$ll .= "</tr>";
+}
+$ll .= "</table>";
+$coins[] = array($coin,$buyCount,$ll);
+			#$coins[] = array($coin,$buyCount,$buys);
 		}
 		echo json_encode($coins);
 	}

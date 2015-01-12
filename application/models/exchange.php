@@ -24,7 +24,7 @@ class Exchange extends CI_Model
 	public function getBuyCount($a)
 	{
 		$p = array($a);
-		$q = 'select count(pair) count from bter where pair = ?';
+		$q = "select count(pair) count from bter where pair = ? and type = 'buy'";
 		$r = $this->db->query($q,$p);
 		$c = 0;
 		foreach($r->result_array() as $row)
@@ -35,46 +35,46 @@ class Exchange extends CI_Model
 	}
 	public function getBuys($a)
 	{
+		$list = array();
+
 		$p = array($a);
-		$q = "select * from bter where pair = ?";
+		$q = "select * from bter where pair = ? and type = 'buy' order by time_stamp asc";
 		$r = $this->db->query($q,$p);
-		$t = "<table>";
-		$t .= "<tr>";
-		$t .= "<td>Pair</td>";
-		$t .= "<td>Stamp</td>";
-		$t .= "<td>Price</td>";
-		$t .= "<td>Amount</td>";
-		$t .= "<td>Tid</td>";
-		$t .= "<td>Type</td>";
-		$t .= "<td>Date</td>";
-		$t .= "</tr>";
+		#$t = "<table>";
+		#$t .= "<tr>";
+		#$t .= "<td>Date</td>";
+		#$t .= "<td>Price</td>";
+		#$t .= "<td>Amount</td>";
+		#$t .= "<td>Elaps</td>";
+		#$t .= "</tr>";
+		$start = 0;
 		foreach($r->result_array() as $row)
 		{
-			$t .= "<tr>";
+			$start = $start ? $start : $row['time_stamp'];
 
-			$pair       = $row['pair'];
+			#$t .= "<tr>";
+
 			$time_stamp = $row['time_stamp'];
 			$price      = $row['price'];
 			$amount     = $row['amount'];
-			$tid        = $row['tid'];
-			$type       = $row['type'];
 			$date       = $row['date'];
 
-			$t .= "
-				<td>$pair</td>
-				<td>$time_stamp</td>
-				<td>$price</td>
-				<td>$amount</td>
-				<td>$tid</td>
-				<td>$type</td>
-				<td>$date</td>
-			";
+			$elaps = ($time_stamp - $start) / (60);
 
-			$t .= "</tr>";
+			$list[] = array($elaps,$price);
+
+			#$t .= "
+			#	<td>$date</td>
+			#	<td>$price</td>
+			#	<td>$amount</td>
+			#	<td>$elaps</td>
+			#";
+
+			#$t .= "</tr>";
 		}
-		$t .= "</table>";
-		$t .= "<style>td{padding:10px}</style>";
-		return "$t";
+		#$t .= "</table>";
+		#$t .= "<style>td{padding:10px}</style>";
+		return $list;
 	}
 	public function test()
 	{
