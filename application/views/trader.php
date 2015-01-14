@@ -30,9 +30,17 @@
 	}
 	.pair > div:nth-child(1) > div:nth-child(1)
 	{
-		width : 200px;
+		width : 150px;
 	}
 	.pair > div:nth-child(1) > div:nth-child(2)
+	{
+		width : 100px;
+	}
+	.pair > div:nth-child(1) > div:nth-child(3)
+	{
+		width : 200px;
+	}
+	.pair > div:nth-child(1) > div:nth-child(4)
 	{
 		width : 200px;
 	}
@@ -59,9 +67,11 @@
 			 html += '<div>';
 			  html += '<div>' + a[0] + '</div>';
 			  html += '<div>' + a[1] + '</div>';
+			  html += '<div>' + a[2] + '</div>';
+			  html += '<div>' + a[3] + '</div>';
 			 html += '</div>';
 			 html += '<div>';
-			  html += '<div>' + a[2] + '</div>';
+			  html += '<div>' + a[4] + '</div>';
 			 html += '</div>';
 			html += '</div>';
 		});

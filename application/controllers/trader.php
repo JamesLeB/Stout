@@ -34,7 +34,11 @@ class Trader extends CI_Controller {
 			}
 			$ll .= "</table>";
 
-			$coins[] = array($coin,$buyCount,$ll);
+			$linear = $this->linearRegression();
+			$slope = $linear[0];
+			$intercept = $linear[1];
+
+			$coins[] = array($coin,$buyCount,$slope,$intercept,$ll);
 			#$coins[] = array($coin,$buyCount,$buys);
 		}
 		echo json_encode($coins);
@@ -65,94 +69,57 @@ class Trader extends CI_Controller {
 ###
 ### Linear Regression Work
 ###
-	private function linearRegression(){
-		header("status: Calculating Linear Regression");
-		#$series = $this->getBuySeries();
-		$ms = array();
-		$_SESSION['seriesName'] = 'Coin something';
-		#$X = $series[0];
-		#$Y = $series[1];
-		$X = array('first',43,21,25,42,57,59);
-		$Y = array('second',99,65,79,75,87,81);
-
-		$_SESSION['xSeries'] = $X;
-		$_SESSION['ySeries'] = $Y;
-		#$ms[] = $this->array2html($X); #$ms[] = $this->array2html($Y);
-		try{
-			if(sizeof($X) != sizeof($Y)){throw new Exception('Series not same size!!');}
-
-			$ms[] = "Getting line equation - broken";
-			$ms[] = $this->getLinearEquation($X,$Y);
-
-			$mark = time();
+			###!!!! supper userful graphinc example
+			#$mark = time(); this keeps the brower from caching the image
 			#$ms[] = "<img src='lib/graphs/scatter.php?$mark' />";
 
-		}catch(Exception $e){
-			$ms[] = $e->getMessage();
+	private function linearRegression()
+	{
+		$X = array(43,21,25,42,57,59);
+		$Y = array(99,65,79,75,87,81);
+		if(sizeof($X) == sizeof($Y))
+		{
+			return $this->getLinearEquation($X,$Y);
 		}
-
-		$e = ''; foreach($ms as $m){$e.="$m<br/>";} echo $e;
+		else
+		{
+			return 0;
+		}
 	}
 	private function getLinearEquation($X,$Y){
 		array_shift($X);
 		array_shift($Y);
 		$ms = array();
 
-# X SERIES
 		$sampleSize = sizeof($X);
 		$sumX  = 0;
 		$sumY  = 0;
 		$sumXY = 0;
 		$sumXX = 0;
 		$sumYY = 0;
-		#$ms[] = "-----------------"; $ms[] = "X series"; $ms[] = "-----------------";
 		$index = 0;
-		foreach($X as $d){
+		foreach($X as $d)
+		{
 			$sumXX += $d*$d;
 			$sumXY += $d*$Y[$index];
 			$sumX  += $d;
 			$index++;
-			#$ms[] = $d;
 		}
-# Y SERIES
-		#$ms[] = "-----------------"; $ms[] = "Y series"; $ms[] = "-----------------";
-		foreach($Y as $d){
+		foreach($Y as $d)
+		{
 			$sumYY += $d*$d;
 			$sumY  += $d;
-			#$ms[] = $d;
 		}
-
-		$ms[] = "-----------------";
-		$ms[] = "Summary";
-		$ms[] = "-----------------";
-
-/*
-		$ms[] = "Sample = $sampleSize";
-		$ms[] = "SumX  = $sumX";
-		$ms[] = "SumY  = $sumY";
-		$ms[] = "SumXY = $sumXY";
-		$ms[] = "SumXX = $sumXX";
-		$ms[] = "SumYY = $sumYY";
-		$ms[] = "";
-*/
 
 		$intercept=(($sumY*$sumXX)-($sumX*$sumXY))/(($sampleSize*$sumXX)-($sumX*$sumX));
 		$slope=(($sampleSize*$sumXY)-($sumX*$sumY))/(($sampleSize*$sumXX)-($sumX*$sumX));
 
-		$ms[] = "Slope..b. $slope";
-		$ms[] = "Intercept..a. $intercept";
-		$ms[] = " y = a + bx";
-
-		$e = ''; foreach($ms as $m){$e.="$m<br/>";} return $e;
-	}
-	private function array2html($a){
-		$html = "<table class='array2html'><tr>";
-		foreach($a as $e){$html .= "<td>$e</td>";}
-		$html .= "</tr></table>";
-		return $html;
+		return array($slope,$intercept);
+		#return "hello from groot";
 	}
 ###
 ### END Linear Regression Work
 ###
+
 }
 ?>
