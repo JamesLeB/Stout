@@ -19,10 +19,13 @@ class Trader extends CI_Controller {
 			$buyCount = $this->exchangeModel->getBuyCount($coin);
 			$buys = $this->exchangeModel->getBuys($coin);
 
+			$index = 0;
 			$ll = "<table>";
 			foreach($buys as $b)
 			{
+				$index++;
 				$ll .= "<tr>";
+				$ll .= "<td>$index</td>";
 				$ll .= "<td>$b[0]</td>";
 				$ll .= "<td>$b[1]</td>";
 				$ll .= "<td>$b[2]</td>";
