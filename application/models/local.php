@@ -14,7 +14,8 @@ class Local extends CI_Model{
 		# check to database first
 		$q = "insert into Characters (name,race,class) values ('$name','$race','$class')";
 		$rs = $this->db->query($q);
-		return "success";
+		$t = $rs ? 'Character Added' : 'Duplicat Name';
+		return $t;
 	}
 	function deleteCharacter($charName){
 		$q = "delete from Characters where name='$charName'";
@@ -55,7 +56,14 @@ class Local extends CI_Model{
 		$m = array();
 		$m[] = "Creating table: $t";
 		if($t == 'Characters'){
-			$query = "create table $t (name varchar(16),race varchar(16),class varchar(16))";
+			$query = "
+				create table $t
+				(
+					name varchar(16) NOT NULL,
+					race varchar(16),
+					class varchar(16),
+					PRIMARY KEY(name)
+				)";
 			$rs = $this->db->query($query);
 			$m[] = $rs ? 'TRUE' : 'FALSE';
 		}
