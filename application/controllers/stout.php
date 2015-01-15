@@ -67,8 +67,8 @@ $d['billMedicaid'] = $this->load->view('junior/batchView',$dd,true);
 		elseif($user == 'james1')
 		{
 			# Load Character
-			#$d['charSheet'] = $this->load->view('classes/jform','',true);
-			#$data['jCharacter'] = $this->load->view('classes/jCharacter',$d,true);
+			$d['charSheet'] = $this->load->view('classes/jform','',true);
+			$data['jCharacter'] = $this->load->view('classes/jCharacter',$d,true);
 
 			# Load coins
 			#$coins['list'] = array();
