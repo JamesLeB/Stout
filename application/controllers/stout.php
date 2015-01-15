@@ -78,8 +78,9 @@ $d['billMedicaid'] = $this->load->view('junior/batchView',$dd,true);
 			# Load character Sheet
 			#$data['characterSheet'] = $this->load->view('classes/characterSheet','',true);
 			$data['characterSheet'] = $this->load->view('classes/charSheet','',true);
+
 			# Load database controls
-			#$data['database'] = $this->load->view('classes/localdb','',true);
+			$data['database'] = $this->load->view('classes/localdb','',true);
 
 			# Load Map
 			#$data['map'] = $this->load->view('classes/map','',true);
