@@ -83,7 +83,7 @@ $d['billMedicaid'] = $this->load->view('junior/batchView',$dd,true);
 			$data['database'] = $this->load->view('classes/localdb','',true);
 
 			# Load Map
-			#$data['map'] = $this->load->view('classes/map','',true);
+			$data['map'] = $this->load->view('classes/map','',true);
 
 			# Load Spash
 			#$data['splash'] = $this->load->view('slides/splash','',true);

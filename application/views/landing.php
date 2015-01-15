@@ -13,7 +13,7 @@
 					window.location.href = "index.php";
 				});
 			});
-			$('#tabs').tabs({active:2});
+			$('#tabs').tabs({active:6});
 		});
 	</script>
 	<style>
@@ -84,7 +84,7 @@
 				<div id='tab4'><?php echo $coins ?></div>
 				<div id='tab5'><?php echo $characterSheet ?></div>
 				<div id='tab6'><?php echo $database ?></div>
-				<div id='tab7'><?php #echo $map ?></div>
+				<div id='tab7'><?php echo $map ?></div>
 				<div id='tab8'><?php #echo $webgl ?></div>
 			</div>
 		</div>
