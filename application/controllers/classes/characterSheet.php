@@ -23,7 +23,7 @@ class CharacterSheet extends CI_Controller {
 		$class = $_POST['class'];
 		$this->load->model('local');
 		$rtn = $this->local->addCharacter($name,$race,$class);
-		echo "$rtn";
+		echo $rtn;
 	}
 	public function deleteCharacter(){
 		$charName = $_POST['charName'];

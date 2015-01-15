@@ -14,7 +14,7 @@ class Local extends CI_Model{
 		# check to database first
 		$q = "insert into Characters (name,race,class) values ('$name','$race','$class')";
 		$rs = $this->db->query($q);
-		$t = $rs ? 'Character Added' : 'Duplicat Name';
+		$t = $rs ? 1 : 0;
 		return $t;
 	}
 	function deleteCharacter($charName){

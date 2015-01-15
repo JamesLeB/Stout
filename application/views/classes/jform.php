@@ -94,7 +94,15 @@
 				class: charClass
 			};
 			$.post(target+func,parm,function(data){
-				$('#newCharacterForm > div:nth-child(5)').html(data);
+				if(data == 1)
+				{
+					$('#newCharacterForm > div:nth-child(5)').html('&nbsp');
+					$('#tabs').tabs({active:4});
+				}
+				else
+				{
+					$('#newCharacterForm > div:nth-child(5)').html('Duplicate Name');
+				}
 			});
 			$('#newCharacterForm > div:nth-child(1) > div:nth-child(1) > input').val('');
 			$('#newCharacterForm > div:nth-child(2) > div:nth-child(1) > select').val('Human');
