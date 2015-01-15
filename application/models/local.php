@@ -48,7 +48,7 @@ class Local extends CI_Model{
 		$rs = $this->db->query($query);
 		$rtn = array();
 		foreach($rs->result_array() as $row){
-			$rtn[] = $row['Tables_in_trader'];
+			$rtn[] = $row['Tables_in_local'];
 		}
 		return $rtn;
 	}
