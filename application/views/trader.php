@@ -5,6 +5,8 @@
 	{
 		background : green;
 		border : 2px solid black;
+		height : 600px;
+		overflow : auto;
 	}
 	.pair
 	{
@@ -50,8 +52,9 @@
 <script>
 	$.post('index.php?/trader','',function(data){
 		var obj = $.parseJSON(data)
+		obj.sort(function(a,b){return b[4] - a[4];});
 		var html = '';
-var factor = 10000000;
+		var factor = 10000000;
 		obj.forEach(function(a){
 			var slopeAl = a[2]*factor;
 			var slope48 = a[3]*factor;
