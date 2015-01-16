@@ -1,127 +1,111 @@
-<?php
-	$str = array('Str','18','+4');
-	$dex = array('Dex','18','+4');
-	$con = array('Con','18','+4');
-	$int = array('Int','18','+4');
-	$wis = array('Wis','18','+4');
-	$cha = array('Cha','18','+4');
-	$a = array(
-		$str,
-		$dex,
-		$con,
-		$int,
-		$wis,
-		$cha
-	);
-	$attributes = "";
-	foreach($a as $b){
-		$attributes .= "<div>";
-		foreach($b as $c){
-			$attributes .= "<div>$c</div>";
-		}
-		$attributes .= "</div>";
-	}
-?>
-<div id='sheet'>
-	<div>
+<div id='characterSheet'>
+	<div id='charStats'>
 		<div>Name</div>
 		<div>Race</div>
 		<div>Class</div>
-	</div>
-	<div>
 		<div>XP</div>
-		<div>HP</div>
+	</div>
+	<div id='charAbilities'>
+		<div>Strength</div>
+		<div>Dexterity</div>
+		<div>Constitution</div>
+		<div>Intelligence</div>
+		<div>Wisdom</div>
+		<div>Charisma</div>
+	</div>
+	<div id='charHealth'>
 		<div>AC</div>
+		<div>HP</div>
+		<div>Hit Dice</div>
+		<div>Damage</div>
 	</div>
-	<div>
-		<?php echo $attributes ?>
-	</div>
-	<div>
-		Attacks
-		<div>
-			<div>Weapon</div>
-			<div>+6</div>
-			<div>1d6 + 4</div>
-		</div>
-	</div>
-	<div>
+	<div id='charSkills'>
 		Skills
 	</div>
-	<div>
+	<div id='charCombat'>
+		<div>Speed</div>
+		<div>Melee</div>
+		<div>Melee</div>
+		<div>Ranged</div>
+	</div>
+	<div id='charEquipment'>
 		Equipment
 	</div>
-	<div>
-		Magic
+	<div id='charMagic'>
 		<div>Spell Attack</div>
 		<div>Spell Save</div>
 		<div>Spell Slots</div>
-		Spells
-	</div>
-	<div>
-		Damage
+		<div>Prepared Spells</div>
 	</div>
 </div>
 <style>
-	#sheet
+	#characterSheet
 	{
-		border : 1px solid gray;
+		border : 15px ridge yellow;
+		pading : 15px;
+		height : 600px;
+		width  : 1000px;
 	}
-	#sheet div
+	#characterSheet div
 	{
 		border : 1px dotted gray;
 		margin : 5px;
 	}
-	#sheet > div
+	#characterSheet > div
 	{
+		position : absolute;
 		border : 1px solid gray;
 		margin : 10px;
 		border-radius : 20px;
 		padding : 10px;
 		box-shadow : 2px 2px 2px black;
 	}
-	#sheet > div:nth-child(1)
+	#charStats
 	{
 		width : 200px;
+		top   : 100px;
+		left  : 700px;
 	}
-	#sheet > div:nth-child(2)
+	#charAbilities
 	{
-		width : 250px;
+		width : 300px;
+		top   : 100px;
+		left  : 100px;
 	}
-	#sheet > div:nth-child(3)
+	#charHealth
 	{
-		width : 250px;
+		width : 200px;
+		top   : 100px;
+		left  : 450px;
 	}
-	#sheet > div:nth-child(3) > div
-	{
-		height : 35px;
-	}
-	#sheet > div:nth-child(3) > div > div
-	{
-		width : 50px;
-		float : left;
-	}
-	#sheet > div:nth-child(4)
+	#charSkills
 	{
 		width : 450px;
+		top  : 550px;
+		left : 200px;
 	}
-	#sheet > div:nth-child(4) > div
+	#charCombat
 	{
-		height : 35px;
+		width : 350px;
+		top   : 270px;
+		left  : 450px;
 	}
-	#sheet > div:nth-child(4) > div > div
+	#charSkills
 	{
-		float : left;
+		width : 300px;
+		top   : 320px;
+		left  : 100px;
 	}
-	#sheet > div:nth-child(4) > div > div:nth-child(1)
+	#charEquipment
 	{
-		width : 150px;
+		width : 300px;
+		top   : 450px;
+		left  : 100px;
 	}
-	#sheet > div:nth-child(4) > div > div:nth-child(2)
+	#charMagic
 	{
-		width : 50px;
-	}
-	#sheet > div:nth-child(4) > div > div:nth-child(3)
-	{
-		width : 120px;
+		width : 450px;
+		top   : 450px;
+		left  : 450px;
 	}
 </style>
