@@ -59,6 +59,7 @@
 			var slopeAl = a[2]*factor;
 			var slope48 = a[3]*factor;
 			var slope24 = a[4]*factor;
+			var volume24 = Number(a[6]);
 			html += '<div class=\'pair\'>';
 			 html += '<div>';
 			  html += '<div>' + a[0] + '</div>';
@@ -66,6 +67,8 @@
 			  html += '<div>' + slopeAl.toFixed(6) + '</div>';
 			  html += '<div>' + slope48.toFixed(6) + '</div>';
 			  html += '<div>' + slope24.toFixed(6) + '</div>';
+			 // html += '<div>' + volume24.toFixed(4) + '</div>';
+			  html += '<div>' + volume24.toFixed(4) + '</div>';
 			 html += '</div>';
 			 html += '<div>';
 			  html += '<div>' + a[5] + '</div>';

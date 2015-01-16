@@ -22,6 +22,20 @@ class Exchange extends CI_Model
 		}
 		return $rows;
 	}
+	public function getVolume24($a)
+	{
+		$volume = 0;
+		$p = array($a);
+		$q = "
+			select sum(price*amount) as vol from bter 
+			where pair = ? and type = 'buy' and (unix_timestamp()-time_stamp)/(60*60) < 24";
+		$rs = $this->db->query($q,$p);
+		foreach($rs->result_array() as $row)
+		{
+			$volume = $row['vol'];
+		}
+		return $volume;
+	}
 	public function getBuyCount($a)
 	{
 		$p = array($a);

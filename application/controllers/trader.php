@@ -17,6 +17,7 @@ class Trader extends CI_Controller {
 		foreach($list as $coin)
 		{
 			$buyCount = $this->exchangeModel->getBuyCount($coin);
+			$volume24 = $this->exchangeModel->getVolume24($coin);
 			$buys = $this->exchangeModel->getBuys($coin);
 			$buysAll = $buys[0];
 			$buys24  = $buys[1];
@@ -81,7 +82,7 @@ if(0)
 {
 			# Build Test table
 			$index = 0;
-			$ll = "<table>";
+			$ll = "<table id='coinTable'>";
 			foreach($buysAll as $b)
 			{
 				$elaps = $b[0] - $start;
@@ -96,10 +97,15 @@ if(0)
 				$ll .= "</tr>";
 			}
 			$ll .= "</table>";
+			$ll .= "
+				<style>
+					#coinTable td {padding:10px;}
+				</style>
+			";
 }
 
 			#$coins[] = array($coin,$buyCount,$slope,$slope48,$slope24,$ll);
-			$coins[] = array($coin,$buyCount,$slope,$slope48,$slope24,$ll);
+			$coins[] = array($coin,$buyCount,$slope,$slope48,$slope24,$ll,$volume24);
 		}
 		echo json_encode($coins);
 	}
