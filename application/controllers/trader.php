@@ -18,11 +18,73 @@ class Trader extends CI_Controller {
 		{
 			$buyCount = $this->exchangeModel->getBuyCount($coin);
 			$buys = $this->exchangeModel->getBuys($coin);
+			$buysAll = $buys[0];
+			$buys24  = $buys[1];
+			$buys48  = $buys[2];
 
+			$slope   = 0;
+			$slope24 = 0;
+			$slope48 = 0;
+if(1 && isset($buys24[0][0]))
+{
+			# Process under 24 buys
+			$start = $buys24[0][0];
+			$X = array();
+			$Y = array();
+			foreach($buys24 as $b)
+			{
+				$elaps = $b[0] - $start;
+				$X[] = $elaps;
+				$Y[] = $b[1];
+			}
+			$linear  = $this->linearRegression($X,$Y);
+			$slope24 = $linear[0];
+			$inter24 = $linear[1];
+}
+			
+if(1 && isset($buys48[0][0]))
+{
+			# Process under 48 buys
+			$start = $buys48[0][0];
+			$X = array();
+			$Y = array();
+			foreach($buys48 as $b)
+			{
+				$elaps = $b[0] - $start;
+				$X[] = $elaps;
+				$Y[] = $b[1];
+			}
+			$linear  = $this->linearRegression($X,$Y);
+			$slope48 = $linear[0];
+			$inter48 = $linear[1];
+}
+
+if(1 && isset($buysAll[0][0]))
+{
+			#Process All buys
+			$start = $buysAll[0][0];
+			$X = array();
+			$Y = array();
+			foreach($buysAll as $b)
+			{
+				$elaps = $b[0] - $start;
+				$X[] = $elaps;
+				$Y[] = $b[1];
+			}
+			$linear = $this->linearRegression($X,$Y);
+			$slope = $linear[0];
+			$intercept = $linear[1];
+}
+
+			$ll = 'test table';
+if(0)
+{
+			# Build Test table
 			$index = 0;
 			$ll = "<table>";
-			foreach($buys as $b)
+			foreach($buysAll as $b)
 			{
+				$elaps = $b[0] - $start;
 				$index++;
 				$ll .= "<tr>";
 				$ll .= "<td>$index</td>";
@@ -30,16 +92,14 @@ class Trader extends CI_Controller {
 				$ll .= "<td>$b[1]</td>";
 				$ll .= "<td>$b[2]</td>";
 				$ll .= "<td>$b[3]</td>";
+				$ll .= "<td>$elaps</td>";
 				$ll .= "</tr>";
 			}
 			$ll .= "</table>";
+}
 
-			$linear = $this->linearRegression();
-			$slope = $linear[0];
-			$intercept = $linear[1];
-
-			$coins[] = array($coin,$buyCount,$slope,$intercept,$ll);
-			#$coins[] = array($coin,$buyCount,$buys);
+			#$coins[] = array($coin,$buyCount,$slope,$slope48,$slope24,$ll);
+			$coins[] = array($coin,$buyCount,$slope,$slope48,$slope24,$ll);
 		}
 		echo json_encode($coins);
 	}
@@ -47,50 +107,24 @@ class Trader extends CI_Controller {
 	{
 		echo "watching a movie";
 	}
-/*
-	public function exchanges(){
-		$d['exchanges'] = $this->exchangeModel->getExchanges();
-		echo $this->load->view('slides/trader/exchanges',$d,true);
-	}
-	public function trades(){
-		echo $this->load->view('slides/trader/trades','',true);
-	}
-	public function accounts(){
-		echo $this->load->view('slides/trader/accounts','',true);
-	}
-	public function regression(){
-		echo $this->load->view('slides/trader/regression','',true);
-	}
-	public function viewHistory(){
-		$d['history'] = $this->exchangeModel->getHistory();
-		echo $this->load->view('slides/trader/viewHistory',$d,true);
-	}
-*/
-###
-### Linear Regression Work
-###
-			###!!!! supper userful graphinc example
-			#$mark = time(); this keeps the brower from caching the image
-			#$ms[] = "<img src='lib/graphs/scatter.php?$mark' />";
 
-	private function linearRegression()
+	###!!!! supper userful graphinc example
+	#$mark = time(); this keeps the brower from caching the image
+	#$ms[] = "<img src='lib/graphs/scatter.php?$mark' />";
+
+	private function linearRegression($X,$Y)
 	{
-		$X = array(43,21,25,42,57,59);
-		$Y = array(99,65,79,75,87,81);
-		if(sizeof($X) == sizeof($Y))
+		if(sizeof($X) > 2 && sizeof($X) == sizeof($Y))
 		{
 			return $this->getLinearEquation($X,$Y);
 		}
 		else
 		{
-			return 0;
+			return array(0,0);
 		}
 	}
-	private function getLinearEquation($X,$Y){
-		array_shift($X);
-		array_shift($Y);
-		$ms = array();
-
+	private function getLinearEquation($X,$Y)
+	{
 		$sampleSize = sizeof($X);
 		$sumX  = 0;
 		$sumY  = 0;
@@ -110,16 +144,14 @@ class Trader extends CI_Controller {
 			$sumYY += $d*$d;
 			$sumY  += $d;
 		}
-
-		$intercept=(($sumY*$sumXX)-($sumX*$sumXY))/(($sampleSize*$sumXX)-($sumX*$sumX));
-		$slope=(($sampleSize*$sumXY)-($sumX*$sumY))/(($sampleSize*$sumXX)-($sumX*$sumX));
-
+		$intercept = 0;
+		$slope = 0;
+		if($sumXX != 0)
+		{
+			$intercept=(($sumY*$sumXX)-($sumX*$sumXY))/(($sampleSize*$sumXX)-($sumX*$sumX));
+			$slope=(($sampleSize*$sumXY)-($sumX*$sumY))/(($sampleSize*$sumXX)-($sumX*$sumX));
+		}
 		return array($slope,$intercept);
-		#return "hello from groot";
 	}
-###
-### END Linear Regression Work
-###
-
 }
 ?>

@@ -12,7 +12,8 @@ class Exchange extends CI_Model
 	public function getCoinList()
 	{
 		$rows = array();
-		$q = "select pair from bter where pair like '%btc_usd%' group by pair";
+		$q = "select pair from bter where pair like '%_btc%' group by pair";
+		#$q = "select pair from bter group by pair";
 		$rs = $this->db->query($q);
 		foreach($rs->result_array() as $row)
 		{
@@ -37,51 +38,28 @@ class Exchange extends CI_Model
 	{
 		$list    = array();
 		$under24 = array();
+		$under48 = array();
 
 		$p = array($a);
 		$q = "select * from bter where pair = ? and type = 'buy' order by time_stamp asc";
 		$r = $this->db->query($q,$p);
-		#$t = "<table>";
-		#$t .= "<tr>";
-		#$t .= "<td>Date</td>";
-		#$t .= "<td>Price</td>";
-		#$t .= "<td>Amount</td>";
-		#$t .= "<td>Elaps</td>";
-		#$t .= "</tr>";
 		$start = 0;
 		$current = time();
 		foreach($r->result_array() as $row)
 		{
 			$start = $start ? $start : $row['time_stamp'];
-
-			#$t .= "<tr>";
-
 			$time_stamp = $row['time_stamp'];
 			$price      = $row['price'];
 			$amount     = $row['amount'];
 			$date       = $row['date'];
-
 			$elaps = ($time_stamp - $start)   / (60);
 			$age   = ($current - $time_stamp) / (60*60);
-
 			$record = array($elaps,$price,$age,$date);
 			$list[] = $record;
 			if($age < 24){$under24[] = $record;} 
-
-			#$t .= "
-			#	<td>$date</td>
-			#	<td>$price</td>
-			#	<td>$amount</td>
-			#	<td>$elaps</td>
-			#";
-
-			#$t .= "</tr>";
+			if($age < 48){$under48[] = $record;} 
 		}
-		#$t .= "</table>";
-		#$t .= "<style>td{padding:10px}</style>";
-
-		#return $list;
-		return $under24;
+		return array($list,$under24,$under48);
 	}
 	public function test()
 	{
@@ -92,18 +70,6 @@ class Exchange extends CI_Model
 		foreach($rs->result_array() as $row)
 		{
 			$ct++;
-
-/*
-$pair = $row['pair'];
-$parm = array($pair);
-$sq = "select * from bter where pair = ?";
-$rs1 = $this->db->query($sq,$parm);
-$list = array();
-foreach($rs1->result_array() as $row1)
-{
-	$list[] = $row1;
-}
-*/
 			$r = array();
 			$r[] = $row['pair'];
 			$r[] = $row['count'];
