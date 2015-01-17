@@ -29,14 +29,6 @@
 	</div>
 	<div id='charAbilities'>
 		<?php echo $abilities; ?>
-<!--
-		<div>Strength</div>
-		<div>Dexterity</div>
-		<div>Constitution</div>
-		<div>Intelligence</div>
-		<div>Wisdom</div>
-		<div>Charisma</div>
---!>
 	</div>
 	<div id='charHealth'>
 		<div>AC</div>
