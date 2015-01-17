@@ -50,6 +50,7 @@
 	}
 </style>
 <script>
+/*
 	$.post('index.php?/trader','',function(data){
 		var obj = $.parseJSON(data)
 		obj.sort(function(a,b){return b[4] - a[4];});
@@ -77,6 +78,7 @@
 		});
 		$('#trader').html(html);
 	});
+*/
 </script>
 <?php
 ?>
