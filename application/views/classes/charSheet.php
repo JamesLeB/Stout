@@ -89,24 +89,22 @@
 	</div>
 	<div id='charCombat'>
 		<div>
-			<div>
-				<div>Melee</div>
-				<div>Sword</div>
-				<div>+6</div>
-				<div>1d6 + 4</div>
-			</div>
-			<div>
-				<div>Melee</div>
-				<div>Dagger</div>
-				<div>+6</div>
-				<div>1d4</div>
-			</div>
-			<div>
-				<div>Ranged</div>
-				<div>Sword</div>
-				<div>+6</div>
-				<div>1d6 + 4</div>
-			</div>
+			<div>Melee</div>
+			<div>Sword</div>
+			<div>+6</div>
+			<div>1d6 + 4</div>
+		</div>
+		<div>
+			<div>Melee</div>
+			<div>Dagger</div>
+			<div>+6</div>
+			<div>1d4</div>
+		</div>
+		<div>
+			<div>Ranged</div>
+			<div>Bow</div>
+			<div>+6</div>
+			<div>1d6 + 4</div>
 		</div>
 	</div>
 	<div id='charEquipment'>
@@ -128,8 +126,15 @@
 		</div>
 		<div>
 			<div>Spell Slots</div>
-			<div>2</div>
 			<div>1</div>
+			<div>2</div>
+			<div>3</div>
+			<div>4</div>
+			<div>5</div>
+			<div>6</div>
+			<div>7</div>
+			<div>8</div>
+			<div>9</div>
 		</div>
 		<div>
 			<div>
@@ -164,7 +169,7 @@
 		box-shadow : 2px 2px 2px black;
 	}
 
-	#charControl   { width : 200px; height : 80px; top :  80px; left : 370px; }
+	#charControl   { width : 120px; height : 80px; top :  480px; left : 810px; }
 	#charStats     { width : 900px; top : 015px; left : 020px; }
 	#charAbilities { width : 300px; top : 075px; left : 020px; }
 	#charHealth    { width : 250px; top : 075px; left : 670px; }
@@ -211,12 +216,12 @@
 	#charSkills > div:nth-child(2) > div > div:nth-child(1) { width : 150px; }
 	#charSkills > div:nth-child(2) > div > div:nth-child(2) { width : 70px; }
 
-	#charCombat > div > div { height :  30px; margin-left : 10px; }
-	#charCombat > div > div > div { float :  left; }
-	#charCombat > div > div > div:nth-child(1) { width :  90px; }
-	#charCombat > div > div > div:nth-child(2) { width : 120px; }
-	#charCombat > div > div > div:nth-child(3) { width :  45px; }
-	#charCombat > div > div > div:nth-child(4) { width :  90px; }
+	#charCombat > div { height :  30px; margin-left : 10px; }
+	#charCombat > div > div { float :  left; }
+	#charCombat > div > div:nth-child(1) { width :  90px; }
+	#charCombat > div > div:nth-child(2) { width : 120px; }
+	#charCombat > div > div:nth-child(3) { width :  45px; }
+	#charCombat > div > div:nth-child(4) { width :  90px; }
 
 	#charEquipment > div:nth-child(2)
 	{
@@ -236,7 +241,7 @@
 	#charMagic > div:nth-child(1) > div:nth-child(4) { width :  40px; }
 
 	#charMagic > div:nth-child(2) { height : 30px; margin-left : 10px; }
-	#charMagic > div:nth-child(2) > div { float : left; width : 30px;}
+	#charMagic > div:nth-child(2) > div { float : left; width : 22px;}
 	#charMagic > div:nth-child(2) > div:nth-child(1) { width : 110px;}
 
 	#charMagic > div:nth-child(3)
@@ -287,11 +292,88 @@
 			hitDice: 0
 		}
 
+// Load skills
+
+		var skill_1 = {
+			skill: 'Perception',
+			mod: '+2'
+		};
+		var skill_2 = {
+			skill: 'Athletics',
+			mod: '+4'
+		};
+		var skills = [skill_1,skill_2];
+
+// Load Combat
+		var combat = {
+			melee1: ['Dagger','+2','1d6+3'],
+			melee2: ['club','+3','1d4+4'],
+			ranged: ['shortBow','+8','1d10+6']
+		};
+
+// Load Combat
+		var equipment = ['pack','water','club'];
+
+// Load Magic
+		var spells = [
+			['Fireball','1st'],
+			['Witchbolt','1st']
+		];
+		var spellSlots = [9,8,7,6,5,4,3,2,''];
+		var magic = {
+			spellattack: '+3',
+			spellsave: '15',
+			spellSlots: spellSlots,
+			spells: spells
+		};
+
+// Build Charaacter
+
 		var char = {
 			stats : stats,
 			abilities : abilities,
-			health : health
+			health : health,
+			skills : skills,
+			combat : combat,
+			equipment : equipment,
+			magic: magic
 		};
+
+// Load Character into dom
+
+		$('#charMagic > div:nth-child(1) > div:nth-child(2)').html(char.magic.spellattack);
+		$('#charMagic > div:nth-child(1) > div:nth-child(4)').html(char.magic.spellsave);
+		$('#charMagic > div:nth-child(2) > div:nth-child(2)').html(char.magic.spellSlots[0]);
+		$('#charMagic > div:nth-child(2) > div:nth-child(3)').html(char.magic.spellSlots[1]);
+		$('#charMagic > div:nth-child(2) > div:nth-child(4)').html(char.magic.spellSlots[2]);
+		$('#charMagic > div:nth-child(2) > div:nth-child(5)').html(char.magic.spellSlots[3]);
+		$('#charMagic > div:nth-child(2) > div:nth-child(6)').html(char.magic.spellSlots[4]);
+		$('#charMagic > div:nth-child(2) > div:nth-child(7)').html(char.magic.spellSlots[5]);
+		$('#charMagic > div:nth-child(2) > div:nth-child(8)').html(char.magic.spellSlots[6]);
+		$('#charMagic > div:nth-child(2) > div:nth-child(9)').html(char.magic.spellSlots[7]);
+		$('#charMagic > div:nth-child(2) > div:nth-child(10)').html(char.magic.spellSlots[8]);
+		$('#charMagic > div:nth-child(2) > div:nth-child(11)').html(char.magic.spellSlots[9]);
+
+		$('#charEquipment > div:nth-child(2)').html('');
+		char.equipment.forEach(function(d){
+			$('#charEquipment > div:nth-child(2)').append('<div>'+d+'</div>');
+		});
+		
+		$('#charCombat > div:nth-child(1) > div:nth-child(2)').html(char.combat.melee1[0]);
+		$('#charCombat > div:nth-child(1) > div:nth-child(3)').html(char.combat.melee1[1]);
+		$('#charCombat > div:nth-child(1) > div:nth-child(4)').html(char.combat.melee1[2]);
+		$('#charCombat > div:nth-child(2) > div:nth-child(2)').html(char.combat.melee2[0]);
+		$('#charCombat > div:nth-child(2) > div:nth-child(3)').html(char.combat.melee2[1]);
+		$('#charCombat > div:nth-child(2) > div:nth-child(4)').html(char.combat.melee2[2]);
+		$('#charCombat > div:nth-child(3) > div:nth-child(2)').html(char.combat.ranged[0]);
+		$('#charCombat > div:nth-child(3) > div:nth-child(3)').html(char.combat.ranged[1]);
+		$('#charCombat > div:nth-child(3) > div:nth-child(4)').html(char.combat.ranged[2]);
+
+		$('#charSkills > div:nth-child(2)').html('');
+		char.skills.forEach(function(d){
+			var skill = '<div><div>' + d.skill + '</div><div>' + d.mod + '</div></div>';
+			$('#charSkills > div:nth-child(2)').append(skill);
+		});
 
 		$('#charStats > div:nth-child(2)').html(char.stats.name);
 		$('#charStats > div:nth-child(4)').html(char.stats.race);
@@ -325,13 +407,10 @@
 		$('#charHealth > div:nth-child(2) > div:nth-child(2)').html(char.health.hp);
 		$('#charHealth > div:nth-child(2) > div:nth-child(4)').html(char.health.damage);
 		$('#charHealth > div:nth-child(3) > div:nth-child(4)').html(char.health.hitDice);
+
 	});
 
 /*
-	#charSkills
-	#charCombat
-	#charEquipment
-	#charMagic
 */
 
 </script>
