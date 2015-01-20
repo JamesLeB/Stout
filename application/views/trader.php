@@ -50,34 +50,37 @@
 	}
 </style>
 <script>
-/*
-	$.post('index.php?/trader','',function(data){
-		var obj = $.parseJSON(data)
-		obj.sort(function(a,b){return b[4] - a[4];});
-		var html = '';
-		var factor = 10000000;
-		obj.forEach(function(a){
-			var slopeAl = a[2]*factor;
-			var slope48 = a[3]*factor;
-			var slope24 = a[4]*factor;
-			var volume24 = Number(a[6]);
-			html += '<div class=\'pair\'>';
-			 html += '<div>';
-			  html += '<div>' + a[0] + '</div>';
-			  html += '<div>' + a[1] + '</div>';
-			  html += '<div>' + slopeAl.toFixed(6) + '</div>';
-			  html += '<div>' + slope48.toFixed(6) + '</div>';
-			  html += '<div>' + slope24.toFixed(6) + '</div>';
-			 // html += '<div>' + volume24.toFixed(4) + '</div>';
-			  html += '<div>' + volume24.toFixed(4) + '</div>';
-			 html += '</div>';
-			 html += '<div>';
-			  html += '<div>' + a[5] + '</div>';
-			 html += '</div>';
-			html += '</div>';
+	if(0)
+	{
+		$.post('index.php?/trader','',function(data){
+			var obj = $.parseJSON(data)
+			obj.sort(function(a,b){return b[4] - a[4];});
+			var html = '';
+			var factor = 10000000;
+			obj.forEach(function(a){
+				var slopeAl = a[2]*factor;
+				var slope48 = a[3]*factor;
+				var slope24 = a[4]*factor;
+				var volume24 = Number(a[6]);
+				html += '<div class=\'pair\'>';
+				 html += '<div>';
+				  html += '<div>' + a[0] + '</div>';
+				  html += '<div>' + a[1] + '</div>';
+				  html += '<div>' + slopeAl.toFixed(6) + '</div>';
+				  html += '<div>' + slope48.toFixed(6) + '</div>';
+				  html += '<div>' + slope24.toFixed(6) + '</div>';
+				 // html += '<div>' + volume24.toFixed(4) + '</div>';
+				  html += '<div>' + volume24.toFixed(4) + '</div>';
+				 html += '</div>';
+				 html += '<div>';
+				  html += '<div>' + a[5] + '</div>';
+				 html += '</div>';
+				html += '</div>';
+			});
+			$('#trader').html(html);
 		});
-		$('#trader').html(html);
-	});
+	}
+/*
 */
 </script>
 <?php
