@@ -4,7 +4,7 @@
 	foreach($abilites as $a){
 		$abilitesHtml .= "<div>";
 		$abilitesHtml .= "<div>0</div>";
-		$abilitesHtml .= "<div class='slot emptySlot'></div>";
+		$abilitesHtml .= "<div class='attribSlot emptySlot'></div>";
 		$abilitesHtml .= "<div>$a</div>";
 		$abilitesHtml .= "</div>";
 	}
@@ -12,8 +12,8 @@
 	$rolesHtml = '';
 	foreach($roles as $a){
 		$rolesHtml .= "
-			<div class='slot filledSlot'>
-				<div class='tile'><div>$a</div></div>
+			<div class='attribSlot filledSlot'>
+				<div class='attribTile'><div>$a</div></div>
 			</div>
 		";
 	}
@@ -27,13 +27,20 @@
 		</div>
 	";
 	$style = "
+	";
+	$script = "
+	";
+	echo $style;
+	echo $html;
+	echo $script;
+?>
 		<style>
 			#characterSheet{
 				border : 1px dashed gray;
 			}
 			#characterSheet div{
 			}
-			#characterSheet .slot{
+			#characterSheet .attribSlot{
 				height : 50px;
 				width  : 50px;
 				padding : 0px;
@@ -48,11 +55,11 @@
 				box-shadow : 3px 3px 3px black;
 				border-radius : 20px;
 			}
-			#characterRoles .slot{
+			#characterRoles .attribSlot{
 				margin : 10px;
 				float : left;
 			}
-			#characterSheet .tile{
+			#characterSheet .attribTile{
 				border : none;
 				height : 52px;
 				width  : 52px;
@@ -63,7 +70,7 @@
 				left : -1px;
 				z-index : 1;
 			}
-			#characterSheet .tile > div{
+			#characterSheet .attribTile > div{
 				border : none;
 				color : white;
 				font-size : 120%;
@@ -106,26 +113,24 @@
 				margin-left : 30px;
 			}
 		</style>
-	";
-	$script = "
 		<script>
-			$('.tile').draggable({containment:'document'});
-			$('.tile').draggable('option','revert',true);
-			$('.tile').draggable('option','revertDuration',0);
-			$('.tile').draggable('enable');
-			$('.tile').draggable({
+			$('.attribTile').draggable({containment:'document'});
+			$('.attribTile').draggable('option','revert',true);
+			$('.attribTile').draggable('option','revertDuration',0);
+			$('.attribTile').draggable('enable');
+			$('.attribTile').draggable({
 				stop: function(event,ui){
 					$(this).css('top',-1);
 					$(this).css('left',-1);
 					$(this).css('z-index',1);
 				}
 			});
-			$('.tile').draggable({
+			$('.attribTile').draggable({
 				start: function(event,ui){
 					$(this).css('z-index',2);
 				}
 			});
-			$('.slot').droppable({
+			$('.attribSlot').droppable({
 				drop: function(event,ui){
 					var test = $(this).hasClass('emptySlot');
 					if(test){
@@ -139,8 +144,3 @@
 				}
 			});
 		</script>
-	";
-	echo $style;
-	echo $html;
-	echo $script;
-?>
