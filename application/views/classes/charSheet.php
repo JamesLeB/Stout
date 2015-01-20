@@ -154,7 +154,7 @@
 	{
 		border : 15px ridge yellow;
 		pading : 15px;
-		height : 800px;
+		height : 750px;
 		width  : 1000px;
 		position : relative;
 		background : green;
@@ -169,17 +169,11 @@
 		box-shadow : 2px 2px 2px black;
 	}
 
-	#charControl   { width : 120px; height : 80px; top :  480px; left : 810px; }
-	#charStats     { width : 900px; top : 015px; left : 020px; }
-	#charAbilities { width : 300px; top : 075px; left : 020px; }
-	#charHealth    { width : 250px; top : 075px; left : 670px; }
-	#charSkills    { width : 310px; top : 215px; left : 430px; }
-	#charCombat    { width : 360px; top : 340px; left : 020px; }
-	#charEquipment { width : 300px; top : 480px; left : 020px; }
-	#charMagic     { width : 350px; top : 480px; left : 370px; }
 
+	#charControl   { width : 120px; height : 80px; top :  335px; left : 750px; }
 	#charControl > button:nth-child(1)  { margin-left : 20px; margin-top : 10px; }
 
+	#charStats     { width : 900px; top : 015px; left : 020px; }
 	#charStats > div { float : left; }
 	#charStats > div:nth-child(1) { width : 070px; margin-left : 30px;}
 	#charStats > div:nth-child(2) { width : 160px; }
@@ -191,18 +185,21 @@
 	#charStats > div:nth-child(8) { width : 075px; }
 	#charStats > div:nth-child(9) { width : 030px; }
 
+	#charAbilities { width : 280px; top : 075px; left : 020px; }
 	#charAbilities > div { height : 35px; margin-left : 10px; }
 	#charAbilities > div:nth-child(1) { margin-top : 10px; }
-	#charAbilities > div > div { float : left; width : 50px; text-align : center; }
+	#charAbilities > div > div { float : left; width : 47px; text-align : center; }
 	#charAbilities > div > div:nth-child(1) { width : 120px; text-align : left;}
 
+	#charHealth    { width : 240px; top : 335px; left : 420px; }
 	#charHealth > div { margin-left : 5px; height : 27px; }
 	#charHealth > div > div { float : left; }
 	#charHealth > div > div:nth-child(1) { width : 30px; margin-left : 10px; }
-	#charHealth > div > div:nth-child(2) { width : 40px; text-align : right; }
-	#charHealth > div > div:nth-child(3) { width : 80px; margin-left : 30px; }
+	#charHealth > div > div:nth-child(2) { width : 35px; text-align : right; }
+	#charHealth > div > div:nth-child(3) { width : 85px; margin-left : 25px; }
 	#charHealth > div > div:nth-child(4) { width : 25px; text-align : right; }
 	
+	#charSkills    { width : 270px; top : 075px; left : 340px; }
 	#charSkills > div:nth-child(2)
 	{
 		border : inset 2px gray;
@@ -214,8 +211,9 @@
 	#charSkills > div:nth-child(2) > div { height : 28px; }
 	#charSkills > div:nth-child(2) > div > div { float : left; }
 	#charSkills > div:nth-child(2) > div > div:nth-child(1) { width : 150px; }
-	#charSkills > div:nth-child(2) > div > div:nth-child(2) { width : 70px; }
+	#charSkills > div:nth-child(2) > div > div:nth-child(2) { width : 60px; }
 
+	#charCombat    { width : 360px; top : 335px; left : 020px; }
 	#charCombat > div { height :  30px; margin-left : 10px; }
 	#charCombat > div > div { float :  left; }
 	#charCombat > div > div:nth-child(1) { width :  90px; }
@@ -223,6 +221,7 @@
 	#charCombat > div > div:nth-child(3) { width :  45px; }
 	#charCombat > div > div:nth-child(4) { width :  90px; }
 
+	#charEquipment { width : 270px; top : 75px; left : 650px; }
 	#charEquipment > div:nth-child(2)
 	{
 		border : inset 2px gray;
@@ -233,6 +232,7 @@
 	}
 	#charEquipment > div:nth-child(2) > div { width : 220px; }
 
+	#charMagic     { width : 360px; top : 466px; left : 020px; }
 	#charMagic > div:nth-child(1) { height : 30px; margin-left : 10px; }
 	#charMagic > div:nth-child(1) > div { float : left; }
 	#charMagic > div:nth-child(1) > div:nth-child(1) { width : 120px; }
@@ -259,8 +259,10 @@
 
 </style>
 <script>
+
 	$('#charControl > button:nth-child(1)').click(function (){
 
+// Load stats
 		var stats = {
 			name:  'Stout',
 			race:  'Human',
@@ -269,6 +271,7 @@
 			level: 1
 		}
 
+// Load abilities
 		var str = { score: 1, mod: '+1', save: '+6' };
 		var dex = { score: 2, mod: '+2', save: '+5' };
 		var con = { score: 3, mod: '+3', save: '+4' };
@@ -284,6 +287,7 @@
 			cha: cha,
 		}
 
+// Load health
 		var health = {
 			ac: 10,
 			hp: 20,
@@ -293,15 +297,8 @@
 		}
 
 // Load skills
-
-		var skill_1 = {
-			skill: 'Perception',
-			mod: '+2'
-		};
-		var skill_2 = {
-			skill: 'Athletics',
-			mod: '+4'
-		};
+		var skill_1 = ['Perception','+2'];
+		var skill_2 = ['Athletics','+4'];
 		var skills = [skill_1,skill_2];
 
 // Load Combat
@@ -316,8 +313,8 @@
 
 // Load Magic
 		var spells = [
-			['Fireball','1st'],
-			['Witchbolt','1st']
+			['Fireball','Lv 1'],
+			['Witchbolt','Lv 1']
 		];
 		var spellSlots = [9,8,7,6,5,4,3,2,''];
 		var magic = {
@@ -328,7 +325,6 @@
 		};
 
 // Build Charaacter
-
 		var char = {
 			stats : stats,
 			abilities : abilities,
@@ -340,7 +336,6 @@
 		};
 
 // Load Character into dom
-
 		$('#charMagic > div:nth-child(1) > div:nth-child(2)').html(char.magic.spellattack);
 		$('#charMagic > div:nth-child(1) > div:nth-child(4)').html(char.magic.spellsave);
 		$('#charMagic > div:nth-child(2) > div:nth-child(2)').html(char.magic.spellSlots[0]);
@@ -353,6 +348,10 @@
 		$('#charMagic > div:nth-child(2) > div:nth-child(9)').html(char.magic.spellSlots[7]);
 		$('#charMagic > div:nth-child(2) > div:nth-child(10)').html(char.magic.spellSlots[8]);
 		$('#charMagic > div:nth-child(2) > div:nth-child(11)').html(char.magic.spellSlots[9]);
+		$('#charMagic > div:nth-child(3)').html('');
+		char.magic.spells.forEach(function(d){
+			$('#charMagic > div:nth-child(3)').append('<div><div>'+d[0]+'</div><div>'+d[1]+'</div></div>');
+		});
 
 		$('#charEquipment > div:nth-child(2)').html('');
 		char.equipment.forEach(function(d){
@@ -371,7 +370,7 @@
 
 		$('#charSkills > div:nth-child(2)').html('');
 		char.skills.forEach(function(d){
-			var skill = '<div><div>' + d.skill + '</div><div>' + d.mod + '</div></div>';
+			var skill = '<div><div>' + d[0] + '</div><div>' + d[1] + '</div></div>';
 			$('#charSkills > div:nth-child(2)').append(skill);
 		});
 
@@ -409,8 +408,5 @@
 		$('#charHealth > div:nth-child(3) > div:nth-child(4)').html(char.health.hitDice);
 
 	});
-
-/*
-*/
 
 </script>
