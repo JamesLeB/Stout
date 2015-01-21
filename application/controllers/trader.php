@@ -10,24 +10,30 @@ class Trader extends CI_Controller {
 		$this->load->model('Exchange');
 		$this->exchangeModel = $this->Exchange;
 	}
-	public function index()
-	{
-		$coins = array();
+	public function getCoinList()
+	{ 
 		$list = $this->exchangeModel->getCoinList();
-		foreach($list as $coin)
-		{
-			$buyCount = $this->exchangeModel->getBuyCount($coin);
-			$volume24 = $this->exchangeModel->getVolume24($coin);
-			$buys = $this->exchangeModel->getBuys($coin);
-			$buysAll = $buys[0];
-			$buys24  = $buys[1];
-			$buys48  = $buys[2];
+		echo json_encode($list);
+	}
+	public function getCoinSlope()
+	{
+		$coin = $_POST['coin'];
+		//echo "coin: $coin";
 
-			$slope   = 0;
-			$slope24 = 0;
-			$slope48 = 0;
-if(1 && isset($buys24[0][0]))
-{
+		$buyCount = $this->exchangeModel->getBuyCount($coin);
+		$volume24 = $this->exchangeModel->getVolume24($coin);
+		$buys     = $this->exchangeModel->getBuys($coin);
+
+		$buysAll = $buys[0];
+		$buys24  = $buys[1];
+		$buys48  = $buys[2];
+
+		$slope   = 0;
+		$slope24 = 0;
+		$slope48 = 0;
+
+		if(1 && isset($buys24[0][0]))
+		{
 			# Process under 24 buys
 			$start = $buys24[0][0];
 			$X = array();
@@ -41,10 +47,9 @@ if(1 && isset($buys24[0][0]))
 			$linear  = $this->linearRegression($X,$Y);
 			$slope24 = $linear[0];
 			$inter24 = $linear[1];
-}
-			
-if(1 && isset($buys48[0][0]))
-{
+		}
+		if(1 && isset($buys48[0][0]))
+		{
 			# Process under 48 buys
 			$start = $buys48[0][0];
 			$X = array();
@@ -58,10 +63,9 @@ if(1 && isset($buys48[0][0]))
 			$linear  = $this->linearRegression($X,$Y);
 			$slope48 = $linear[0];
 			$inter48 = $linear[1];
-}
-
-if(1 && isset($buysAll[0][0]))
-{
+		}
+		if(1 && isset($buysAll[0][0]))
+		{
 			#Process All buys
 			$start = $buysAll[0][0];
 			$X = array();
@@ -75,11 +79,15 @@ if(1 && isset($buysAll[0][0]))
 			$linear = $this->linearRegression($X,$Y);
 			$slope = $linear[0];
 			$intercept = $linear[1];
-}
-
-			$ll = 'test table';
-if(0)
-{
+		}
+		$data = array($slope,$slope48,$slope24,$volume24);
+		echo json_encode($data);
+	}
+	public function index()
+	{
+		$ll = 'test table';
+		if(0)
+		{
 			# Build Test table
 			$index = 0;
 			$ll = "<table id='coinTable'>";
@@ -102,12 +110,7 @@ if(0)
 					#coinTable td {padding:10px;}
 				</style>
 			";
-}
-
-			#$coins[] = array($coin,$buyCount,$slope,$slope48,$slope24,$ll);
-			$coins[] = array($coin,$buyCount,$slope,$slope48,$slope24,$ll,$volume24);
 		}
-		echo json_encode($coins);
 	}
 	public function getData()
 	{

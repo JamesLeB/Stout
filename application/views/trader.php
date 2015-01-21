@@ -1,9 +1,10 @@
+<button id='sortCoins'>Sort</button>
 <div id='trader'></div>
 <style>
 	/* background-image : url('lib/images/wood1.jpg'); */
 	#trader
 	{
-		background : green;
+		background : lightgreen;
 		border : 2px solid black;
 		height : 600px;
 		overflow : auto;
@@ -17,67 +18,69 @@
 		border-radius : 20px;
 		box-shadow : 2px 2px 2px black;
 		color : white;
-	}
-	.pair > div:nth-child(1)
-	{
-		border : 1px solid transparent;
-		padding : 5px;
 		height : 20px;
 	}
-	.pair > div:nth-child(1) > div
-	{
-		border : 1px solid transparent;
-		float : left;
-	}
-	.pair > div:nth-child(1) > div:nth-child(1) { width : 150px; }
-	.pair > div:nth-child(1) > div:nth-child(2) { width : 100px; }
-	.pair > div:nth-child(1) > div:nth-child(3) { width : 150px; }
-	.pair > div:nth-child(1) > div:nth-child(4) { width : 150px; }
-	.pair > div:nth-child(1) > div:nth-child(5) { width : 150px; }
-	.pair > div:nth-child(2)
-	{
-		height : 50px;
-		border : 5px inset gray;
-		width : 1000px;
-		height : 400px;
-		padding : 10px;
-		margin-left   : auto;
-		margin-right  : auto;
-		margin-top    : 10px;
-		margin-bottom :  5px;
-		overflow : auto;
-		display : none;
-	}
+	.pair > div { float: left; }
+	.pair > div:nth-child(1) { width : 150px; margin-left : 10px;}
+	.pair > div:nth-child(2) { width : 150px; }
+	.pair > div:nth-child(3) { width : 150px; }
+	.pair > div:nth-child(4) { width : 150px; }
 </style>
 <script>
-	if(0)
+	$('#sortCoins').click(function(){
+		var mylist = $('.pair');
+		mylist.detach();
+		mylist.sort(function(a,b){
+			var aa = $(a).children(':nth-child(4)').html();
+			var bb = $(b).children(':nth-child(4)').html();
+/*
+			if( aa < bb )
+			{
+				return 1;
+			}
+			else
+			{
+				return -1;
+			}
+*/
+			return bb - aa;
+		});
+		$('#trader').html(mylist);
+	});
+	if(1)
 	{
-		$.post('index.php?/trader','',function(data){
+		$.post('index.php?/trader/getCoinList','',function(data){
 			var obj = $.parseJSON(data)
-			obj.sort(function(a,b){return b[4] - a[4];});
 			var html = '';
-			var factor = 10000000;
 			obj.forEach(function(a){
-				var slopeAl = a[2]*factor;
-				var slope48 = a[3]*factor;
-				var slope24 = a[4]*factor;
-				var volume24 = Number(a[6]);
 				html += '<div class=\'pair\'>';
-				 html += '<div>';
-				  html += '<div>' + a[0] + '</div>';
-				  html += '<div>' + a[1] + '</div>';
-				  html += '<div>' + slopeAl.toFixed(6) + '</div>';
-				  html += '<div>' + slope48.toFixed(6) + '</div>';
-				  html += '<div>' + slope24.toFixed(6) + '</div>';
-				 // html += '<div>' + volume24.toFixed(4) + '</div>';
-				  html += '<div>' + volume24.toFixed(4) + '</div>';
-				 html += '</div>';
-				 html += '<div>';
-				  html += '<div>' + a[5] + '</div>';
-				 html += '</div>';
+				  html += '<div>' + a + '</div>';
 				html += '</div>';
 			});
 			$('#trader').html(html);
+			var pairs = $('.pair');
+			var count = 0;
+			var total = pairs.length;
+			pairs.each(function(index,element){
+				var j = $(element).children(':nth-child(1)').html();
+				var parm = { coin: j };
+				$.post('index.php?/trader/getCoinSlope',parm,function(slope){
+					count++;
+					$('#debug').html(count + ' of ' + total);
+					var so = $.parseJSON(slope);
+					var factor = 10000000;
+					var slopeAl = so[0]*factor;
+					var slope48 = so[1]*factor;
+					var slope24 = so[2]*factor;
+					var volum24 = Number(so[3]);
+					var ht = '';
+					ht += '<div>'+slopeAl.toFixed(6)+'</div>';
+					ht += '<div>'+slope48.toFixed(6)+'</div>';
+					ht += '<div>'+slope24.toFixed(6)+'</div>';
+					ht += '<div>'+volum24.toFixed(6)+'</div>';
+					$(element).append(ht);
+				});
+			});
 		});
 	}
 /*
