@@ -62,7 +62,7 @@
 		<!-- HEADER --!>
 		<div>
 			<img src='lib/images/cricket.png'>
-			<span>Welcome Message..</span>
+			<span id='debug'>Welcome Message..</span>
 			<button id='logout'><img src='lib/images/exit.png'></button>
 		</div>
 		<!-- BODY --!>

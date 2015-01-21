@@ -145,14 +145,10 @@
 						$(obj).parent().removeClass('emptySlot');
 				});
 
-/*
-				$('#attribSlot1').html($('#attribTile1'));
-				$('#attribSlot2').html($('#attribTile2'));
-				$('#attribSlot3').html($('#attribTile3'));
-				$('#attribSlot4').html($('#attribTile4'));
-				$('#attribSlot5').html($('#attribTile5'));
-				$('#attribSlot6').html($('#attribTile6'));
-*/
+$.post('index.php?/dnd/dice/roleCharacter','',function(data){
+	$('#debug').html(data);
+});
+
 				$('#attribTile1 > div').html('X');
 				$('#attribTile2 > div').html('X');
 				$('#attribTile3 > div').html('X');
