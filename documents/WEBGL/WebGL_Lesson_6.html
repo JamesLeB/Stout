@@ -1,0 +1,1140 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>  WebGL Lesson 6 &#8211; keyboard input and texture filters | Learning WebGL</title>
+<script type="text/javascript">
+//<![CDATA[
+try{if (!window.CloudFlare) {var CloudFlare=[{verbose:0,p:0,byc:0,owlid:"cf",bag2:1,mirage2:0,oracle:0,paths:{cloudflare:"/cdn-cgi/nexp/dok3v=1613a3a185/"},atok:"2c1b6781e0cb3014c3b88e10d5e2d90a",petok:"6d82a5622a251cc04475c206ef3913b8f17c05e7-1421936826-1800",zone:"learningwebgl.com",rocket:"0",apps:{}}];CloudFlare.push({"apps":{"ape":"906fe2dbf4a25c2e0cab607ba2c3cbf6"}});!function(a,b){a=document.createElement("script"),b=document.getElementsByTagName("script")[0],a.async=!0,a.src="//ajax.cloudflare.com/cdn-cgi/nexp/dok3v=919620257c/cloudflare.min.js",b.parentNode.insertBefore(a,b)}()}}catch(e){};
+//]]>
+</script>
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/screen.css" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/print.css" type="text/css" media="print" />
+<!--[if IE]><link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/ie.css" type="text/css" media="screen, projection"><![endif]-->
+<!--[if IE 6]>
+	<script src="http://learningwebgl.com/blog/wp-content/themes/modern-style/js/pngfix.js"></script>
+<![endif]--> 
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/style.css" type="text/css" media="screen" />
+<link rel="alternate" type="application/rss+xml" title="Learning WebGL RSS Feed" href="http://learningwebgl.com/blog/?feed=rss2" />
+<link rel="alternate" type="application/atom+xml" title="Learning WebGL Atom Feed" href="http://learningwebgl.com/blog/?feed=atom" />
+<link rel="pingback" href="http://learningwebgl.com/blog/xmlrpc.php" />
+
+<link rel="alternate" type="application/rss+xml" title="Learning WebGL &raquo; WebGL Lesson 6 &#8211; keyboard input and texture filters Comments Feed" href="http://learningwebgl.com/blog/?feed=rss2&amp;p=571" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://learningwebgl.com/blog/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://learningwebgl.com/blog/wp-includes/wlwmanifest.xml" /> 
+<link rel='index' title='Learning WebGL' href='http://learningwebgl.com/blog' />
+<link rel='start' title='Hello, world!' href='http://learningwebgl.com/blog/?p=5' />
+<link rel='prev' title='Another retrospective change&#8230;' href='http://learningwebgl.com/blog/?p=601' />
+<link rel='next' title='WebGL around the net, 5 Nov 2009' href='http://learningwebgl.com/blog/?p=653' />
+<meta name="generator" content="WordPress 2.9.2" />
+<link rel='canonical' href='http://learningwebgl.com/blog/?p=571' />
+	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+
+</head>
+<body>
+	<div id="wrapper">
+		<div id="container" class="container">  
+                        
+			<div class="span-16">
+                <div id="header">
+                    						<h1><a href="http://learningwebgl.com/blog">Learning WebGL</a></h1>
+						<h2>3D Programming for the Web</h2>
+										</div>
+                
+                <div class="navcontainer">
+					<ul id="nav">
+						<li ><a href="http://learningwebgl.com/blog/">Home</a></li>
+						<li class="page_item page-item-1217"><a href="http://learningwebgl.com/blog/?page_id=1217" title="The Lessons">The Lessons</a></li>
+<li class="page_item page-item-2438"><a href="http://learningwebgl.com/blog/?page_id=2438" title="WebGL Jobs">WebGL Jobs</a></li>
+<li class="page_item page-item-988"><a href="http://learningwebgl.com/blog/?page_id=988" title="The WebGL Cookbook">The WebGL Cookbook</a></li>
+<li class="page_item page-item-2"><a href="http://learningwebgl.com/blog/?page_id=2" title="About">About</a></li>
+		
+					</ul>
+				</div>
+            		<div id="content">	
+                	
+						
+												<div class="post-571 post hentry category-uncategorized clearfix" id="post-571">
+							<h2 class="title">WebGL Lesson 6 &#8211; keyboard input and texture filters</h2>
+							<div class="postdate">
+                                <span>November 5th, 2009</span> 
+                                <span><a href="http://learningwebgl.com/blog/?p=571#comments" title="Comment on WebGL Lesson 6 &#8211; keyboard input and texture filters">40 Comments</a></span>                             </div>
+			
+							<div class="entry">
+                                								<p><span style="float: left; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=507">&lt;&lt; Lesson 5</a></span><span style="float: right; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=684">Lesson 7 &gt;&gt;</a></span><br/><br />
+Welcome to my number six in my series of WebGL tutorials, based on part of <a href="http://nehe.gamedev.net/data/lessons/lesson.asp?lesson=07">number 7</a> in the NeHe OpenGL tutorials.  In it, we&#8217;ll go over how you can make your WebGL page accept keyboard input, and we&#8217;ll use that to change the rate and direction of spin of a texture-mapped cube, and also to change the kind of filtering used on the texture to get lower-quality but faster, or higher-quality but slower, rendering.  (NeHe&#8217;s lesson seven covers not only this but also lighting; because lighting is more work in WebGL than it is in OpenGL, I&#8217;ve left it out of this lesson &mdash; we&#8217;ll look at that <a href="http://learningwebgl.com/blog/?p=684">next time</a>.)</p>
+<p>Here&#8217;s what the lesson looks like when run on a browser that supports WebGL:</p>
+<p><object width="480" height="385"><param name="movie" value="http://www.youtube.com/v/FKtbpLdlpf8&#038;hl=en&#038;fs=1&#038;hd=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/FKtbpLdlpf8&#038;hl=en&#038;fs=1&#038;hd=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="385"></embed></object></p>
+<p><a href="/lessons/lesson06/index.html">Click here and you&#8217;ll see the live WebGL version</a>, if you&#8217;ve got a browser that supports it; <a href="http://learningwebgl.com/blog/?p=11">here&#8217;s how to get one</a> if you don&#8217;t.  Once you have it loaded, use the <code>Page Up</code> and <code>Page Down</code> keys to zoom in and out, and use the cursor keys to make the cube rotate (the longer you hold down a cursor key, the more it accelerates).  You can also use the <code>F</code> key to toggle through three different kinds of texture filters, an effect that you will see best when you&#8217;re zoomed quite close up to the cube or when you&#8217;re quite far away; more about exactly what&#8217;s going on there later.</p>
+<p>More on how it all works below&#8230;</p>
+<p><span id="more-571"></span></p>
+<p>The usual <a href="http://learningwebgl.com/blog/?page_id=2">warning</a>: these lessons are targeted at people with a reasonable amount of programming knowledge, but no real experience in 3D graphics; the aim is to get you up and running, with a good understanding of what&#8217;s going on in the code, so that you can start producing your own 3D Web pages as quickly as possible.  If you haven&#8217;t read the previous tutorials already, you should probably do so before reading this one — here I will only explain the differences between the code for <a href="http://learningwebgl.com/blog/?p=507">lesson 5</a> and the new code.</p>
+<p>There may be bugs and misconceptions in this tutorial.  If you spot anything wrong, let me know in the comments and I&#8217;ll correct it ASAP.</p>
+<p>There are two ways you can get the code for this example; just &#8220;View Source&#8221; while you&#8217;re looking at the live version, or if you use GitHub, you can clone it (and the other lessons) from <a href="http://github.com/gpjt/webgl-lessons">the repository there</a>.  Either way, once you have the code, load it up in your favourite text editor and take a look.</p>
+<p>The biggest change between this lesson and the last is that we&#8217;re looking at the keyboard, but it&#8217;s easier to explain how that works by starting with the code that it affects.  If you start off by scrolling halfway down through the code, you&#8217;ll see a number of global variables defined:</p>
+<pre>
+  var xRot = 0;
+  var xSpeed = 0;
+
+  var yRot = 0;
+  var ySpeed = 0;
+
+  var z = -5.0;
+
+  var filter = 0;
+</pre>
+<p><code>xRot</code> and <code>yRot</code> will be familiar from lesson 5 &mdash; they represent the current rotation of the cube around the X and Y axes.  <code>xSpeed</code> and <code>ySpeed</code> should be fairly obvious; now that we&#8217;re allowing the user to vary the speed of rotation of the cube using the cursor keys, these are where we keep the rates of change of <code>xRot</code> and <code>yRot</code>.  <code>z</code> is, of course, the Z-coordinate of the cube &mdash; that is, how close it is to the viewer &mdash; and will be controlled by the <code>Page Up</code> and <code>Page Down</code> keys.  And finally, <code>filter</code> is an integer ranging from 0 to 2, which specifies which of three filters is used on the texture that we&#8217;re mapping on to the cube, and thus how nice it looks.</p>
+<p>Let&#8217;s take a look at the code that drives the filter now.  The first changes are in the code to load the texture, a bit further up and about a third of the way from the top of the page.  The code is so changed from last time that I won&#8217;t highlight anything in red.  However, it should look pretty familiar in form if not in the details:</p>
+<pre>
+  function handleLoadedTexture(textures) {
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+
+    gl.bindTexture(gl.TEXTURE_2D, textures[0]);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, textures[0].image);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+
+    gl.bindTexture(gl.TEXTURE_2D, textures[1]);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, textures[1].image);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+
+    gl.bindTexture(gl.TEXTURE_2D, textures[2]);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, textures[2].image);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_NEAREST);
+    gl.generateMipmap(gl.TEXTURE_2D);
+
+    gl.bindTexture(gl.TEXTURE_2D, null);
+  }
+
+  var crateTextures = Array();
+
+  function initTexture() {
+    var crateImage = new Image();
+
+    for (var i=0; i < 3; i++) {
+      var texture = gl.createTexture();
+      texture.image = crateImage;
+      crateTextures.push(texture);
+    }
+
+    crateImage.onload = function() {
+      handleLoadedTexture(crateTextures)
+    }
+    crateImage.src = "crate.gif";
+  }
+</pre>
+<p>Looking first at the function <code>initTexture</code> and the global variable <code>crateTextures</code>, it should be clear that although the code is changed, the only real underlying difference is that we're creating three WebGL texture objects in an array rather than one, and we're passing that array over to <code>handleLoadedTexture</code> in the callback function when the image is loaded.  And, of course, we're loading a different image from last time, <code>crate.gif</code> instead of <code>nehe.gif</code>.</p>
+<p><code>handleLoadedTexture</code> has also not changed in any complicated way; previously we were just initialising a single WebGL texture object with the image data, and setting two parameters on it: <code>gl.TEXTURE_MAG_FILTER</code> and <code>gl.TEXTURE_MIN_FILTER</code>, both to <code>gl.NEAREST</code>.  Now, we're initialising all three textures in our array with the same image, but we're setting different parameters on each, and there's an extra bit of code for the last one.  Here's how the different textures differ in more detail:</p>
+<h3>Nearest filtering</h3>
+<p>The first texture has <code>gl.TEXTURE_MAG_FILTER</code> and <code>gl.TEXTURE_MIN_FILTER</code> both set to <code>gl.NEAREST</code>.  This is our original set-up, and it means that both when the texture is being scaled up and when it's being scaled down, WebGL should use a filter that determines the colour of a given point just by looking for the nearest point in the original image.  This will look just fine if the texture is not scaled at all, and will look OKish if it's scaled down (but see the discussion of aliasing below).  However, when it's scaled up, it will look "blocky", as this algorithm effectively scales the pixels in the original image up.</p>
+<h3>Linear filtering</h3>
+<p>For the second texture, <code>gl.TEXTURE_MAG_FILTER</code> and <code>gl.TEXTURE_MIN_FILTER</code> are both <code>gl.LINEAR</code>.  Here we're once again using the same filter for both scaling up and scaling down.  However, the linear algorithm can work better for scaled-up textures; basically, it just uses linear interpolation between the pixels of the original texture image &mdash; roughly speaking, a pixel that is half-way between a black one and a white one comes out grey.  This gives a much smoother effect, though (of course) sharp edges get a bit blurred.  (To be fair, when you scale an image up it's never going to look perfect &mdash; you can't get detail that isn't there.)</p>
+<h3>Mipmaps</h3>
+<p>For the third texture, <code>gl.TEXTURE_MAG_FILTER</code> is <code>gl.LINEAR</code> and <code>gl.TEXTURE_MIN_FILTER</code> is <code>gl.LINEAR_MIPMAP_NEAREST</code>. This is the most complex of the three options.</p>
+<p>Linear filtering gives reasonable results when you scale the texture up, but it's no better than nearest filtering when scaling down; in fact, both filters can cause ugly aliasing effects.  To see what these look like, <a href="http://learningwebgl.com/lessons/lesson06/index.html">load up the sample again</a> so that it's using nearest filtering (or hit the refresh button to get it back to its initial state), and hold down the <code>Page Up</code> key for a few seconds to zoom out.  As the cube moves away, at some point you'll see it start "twinkling", with vertical lines seeming to appear and disappear.  Once you see this, stop and try zooming in and out a bit, watching the twinkling, then press <code>F</code> once to switch to linear filtering, move it back and forward a bit more, and note that you get pretty much the same effect.  Now press <code>F</code> once more to use mipmap filtering, zoom in and out again, and you should see this effect eliminated or at least very much reduced.</p>
+<p>Now, while the cube is quite far away &mdash; say, 10% of the width/height of the overall canvas &mdash; try cycling through the filters without moving it.  With nearest or linear filtering, you will notice that in some places the dark lines that make up the grain of the wood in the texture are very clear, whereas in others they have disappeared; the cube looks a bit "splotchy".  This is really bad with nearest filtering, but not much better with linear.  Only mipmapped filtering works well.</p>
+<p>What's happening with nearest and linear filtering is that when the texture is scaled down to (say) one-tenth size, the filter uses every tenth pixel in the original image to make up the scaled-down version.  The texture has a wooden "grain" pattern, which means that most of it is light brown but there are thin vertical dark lines; let's imagine that the grain is ten pixels wide, or that in other words there is a dark brown pixel every ten pixels horizontally.  If the image is scaled down to one tenth, then there is a one-in-ten chance of any given pixel being dark brown, nine-in-ten of it being light.  Or to put it another way, one in ten of the dark lines in the original image are shown just as clearly as they were when the image was full-sized, and the others are completely hidden.  This causes the splotchy effect, and also adds the twinkling when the scale is changing, because the specific dark lines that are chosen might be completely different at scaling factors of 9.9, 10.0 and 10.1.</p>
+<p>What we'd really like to do is be in a situation where when the image is scaled to one tenth of its original size, each pixel is coloured based on the average of the ten-by-ten pixel square that it is a scaled-down version of.  Doing this smoothly is too computationally expensive for real-time graphics, and this is where mipmap filtering comes in.</p>
+<p>Mipmap filtering solves the problem by generating for the texture a number of subsidiary images (called mip levels), at half, one-quarter, one-eighth, and so on of the original size, all the way down to a one-by-one pixel version.  The set of all of these mip levels is called a mipmap.  Each mip level is a smoothly averaged version of the next-largest one, and so the appropriate version can be chosen for the current level of scaling; the algorithm for this depends on the value used for <code>gl.TEXTURE_MIN_FILTER</code>, the one we chose being basically meaning "find the closest mip level and do a linear filter on that to get the pixel".</p>
+<p>Now that I've explained all that it should be pretty clear that the extra line we had to add for this texture:</p>
+<pre>
+    gl.generateMipmap(gl.TEXTURE_2D);
+</pre>
+<p>...is the line required to tell WebGL to generate the mipmap.</p>
+<p>Right, that was significantly more than I'd planned to write on mipmaps, but I think it should be reasonably clear <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' />   Let me know in the comments if anything's still unexplained.</p>
+<p>Back to the remainder of the code.  So far, we've looked at the global variables and seen how the textures are loaded and set up.  Now let's see how the globals and the textures are used when we actually come to draw the scene.</p>
+<p><code>drawScene</code> is about three quarters of the way through the page, and has just three changes.  The first is that when we are positioning ourselves to draw the cube, instead of using a fixed point, we use the global variable <code>z</code>:</p>
+<pre>
+    mat4.translate(mvMatrix, [0.0, 0.0, z]);
+</pre>
+<p>The next is actually a line that we've removed from the code for lesson 5; now, we don't rotate around the Z axis at all, and there are just rotations around X and Y:</p>
+<pre>
+    mat4.rotate(mvMatrix, degToRad(xRot), [1, 0, 0]);
+    mat4.rotate(mvMatrix, degToRad(yRot), [0, 1, 0]);
+</pre>
+<p>Finally, when we are about to draw the cube, we have to specify which of our three textures we want to use:</p>
+<pre>
+    gl.bindTexture(gl.TEXTURE_2D, <span style="color: red;">crateTextures[filter]</span>);
+</pre>
+<p>That's all for the changes in <code>drawScene</code>.  There are also some minor changes in <code>animate</code>; instead of changing <code>xRot</code> and <code>yRot</code> at constant rates, we now use our new <code>xSpeed</code> and <code>ySpeed</code> variables:</p>
+<pre>
+      xRot += (<span style="color: red;">xSpeed</span> * elapsed) / 1000.0;
+      yRot += (<span style="color: red;">ySpeed</span> * elapsed) / 1000.0;
+</pre>
+<p>And that's all of the changes to the code except for those that actually handle the user's keypresses and update our various globals based on them; let's move on to those now.</p>
+<p>The first relevant change is right down at the bottom, in <code>webGLStart</code>, where we've added two new lines (in red below):</p>
+<pre>
+  function webGLStart() {
+    var canvas = document.getElementById("lesson06-canvas");
+    initGL(canvas);
+    initShaders();
+    initBuffers();
+    initTexture();
+
+    gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    gl.enable(gl.DEPTH_TEST);
+
+    <span style="color: red;">document.onkeydown = handleKeyDown;
+    document.onkeyup = handleKeyUp;</span>
+
+    tick();
+  }
+</pre>
+<p>Fairly obviously, all we're doing here is telling the JavaScript runtime that when a key is pressed (with the focus on the web page) we want our function called <code>handleKeyDown</code> to be called, and when a key is released, it should call <code>handleKeyUp</code>.</p>
+<p>Let's take a look at those functions next.  They're about halfway through the page, just below the global variables we looked at earlier, and look like this:</p>
+<pre>
+  var currentlyPressedKeys = {};
+
+  function handleKeyDown(event) {
+    currentlyPressedKeys[event.keyCode] = true;
+
+    if (String.fromCharCode(event.keyCode) == "F") {
+      filter += 1;
+      if (filter == 3) {
+        filter = 0;
+      }
+    }
+  }
+
+  function handleKeyUp(event) {
+    currentlyPressedKeys[event.keyCode] = false;
+  }
+</pre>
+<p>What we're doing here is maintaining a dictionary (which you might also know by the name "hashtable" or "associative array"), which, given a key code &mdash; that is, one of JavaScript's numeric identifiers for the keys on the keyboard &mdash; can tell us whether that key is currently being pressed by the user or not.  If you're not familiar with the way JavaScript works, you may find it interesting to note that any object can be used as a dictionary like this; while the syntax we use to initialise <code>currentlyPressedKeys</code> looks like a Python dictionary, it's actually just an "empty" instance of the base object type.</p>
+<p>In addition to maintaining this dictionary of the keys that are currently pressed, we also have some extra stuff in the key-down event handler for when the key in question is "F".  In this code, we cycle the <code>filter</code> global variable through the values 0, 1, and 2 each time it's pressed.</p>
+<p>It's worth taking time now to explain why we're handling different keys in two different ways.  In a computer game, or almost any other similar 3D system, key-presses can work in one of two ways:</p>
+<ol>
+<li>They can take an immediate action: "fire the laser".  Keypresses like this might auto-repeat at some kind of fixed rate, say twice per second.</li>
+<li>They can take an effect that depends on how long you hold them down. For example, when you press the key to walk forward, you expect to keep moving forward for as long as you hold it.</li>
+</ol>
+<p>Importantly, with the second kind of key-press, you want to be able to press other keys while the action is in progress, so that you can (for example) start running forward, then turn a corner and shoot without stopping running.  This is a fundamentally different way of reading the keyboard to the normal "text-processing" way; if you hold down the "A" key in a word processor, you'll get a stream of "A"s, but if you press "B" while you're holding down "A" then you'll get a "B" but the stream of "A"s will stop.  The equivalent in a game would be for you to stop running every time you turned a corner, which would be extremely irritating.</p>
+<p>So, in the code we just looked at, the "F" key is handled as the first kind of key-press.  The dictionary is used by the code that handles the second kind; it keeps track of <i>all</i> of the keys that are currently being held down, not just the last one to be pressed.</p>
+<p>The dictionary is actually used in a different function, <code>handleKeys</code>, which comes next in the page.  Before we go through that, jump briefly down to the bottom of the code and you'll see that it's called by the <code>tick</code> function, just like <code>drawScene</code> and <code>animate</code>:</p>
+<pre>
+  function tick() {
+    requestAnimFrame(tick);
+    <span style="color: red;">handleKeys();</span>
+    drawScene();
+    animate();
+  }
+</pre>
+<p>Here's what <code>handleKeys</code> looks like:</p>
+<pre>
+  function handleKeys() {
+    if (currentlyPressedKeys[33]) {
+      // Page Up
+      z -= 0.05;
+    }
+    if (currentlyPressedKeys[34]) {
+      // Page Down
+      z += 0.05;
+    }
+    if (currentlyPressedKeys[37]) {
+      // Left cursor key
+      ySpeed -= 1;
+    }
+    if (currentlyPressedKeys[39]) {
+      // Right cursor key
+      ySpeed += 1;
+    }
+    if (currentlyPressedKeys[38]) {
+      // Up cursor key
+      xSpeed -= 1;
+    }
+    if (currentlyPressedKeys[40]) {
+      // Down cursor key
+      xSpeed += 1;
+    }
+  }
+</pre>
+<p>It's another long but very simple function; all it does is check whether various keys are currently pressed, and update our global variables appropriately.  Most importantly, if (say) the "Up" and the "Right" cursor keys are both being pressed, it will update both <code>xSpeed</code> and <code>ySpeed</code>, so these act the way we want.</p>
+<p>And that's it for this time!  Now you know all there is to learn from this lesson: you should have a pretty good understanding of how different filters affect the way textures look at different scaling factors, and you know how to read user input from the keyboard in a way that works well with 3D animations.</p>
+<p>If you have any questions, comments, or corrections, please do leave a comment below!</p>
+<p>In the next lesson, <a href="http://learningwebgl.com/blog/?p=684">we make a start on lighting</a>.</p>
+<p><span style="float: left; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=507">&lt;&lt; Lesson 5</a></span><span style="float: right; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=684">Lesson 7 &gt;&gt;</a></span><br/></p>
+<p><em>Acknowledgments: <a href="http://www.amazon.com/dp/0321502795?tag=lewe-20&#038;camp=14573&#038;creative=327641&#038;linkCode=as1&#038;creativeASIN=0321502795&#038;adid=1EX6T4SCR6T8P7D5P7WC&#038;">The OpenGL ES Programming Guide</a> was an invaluable resource for information about textures and mipmapping.  <a href="http://www.brighthub.com/internet/web-development/articles/40514.aspx">Matthew Casperson's post at Bright Hub</a> was a good resource for hints on getting keyboard input working, and <a href="http://www.javascriptkata.com/2007/03/29/how-to-use-javascript-hashes/">this JavaScript Kata</a> told me how to code something like a dictionary.  As always, I'm deeply in debt to <a href="http://nehe.gamedev.net/">NeHe</a> for his <a href="http://nehe.gamedev.net/data/lessons/lesson.asp?lesson=07">OpenGL tutorial</a> for the script for this lesson.</em></p>
+															</div>
+							<div class="postmeta">Posted in <a href="http://learningwebgl.com/blog/?cat=1" title="View all posts in Uncategorized" rel="category">Uncategorized</a> |  </div>
+						
+							<div class="navigation clearfix">
+								<div class="alignleft">&laquo; <a href="http://learningwebgl.com/blog/?p=601" rel="prev">Another retrospective change&#8230;</a></div>
+								<div class="alignright"><a href="http://learningwebgl.com/blog/?p=653" rel="next">WebGL around the net, 5 Nov 2009</a> &raquo;</div>
+							</div>
+							
+															You can <a href="#respond">leave a response</a>, or <a href="http://learningwebgl.com/blog/wp-trackback.php?p=571" rel="trackback">trackback</a> from your own site.
+	
+													</div><!--/post-571-->
+						
+				
+<!-- You can start editing here. -->
+
+	<h3 id="comments">40 Responses to &#8220;WebGL Lesson 6 &#8211; keyboard input and texture filters&#8221;</h3>
+
+	<ol class="commentlist">
+			<li class="comment even thread-even depth-1" id="comment-6947">
+				<div id="div-comment-6947" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/4995c7ce9523ce00dea01362cb976196?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://murfy.de' rel='external nofollow' class='url'>murphy</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6947">November 5, 2009 at 6:09 pm</a></div>
+
+		<p>I think you have swapped the headings for the &#8220;Nearest filtering&#8221; and &#8220;Linear filtering&#8221; sections.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6948">
+				<div id="div-comment-6948" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6948">November 6, 2009 at 12:21 am</a></div>
+
+		<p>Argh, you&#8217;re right!  Fixed it.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6949">
+				<div id="div-comment-6949" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/47085cc75239bb33813ccb25dc7767a6?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">titan</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6949">November 12, 2009 at 11:07 am</a></div>
+
+		<p>I like your lessons so much! Did you play with greater models too? (10000+ triangles) I think there is a memory leak in the &#8220;painting-loop&#8221;. Every time a new array. I have some problems with that construction. I need more time to look at this.</p>
+<p>greets titan</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6950">
+				<div id="div-comment-6950" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6950">November 12, 2009 at 12:16 pm</a></div>
+
+		<p>titan,</p>
+<p>Glad you like the lessons!  There probably are a few memory leaks in the tutorials right now; the array probably will get garbage-collected but the WebGL buffer might not.  I&#8217;ll see what I can do to fix it.</p>
+<p>Cheers,</p>
+<p>Giles</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6951">
+				<div id="div-comment-6951" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/47085cc75239bb33813ccb25dc7767a6?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">titan</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6951">December 9, 2009 at 3:15 pm</a></div>
+
+		<p>Hi me again,</p>
+<p>I do not know the correct place for my problem on firefox nightly build. I read only 1 pixel from framebuffer, all was fine until I build textures in. Somebody know why readpixels stopped working with textures in WebGL (gl.texImage2D). The Error is readpixels not allowed. The Code of the Error is &#8220;if(mCanvasElement-&gt;IsWriteOnly() &amp;&amp; !nsContentUtils::IsCallerTrustedForRead()). I do not know, why it is WriteOnly. What can I disable for the moment of readpixel?</p>
+<p>greets Titan</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6952">
+				<div id="div-comment-6952" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6952">December 9, 2009 at 4:19 pm</a></div>
+
+		<p>Hi titan,</p>
+<p>The best place for questions like that is probably the Khronos forums: <a href="http://www.khronos.org/message_boards/viewforum.php?f=34" rel="nofollow">http://www.khronos.org/message_boards/viewforum.php?f=34</a> &#8212; there&#8217;s a forum for browser-specific issues which is probably best.</p>
+<p>Cheers,</p>
+<p>Giles</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6953">
+				<div id="div-comment-6953" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/0c968fbfd870a8770242a768942ad3cf?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Liam</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6953">March 9, 2010 at 12:18 pm</a></div>
+
+		<p>Just pointing out a typo: handling the key-down even</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6954">
+				<div id="div-comment-6954" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/0c968fbfd870a8770242a768942ad3cf?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Liam</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6954">March 9, 2010 at 1:29 pm</a></div>
+
+		<p>Some readers may be interested in using constants to refer to keys instead of magic numbers. This shows you how:</p>
+<p><a href="http://stackoverflow.com/questions/1465374/javascript-event-keycode-constants" rel="nofollow">http://stackoverflow.com/questions/1465374/javascript-event-keycode-constants</a></p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6955">
+				<div id="div-comment-6955" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6955">March 11, 2010 at 7:26 pm</a></div>
+
+		<p>Thanks Liam &#8212; corrected the typo, and I&#8217;ll look into using the constants.  It&#8217;s odd that there&#8217;s nothing built into all browsers, though!</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6956">
+				<div id="div-comment-6956" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/749b73007119baf94fc077c50bcc58e8?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Shy</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6956">June 5, 2010 at 5:16 pm</a></div>
+
+		<p>On a small laptop screen the result of this lesson has a problem. When I&#8217;m pressing the down key or page down, the page scrolls, moving the canvas.<br />
+Is there a way to prevent this from happening in javascript?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6957">
+				<div id="div-comment-6957" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/749b73007119baf94fc077c50bcc58e8?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Shy</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6957">June 5, 2010 at 9:12 pm</a></div>
+
+		<p>Ok so in firefox and chromium this can be prevented by returning false from handleKeyDown().</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6958">
+				<div id="div-comment-6958" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6958">June 7, 2010 at 1:36 pm</a></div>
+
+		<p>@Shy &#8212; thanks!  That&#8217;s a useful trick, I&#8217;ll update the lesson (with attribution, natch <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6959">
+				<div id="div-comment-6959" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/ac53efdba5bb59f8eb454595853a7c09?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Ozzy</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6959">July 5, 2010 at 6:56 am</a></div>
+
+		<p>Hi,</p>
+<p>I am having problems with mipmap filtering. It cant load the texture when I use &#8220;LINEAR_MIPMAP_NEAREST&#8221; on my PC and it displays just a white object. To see the texture, I have to use LINEAR filtering.<br />
+It happens not only in this Lesson, but also in all examples with mipmap filtering. I work with Chromium and Minefield, both give me the same result.<br />
+Do you have any idea?</p>
+<p>Thanks in advance</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6960">
+				<div id="div-comment-6960" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/1b5844dbd449d675a795d15b4b5df87c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Justin Bailey</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6960">July 13, 2010 at 3:02 pm</a></div>
+
+		<p>Thanks (as always) for the great lessons!</p>
+<p>I&#8217;ve been a long time follower, even back in the old days of Win32 NeHe, but this is my first time commenting. Unfortunately I&#8217;m stuck with this HP nx9420 and it has a built in ATi Radeon Mobility x1600. I know that ATi has some pretty terrible driver support but to my astonishment I cannot seem to generate mip maps in WebGL. I ran the real-tech glView tool and passed all of the tests with flying colors (I&#8217;ll have to copy and paste the results when I get home) but I still do not see the mip mapped textures in your tutorials or my own projects. I&#8217;ve also had the same problem with an older Pentium 4 machine running an ATi Radeon 9800 series card. Any suggestions?</p>
+<p>Thanks in advance! <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_biggrin.gif' alt=':D' class='wp-smiley' /> </p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6961">
+				<div id="div-comment-6961" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6961">July 20, 2010 at 3:05 pm</a></div>
+
+		<p>Hi Justin &#8212; glad you like the lessons!  (Just in case it&#8217;s not clear, I&#8217;m not the one who wrote the original Win32 NeHe lessons, though.)</p>
+<p>It sounds like both you and Ozzy are seeing a similar problem &#8212; mipmaps not working &#8212; so perhaps it&#8217;s a common cause.  Are you using Chromium or Minefield?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6962">
+				<div id="div-comment-6962" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/6fc90f4e1820c1768601c14c0896904b?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">msirin</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6962">July 20, 2010 at 11:43 pm</a></div>
+
+		<p>hi giles! you should publish a book..^^</p>
+<p>i have a question concerning rotating an object. when i do rotate the model around the x-axis via  mvRotate(angle_var, [1, 0, 0]); which for example means that i dragged the mouse cursor from top to down (say 90°) everything is fine and my model is rotated as i wished. now i want to rotate the object &#8220;to the right&#8221;. but then something unexpected happens: the object rotates counterclockwise.</p>
+<p>i guess this phenomenon is a result of rotation the whole world-coordinate-system.</p>
+<p>maybe you have an idea how everytime to spin the model in direction which my curser is dragged to?</p>
+<p>regards<br />
+m.sirin</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6963">
+				<div id="div-comment-6963" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/6fc90f4e1820c1768601c14c0896904b?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">msirin</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6963">July 21, 2010 at 10:07 am</a></div>
+
+		<p>&#8230;&#8221;to the right&#8221; causes a counterclockwise spinning after I first rotated it around the x-axis.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6964">
+				<div id="div-comment-6964" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6964">July 21, 2010 at 12:55 pm</a></div>
+
+		<p>Hi msirin, glad you like the tutorials!  I wish I had time to write a book <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
+<p>You&#8217;re exactly right that the effect you&#8217;re seeing is a result of the coordinates being rotated.  Your first rotation around the X axis puts the Y axis where the Z axis used to be, so when you try to rotate around the Y axis, it rotates around Z instead.</p>
+<p><a href="http://learningwebgl.com/blog/?p=1253" rel="nofollow">Lesson 11</a> explains what&#8217;s going on in a bit more detail, and shows how you can use rotation matrices to work around the problem.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6965">
+				<div id="div-comment-6965" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/6fc90f4e1820c1768601c14c0896904b?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">msirin</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6965">July 21, 2010 at 9:38 pm</a></div>
+
+		<p>aah, now that&#8217;s a perfect answer^^<br />
+thank you!</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6966">
+				<div id="div-comment-6966" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/1b5844dbd449d675a795d15b4b5df87c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Justin Bailey</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6966">July 22, 2010 at 3:00 am</a></div>
+
+		<p>Giles,</p>
+<p>Thanks for the reply. I&#8217;m currently on Chromium (the nightly builds). As previously mentioned, I am running a Radeon x1600 Mobility and I know that ATi has problems with software so I went ahead and tried Omega drivers to see if that was the problem. No dice. I haven&#8217;t previously had problems with mip maps in XP, at least not when GL was part of a native C++, Java or C# app. Still looking around the web for an answer but it seems that a lot of older ATi cards are having this same issue. I&#8217;ve tried playing with the Catalyst Control Center settings (useless as usual) as well. So far I have confirmed that it&#8217;s isolated to ATi devices and no nVidia cards had the same problem in my app or yours.</p>
+<p>Sorry it took me so long to reply. The starter on my car decided to go out so I&#8217;ve been up to other things! ^_^</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6967">
+				<div id="div-comment-6967" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/5dc44197b1209dc174766fb9127adf94?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Justin Bailey</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6967">October 5, 2010 at 1:21 am</a></div>
+
+		<p>In the words of the Koolaid Man, &#8220;OH YEAH~&#8221;</p>
+<p><a href="http://www.hardwareheaven.com/modtool.php" rel="nofollow">http://www.hardwareheaven.com/modtool.php</a></p>
+<p>Finally got the anisotropic filtering working under Windows 7 64bit with the above link. x1600 users, this works. Anyone else will just have to try it out for themselves!</p>
+<p>Thanks again, Giles ^_^</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6968">
+				<div id="div-comment-6968" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6968">October 14, 2010 at 7:02 pm</a></div>
+
+		<p>@Justin &#8212; great news &#8212; thanks for posting the link!</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6969">
+				<div id="div-comment-6969" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/d0733af58bc0699a634e0f2fe61a95ab?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Vik</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6969">January 29, 2011 at 2:42 am</a></div>
+
+		<p>@Giles- Awesome job Giles. But i have a concern. say I have a 3D file on my system and I want to upload it on my facebook account(just an example could be any other website). now if I want this file to open directly in my browser showing that 3D content(say rotating cube), is it possible??? and if yes what 3D file format it should be in???</p>
+<p>any ideas???</p>
+<p>Thanks<br />
+Vik</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6970">
+				<div id="div-comment-6970" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6970">February 1, 2011 at 2:12 am</a></div>
+
+		<p>Hi Vik &#8212; that would depend on the WebGL code that the people who run the site have put on it.  So, for example, Facebook might decide that they support the COLLADA format, while some other site might support .OBJ and another 3DS.  It would all depend on the site owner.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6971">
+				<div id="div-comment-6971" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/d0733af58bc0699a634e0f2fe61a95ab?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Vik</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6971">February 1, 2011 at 6:53 pm</a></div>
+
+		<p>thanks Giles&#8230;..</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6972">
+				<div id="div-comment-6972" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/94579b42aa99e9e7983d016ac95e8f74?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">magicSuper</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6972">March 3, 2011 at 12:32 pm</a></div>
+
+		<p>Hi~<br />
+Why did you use two ways dealing with the event？</p>
+<p>Can I add some code in the function handleKey() like</p>
+<p>if(){<br />
+  // to handle the filter event?<br />
+}</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6973">
+				<div id="div-comment-6973" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6973">March 5, 2011 at 7:15 pm</a></div>
+
+		<p><code>handleKey</code> is called every time the scene is repainted, so you wouldn&#8217;t want to switch then &#8212; a single keypress, taking (say) 1/10 second, might change the filter three times, which would be confusing.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6974">
+				<div id="div-comment-6974" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/73e51d1bccb2b2dcb86cf945ecc7ff8b?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Niels</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6974">March 10, 2011 at 12:18 pm</a></div>
+
+		<p>Hi,<br />
+i think it would be good to see the FPS in the Demos.<br />
+I wrote this lines of code to test your Demos on different Browsers:</p>
+<pre>
+    var timeLastFrame = 0;
+    var counter = 0;
+
+    function fps() {
+    	var timeThisFrame = new Date().getTime();
+    	if (timeLastFrame != 0 &amp;&amp; counter == 10) {
+    		var timePassed = timeThisFrame - timeLastFrame;
+    		var fps = Math.round(1000/timePassed);
+    		document.getElementById('fps').innerHTML = fps;
+    		counter = 0;
+    	}
+    	counter = counter + 1;
+    	timeLastFrame = timeThisFrame;
+    }
+</pre>
+<p>And because i&#8217;m new to this, critics would be nice <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+<p>Thanks for the great Tuts!</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6975">
+				<div id="div-comment-6975" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6975">March 29, 2011 at 3:08 pm</a></div>
+
+		<p>@Niels &#8212; nice idea!  I&#8217;ll put something in (though it can take a while to get changes into the tutorials now that there are 16 of them&#8230;)  Your code looks fine to me.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6976">
+				<div id="div-comment-6976" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/391cff37ba35ff17dd56931502d6c9c1?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">jeff</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6976">September 21, 2011 at 2:26 am</a></div>
+
+		<p>I got a question about WebGL texture mapping. If this is not a good place to ask a question, please just tell me.<br />
+My question is&#8230; I have two triangles facing with each other (forming a quadrangle) and map an image onto the triangles using a similar code provided in this lesson, and it is perfect. By changing the locations of top two vertices of the quadrangle, I expect the texture mapped on the two triangles are stretched evenly. But reality is not the same: some shapes in the texture is distorted.</p>
+<p>I uploaded an example at <a href="https://sites.google.com/site/webglq/" rel="nofollow">https://sites.google.com/site/webglq/</a></p>
+<p>Does anybody know how I could avoid such an artifact? do I need to use more triangles? or any other tricks in WebGL?</p>
+<p>Thanks in advance,<br />
+Jeff</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6977">
+				<div id="div-comment-6977" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/635b52d583f7610cf4e8c38dc674ff5e?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://www.jlabstudio.com/webgl' rel='external nofollow' class='url'>jgrc</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6977">November 2, 2011 at 7:53 pm</a></div>
+
+		<p>Hello Giles, im traslating your tutorials to spanish.<br />
+Its irrelevant, but maybe some people can lear to use the mod operator. I have seen your code:</p>
+<p>    if (String.fromCharCode(event.keyCode) == &#8220;F&#8221;) {<br />
+      filter += 1;<br />
+      if (filter == 3) {<br />
+        filter = 0;<br />
+      }<br />
+    }</p>
+<p>This code can be changed to:</p>
+<p>    if (String.fromCharCode(event.keyCode) == &#8220;F&#8221;) {<br />
+      filter=(filter+1)%3;<br />
+    }</p>
+<p>Or more compact:</p>
+<p>    filter=(String.fromCharCode(event.keyCode) == &#8220;F&#8221;)?(filter+1)%3:filter;</p>
+<p>Thanks for your useful lessons.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="pingback odd alt thread-odd thread-alt depth-1" id="comment-6978">
+				<div id="div-comment-6978" class="comment-body">
+				<div class="comment-author vcard">
+				<cite class="fn"><a href='http://www.jlabstudio.com/webgl/2011/11/webgl-tutorial-6-eventos-de-teclado-y-filtros-de-textura/' rel='external nofollow' class='url'>WebGL Tutorial 6 &#8211; Eventos de teclado y filtros de textura &middot; Experimentando en la web</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6978">November 2, 2011 at 10:22 pm</a></div>
+
+		<p>[...] tutorial de la serie Aprende webGL. Es una traducción no literal de su respectivo tutorial en Learning webGL, que a su vez está basada en el capítulo 7 del tutorial sobre openGL de NeHe. En esta lección [...]</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6979">
+				<div id="div-comment-6979" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/3d4631945ce90f63abb00cde0a7a69c5?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://webdev.sweeto.co.uk/' rel='external nofollow' class='url'>Alex Bunting</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6979">November 5, 2011 at 9:54 pm</a></div>
+
+		<p>Excellent tutorial, I think in terms of how you are explaining the various concepts introduced (particularly mipmapping and the various methods of handling key presses to accomodate multiple key presses) this tutorial has been fantastic, thanks!</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6980">
+				<div id="div-comment-6980" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/c5491dac3c0c71b11cdf58beef3d3680?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Sergejack</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6980">January 6, 2012 at 9:37 am</a></div>
+
+		<p>The handlekeys function should take into account the time elasped since the last frame was drawn (as animate() does).</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6981">
+				<div id="div-comment-6981" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/df17fd8adfbc4c72e6c5d6ff355803e6?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">bobula85</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6981">March 6, 2012 at 10:17 am</a></div>
+
+		<p>Hi, great tutorial. I&#8217;m trying to expand on this a tiny bit by adding an extra texture image with its own .src but am having trouble. I&#8217;ve basically duplicated the code used to init textures and used an if statement in the loop to set the two different images to the crateTextures array. I&#8217;ve also duplicated the .onload function call for each image and stated each images .src but get a blank canvas when the page is loaded. Code below. Any ideas?</p>
+<p>var crateTextures = Array();</p>
+<p>	function initTexture()<br />
+	{</p>
+<p>		var crateImage1 = new Image();<br />
+		var crateImage2 = new Image();</p>
+<p>		for (var i=0; i &lt; 6; i++)<br />
+		{<br />
+			var texture = gl.createTexture();</p>
+<p>			if (i &lt;= 2)<br />
+			{<br />
+			texture.image = crateImage1;<br />
+			crateTextures.push(texture);<br />
+			}<br />
+			else if<br />
+			(<br />
+			texture.image = crateImage2;<br />
+			crateTextures.push(texture);<br />
+			}<br />
+		}</p>
+<p>		crateImage1.onload = function()<br />
+		{<br />
+			handleLoadedTexture(crateTextures)<br />
+		}</p>
+<p>		crateImage2.onload = function()<br />
+		{<br />
+			handleLoadedTexture(crateTextures)<br />
+		}<br />
+		crateImage2.src = &quot;pretty.gif&quot;;<br />
+		crateImage1.src = &quot;crate.gif&quot;;<br />
+	}</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6982">
+				<div id="div-comment-6982" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/b64f23b690d5a6fb5ab4a6f085424c0c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://dtconfect.wordpress.com' rel='external nofollow' class='url'>Confect</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6982">May 31, 2012 at 5:00 pm</a></div>
+
+		<p>I&#8217;m not sure returning false from handleKeyDown as @Shy suggested back in 09 is very polite. I just tried it and it seems (quite logically) to disable commands such as F5 to refresh&#8230;</p>
+<p>Very useful tutorials btw. I have experience in 3D programming, even with OpenGL, but no web programming or javascript experience, so this is a nice introduction for me.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6983">
+				<div id="div-comment-6983" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/b1a7a34cccaf2dcf84c1356d3414a10c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">bae43</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6983">June 3, 2012 at 10:31 pm</a></div>
+
+		<p>I&#8217;m not really familiar with javascript, but instead of</p>
+<p>      filter += 1;<br />
+      if (filter == 3) {<br />
+        filter = 0;<br />
+      }</p>
+<p>wouldn&#8217;t</p>
+<p>filter = (filter + 1) % 3;</p>
+<p>be easier?</p>
+<p>Either way, this is a really minor detail. Thanks for the great tutorial.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="pingback odd alt thread-odd thread-alt depth-1" id="comment-6984">
+				<div id="div-comment-6984" class="comment-body">
+				<div class="comment-author vcard">
+				<cite class="fn"><a href='http://www.kenzan8000.org/blog/?p=288' rel='external nofollow' class='url'>ガラパゴスブログ &raquo; Blog Archive &raquo; WebGLレッスン5 – テクスチャの導入</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6984">August 5, 2012 at 3:03 pm</a></div>
+
+		<p>[...]  次のレッスンでは、3D空間でアニメーションするJavaScriptをbasic key-based [...]</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6985">
+				<div id="div-comment-6985" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/7f9abdead5a73454ad748d19429d542f?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://nonono' rel='external nofollow' class='url'>izi</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6985">January 16, 2013 at 8:30 am</a></div>
+
+		<p>I right click on the page and view page source, I copy it and paste to the notepad, and save it as .html file.<br />
+But I can see the box when I execute the .html file that I saved.<br />
+could you help me please</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6986">
+				<div id="div-comment-6986" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/7f9abdead5a73454ad748d19429d542f?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://nonono' rel='external nofollow' class='url'>izi</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=571&amp;cpage=1#comment-6986">January 16, 2013 at 9:06 am</a></div>
+
+		<p>*I can&#8217;t see the box</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+	</ol>
+
+	<div class="navigation">
+		<div class="alignleft"></div>
+		<div class="alignright"></div>
+	</div>
+ 
+
+
+<div id="respond">
+
+<h3>Leave a Reply</h3>
+
+<div class="cancel-comment-reply">
+	<small><a rel="nofollow" id="cancel-comment-reply-link" href="/blog/?p=571#respond" style="display:none;">Click here to cancel reply.</a></small>
+</div>
+
+
+<form action="http://learningwebgl.com/blog/wp-comments-post.php" method="post" id="commentform">
+
+
+<p><input type="text" name="author" id="author" value="" size="22" tabindex="1" aria-required='true' />
+<label for="author"><small>Name (required)</small></label></p>
+
+<p><input type="text" name="email" id="email" value="" size="22" tabindex="2" aria-required='true' />
+<label for="email"><small>Mail (will not be published) (required)</small></label></p>
+
+<p><input type="text" name="url" id="url" value="" size="22" tabindex="3" />
+<label for="url"><small>Website</small></label></p>
+
+
+<!--<p><small><strong>XHTML:</strong> You can use these tags: <code>&lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;strike&gt; &lt;strong&gt; </code></small></p>-->
+
+<p><textarea name="comment" id="comment" cols="100%" rows="10" tabindex="4"></textarea></p>
+
+<p><input name="submit" type="submit" id="submit" tabindex="5" value="Submit Comment" />
+<input type='hidden' name='comment_post_ID' value='571' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p>
+
+</form>
+
+</div>
+
+				
+							
+							</div>
+			</div>
+        <div class="span-8 last">
+    <div id="subscriptions">
+        <a href="http://learningwebgl.com/blog/?feed=rss2"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/rss.png" alt="Subscribe to RSS Feed" title="Subscribe to RSS Feed" /></a>		
+		<a href="https://twitter.com/learningwebgl" title="Follow Learning WebGL on Twitter"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/twitter.png" title="Follow Learning WebGL on Twitter" alt="Follow Learning WebGL on Twitter"  /></a>    </div>
+	<div id="sidebar">
+        <ul>
+            <li id="search">
+				 
+<div class="searchlayout">
+    <form method="get" id="searchform" action="http://learningwebgl.com/blog/"> 
+        <input type="text" value="Search" 
+            name="s" id="s"  onblur="if (this.value == '')  {this.value = 'Search';}"  
+            onfocus="if (this.value == 'Search') {this.value = '';}" />
+        <input type="image" src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/search.gif" style="border:0; vertical-align: top;" /> 
+    </form>
+</div>			</li>
+        </ul>
+            			<div class="addthis_toolbox">   
+    			    <div class="custom_images">
+    			            <a class="addthis_button_twitter"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/twitter.png" width="32" height="32" alt="Twitter" /></a>
+    			            <a class="addthis_button_delicious"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/delicious.png" width="32" height="32" alt="Delicious" /></a>
+    			            <a class="addthis_button_facebook"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/facebook.png" width="32" height="32" alt="Facebook" /></a>
+    			            <a class="addthis_button_digg"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/digg.png" width="32" height="32" alt="Digg" /></a>
+    			            <a class="addthis_button_stumbleupon"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/stumbleupon.png" width="32" height="32" alt="Stumbleupon" /></a>
+    			            <a class="addthis_button_favorites"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/favorites.png" width="32" height="32" alt="Favorites" /></a>
+    			            <a class="addthis_button_more"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/more.png" width="32" height="32" alt="More" /></a>
+    			    </div>
+    			    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js?pub=xa-4a65e1d93cd75e94"></script>
+    			</div>
+    					        
+		<ul>
+		  <li id="text-3" class="widget widget_text"><h2 class="widgettitle">Our Sponsors</h2>			<div class="textwidget">    <div style="margin-left: 10px; margin-top: 20px; width: 170px">
+    <a href="http://web.chemdoodle.com/" target="_blank"><img src="/ads/chemdoodle.gif" ></a>
+    <p>
+    Open-source <b>HTML5</b> solutions for the physical and life sciences.
+    <a style="font-decoration: underline; color: #880000;" href="http://web.chemdoodle.com/">Read more...</a>
+    </div>
+
+<iframe src="http://cdn.oreillystatic.com/widgets/author/217.html" height="400px" width="200px" scrolling="no" frameborder="0"></iframe>
+    <hr/>
+
+    <div style="margin-left: 10px; margin-top: 20px; width: 170px;">
+    <a href="http://www.pythonanywhere.com/"><img src="/ads/pythonanywhere.gif"></a>
+
+    <p>
+    <a href="http://www.pythonanywhere.com">A Python online IDE and web hosting environment</a>. 
+    <a style="font-decoration: underline; color: #880000;" href="http://www.pythonanywhere.com/">Read more...</a>
+    <br/>
+    <br/>
+    Interested in advertising on Learning WebGL? <a style="font-decoration: underline; color: #880000;" href="/cdn-cgi/l/email-protection#6a1e1a0b180319032a0d070b030644090507">Drop me a line.</a>
+    </div></div>
+		</li>		<li id="recent-posts-3" class="widget widget_recent_entries">		<h2 class="widgettitle">Recent Posts</h2>		<ul>
+				<li><a href="http://learningwebgl.com/blog/?p=6635" title="2014: The Year in Review">2014: The Year in Review </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6617" title="WebGL around the net, 11 December 2014">WebGL around the net, 11 December 2014 </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6613" title="Crowdfunding Update">Crowdfunding Update </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6599" title="WebGL around the net, 4 December 2014">WebGL around the net, 4 December 2014 </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6585" title="WebGL around the net, 25 November 2014">WebGL around the net, 25 November 2014 </a></li>
+				</ul>
+		</li>		<li id="recent-comments-3" class="widget widget_recent_comments">			<h2 class="widgettitle">Recent Comments</h2>			<ul id="recentcomments"><li class="recentcomments"><a href='http://www.pcprogramming.com' rel='external nofollow' class='url'>John Davis</a> on <a href="http://learningwebgl.com/blog/?p=6585&#038;cpage=1#comment-3652744">WebGL around the net, 25 November 2014</a></li><li class="recentcomments"><a href='http://www.pcprogramming.com' rel='external nofollow' class='url'>John Davis</a> on <a href="http://learningwebgl.com/blog/?p=6575&#038;cpage=1#comment-3618905">WebGL around the net, 20 November 2014</a></li><li class="recentcomments">jinit on <a href="http://learningwebgl.com/blog/?page_id=2&#038;cpage=1#comment-3313484">About</a></li><li class="recentcomments">Dethraid on <a href="http://learningwebgl.com/blog/?p=507&#038;cpage=3#comment-2792181">WebGL Lesson 5 – introducing textures</a></li><li class="recentcomments">Man on <a href="http://learningwebgl.com/blog/?p=6443&#038;cpage=1#comment-2572225">WebGL around the net, 7 July 2014</a></li></ul>
+		</li><li id="linkcat-2" class="widget widget_links"><h2 class="widgettitle">Blogroll</h2>
+	<ul class='xoxo blogroll'>
+<li><a href="http://blog.tojicode.com/" title="Brandon Jones&#8217; Blog" target="_blank">Brandon Jones</a></li>
+<li><a href="http://www.gilesthomas.com/" title="Giles Thomas&#8217; Personal Blog" target="_blank">Giles Thomas</a></li>
+<li><a href="http://games.greggman.com/game/" title="Gregg Tavares&#8217; Blog" target="_blank">Gregg Tavares</a></li>
+<li><a href="http://www.learnopengles.com/" title="Learn OpenGL ES" target="_blank">Learn OpenGL ES</a></li>
+<li><a href="http://learningthreejs.com/" title="Learning Three.js Blog" target="_blank">Learning Three.js</a></li>
+<li><a href="http://nehe.gamedev.net/" title="NeHe OpenGL Tutorials" target="_blank">NeHe OpenGL</a></li>
+<li><a href="http://www.paulbrunt.co.uk/" title="Paul Brunt&#8217;s Blog" target="_blank">Paul Brunt</a></li>
+<li><a href="http://pl4n3.blogspot.com/" title="PL4N3S WORLD Blog" target="_blank">PL4N3S WORLD</a></li>
+<li><a href="http://www.rozengain.com/blog/" title="Rozengain" target="_blank">Rozengain</a></li>
+<li><a href="http://www.tonyparisi.com/" title="Tony Parisi&#8217;s Personal Blog" target="_blank">Tony Parisi</a></li>
+<li><a href="http://www.webgl.com/" title="WebGL Demos and Links" target="_blank">WebGL.com</a></li>
+
+	</ul>
+</li>
+<li id="archives-3" class="widget widget_archive"><h2 class="widgettitle">Archives</h2>		<ul>
+			<li><a href='http://learningwebgl.com/blog/?m=201501' title='January 2015'>January 2015</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201412' title='December 2014'>December 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201411' title='November 2014'>November 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201410' title='October 2014'>October 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201409' title='September 2014'>September 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201408' title='August 2014'>August 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201407' title='July 2014'>July 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201406' title='June 2014'>June 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201405' title='May 2014'>May 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201404' title='April 2014'>April 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201403' title='March 2014'>March 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201402' title='February 2014'>February 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201401' title='January 2014'>January 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201312' title='December 2013'>December 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201311' title='November 2013'>November 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201310' title='October 2013'>October 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201309' title='September 2013'>September 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201308' title='August 2013'>August 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201307' title='July 2013'>July 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201306' title='June 2013'>June 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201305' title='May 2013'>May 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201304' title='April 2013'>April 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201303' title='March 2013'>March 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201212' title='December 2012'>December 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201211' title='November 2012'>November 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201210' title='October 2012'>October 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201209' title='September 2012'>September 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201208' title='August 2012'>August 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201207' title='July 2012'>July 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201206' title='June 2012'>June 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201205' title='May 2012'>May 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201204' title='April 2012'>April 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201203' title='March 2012'>March 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201202' title='February 2012'>February 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201112' title='December 2011'>December 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201111' title='November 2011'>November 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201110' title='October 2011'>October 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201109' title='September 2011'>September 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201108' title='August 2011'>August 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201107' title='July 2011'>July 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201106' title='June 2011'>June 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201105' title='May 2011'>May 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201104' title='April 2011'>April 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201103' title='March 2011'>March 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201102' title='February 2011'>February 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201101' title='January 2011'>January 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201012' title='December 2010'>December 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201011' title='November 2010'>November 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201010' title='October 2010'>October 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201009' title='September 2010'>September 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201008' title='August 2010'>August 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201007' title='July 2010'>July 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201006' title='June 2010'>June 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201005' title='May 2010'>May 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201004' title='April 2010'>April 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201003' title='March 2010'>March 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201002' title='February 2010'>February 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201001' title='January 2010'>January 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200912' title='December 2009'>December 2009</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200911' title='November 2009'>November 2009</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200910' title='October 2009'>October 2009</a></li>
+		</ul>
+</li><li id="meta-3" class="widget widget_meta"><h2 class="widgettitle">Meta</h2>			<ul>
+						<li><a href="http://learningwebgl.com/blog/wp-login.php">Log in</a></li>
+			<li><a href="http://learningwebgl.com/blog/?feed=rss2" title="Syndicate this site using RSS 2.0">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://learningwebgl.com/blog/?feed=comments-rss2" title="The latest comments to all posts in RSS">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://wordpress.org/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.org</a></li>
+						</ul>
+</li>		</ul>
+	</div>
+</div>
+
+		</div><!--/container-->
+			<div id="footer">
+				Copyright &copy; 2013 <a href="http://learningwebgl.com/blog"><strong>Learning WebGL</strong></a> -  3D Programming for the Web <br />
+                <div class="footer-credits">
+                    Powered by <a href="http://wordpress.org/">WordPress</a> | <a href="http://flexithemes.com/themes/modern-style/">Modern Style</a> theme by <a href="http://flexithemes.com/">FlexiThemes</a>
+                </div>
+			</div><!--/footer-->
+            
+	</div><!--/wrapper-->
+	
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-2240015-5");
+pageTracker._trackPageview();
+} catch(err) {}</script>    
+<script type="text/javascript">
+/* <![CDATA[ */
+(function(){try{var s,a,i,j,r,c,l=document.getElementsByTagName("a"),t=document.createElement("textarea");for(i=0;l.length-i;i++){try{a=l[i].getAttribute("href");if(a&&a.indexOf("/cdn-cgi/l/email-protection") > -1  && (a.length > 28)){s='';j=27+ 1 + a.indexOf("/cdn-cgi/l/email-protection");if (a.length > j) {r=parseInt(a.substr(j,2),16);for(j+=2;a.length>j&&a.substr(j,1)!='X';j+=2){c=parseInt(a.substr(j,2),16)^r;s+=String.fromCharCode(c);}j+=1;s+=a.substr(j,a.length-j);}t.innerHTML=s.replace(/</g,"&lt;").replace(/>/g,"&gt;");l[i].setAttribute("href","mailto:"+t.value);}}catch(e){}}}catch(e){}})();
+/* ]]> */
+</script>
+</body>
+</html>
+
+

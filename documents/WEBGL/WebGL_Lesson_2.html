@@ -1,0 +1,642 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>  WebGL Lesson 2 &#8211; Adding colour | Learning WebGL</title>
+<script type="text/javascript">
+//<![CDATA[
+try{if (!window.CloudFlare) {var CloudFlare=[{verbose:0,p:0,byc:0,owlid:"cf",bag2:1,mirage2:0,oracle:0,paths:{cloudflare:"/cdn-cgi/nexp/dok3v=1613a3a185/"},atok:"2c1b6781e0cb3014c3b88e10d5e2d90a",petok:"63656733cf175f12cd3f766bca0ed761cea651a5-1421936651-1800",zone:"learningwebgl.com",rocket:"0",apps:{}}];CloudFlare.push({"apps":{"ape":"07ab3dcd0bbbe978a5d8d51b9df62a11"}});!function(a,b){a=document.createElement("script"),b=document.getElementsByTagName("script")[0],a.async=!0,a.src="//ajax.cloudflare.com/cdn-cgi/nexp/dok3v=919620257c/cloudflare.min.js",b.parentNode.insertBefore(a,b)}()}}catch(e){};
+//]]>
+</script>
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/screen.css" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/print.css" type="text/css" media="print" />
+<!--[if IE]><link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/ie.css" type="text/css" media="screen, projection"><![endif]-->
+<!--[if IE 6]>
+	<script src="http://learningwebgl.com/blog/wp-content/themes/modern-style/js/pngfix.js"></script>
+<![endif]--> 
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/style.css" type="text/css" media="screen" />
+<link rel="alternate" type="application/rss+xml" title="Learning WebGL RSS Feed" href="http://learningwebgl.com/blog/?feed=rss2" />
+<link rel="alternate" type="application/atom+xml" title="Learning WebGL Atom Feed" href="http://learningwebgl.com/blog/?feed=atom" />
+<link rel="pingback" href="http://learningwebgl.com/blog/xmlrpc.php" />
+
+<link rel="alternate" type="application/rss+xml" title="Learning WebGL &raquo; WebGL Lesson 2 &#8211; Adding colour Comments Feed" href="http://learningwebgl.com/blog/?feed=rss2&amp;p=134" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://learningwebgl.com/blog/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://learningwebgl.com/blog/wp-includes/wlwmanifest.xml" /> 
+<link rel='index' title='Learning WebGL' href='http://learningwebgl.com/blog' />
+<link rel='start' title='Hello, world!' href='http://learningwebgl.com/blog/?p=5' />
+<link rel='prev' title='WebGL around the net, 15 Oct 2009' href='http://learningwebgl.com/blog/?p=131' />
+<link rel='next' title='Zooming into the Mandelbrot set in a WebGL fragment shader' href='http://learningwebgl.com/blog/?p=205' />
+<meta name="generator" content="WordPress 2.9.2" />
+<link rel='canonical' href='http://learningwebgl.com/blog/?p=134' />
+	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+
+</head>
+<body>
+	<div id="wrapper">
+		<div id="container" class="container">  
+                        
+			<div class="span-16">
+                <div id="header">
+                    						<h1><a href="http://learningwebgl.com/blog">Learning WebGL</a></h1>
+						<h2>3D Programming for the Web</h2>
+										</div>
+                
+                <div class="navcontainer">
+					<ul id="nav">
+						<li ><a href="http://learningwebgl.com/blog/">Home</a></li>
+						<li class="page_item page-item-1217"><a href="http://learningwebgl.com/blog/?page_id=1217" title="The Lessons">The Lessons</a></li>
+<li class="page_item page-item-2438"><a href="http://learningwebgl.com/blog/?page_id=2438" title="WebGL Jobs">WebGL Jobs</a></li>
+<li class="page_item page-item-988"><a href="http://learningwebgl.com/blog/?page_id=988" title="The WebGL Cookbook">The WebGL Cookbook</a></li>
+<li class="page_item page-item-2"><a href="http://learningwebgl.com/blog/?page_id=2" title="About">About</a></li>
+		
+					</ul>
+				</div>
+            		<div id="content">	
+                	
+						
+												<div class="post-134 post hentry category-uncategorized clearfix" id="post-134">
+							<h2 class="title">WebGL Lesson 2 &#8211; Adding colour</h2>
+							<div class="postdate">
+                                <span>October 16th, 2009</span> 
+                                <span><a href="http://learningwebgl.com/blog/?p=134#comments" title="Comment on WebGL Lesson 2 &#8211; Adding colour">61 Comments</a></span>                             </div>
+			
+							<div class="entry">
+                                								<p><span style="float: left; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=28">&lt;&lt; Lesson 1</a></span><span style="float: right; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=239">Lesson 3 &gt;&gt;</a></span><br/><br />
+Welcome to my second WebGL tutorial!  This time around we&#8217;re going to take a look at how to get colour into the scene.  It&#8217;s based on <a href="http://nehe.gamedev.net/data/lessons/lesson.asp?lesson=03">number 3</a> in the NeHe OpenGL tutorials.</p>
+<p>Here&#8217;s what the lesson looks like when run on a browser that supports WebGL:<br />
+<img src="/lessons/lesson02/static.png" alt="A static picture of this lesson's results" /></p>
+<p><a href="/lessons/lesson02/index.html">Click here and you&#8217;ll see the live WebGL version</a>, if you&#8217;ve got a browser that supports it; <a href="http://learningwebgl.com/blog/?p=11">here&#8217;s how to get one</a> if you don&#8217;t.</p>
+<p>More on how it all works below&#8230;</p>
+<p><span id="more-134"></span></p>
+<p>A quick warning: these lessons are targeted at people with a reasonable amount of programming knowledge, but no real experience in 3D graphics; the aim is to get you up and running, with a good understanding of what&#8217;s going on in the code, so that you can start producing your own 3D Web pages as quickly as possible.  If you haven&#8217;t read <a href="http://learningwebgl.com/blog/?p=28">the first tutorial</a> already, you should do so before reading this one — here I will only explain the differences between the code for that one and the new code.</p>
+<p>As before, there may be bugs and misconceptions in this tutorial.  If you spot anything wrong, let me know in the comments and I&#8217;ll correct it ASAP.</p>
+<p>There are two ways you can get the code for this example; just &#8220;View Source&#8221; while you&#8217;re looking at the live version, or if you use GitHub, you can clone it (and the other lessons) from <a href="http://github.com/gpjt/webgl-lessons">the repository there</a>.  Either way, once you have the code, load it up in your favourite text editor and take a look.</p>
+<p>Most of it should look pretty similar from <a href="http://learningwebgl.com/blog/?p=28">the first tutorial</a>.  Running through from top to bottom, we:</p>
+<ul>
+<li>Define vertex and fragment shaders, using HTML <code>&lt;script&gt;</code> tags with types <code>"x-shader/x-vertex"</code> and <code>"x-shader/x-fragment"</code></li>
+<li>Initialise a WebGL context in <code>initGL</code></li>
+<li>Load the shaders into a WebGL program object using <code>getShader</code> and <code>initShaders</code>.</li>
+<li>Define the model-view matrix <code>mvMatrix</code> and the projection matrix <code>pMatrix</code>, along with the function <code>setMatrixUniforms</code> for pushing them over the JavaScript/WebGL divide so that the shaders can see them.</li>
+<li>Load up buffers containing information about the objects in the scene using <code>initBuffers</code>
+<li>Draw the scene itself, in the appropriately-named <code>drawScene</code>.</li>
+<li>Define a function <code>webGLStart</code> to set everything up in the first place</li>
+<li>Finally, we provide the minimal HTML required to display it all.</li>
+</ul>
+<p>The only things that have changed in this code from the first lesson are the shaders, <code>initBuffers</code>, and the <code>drawScene</code> function.  In order to explain how the changes work, you need to know a little about the WebGL rendering pipeline.  Here&#8217;s a diagram:</p>
+<p><img id="pipeline" style="float: left; margin-right: 10px;" src="/lessons/lesson02/simple-rendering-pipeline.png" alt="Simplified diagram of the WebGL rendering pipeline" />The diagram shows, in a very simplified form, how the data passed to JavaScript functions in <code>drawScene</code> is turned into pixels displayed in the WebGL <code>canvas</code> on the screen.  It only shows the steps needed to explain this lesson; we&#8217;ll look at more detailed versions in future lessons.</p>
+<p>At the highest level, the process works like this: each time you call a function like <code>drawArrays</code>, WebGL processes the data that you have previously given it in the form of attributes (like the buffers we used for vertices in lesson 1) and uniform variables (which we used for the projection and the model-view matrices), and passes it along to the vertex shader.</p>
+<p>It does this by calling the vertex shader once for each vertex, each time with the attributes set up appropriately for the vertex; the uniform variables are also passed in, but as their name suggests, they don&#8217;t change from call to call.  The vertex shader does stuff with this data — in lesson 1, it applied the projection and model-view matrices so that the vertices would all be in perspective and moved around according to our current model-view state — and puts its results into things called <em>varying variables</em>.  It can output a number of varying variables; one particular one is obligatory, <code>gl_Position</code>, which contains the coordinates of the vertex once the shader has finished messing around with it.</p>
+<p>Once the vertex shader is done, WebGL does the magic required to turn the 3D image from these varying variables into a 2D image, and then it calls the fragment shader once for each pixel in the image.  (In some 3D graphics systems you&#8217;ll hear fragment shaders referred to as pixel shaders for that reason.)  Of course, this means that it&#8217;s calling the fragment shader for those pixels that don&#8217;t have vertices in them &mdash; that is, the ones in between the pixels on which the vertices wind up.  For these, it fills in points into the positions between the vertices via a process called linear interpolation &mdash; for the vertex positions that make up our triangle, this process &#8220;fills in&#8221; the space delimited by the vertices with points to make a visible triangle.  The purpose of the fragment shader is to return the colour for each of these interpolated points, and it does this in a varying variable called <code>gl_FragColor</code>.</p>
+<p>Once the fragment shader is done, its results are messed around with a little more by WebGL (again, we&#8217;ll get into that in a future lesson) and they are put into the <em>frame buffer</em>, which is ultimately what is displayed on the screen.</p>
+<p>Hopefully, by now it&#8217;s clear that the most important trick that this lesson teaches is how to get the colour for the vertices from the JavaScript code all the way over to the fragment shader, when we don&#8217;t have direct access from one to the other.</p>
+<p>The way we do this is to make use of the fact that we can pass a number of varying variables out of the vertex shader, not just the position, and can then retrieve them in the fragment shader.  So, we pass the colour to the vertex shader, which can then put it straight into a varying variable which the fragment shader will pick up.</p>
+<p>Conveniently, this gives us gradients of colours for free.  <i>All</i> varying variables set by the vertex shader are linearly interpolated when generating the fragments between vertices, not just the positions.  Linear interpolation of the colour between the vertices gives us smooth gradients, like those you can see in the triangle in the image above.</p>
+<p>Let&#8217;s look at the code; we&#8217;ll work through the changes from lesson 1.  Firstly, the vertex shader.  It has changed quite a lot, so here&#8217;s the new code:</p>
+<pre>  attribute vec3 aVertexPosition;
+  attribute vec4 aVertexColor;
+
+  uniform mat4 uMVMatrix;
+  uniform mat4 uPMatrix;
+
+  varying vec4 vColor;
+
+  void main(void) {
+    gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+    vColor = aVertexColor;
+  }</pre>
+<p>What this is saying is that we have two attributes — inputs that vary from vertex to vertex — called <code>aVertexPosition</code> and <code>aVertexColor</code>, two non-varying uniforms called <code>uMVMatrix</code> and <code>uPMatrix</code>, and one output in the form of a varying variable called <code>vColor</code>.</p>
+<p>In the body of the shader, we calculate the <code>gl_Position</code> (which is implicitly defined as a varying variable for every vertex shader) in exactly the same way as we did in lesson 1, and all we do with the colour is pass it straight through from the input attribute to the output varying variable.</p>
+<p>Once this has been executed for each vertex, the interpolation is done to generate the fragments, and these are passed on to the fragment shader:</p>
+<pre>
+  precision mediump float;
+
+  varying vec4 vColor;
+
+  void main(void) {
+    gl_FragColor = vColor;
+  }
+</pre>
+<p>Here, after the floating-point precision boilerplate, we take the input varying variable <code>vColor</code> containing the smoothly blended colour that has come out of the linear interpolation, and just return it immediately as the colour for this fragment &mdash; that is, for this pixel.</p>
+<p>That&#8217;s all of the differences in the shaders between this lesson and the last.  There are two other changes.  The first is very small; in <code>initShaders</code> we are now getting references to two attributes rather than one; the extra lines are highlighted in red below:</p>
+<pre>
+  var shaderProgram;
+  function initShaders() {
+    var fragmentShader = getShader(gl, "shader-fs");
+    var vertexShader = getShader(gl, "shader-vs");
+
+    shaderProgram = gl.createProgram();
+    gl.attachShader(shaderProgram, vertexShader);
+    gl.attachShader(shaderProgram, fragmentShader);
+    gl.linkProgram(shaderProgram);
+
+    if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
+      alert("Could not initialise shaders");
+    }
+
+    gl.useProgram(shaderProgram);
+
+    shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
+    gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
+
+    <span style="color: red">shaderProgram.vertexColorAttribute = gl.getAttribLocation(shaderProgram, "aVertexColor");
+    gl.enableVertexAttribArray(shaderProgram.vertexColorAttribute);</span>
+
+    shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
+    shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
+  }
+</pre>
+<p>This code to get the attribute locations, which we glossed over to a certain degree in the first lesson, should now be pretty clear: they are how we get a reference to the attributes that we want to pass to the vertex shader for each vertex.  In lesson 1, we just got the vertex position attribute.  Now, obviously enough, we get the colour attribute as well.</p>
+<p>The remainder of the changes in this lesson are in <code>initBuffers</code>, which now needs to set up buffers for both the vertex positions and the vertex colours, and in <code>drawScene</code>, which needs to pass both of these up to WebGL.</p>
+<p>Looking at <code>initBuffers</code> first, we define new global variables to hold the colour buffers for the triangle and the square:</p>
+<pre>
+  var triangleVertexPositionBuffer;
+<span style="color:red;">  var triangleVertexColorBuffer;</span>
+  var squareVertexPositionBuffer;
+<span style="color:red;">  var squareVertexColorBuffer;</span>
+</pre>
+<p>Then, just after we&#8217;ve created the triangle&#8217;s vertex position buffer, we specify its vertex colours:</p>
+<pre>
+  function initBuffers() {
+    triangleVertexPositionBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexPositionBuffer);
+    var vertices = [
+         0.0,  1.0,  0.0,
+        -1.0, -1.0,  0.0,
+         1.0, -1.0,  0.0
+    ];
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+    triangleVertexPositionBuffer.itemSize = 3;
+    triangleVertexPositionBuffer.numItems = 3;
+
+<span style="color:red;">    triangleVertexColorBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexColorBuffer);
+    var colors = [
+        1.0, 0.0, 0.0, 1.0,
+        0.0, 1.0, 0.0, 1.0,
+        0.0, 0.0, 1.0, 1.0
+    ];
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
+    triangleVertexColorBuffer.itemSize = 4;
+    triangleVertexColorBuffer.numItems = 3;</span>
+</pre>
+<p>So, the values we provide for the the colours are in a list, one set of values for each vertex, just like the positions.  However, there is one interesting difference between the two array buffers: while the vertices&#8217; positions are specified as three numbers each, for X, Y and Z coordinates, their colours are specified as four elements each &mdash; red, green, blue and alpha.  Alpha, if you&#8217;re not familiar with it, is a measure of opaqueness (0 is transparent, 1 totally opaque) and will be useful in later lessons.  This change in the number of elements per item in the buffer necessitates a change to the <code>itemSize</code> that we associate with it.</p>
+<p>Next, we do the the equivalent code for the square; this time, we&#8217;re using the same colour for every vertex, so we generate the values for the buffer using a loop:</p>
+<pre>
+    squareVertexPositionBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexPositionBuffer);
+    vertices = [
+         1.0,  1.0,  0.0,
+        -1.0,  1.0,  0.0,
+         1.0, -1.0,  0.0,
+        -1.0, -1.0,  0.0
+    ];
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+    squareVertexPositionBuffer.itemSize = 3;
+    squareVertexPositionBuffer.numItems = 4;
+
+<span style="color:red;">    squareVertexColorBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexColorBuffer);
+    colors = []
+    for (var i=0; i < 4; i++) {
+      colors = colors.concat([0.5, 0.5, 1.0, 1.0]);
+    }
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
+    squareVertexColorBuffer.itemSize = 4;
+    squareVertexColorBuffer.numItems = 4;</span>
+</pre>
+<p>Now we have all of the data for our objects in a set of four buffers, so the next change is to make <code>drawScene</code> use the new data.  The new code is in red again, and should be easy to understand:</p>
+<pre>
+  function drawScene() {
+    gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+    mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
+
+    mat4.identity(mvMatrix);
+
+    mat4.translate(mvMatrix, [-1.5, 0.0, -7.0]);
+    gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexPositionBuffer);
+    gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, triangleVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+<span style="color:red;">    gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexColorBuffer);
+    gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, triangleVertexColorBuffer.itemSize, gl.FLOAT, false, 0, 0);</span>
+
+    setMatrixUniforms();
+    gl.drawArrays(gl.TRIANGLES, 0, triangleVertexPositionBuffer.numItems);
+
+    mat4.translate(mvMatrix, [3.0, 0.0, 0.0]);
+    gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexPositionBuffer);
+    gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, squareVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+<span style="color:red;">    gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexColorBuffer);
+    gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, squareVertexColorBuffer.itemSize, gl.FLOAT, false, 0, 0);</span>
+
+    setMatrixUniforms();
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, squareVertexPositionBuffer.numItems);
+  }
+</pre>
+<p>And the next change&#8230; hang on, there <i>is</i> no next change!  That was all that was necessary to add colour to our WebGL scene, and hopefully you are now also comfortable with the basics of shaders and how data is passed between them.</p>
+<p>That&#8217;s it for this lesson &mdash; hopefully it was easier going than the first!  If you have any questions, comments, or corrections, please do leave a comment below.</p>
+<p>Next time, <a href="http://learningwebgl.com/blog/?p=239">we&#8217;ll add code to animate the scene by rotating the triangle and the square</a>.</p>
+<p><span style="float: left; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=28">&lt;&lt; Lesson 1</a></span><span style="float: right; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=239">Lesson 3 &gt;&gt;</a></span><br/></p>
+<p><em>Acknowledgments: working out exactly what was going on in the rendering pipeline was made much easier by reference to the <a href="http://www.amazon.com/dp/0321502795?tag=lewe-20&#038;camp=14573&#038;creative=327641&#038;linkCode=as1&#038;creativeASIN=0321502795&#038;adid=1EX6T4SCR6T8P7D5P7WC&#038;">OpenGL ES 2.0 Programming Guide</a>, which Jim Pick recommended on his <a href="http://euclid.jimpick.com/">WebGL blog</a>.  As ever, I&#8217;m deeply in debt to <a href="http://nehe.gamedev.net/">NeHe</a> for his <a href="http://nehe.gamedev.net/data/lessons/lesson.asp?lesson=03">OpenGL tutorial</a> for the script for this lesson.</em></p>
+															</div>
+							<div class="postmeta">Posted in <a href="http://learningwebgl.com/blog/?cat=1" title="View all posts in Uncategorized" rel="category">Uncategorized</a> |  </div>
+						
+							<div class="navigation clearfix">
+								<div class="alignleft">&laquo; <a href="http://learningwebgl.com/blog/?p=131" rel="prev">WebGL around the net, 15 Oct 2009</a></div>
+								<div class="alignright"><a href="http://learningwebgl.com/blog/?p=205" rel="next">Zooming into the Mandelbrot set in a WebGL fragment shader</a> &raquo;</div>
+							</div>
+							
+															You can <a href="#respond">leave a response</a>, or <a href="http://learningwebgl.com/blog/wp-trackback.php?p=134" rel="trackback">trackback</a> from your own site.
+	
+													</div><!--/post-134-->
+						
+				
+<!-- You can start editing here. -->
+
+	<h3 id="comments">61 Responses to &#8220;WebGL Lesson 2 &#8211; Adding colour&#8221;</h3>
+
+	<ol class="commentlist">
+			<li class="comment even thread-even depth-1" id="comment-6434">
+				<div id="div-comment-6434" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/e4a776d49df254190e38367de2ca8441?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">MG</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=134&amp;cpage=2#comment-6434">March 9, 2012 at 7:37 pm</a></div>
+
+		<p>Great tutorial. I have a question though regarding the color attributes. I did not follow the tutorial exactly, but started making incremental changes over the lesson-01.. and at first I added only the triangle color. The problem was that when rendered only the triangle gets rendered. I eventually realized that rendering the square the program/shaders also expect a color array and since I haven&#8217;t yet defined the color buffer for the square, the app failed to carry out rendering of the square. I assume that rendering of the square was attempting to use the triangle color buffer, which does have a different size than the square color buffer (thus probably resulted in some incorrect memory access). My question is what if i don&#8217;t want to define vertex color for the square? What would be the quick solution to have the square rendered without colors ? My guess is that the shaders would have to identify whether the color attribute is bound to a color buffer or not and have the fragment shader map the fragcolor to a default color or a varying color. Any thoughts ?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6435">
+				<div id="div-comment-6435" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/4116d72275168a54d392c2d8aa8f4bcd?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://www.bibiluv.com/index.php?do=/blog/310/finding-quick-methods-for-payday-loans-instant/' rel='external nofollow' class='url'>3 month payday loans cash</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=134&amp;cpage=2#comment-6435">July 31, 2012 at 11:54 pm</a></div>
+
+		<p>This is a topic that&#8217;s near to my heart&#8230; Thank you! Exactly where are your contact details though?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="pingback even thread-even depth-1" id="comment-6436">
+				<div id="div-comment-6436" class="comment-body">
+				<div class="comment-author vcard">
+				<cite class="fn"><a href='http://www.kenzan8000.org/blog/?p=288' rel='external nofollow' class='url'>ガラパゴスブログ &raquo; Blog Archive &raquo; WebGLレッスン5 – テクスチャの導入</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=134&amp;cpage=2#comment-6436">August 3, 2012 at 2:12 am</a></div>
+
+		<p>[...] 以下の文章は、WebGL Lesson 5 – introducing texturesの日本語訳です。  WebGLのチュートリアルシリーズ第五回へようこそ。このチュートリアルは、第六回NeHeさんのOpenGLチュートリアルの基礎になります。チュートリアルは、分離したファイルから画像を読み込むといったものです。これは、複雑なオブジェクトを描画せずに3D空間を表現するのにお手軽な　手法です。ダンジョンゲームで岩が落下するところを想像してみてください。おそらく、ひとつひとつの岩をダンジョンの壁と別のオブジェクトとしてモデリングしたくはないでしょう。よって、壁全体はひとつのオブジェクトとして扱い、むしろ岩の画像を用意して壁を補うでしょう。  レッスンの内容をWebGLをサポートするブラウザで動かした様子です。    WebGLをサポートするブラウザ環境であれば、リンクをクリックして、WebGLの現行版をチェックしてみてください。もし持っていなければ、リンクから導入方法がわかります。  より詳しい原理を下記します。  注意点：レッスンは、プログラミングの知識を持っており、3Dグラフィックスの経験がないひとを対象にしています。できる限り早く個人の3D Webページを持てるよう、深く理解していただけると幸いです。すでに前回のチュートリアルをご覧になられていたら、この記事を読む前に読んでいただきたいです。なぜなら、このチュートリアルでは、レッスン4と新しいコードとの違いしか説明していないからです。  このチュートリアルには、バグや誤りがあるかもしれません。なにか誤りがあれば、コメントや訂正をできる限り早く教えていただきたいです。  例で紹介しているコードを手に入れるには、２つのやり方があります。現行のものを観察するようなまさにソースを見るやり方。Githubを使って、リンクのリポジトリからcloneしてくる(他のレッスンも)方法もあります。どちらかのやり方でコードを手に入れて、お気に入りのテキストエディタに読み込んで読んでみてください。  テクスチャがどのように機能しているか理解するには、3Dオブジェクト上で色の点がセットされる特有の仕組みを知ることです。レッスン２、色がフラグメントシェーダによって指定されるかを覚えていたら、画像を読み込んで、画像をフラグメントシェーダに送るには何が必要かわかりますか。フラグメントシェーダは、フラグメントを利用して画像のどの部分を取得するのか知る必要があります。  テクスチャを読み込むコードを見ていきましょう。ページ下部にあるWebGLStartのJavaScriptの実行結果を見てください(新たに追加されたコードは赤で書かれています)。 [...]</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="pingback odd alt thread-odd thread-alt depth-1" id="comment-6437">
+				<div id="div-comment-6437" class="comment-body">
+				<div class="comment-author vcard">
+				<cite class="fn"><a href='http://www.kenzan8000.org/blog/?p=301' rel='external nofollow' class='url'>ガラパゴスブログ &raquo; Blog Archive &raquo; WebGLレッスン１ – 三角形と四角形</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=134&amp;cpage=2#comment-6437">August 15, 2012 at 10:14 pm</a></div>
+
+		<p>[...] }  ここまできたら、実際に手を動かしてみましょう。GitHubもしくは直接のコードから現行バージョンのファイルをローカルにコピーしてください。直接コードを取ってくるなら、index.htmlとglMatrix-0.9.5.min.jsも忘れずに。ソースコードをローカルで実行してみて、頂点位置を置き換えたりしてみてください。いま描画しているオブジェクトは平面ですが、Z軸の座標を２、-3とずらしてみてください。すると、オブジェクトが前後に動いて、大きさが変化するはずです。何度か座標位置を変えていると、オブジェクトに透視投影の歪みが見えるかもしれません。気にしないでください。待ってみましょう。  …  さて、読めるコードすべて見ていきましょう。詳細を無視して、ページ上部のinitBuffers()をコピーアンドペーストするとやりやすいのであれば、initBuffers()のコードを取ってきて、WebGLのページを作ってみるとおもしろいかもしれません。（白黒の描画なんですがね。色については、次のレッスンで）このコードを詳細に把握することは難しくはないですが、どのようにWebGLの命令が実行されているのか理解するには、あとでWebGLのコードを書いてみるのがいいでしょう。  ここまでは大丈夫ですか？ありがとう。  重要な関数は見ましたので、他の関数を見ていきましょう。initGL()では、webGLStart()が実行されています。この内容は、ページ上部あたりに書かれていますが、写したものを下記します。 [...]</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="pingback even thread-even depth-1" id="comment-6438">
+				<div id="div-comment-6438" class="comment-body">
+				<div class="comment-author vcard">
+				<cite class="fn"><a href='http://www.codelogz.com/webgl-dart/dart-webgl-learningwebgl-lesson2-using-dart/' rel='external nofollow' class='url'>Dart + WebGL: &#8220;Learningwebgl&#8217;s Lesson-2&#8243; in Dart | Codelogz | Coding Blog</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=134&amp;cpage=2#comment-6438">October 18, 2012 at 4:48 am</a></div>
+
+		<p>[...] is the Dart code for &#8220;Lesson 2 – Adding color&#8221; from learningwebgl.com&#8217;s lesson series. For those of you who don&#8217;t know, Dart is Google&#8217;s new programming [...]</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6439">
+				<div id="div-comment-6439" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/4d8e86415148941eabda1e5334b381df?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://ostreciocie.pl' rel='external nofollow' class='url'>ciocia</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=134&amp;cpage=2#comment-6439">December 17, 2012 at 10:06 am</a></div>
+
+		<p>Uprzejmie chciałbym poinformowac, że powyższy tutorial jest napisany w sposób niezrozumiały dla mojej teściowej :/</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6440">
+				<div id="div-comment-6440" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2ebb47a2f272e8fe85a1b9106c4c1714?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Hydrodog</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=134&amp;cpage=2#comment-6440">January 8, 2013 at 3:40 pm</a></div>
+
+		<p>The problem with these tutorials is that there is a whole lot of repetitive overhead getting in the way of focusing on the opengl itself, and this is both off-putting for the beginner and makes each tutorial far longer than it has to be.</p>
+<p>I&#8217;ve refactored NeHe demos in the past in C++, so I thought I would give it a quick try in javascript.<br />
+I tried putting all the code except for the drawscene.  But the shaders appear to have to be in the html file itself.  Is there any way to get them to load externally?</p>
+<p>I tried:</p>
+<p>but this definitely didn&#8217;t work.<br />
+Everything else did though, and this allows you to defer description of every little detail for later, and focus on setting up points and projecting them</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6441">
+				<div id="div-comment-6441" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/6c2a09277d764ae08ca6e0aac3098e8c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">d0m.</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=134&amp;cpage=2#comment-6441">March 19, 2013 at 2:24 pm</a></div>
+
+		<p>Hi<br />
+It works OK if I run it from your website but when I try to run the code as an HTML file from my computer I just getting the black square &amp; no coloured triangle or square in it.<br />
+I even tried it using the code from Github.<br />
+I think there is a bit of code calling up &#8220;shaders&#8221; from WebGl which are on your website but not available out here.<br />
+Thanks.<br />
+d0m.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6442">
+				<div id="div-comment-6442" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2dc388afc02f7f1cb3e67f990471bae1?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">dd</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=134&amp;cpage=2#comment-6442">March 28, 2013 at 12:19 pm</a></div>
+
+		<p>to d0m:<br />
+You need probably to download glMatrix-0.9.5.min.js file and store it on your PC.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-30198">
+				<div id="div-comment-30198" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/95f1f40c4c99a9283765db58f94eb582?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">James Sefton</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=134&amp;cpage=2#comment-30198">May 10, 2013 at 12:52 pm</a></div>
+
+		<p>What an awesome introduction to shaders.</p>
+<p>Many thanks.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-47521">
+				<div id="div-comment-47521" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/8f3e1448dff65a560426f79c7a3cb2f5?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://www.mystic-peanut.com' rel='external nofollow' class='url'>Petar Bajic</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=134&amp;cpage=2#comment-47521">June 6, 2013 at 4:35 am</a></div>
+
+		<p>1. i tried to set alpha color value to 0.5 but it doesn&#8217;t get transparent, just more white. i placed square behind triangle and couldn&#8217;t make it visible behind semi transparent triangle.</p>
+<p>2. what if i don&#8217;t want linear gradient of colors between vertices, but i want mostly blue triangle that starts changing color only close to other two vertices?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+	</ol>
+
+	<div class="navigation">
+		<div class="alignleft"><a href="http://learningwebgl.com/blog/?p=134&#038;cpage=1#comments" >&laquo; Older Comments</a></div>
+		<div class="alignright"></div>
+	</div>
+ 
+
+
+<div id="respond">
+
+<h3>Leave a Reply</h3>
+
+<div class="cancel-comment-reply">
+	<small><a rel="nofollow" id="cancel-comment-reply-link" href="/blog/?p=134#respond" style="display:none;">Click here to cancel reply.</a></small>
+</div>
+
+
+<form action="http://learningwebgl.com/blog/wp-comments-post.php" method="post" id="commentform">
+
+
+<p><input type="text" name="author" id="author" value="" size="22" tabindex="1" aria-required='true' />
+<label for="author"><small>Name (required)</small></label></p>
+
+<p><input type="text" name="email" id="email" value="" size="22" tabindex="2" aria-required='true' />
+<label for="email"><small>Mail (will not be published) (required)</small></label></p>
+
+<p><input type="text" name="url" id="url" value="" size="22" tabindex="3" />
+<label for="url"><small>Website</small></label></p>
+
+
+<!--<p><small><strong>XHTML:</strong> You can use these tags: <code>&lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;strike&gt; &lt;strong&gt; </code></small></p>-->
+
+<p><textarea name="comment" id="comment" cols="100%" rows="10" tabindex="4"></textarea></p>
+
+<p><input name="submit" type="submit" id="submit" tabindex="5" value="Submit Comment" />
+<input type='hidden' name='comment_post_ID' value='134' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p>
+
+</form>
+
+</div>
+
+				
+							
+							</div>
+			</div>
+        <div class="span-8 last">
+    <div id="subscriptions">
+        <a href="http://learningwebgl.com/blog/?feed=rss2"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/rss.png" alt="Subscribe to RSS Feed" title="Subscribe to RSS Feed" /></a>		
+		<a href="https://twitter.com/learningwebgl" title="Follow Learning WebGL on Twitter"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/twitter.png" title="Follow Learning WebGL on Twitter" alt="Follow Learning WebGL on Twitter"  /></a>    </div>
+	<div id="sidebar">
+        <ul>
+            <li id="search">
+				 
+<div class="searchlayout">
+    <form method="get" id="searchform" action="http://learningwebgl.com/blog/"> 
+        <input type="text" value="Search" 
+            name="s" id="s"  onblur="if (this.value == '')  {this.value = 'Search';}"  
+            onfocus="if (this.value == 'Search') {this.value = '';}" />
+        <input type="image" src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/search.gif" style="border:0; vertical-align: top;" /> 
+    </form>
+</div>			</li>
+        </ul>
+            			<div class="addthis_toolbox">   
+    			    <div class="custom_images">
+    			            <a class="addthis_button_twitter"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/twitter.png" width="32" height="32" alt="Twitter" /></a>
+    			            <a class="addthis_button_delicious"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/delicious.png" width="32" height="32" alt="Delicious" /></a>
+    			            <a class="addthis_button_facebook"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/facebook.png" width="32" height="32" alt="Facebook" /></a>
+    			            <a class="addthis_button_digg"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/digg.png" width="32" height="32" alt="Digg" /></a>
+    			            <a class="addthis_button_stumbleupon"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/stumbleupon.png" width="32" height="32" alt="Stumbleupon" /></a>
+    			            <a class="addthis_button_favorites"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/favorites.png" width="32" height="32" alt="Favorites" /></a>
+    			            <a class="addthis_button_more"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/more.png" width="32" height="32" alt="More" /></a>
+    			    </div>
+    			    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js?pub=xa-4a65e1d93cd75e94"></script>
+    			</div>
+    					        
+		<ul>
+		  <li id="text-3" class="widget widget_text"><h2 class="widgettitle">Our Sponsors</h2>			<div class="textwidget">    <div style="margin-left: 10px; margin-top: 20px; width: 170px">
+    <a href="http://web.chemdoodle.com/" target="_blank"><img src="/ads/chemdoodle.gif" ></a>
+    <p>
+    Open-source <b>HTML5</b> solutions for the physical and life sciences.
+    <a style="font-decoration: underline; color: #880000;" href="http://web.chemdoodle.com/">Read more...</a>
+    </div>
+
+<iframe src="http://cdn.oreillystatic.com/widgets/author/217.html" height="400px" width="200px" scrolling="no" frameborder="0"></iframe>
+    <hr/>
+
+    <div style="margin-left: 10px; margin-top: 20px; width: 170px;">
+    <a href="http://www.pythonanywhere.com/"><img src="/ads/pythonanywhere.gif"></a>
+
+    <p>
+    <a href="http://www.pythonanywhere.com">A Python online IDE and web hosting environment</a>. 
+    <a style="font-decoration: underline; color: #880000;" href="http://www.pythonanywhere.com/">Read more...</a>
+    <br/>
+    <br/>
+    Interested in advertising on Learning WebGL? <a style="font-decoration: underline; color: #880000;" href="/cdn-cgi/l/email-protection#8df9fdecffe4fee4cdeae0ece4e1a3eee2e0">Drop me a line.</a>
+    </div></div>
+		</li>		<li id="recent-posts-3" class="widget widget_recent_entries">		<h2 class="widgettitle">Recent Posts</h2>		<ul>
+				<li><a href="http://learningwebgl.com/blog/?p=6635" title="2014: The Year in Review">2014: The Year in Review </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6617" title="WebGL around the net, 11 December 2014">WebGL around the net, 11 December 2014 </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6613" title="Crowdfunding Update">Crowdfunding Update </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6599" title="WebGL around the net, 4 December 2014">WebGL around the net, 4 December 2014 </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6585" title="WebGL around the net, 25 November 2014">WebGL around the net, 25 November 2014 </a></li>
+				</ul>
+		</li>		<li id="recent-comments-3" class="widget widget_recent_comments">			<h2 class="widgettitle">Recent Comments</h2>			<ul id="recentcomments"><li class="recentcomments"><a href='http://www.pcprogramming.com' rel='external nofollow' class='url'>John Davis</a> on <a href="http://learningwebgl.com/blog/?p=6585&#038;cpage=1#comment-3652744">WebGL around the net, 25 November 2014</a></li><li class="recentcomments"><a href='http://www.pcprogramming.com' rel='external nofollow' class='url'>John Davis</a> on <a href="http://learningwebgl.com/blog/?p=6575&#038;cpage=1#comment-3618905">WebGL around the net, 20 November 2014</a></li><li class="recentcomments">jinit on <a href="http://learningwebgl.com/blog/?page_id=2&#038;cpage=1#comment-3313484">About</a></li><li class="recentcomments">Dethraid on <a href="http://learningwebgl.com/blog/?p=507&#038;cpage=3#comment-2792181">WebGL Lesson 5 – introducing textures</a></li><li class="recentcomments">Man on <a href="http://learningwebgl.com/blog/?p=6443&#038;cpage=1#comment-2572225">WebGL around the net, 7 July 2014</a></li></ul>
+		</li><li id="linkcat-2" class="widget widget_links"><h2 class="widgettitle">Blogroll</h2>
+	<ul class='xoxo blogroll'>
+<li><a href="http://blog.tojicode.com/" title="Brandon Jones&#8217; Blog" target="_blank">Brandon Jones</a></li>
+<li><a href="http://www.gilesthomas.com/" title="Giles Thomas&#8217; Personal Blog" target="_blank">Giles Thomas</a></li>
+<li><a href="http://games.greggman.com/game/" title="Gregg Tavares&#8217; Blog" target="_blank">Gregg Tavares</a></li>
+<li><a href="http://www.learnopengles.com/" title="Learn OpenGL ES" target="_blank">Learn OpenGL ES</a></li>
+<li><a href="http://learningthreejs.com/" title="Learning Three.js Blog" target="_blank">Learning Three.js</a></li>
+<li><a href="http://nehe.gamedev.net/" title="NeHe OpenGL Tutorials" target="_blank">NeHe OpenGL</a></li>
+<li><a href="http://www.paulbrunt.co.uk/" title="Paul Brunt&#8217;s Blog" target="_blank">Paul Brunt</a></li>
+<li><a href="http://pl4n3.blogspot.com/" title="PL4N3S WORLD Blog" target="_blank">PL4N3S WORLD</a></li>
+<li><a href="http://www.rozengain.com/blog/" title="Rozengain" target="_blank">Rozengain</a></li>
+<li><a href="http://www.tonyparisi.com/" title="Tony Parisi&#8217;s Personal Blog" target="_blank">Tony Parisi</a></li>
+<li><a href="http://www.webgl.com/" title="WebGL Demos and Links" target="_blank">WebGL.com</a></li>
+
+	</ul>
+</li>
+<li id="archives-3" class="widget widget_archive"><h2 class="widgettitle">Archives</h2>		<ul>
+			<li><a href='http://learningwebgl.com/blog/?m=201501' title='January 2015'>January 2015</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201412' title='December 2014'>December 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201411' title='November 2014'>November 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201410' title='October 2014'>October 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201409' title='September 2014'>September 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201408' title='August 2014'>August 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201407' title='July 2014'>July 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201406' title='June 2014'>June 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201405' title='May 2014'>May 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201404' title='April 2014'>April 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201403' title='March 2014'>March 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201402' title='February 2014'>February 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201401' title='January 2014'>January 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201312' title='December 2013'>December 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201311' title='November 2013'>November 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201310' title='October 2013'>October 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201309' title='September 2013'>September 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201308' title='August 2013'>August 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201307' title='July 2013'>July 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201306' title='June 2013'>June 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201305' title='May 2013'>May 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201304' title='April 2013'>April 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201303' title='March 2013'>March 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201212' title='December 2012'>December 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201211' title='November 2012'>November 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201210' title='October 2012'>October 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201209' title='September 2012'>September 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201208' title='August 2012'>August 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201207' title='July 2012'>July 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201206' title='June 2012'>June 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201205' title='May 2012'>May 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201204' title='April 2012'>April 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201203' title='March 2012'>March 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201202' title='February 2012'>February 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201112' title='December 2011'>December 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201111' title='November 2011'>November 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201110' title='October 2011'>October 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201109' title='September 2011'>September 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201108' title='August 2011'>August 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201107' title='July 2011'>July 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201106' title='June 2011'>June 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201105' title='May 2011'>May 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201104' title='April 2011'>April 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201103' title='March 2011'>March 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201102' title='February 2011'>February 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201101' title='January 2011'>January 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201012' title='December 2010'>December 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201011' title='November 2010'>November 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201010' title='October 2010'>October 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201009' title='September 2010'>September 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201008' title='August 2010'>August 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201007' title='July 2010'>July 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201006' title='June 2010'>June 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201005' title='May 2010'>May 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201004' title='April 2010'>April 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201003' title='March 2010'>March 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201002' title='February 2010'>February 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201001' title='January 2010'>January 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200912' title='December 2009'>December 2009</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200911' title='November 2009'>November 2009</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200910' title='October 2009'>October 2009</a></li>
+		</ul>
+</li><li id="meta-3" class="widget widget_meta"><h2 class="widgettitle">Meta</h2>			<ul>
+						<li><a href="http://learningwebgl.com/blog/wp-login.php">Log in</a></li>
+			<li><a href="http://learningwebgl.com/blog/?feed=rss2" title="Syndicate this site using RSS 2.0">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://learningwebgl.com/blog/?feed=comments-rss2" title="The latest comments to all posts in RSS">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://wordpress.org/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.org</a></li>
+						</ul>
+</li>		</ul>
+	</div>
+</div>
+
+		</div><!--/container-->
+			<div id="footer">
+				Copyright &copy; 2013 <a href="http://learningwebgl.com/blog"><strong>Learning WebGL</strong></a> -  3D Programming for the Web <br />
+                <div class="footer-credits">
+                    Powered by <a href="http://wordpress.org/">WordPress</a> | <a href="http://flexithemes.com/themes/modern-style/">Modern Style</a> theme by <a href="http://flexithemes.com/">FlexiThemes</a>
+                </div>
+			</div><!--/footer-->
+            
+	</div><!--/wrapper-->
+	
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-2240015-5");
+pageTracker._trackPageview();
+} catch(err) {}</script>    
+<script type="text/javascript">
+/* <![CDATA[ */
+(function(){try{var s,a,i,j,r,c,l=document.getElementsByTagName("a"),t=document.createElement("textarea");for(i=0;l.length-i;i++){try{a=l[i].getAttribute("href");if(a&&a.indexOf("/cdn-cgi/l/email-protection") > -1  && (a.length > 28)){s='';j=27+ 1 + a.indexOf("/cdn-cgi/l/email-protection");if (a.length > j) {r=parseInt(a.substr(j,2),16);for(j+=2;a.length>j&&a.substr(j,1)!='X';j+=2){c=parseInt(a.substr(j,2),16)^r;s+=String.fromCharCode(c);}j+=1;s+=a.substr(j,a.length-j);}t.innerHTML=s.replace(/</g,"&lt;").replace(/>/g,"&gt;");l[i].setAttribute("href","mailto:"+t.value);}}catch(e){}}}catch(e){}})();
+/* ]]> */
+</script>
+</body>
+</html>
+
+

@@ -1,0 +1,999 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>  WebGL Lesson 10 – loading a world, and the most basic kind of camera | Learning WebGL</title>
+<script type="text/javascript">
+//<![CDATA[
+try{if (!window.CloudFlare) {var CloudFlare=[{verbose:0,p:0,byc:0,owlid:"cf",bag2:1,mirage2:0,oracle:0,paths:{cloudflare:"/cdn-cgi/nexp/dok3v=1613a3a185/"},atok:"2c1b6781e0cb3014c3b88e10d5e2d90a",petok:"0cd30edfa13aebc1ea38dab7d48b2a44474ec938-1421936909-1800",zone:"learningwebgl.com",rocket:"0",apps:{}}];CloudFlare.push({"apps":{"ape":"cac05e21862e3b37b878ffc336113b06"}});!function(a,b){a=document.createElement("script"),b=document.getElementsByTagName("script")[0],a.async=!0,a.src="//ajax.cloudflare.com/cdn-cgi/nexp/dok3v=919620257c/cloudflare.min.js",b.parentNode.insertBefore(a,b)}()}}catch(e){};
+//]]>
+</script>
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/screen.css" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/print.css" type="text/css" media="print" />
+<!--[if IE]><link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/ie.css" type="text/css" media="screen, projection"><![endif]-->
+<!--[if IE 6]>
+	<script src="http://learningwebgl.com/blog/wp-content/themes/modern-style/js/pngfix.js"></script>
+<![endif]--> 
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/style.css" type="text/css" media="screen" />
+<link rel="alternate" type="application/rss+xml" title="Learning WebGL RSS Feed" href="http://learningwebgl.com/blog/?feed=rss2" />
+<link rel="alternate" type="application/atom+xml" title="Learning WebGL Atom Feed" href="http://learningwebgl.com/blog/?feed=atom" />
+<link rel="pingback" href="http://learningwebgl.com/blog/xmlrpc.php" />
+
+<link rel="alternate" type="application/rss+xml" title="Learning WebGL &raquo; WebGL Lesson 10 – loading a world, and the most basic kind of camera Comments Feed" href="http://learningwebgl.com/blog/?feed=rss2&amp;p=1067" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://learningwebgl.com/blog/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://learningwebgl.com/blog/wp-includes/wlwmanifest.xml" /> 
+<link rel='index' title='Learning WebGL' href='http://learningwebgl.com/blog' />
+<link rel='start' title='Hello, world!' href='http://learningwebgl.com/blog/?p=5' />
+<link rel='prev' title='WebGL around the net, 3 Dec 2009' href='http://learningwebgl.com/blog/?p=1130' />
+<link rel='next' title='WebGL around the net, 4 Dec 2009' href='http://learningwebgl.com/blog/?p=1142' />
+<meta name="generator" content="WordPress 2.9.2" />
+<link rel='canonical' href='http://learningwebgl.com/blog/?p=1067' />
+	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+
+</head>
+<body>
+	<div id="wrapper">
+		<div id="container" class="container">  
+                        
+			<div class="span-16">
+                <div id="header">
+                    						<h1><a href="http://learningwebgl.com/blog">Learning WebGL</a></h1>
+						<h2>3D Programming for the Web</h2>
+										</div>
+                
+                <div class="navcontainer">
+					<ul id="nav">
+						<li ><a href="http://learningwebgl.com/blog/">Home</a></li>
+						<li class="page_item page-item-1217"><a href="http://learningwebgl.com/blog/?page_id=1217" title="The Lessons">The Lessons</a></li>
+<li class="page_item page-item-2438"><a href="http://learningwebgl.com/blog/?page_id=2438" title="WebGL Jobs">WebGL Jobs</a></li>
+<li class="page_item page-item-988"><a href="http://learningwebgl.com/blog/?page_id=988" title="The WebGL Cookbook">The WebGL Cookbook</a></li>
+<li class="page_item page-item-2"><a href="http://learningwebgl.com/blog/?page_id=2" title="About">About</a></li>
+		
+					</ul>
+				</div>
+            		<div id="content">	
+                	
+						
+												<div class="post-1067 post hentry category-uncategorized clearfix" id="post-1067">
+							<h2 class="title">WebGL Lesson 10 – loading a world, and the most basic kind of camera</h2>
+							<div class="postdate">
+                                <span>December 3rd, 2009</span> 
+                                <span><a href="http://learningwebgl.com/blog/?p=1067#comments" title="Comment on WebGL Lesson 10 – loading a world, and the most basic kind of camera">78 Comments</a></span>                             </div>
+			
+							<div class="entry">
+                                								<p><span style="float: left; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=1008">&lt;&lt; Lesson 9</a></span><span style="float: right; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=1253">Lesson 11 &gt;&gt;</a></span><br/><br />
+Welcome to my number ten in my series of WebGL tutorials, based on <a href="http://nehe.gamedev.net/data/lessons/lesson.asp?lesson=10">number 10</a> in the NeHe OpenGL tutorials.  In it, we&#8217;ll load up a 3D scene from a file (meaning that we could easily switch the file out and extend the demo), and write some simple code so that we can move around within it &mdash; a kind of nano-Doom, with its own <a href="http://en.wikipedia.org/wiki/Doom_WAD">WAD file format</a> <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
+<p>Here&#8217;s what the lesson looks like when run on a browser that supports WebGL:</p>
+<p><object width="480" height="385"><param name="movie" value="http://www.youtube.com/v/tbRbyhtRbWs&#038;hl=en_US&#038;fs=1&#038;hd=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/tbRbyhtRbWs&#038;hl=en_US&#038;fs=1&#038;hd=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="385"></embed></object></p>
+<p><a href="/lessons/lesson10/index.html">Click here and you&#8217;ll see the live WebGL version</a>, if you&#8217;ve got a browser that supports it; <a href="http://learningwebgl.com/blog/?p=11">here&#8217;s how to get one</a> if you don&#8217;t.  You should find yourself in a room with walls made up of photos of Lionel Brits, who wrote the <a href="http://nehe.gamedev.net/data/lessons/lesson.asp?lesson=10">original OpenGL tutorial</a> on which this is based <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' />    You can run around the room, and outside it, using the cursor keys or WASD, and you can look up or down using <code>Page Up</code> and <code>Page Down</code>.  One thing to look out for is that your viewpoint goes up and down in a &#8220;jogging&#8221; kind of manner as you run, just for a bit more realism.</p>
+<p>More on how it all works below&#8230;</p>
+<p><span id="more-1067"></span></p>
+<p>The usual <a href="http://learningwebgl.com/blog/?page_id=2">warning</a>: these lessons are targeted at people with a reasonable amount of programming knowledge, but no real experience in 3D graphics; the aim is to get you up and running, with a good understanding of what&#8217;s going on in the code, so that you can start producing your own 3D Web pages as quickly as possible.  If you haven&#8217;t read the previous tutorials already, you should probably do so before reading this one — here I will only explain the new stuff.</p>
+<p>There may be bugs and misconceptions in this tutorial.  If you spot anything wrong, let me know in the comments and I&#8217;ll correct it ASAP.</p>
+<p>There are two ways you can get the code for this example; just &#8220;View Source&#8221; while you&#8217;re looking at the live version, or if you use GitHub, you can clone it (and the other lessons) from <a href="http://github.com/gpjt/webgl-lessons">the repository there</a>.  A brief warning &#8212; because this tutorial loads up the details of the scene it&#8217;s showing from a separate file, it will not run in Chrome if you load it up as a file from your local machine.  This is a Chrome security &#8220;feature&#8221;.  So if you want to view a version on your own machine, you should either use Firefox beta or Minefield, or install a web server on your machine and view the page through that.</p>
+<p>Just as with the last few lessons, the easiest way to explain what&#8217;s going on in this page is to start from the bottom and work our way up.  Let&#8217;s start off with the HTML code inside the <code>body</code> tags at the bottom, which (for the first time since lesson 1!) has something interesting in it:</p>
+<pre>
+&lt;body onload="webGLStart();"&gt;
+&lt;a href="http://learningwebgl.com/blog/?p=1067"&gt;&amp;lt;&amp;lt; Back to Lesson 10&lt;/a>&lt;br /&gt;
+
+  &lt;canvas id="lesson10-canvas" style="border: none;" width="500" height="500"&gt;&lt;/canvas&gt;
+
+  <span style="color:red">&lt;div id="loadingtext"&gt;Loading world...&lt;/div&gt;</span>
+
+  &lt;br/&gt;
+Use the cursor keys or WASD to run around, and &lt;code&gt;Page Up&lt;/code&gt;/&lt;code&gt;Page Down&lt;/code&gt; to
+look up and down.
+
+&lt;br/&gt;
+&lt;br/&gt;
+&lt;a href="http://learningwebgl.com/blog/?p=1067"&gt;&amp;lt;&amp;lt; Back to Lesson 10&lt;/a&gt;
+
+&lt;/body&gt;
+</pre>
+<p>So, we have a HTML DIV that holds some placeholder text to display while the world that we&#8217;re going to display is loading; if the connection between my server and your machine was slow when you loaded the demo above, you might have seen it.  However, the message appeared on top of the canvas, not underneath it as you would expect from the HTML.  This movement was managed by a bit of CSS code further up, just at the end of the HTML <code>head</code>:</p>
+<pre>
+&lt;style type="text/css"&gt;
+    #loadingtext {
+        position:absolute;
+        top:250px;
+        left:150px;
+        font-size:2em;
+        color: white;
+    }
+&lt;/style&gt;
+</pre>
+<p>So, that&#8217;s the HTML.  Now let&#8217;s take a look at the JavaScript.</p>
+<p>The first thing to see is a simple change to our standard <code>webGLStart</code> function; as well as the usual setup stuff, it calls a new function to load the world from the server:</p>
+<pre>
+  function webGLStart() {
+    var canvas = document.getElementById("lesson10-canvas");
+    initGL(canvas);
+    initShaders();
+    initTexture();
+    <span style="color: red">loadWorld();</span>
+
+    gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    gl.enable(gl.DEPTH_TEST);
+
+    document.onkeydown = handleKeyDown;
+    document.onkeyup = handleKeyUp;
+
+    tick();
+  }
+</pre>
+<p>Let&#8217;s jump up to that code now; the <code>loadWorld</code> function is just above <code>drawScene</code>, about three quarters of way through the file.  It looks like this:</p>
+<pre>
+  function loadWorld() {
+    var request = new XMLHttpRequest();
+    request.open("GET", "world.txt");
+    request.onreadystatechange = function() {
+      if (request.readyState == 4) {
+        handleLoadedWorld(request.responseText);
+      }
+    }
+    request.send();
+  }
+</pre>
+<p>This style of code may well look familiar; it&#8217;s very similar to the kind of thing we used to load the textures.  We create an <code>XMLHttpRequest</code> object, which will handle all of the loading, and tell it to use an HTTP GET request to get the file called <code><a href="/lessons/lesson10/world.txt">world.txt</a></code> from the same directory on the same server as the current page.  We specify a callback function to be updated at different stages of the download, and this in turn calls a <code>handleLoadedWorld</code> when the <code>XMLHttpRequest</code> reports that its <code>readyState</code> is 4, which happens when the file has been completely loaded.  Once all this has been set up, we tell the <code>XMLHttpRequest</code> to start the process of getting the file by calling its <code>send</code> method.</p>
+<p>So, let&#8217;s move on to <code>handleLoadedWorld</code>, which is just above <code>loadWorld</code>.</p>
+<pre>
+  var worldVertexPositionBuffer = null;
+  var worldVertexTextureCoordBuffer = null;
+  function handleLoadedWorld(data) {
+</pre>
+<p>The function&#8217;s job is to parse the contents of the loaded file and use them to create two buffers of the kind we&#8217;ve seen so much of in previous lessons.  The contents of the loaded file are passed in as a string parameter called <code>data</code>, and the first bit of the code simply parses it.  The format of the file we&#8217;re using for this example is very simple; it contains a list of triangles, each specified by three vertices.  Each vertex is on a line to itself, containing five values: its X, Y and Z coordinates, and its S and T texture coordinates.  The file also contains comments (lines starting with <code>//</code>), and blank lines, both of which are ignored, and there is a line at the top that specifies the total number of triangles (though we don&#8217;t actually use this).</p>
+<p>Now, is this a terribly good file format?  Well, actually, no &mdash; it&#8217;s pretty terrible! It omits a lot of information that we&#8217;d like to put into a real scene; for example, normals, or different textures for different objects.  In a real-world example, you would use a different format, or even JSON.  I&#8217;ve stuck with this format, however, because (a) it&#8217;s the one used by <a href="http://nehe.gamedev.net/data/lessons/lesson.asp?lesson=10">the original OpenGL lesson</a> and (b) it&#8217;s nice and simple to parse.  However, having said all that, I&#8217;ll not explain the parsing code in detail.  Here it is:</p>
+<pre>
+    var lines = data.split("\n");
+    var vertexCount = 0;
+    var vertexPositions = [];
+    var vertexTextureCoords = [];
+    for (var i in lines) {
+      var vals = lines[i].replace(/^\s+/, "").split(/\s+/);
+      if (vals.length == 5 &#038;&#038; vals[0] != "//") {
+        // It is a line describing a vertex; get X, Y and Z first
+        vertexPositions.push(parseFloat(vals[0]));
+        vertexPositions.push(parseFloat(vals[1]));
+        vertexPositions.push(parseFloat(vals[2]));
+
+        // And then the texture coords
+        vertexTextureCoords.push(parseFloat(vals[3]));
+        vertexTextureCoords.push(parseFloat(vals[4]));
+
+        vertexCount += 1;
+      }
+    }
+</pre>
+<p>At the end of the day, all this really does is take all of the lines with five space-separated values and assume that they contain vertices, and builds up <code>vertexPositions</code> and <code>vertexTextureCoords</code> arrays using them.  It also keeps a count of vertices in <code>vertexCount</code>.</p>
+<p>The next bit of code should be very familiar-looking by now:</p>
+<pre>
+    worldVertexPositionBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, worldVertexPositionBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexPositions), gl.STATIC_DRAW);
+    worldVertexPositionBuffer.itemSize = 3;
+    worldVertexPositionBuffer.numItems = vertexCount;
+
+    worldVertexTextureCoordBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, worldVertexTextureCoordBuffer);
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexTextureCoords), gl.STATIC_DRAW);
+    worldVertexTextureCoordBuffer.itemSize = 2;
+    worldVertexTextureCoordBuffer.numItems = vertexCount;
+</pre>
+<p>So, we create two buffers containing the vertex details we&#8217;ve loaded.  Finally, once all that&#8217;s done, we clear out the DIV in the HTML that was showing the words &#8220;Loading World&#8230;&#8221;:</p>
+<pre>
+    document.getElementById("loadingtext").textContent = "";
+}
+</pre>
+<p>That&#8217;s all the code required to load the world from a file.  Before we go on to look at the code that actually uses it, let&#8217;s stop briefly and look at something interesting in the <a href="/lessons/lesson10/world.txt">world.txt</a> file.  The first three vertices, describing the first triangle in the scene, look like this:</p>
+<pre>
+// Floor 1
+-3.0  0.0 -3.0 0.0 6.0
+-3.0  0.0  3.0 0.0 0.0
+ 3.0  0.0  3.0 6.0 0.0
+</pre>
+<p>Remember, thats X, Y, Z, S, T, where S and T are the texture coordinates.  You can see that the texture coordinates are between 0 and 6.  But I previously said that texture coordinates range from 0 to 1.  What&#8217;s going on?  The answer is that when you ask for a point in a texture, the S and T coordinates are automatically taken modulo one, so 5.5 is taken from the same point in the texture image as 0.5.  This means that the texture is, in effect, automatically tiled so that it repeats as many times as required to fill the triangle.  That&#8217;s obviously very useful when you have a small texture that you want to use on a large object &mdash; say, a brickwork texture to cover a wall.</p>
+<p>Right, let&#8217;s move on to the next interesting bit of code: <code>drawScene</code>.  The first thing it does is check whether or not the buffers that are created when we have finished loading the world have been loaded; if they have not, it bails out:</p>
+<pre>
+  function drawScene() {
+    gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+    if (worldVertexTextureCoordBuffer == null || worldVertexPositionBuffer == null) {
+      return;
+    }
+</pre>
+<p>If we do have the buffers set up, the next step is to do our usual setup for the projection and the model-view matrices:</p>
+<pre>
+    mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
+
+    mat4.identity(mvMatrix);
+</pre>
+<p>The next step is to handle our camera &mdash; that is, to allow for the fact that we want our viewpoint to move through the scene.  <span id="eye-space-explanation">The first thing to remember is that, like so many things, WebGL doesn&#8217;t support cameras directly, but simulating one is easy enough.  If we had a camera, for this simple example we would want to be able to say that it was positioned at a particular X, Y, Z coordinate, and had a certain tilt around the X axis from looking upwards or downwards (called <em>pitch</em>) and a certain angle around the Y axis from having turned left or right (called <em>yaw</em>).  Because we can&#8217;t change the position of the camera &mdash; which is always effectively at (0, 0, 0) looking straight down the Z axis, what we want to do is somehow tell WebGL to adjust the scene that we have to draw, which is specified using X, Y, Z coordinates in what we call <em>world space</em>, into a new frame of reference based on the position and rotation of the camera, which we call <em>eye space</em>.</span></p>
+<p>A simple example might help here.  Let&#8217;s imagine that we have a really simple scene, in which there is a cube with its centre at (1, 2, 3) in world space.  Nothing else.  We want to simulate a camera that is positioned at (0, 0, 7), facing down the Z axis, with no pitch or yaw.  To do that, we transform the world space coordinates, and we wind up with eye space coordinates for the centre of the cube of (1, 2, -4).  Rotations complicate things a little, but not much.</p>
+<p>It&#8217;s probably pretty clear that this is yet another case for using matrices; and we could in fact keep a &#8220;camera matrix&#8221; which represents the camera&#8217;s position and rotation.  But for this example we can keep it even simpler.  We can just use our existing model-view matrix.</p>
+<p>It turns out (and may well be intuitively obvious by extrapolating from the example above) that we can simulate a camera by &#8220;backing out&#8221; of the scene in the opposite direction to the way we would move if we were going to the position and rotation of the camera, and then drawing the scene using our usual relative coordinate system.  If we imagine ourselves as the camera, we would position ourselves by moving to the appropriate position, then rotating appropriately.  So, to &#8220;back out&#8221;, we undo the rotation, and then undo the move.</p>
+<p>Putting it more mathemetically, we can simulate a camera that is at the position <em>(x, y, z)</em> and rotated by a yaw of <em>&psi;</em> and a pitch of <em>&theta;</em> by first rotating by <em>-&theta;</em> around the X axis, then by <em>-&psi;</em> around the Y axis, and then by moving to <em>(-x, -y, -z)</em>.  Once that&#8217;s done, we&#8217;ve put the model-view matrix in a state such that everything drawn from then on can use world coordinates, and it will get automatically transformed to eye coordinates by the magic of our matrix multiplication in the vertex shader.</p>
+<p>There are other ways of positioning cameras, and we&#8217;ll go over them in later lessons.  For now, here&#8217;s the code for this one:</p>
+<pre>
+    mat4.rotate(mvMatrix, degToRad(-pitch), [1, 0, 0]);
+    mat4.rotate(mvMatrix, degToRad(-yaw), [0, 1, 0]);
+    mat4.translate(mvMatrix, [-xPos, -yPos, -zPos]);
+</pre>
+<p>Right, once that&#8217;s done, all we need to do is draw the scene as described in the buffers that were loaded up earlier.  Here&#8217;s the code, it should be pretty familiar from previous lessons:</p>
+<pre>
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, mudTexture);
+    gl.uniform1i(shaderProgram.samplerUniform, 0);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, worldVertexTextureCoordBuffer);
+    gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, worldVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, worldVertexPositionBuffer);
+    gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, worldVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+    setMatrixUniforms();
+    gl.drawArrays(gl.TRIANGLES, 0, worldVertexPositionBuffer.numItems);
+  }
+</pre>
+<p>So, now we&#8217;ve covered the bulk of the new code in this lesson.  The final bit is the code we use to control our movement, including the &#8220;jogging&#8221; movement as you run.  As in the previous lessons, keyboard actions in this page are designed to give everyone the same rate of movement, however fast or slow their machine.  Owners of faster machines get the benefit of a better frame rate, not faster movement!</p>
+<p>The way this works is that in our <code>handleKeys</code> function, we use the set of keys currently being pressed by the user to work out a speed &mdash; that is, a rate of change of position &mdash; a rate of change of the pitch, and a rate of change of the yaw.  These will all be zero if no keys are being pressed, or they will be set to fixed values, in units per millisecond, if appropriate keys are being pressed.  Here&#8217;s the code, which you&#8217;ll find about two thirds of the way through the file:</p>
+<pre>
+  var pitch = 0;
+  var pitchRate = 0;
+
+  var yaw = 0;
+  var yawRate = 0;
+
+  var xPos = 0;
+  var yPos = 0.4;
+  var zPos = 0;
+
+  var speed = 0;
+
+  function handleKeys() {
+    if (currentlyPressedKeys[33]) {
+      // Page Up
+      pitchRate = 0.1;
+    } else if (currentlyPressedKeys[34]) {
+      // Page Down
+      pitchRate = -0.1;
+    } else {
+      pitchRate = 0;
+    }
+
+    if (currentlyPressedKeys[37] || currentlyPressedKeys[65]) {
+      // Left cursor key or A
+      yawRate = 0.1;
+    } else if (currentlyPressedKeys[39] || currentlyPressedKeys[68]) {
+      // Right cursor key or D
+      yawRate = -0.1;
+    } else {
+      yawRate = 0;
+    }
+
+    if (currentlyPressedKeys[38] || currentlyPressedKeys[87]) {
+      // Up cursor key or W
+      speed = 0.003;
+    } else if (currentlyPressedKeys[40] || currentlyPressedKeys[83]) {
+      // Down cursor key
+      speed = -0.003;
+    } else {
+      speed = 0;
+    }
+
+  }
+</pre>
+<p>So, taking an example from the above, if the left cursor key is pressed then our <code>yawRate</code> is set to 0.1&deg;/ms, which is 100&deg;/s &mdash; or, in other words, we start spinning to the left at a rate of one revolution every 3.6 seconds.</p>
+<p>These rate-of-change values are, as you&#8217;d expect from the previous lessons, used in the <code>animate</code> function to set the values of <code>xPos</code> and <code>zPos</code>, as well as the <code>yaw</code> and the <code>pitch</code>.  <code>yPos</code> is also set in <code>animate</code>, but by slightly different logic.  Let&#8217;s take a look at all of that; you can see the code in the file just below <code>drawScene</code>, near the bottom.  Here are the first few lines:</p>
+<pre>
+  var lastTime = 0;
+<span style="color:red">// Used to make us "jog" up and down as we move forward.
+  var joggingAngle = 0;</span>
+  function animate() {
+    var timeNow = new Date().getTime();
+    if (lastTime != 0) {
+      var elapsed = timeNow - lastTime;
+</pre>
+<p>Most of that is our normal code to work out the number of milliseconds elapsed from the last time <code>animate</code> was called.  <code>joggingAngle</code> is more interesting.  The way we get our jogging effect as we move around is by making our Y position follow a sine wave about a central value at &#8220;head height&#8221; whenever we are not at rest.  <code>joggingAngle</code> is the angle we&#8217;re pushing into the sine function in order to get our current position.</p>
+<p>Let&#8217;s look at the code that does that, and also adjusts x and z to allow for our movement:</p>
+<pre>
+      if (speed != 0) {
+        xPos -= Math.sin(degToRad(yaw)) * speed * elapsed;
+        zPos -= Math.cos(degToRad(yaw)) * speed * elapsed;
+
+        joggingAngle += elapsed * 0.6;  // 0.6 "fiddle factor" -- makes it feel more realistic <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' />
+        yPos = Math.sin(degToRad(joggingAngle)) / 20 + 0.4
+      }
+</pre>
+<p>Obviously changing position and the jogging effect should only take place when we&#8217;re actually moving &mdash; so if the <code>speed</code> is not zero, <code>xPos</code> and <code>zPos</code> are adjusted by the current speed by using a simple bit of trigonometry (using the <code>degToRad</code> function to adjust from degrees, which we use for readability, to radians, which the JavaScript trigonometry functions use).  Next, <code>joggingAngle</code> is moved on and used to work out our current <code>yPos</code>.  All of the numbers we&#8217;re using are multiplied by the number of milliseconds since the last call, which makes perfect sense in the case of <code>speed</code>, it being already in terms of units per millisecond.  The 0.6 by which we&#8217;re adjusting the elapsed number of milliseconds for the <code>joggingAngle</code> is just something determined by trial and error to have a nice, realistic effect.</p>
+<p>Once that&#8217;s done, we need to adjust <code>yaw</code> and <code>pitch</code> by their respective rates of change, which can be done even when we&#8217;re not moving:</p>
+<pre>
+      yaw += yawRate * elapsed;
+      pitch += pitchRate * elapsed;
+</pre>
+<p>Once that&#8217;s done, we just need to record the current time so that we can work out the elapsed number of milliseconds next time animate is called, and we&#8217;re done:</p>
+<pre>
+    }
+    lastTime = timeNow;
+  }
+</pre>
+<p>And that&#8217;s it!  Now you know all there is to learn from this lesson: a simple way to load up a scene graph from a text file, and one way to implement a camera.</p>
+<p>The next lesson will show how to display a sphere, and rotate it using mouse events, and will also explain how you can use rotation matrices to avoid an irritating problem called <a href="http://en.wikipedia.org/wiki/Gimbal_lock">gimbal-lock</a>.</p>
+<p><span style="float: left; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=1008">&lt;&lt; Lesson 9</a></span><span style="float: right; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=1253">Lesson 11 &gt;&gt;</a></span><br/></p>
+<p><em>Acknowledgments: The original version of this tutorial was written by Lionel Brits aka &beta;etelgeuse, and was published on <a href="http://nehe.gamedev.net/data/lessons/lesson.asp?lesson=10">NeHe&#8217;s site</a>.  This <a href=" http://stackoverflow.com/questions/196498/how-do-i-load-the-contents-of-a-text-file-into-a-javascript-variable">Stack Overflow question</a> showed me how to load a text file up from JavaScript, and <a href="http://www.xul.fr/XMLHttpRequest-object.html">this page</a> helped me debug the resulting code.</em></p>
+															</div>
+							<div class="postmeta">Posted in <a href="http://learningwebgl.com/blog/?cat=1" title="View all posts in Uncategorized" rel="category">Uncategorized</a> |  </div>
+						
+							<div class="navigation clearfix">
+								<div class="alignleft">&laquo; <a href="http://learningwebgl.com/blog/?p=1130" rel="prev">WebGL around the net, 3 Dec 2009</a></div>
+								<div class="alignright"><a href="http://learningwebgl.com/blog/?p=1142" rel="next">WebGL around the net, 4 Dec 2009</a> &raquo;</div>
+							</div>
+							
+															You can <a href="#respond">leave a response</a>, or <a href="http://learningwebgl.com/blog/wp-trackback.php?p=1067" rel="trackback">trackback</a> from your own site.
+	
+													</div><!--/post-1067-->
+						
+				
+<!-- You can start editing here. -->
+
+	<h3 id="comments">78 Responses to &#8220;WebGL Lesson 10 – loading a world, and the most basic kind of camera&#8221;</h3>
+
+	<ol class="commentlist">
+			<li class="comment even thread-even depth-1" id="comment-7261">
+				<div id="div-comment-7261" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/27f127eaaef2fb8d0b8928ef684611fd?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Ankit</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1067&amp;cpage=2#comment-7261">April 19, 2012 at 12:28 pm</a></div>
+
+		<p>I m new to Webgl , and i have used your Lesson 10 code to construct my own house 3D model but without lighting its not looking that real, i have Normal of all the surfaces and i tried your lesson 11 lighting code for it but didnt succeed &#8230;&#8230;plz can u give me some demo code to enable lighting on a flat surface<br />
+Thanx</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7262">
+				<div id="div-comment-7262" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/e40019885c42792c1e2f19d0f2770c2d?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Bender</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1067&amp;cpage=2#comment-7262">April 30, 2012 at 3:40 pm</a></div>
+
+		<p>Hi mate, thaks very much for these lessons, helped quite a lot.</p>
+<p>But I have problem with this one. It just didnt work when copy the source to PSpad and start it locally. Other lessons works fine&#8230;</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7263">
+				<div id="div-comment-7263" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/e40019885c42792c1e2f19d0f2770c2d?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Bender</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1067&amp;cpage=2#comment-7263">May 1, 2012 at 1:22 pm</a></div>
+
+		<p>yes Im using local server and yes I tried chrome and mozilla. I belive the problem is in world.txt or in the source.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7264">
+				<div id="div-comment-7264" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1067&amp;cpage=2#comment-7264">May 3, 2012 at 1:18 am</a></div>
+
+		<p>@jgrc &#8212; thanks for the feedback, I&#8217;ll look at changing that.</p>
+<p>@Mark Nov 23rd &#8212; sorry, I don&#8217;t &#8212; the file is just the one from the original NeHe lessons I based these first ten tutorials on.</p>
+<p>@Mark Nov 25th, @phil &#8212; I don&#8217;t have any collision detection code to hand, sorry!</p>
+<p>@Rod &#8212; yup, it&#8217;s due to the model.  The 6.0s for the UVs are for the floor and ceiling only &#8212; and it&#8217;s just because they&#8217;re 6 by 6 &#8220;tiles&#8221; &#8212; that is, repetitions of the texture &#8212; across.  Basically if you want your image to appear just once on your rectangle, just use 1.0 for the maximum u and v.  If you want it to appear twice horizontally and once vertically, use 2.0 for u and 1.0 for v.  And so on.</p>
+<p>@tushar &#8212; can you see any WebGL demos at all?  There&#8217;s nothing particularly special about this one&#8230;</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7265">
+				<div id="div-comment-7265" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1067&amp;cpage=2#comment-7265">May 3, 2012 at 1:21 am</a></div>
+
+		<p>@Ankit &#8212; check out <a href="http://learningwebgl.com/blog/?p=684" rel="nofollow">lesson 7</a></p>
+<p>@Bender &#8212; do you see the demo when you view it from the link under the YouTube video?  If so, then the world.txt and the source definitely work.  One thing that people often forget when copying the demos from this site is to also copy the glmatrix code, so you might want to double-check that.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7266">
+				<div id="div-comment-7266" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/a100e86e99fffc307ac13ff692b24b23?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Maayan</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1067&amp;cpage=2#comment-7266">May 8, 2012 at 5:03 pm</a></div>
+
+		<p>Hi,<br />
+I have the same problem as Bender.<br />
+And the demo is Working&#8230;</p>
+<p>i changed all the relative files paths to an absolute files paths in the site (for exsample, instand of &#8220;mud.gif&#8221;, i wrote &#8220;http://learningwebgl.com/lessons/lesson10/mud.gif&#8221;), and it&#8217;s not working! (I see black square&#8230;)</p>
+<p>what is wrong?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7267">
+				<div id="div-comment-7267" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1067&amp;cpage=2#comment-7267">May 10, 2012 at 1:31 pm</a></div>
+
+		<p>That sounds like a cross-site problem; by default WebGL (and other JavaScript) isn&#8217;t allowed to read images for other websites (otherwise imagine a page that connected to your online banking site, which you were logged into in another browser tab, and downloaded private information).  There is a way around it &#8212; the server that hosts the images can say &#8220;I don&#8217;t mind who sees these images&#8221; &#8212; but I don&#8217;t have that switched on on my site.</p>
+<p>What you need to do is set up a local web server to host your copy of the code, and then put the images there too.  If you do that, everything comes from the same server, so when you use absolute paths like &#8220;http://myserver/images/mud.gif&#8221; then it will all work.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7268">
+				<div id="div-comment-7268" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/a100e86e99fffc307ac13ff692b24b23?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Maayan</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1067&amp;cpage=2#comment-7268">May 10, 2012 at 8:19 pm</a></div>
+
+		<p>I tried to put a link of some diffrante gif images from the internet, and it&#8217;s still not working :/</p>
+<p>do you have another idea?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7269">
+				<div id="div-comment-7269" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/e40019885c42792c1e2f19d0f2770c2d?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Bender</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1067&amp;cpage=2#comment-7269">May 11, 2012 at 5:50 pm</a></div>
+
+		<p>Thanks, finally its working</p>
+<p>But one more thing, do you have any idea how to put a sky into it?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7270">
+				<div id="div-comment-7270" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/9218833e742431d4dd755212198c844c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Antonio</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1067&amp;cpage=2#comment-7270">June 9, 2012 at 5:52 pm</a></div>
+
+		<p>I need a hint to simulate a jump on spacebar press!</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7271">
+				<div id="div-comment-7271" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/b64f23b690d5a6fb5ab4a6f085424c0c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://dtconfect.wordpress.com' rel='external nofollow' class='url'>Confect</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1067&amp;cpage=2#comment-7271">June 9, 2012 at 9:44 pm</a></div>
+
+		<p>Ran into a rather strange error that I can&#8217;t figure out.<br />
+Seems to be centered around the line:</p>
+<p>var vals = lines[i].replace(/^\s+/, &#8220;&#8221;).split(/\s+/);</p>
+<p>When run from my html file, even if the source is identical to that hosted here, only the last vertex of the scene comes out with 5 elements in vals. All others have the 5 elements they should have plus an empty string (6, total).</p>
+<p>I&#8217;m not familiar with regular expressions, but I find it bizarre that the same code ran from [http://learningwebgl.com/lessons/lesson10/index.html] works fine, even when stepping through.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7272">
+				<div id="div-comment-7272" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/5d7cc3d5bba0353481a235782a633cc7?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Sime</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1067&amp;cpage=2#comment-7272">June 13, 2012 at 4:16 pm</a></div>
+
+		<p>Giles, thansks for your lessons&#8230;</p>
+<p>For Confesct and others that example dont work..try changing</p>
+<p>this: var vals = lines[i].replace(/^\s+/, “”).split(/\s+/);</p>
+<p>to this: var vals = lines[i].replace(/^\s+/, &#8220;&#8221;).split(&#8221; &#8220;);</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7273">
+				<div id="div-comment-7273" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/b64f23b690d5a6fb5ab4a6f085424c0c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://dtconfect.wordpress.com' rel='external nofollow' class='url'>Confect</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1067&amp;cpage=2#comment-7273">June 15, 2012 at 1:53 pm</a></div>
+
+		<p>Afraid that expression made it worse Sime. I need to find some time to get a grip on regular expressions &#8211; I currently have no idea what the whole /^\s+/ business is about.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7274">
+				<div id="div-comment-7274" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/5d7cc3d5bba0353481a235782a633cc7?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Sime</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1067&amp;cpage=2#comment-7274">June 22, 2012 at 2:15 pm</a></div>
+
+		<p>For me, it is working..after long hours of debuging and iterating throug loop</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7275">
+				<div id="div-comment-7275" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/5d7cc3d5bba0353481a235782a633cc7?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Sime</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1067&amp;cpage=2#comment-7275">June 22, 2012 at 2:17 pm</a></div>
+
+		<p>I use firefox</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7276">
+				<div id="div-comment-7276" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/f73672c9a9ba004d9313fc6cdbb02c3e?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">gamemanj</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1067&amp;cpage=2#comment-7276">July 21, 2012 at 12:21 pm</a></div>
+
+		<p>Bender,to draw a sky,add code before the camera translate and after the camera rotates(else the box won&#8217;t move with you correctly,and it won&#8217;t work) to make a box.<br />
+Make it a very big box,then texture it.<br />
+Now you have a skybox.<br />
+Notes about the position of the code:<br />
+If it is done before the camera rotates,the sky would look more like a giant helmet(in that it would rotate with your head)<br />
+If it is done after the camera translate,you could touch the sky(because it wouldn&#8217;t move with you.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7277">
+				<div id="div-comment-7277" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/8b9d761f3bca1c4bdda9e1e27b7dd630?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Synoecium</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1067&amp;cpage=2#comment-7277">September 2, 2012 at 7:32 am</a></div>
+
+		<p>For which people that wanted to run the demo locally and haven&#8217;t done it i can offer a simple way to make the code work. Obviously the problem is in model file &#8220;world.txt&#8221;, more exactly with XMLHttpRequest class (i can be mistaken, but it works with my chrome browser).<br />
+The solution is to get rid of loading coords from file and send plain string to the handleLoadedWorld() instead. For doing that just replace you function loadWorld with this piece of code (if you can offer a more elegant way to solve this problem, it would be great to learn it):</p>
+<p>function loadWorld() {<br />
+        /*var request = new XMLHttpRequest();<br />
+        //request.open(&#8220;GET&#8221;, &#8220;world.txt&#8221;);<br />
+        request.onreadystatechange = function () {<br />
+            if (request.readyState == 4) {<br />
+                handleLoadedWorld(request.responseText);<br />
+            }<br />
+        }<br />
+        request.send();*/<br />
+        handleLoadedWorld(&#8220;\nNUMPOLLIES 36\n\n// Floor 1\n-3.0  0.0 -3.0 0.0 6.0\n-3.0  0.0  3.0 0.0 0.0\n 3.0  0.0  3.0 6.0 0.0\n\n-3.0  0.0 -3.0 0.0 6.0\n 3.0  0.0 -3.0 6.0 6.0\n 3.0  0.0  3.0 6.0 0.0\n\n// Ceiling 1\n-3.0  1.0 -3.0 0.0 6.0\n-3.0  1.0  3.0 0.0 0.0\n 3.0  1.0  3.0 6.0 0.0\n-3.0  1.0 -3.0 0.0 6.0\n 3.0  1.0 -3.0 6.0 6.0\n 3.0  1.0  3.0 6.0 0.0\n\n// A1\n\n-2.0  1.0  -2.0 0.0 1.0\n-2.0  0.0  -2.0 0.0 0.0\n-0.5  0.0  -2.0 1.5 0.0\n-2.0  1.0  -2.0 0.0 1.0\n-0.5  1.0  -2.0 1.5 1.0\n-0.5  0.0  -2.0 1.5 0.0\n\n// A2\n\n 2.0  1.0  -2.0 2.0 1.0\n 2.0  0.0  -2.0 2.0 0.0\n 0.5  0.0  -2.0 0.5 0.0\n 2.0  1.0  -2.0 2.0 1.0\n 0.5  1.0  -2.0 0.5 1.0\n 0.5  0.0  -2.0 0.5 0.0\n\n// B1\n\n-2.0  1.0  2.0 2.0  1.0\n-2.0  0.0   2.0 2.0 0.0\n-0.5  0.0   2.0 0.5 0.0\n-2.0  1.0  2.0 2.0  1.0\n-0.5  1.0  2.0 0.5  1.0\n-0.5  0.0   2.0 0.5 0.0\n\n// B2\n\n 2.0  1.0  2.0 2.0  1.0\n 2.0  0.0   2.0 2.0 0.0\n 0.5  0.0   2.0 0.5 0.0\n 2.0  1.0  2.0 2.0  1.0\n 0.5  1.0  2.0 0.5  1.0\n 0.5  0.0   2.0 0.5 0.0\n\n// C1\n\n-2.0  1.0  -2.0 0.0  1.0\n-2.0  0.0   -2.0 0.0 0.0\n-2.0  0.0   -0.5 1.5 0.0\n-2.0  1.0  -2.0 0.0  1.0\n-2.0  1.0  -0.5 1.5  1.0\n-2.0  0.0   -0.5 1.5 0.0\n\n// C2\n\n-2.0  1.0   2.0 2.0 1.0\n-2.0  0.0   2.0 2.0 0.0\n-2.0  0.0   0.5 0.5 0.0\n-2.0  1.0  2.0 2.0 1.0\n-2.0  1.0  0.5 0.5 1.0\n-2.0  0.0   0.5 0.5 0.0\n\n// D1\n\n2.0  1.0  -2.0 0.0 1.0\n2.0  0.0   -2.0 0.0 0.0\n2.0  0.0   -0.5 1.5 0.0\n2.0  1.0  -2.0 0.0 1.0\n2.0  1.0  -0.5 1.5 1.0\n2.0  0.0   -0.5 1.5 0.0\n\n// D2\n\n2.0  1.0  2.0 2.0 1.0\n2.0  0.0   2.0 2.0 0.0\n2.0  0.0   0.5 0.5 0.0\n2.0  1.0  2.0 2.0 1.0\n2.0  1.0  0.5 0.5 1.0\n2.0  0.0   0.5 0.5 0.0\n\n// Upper hallway &#8211; L\n-0.5  1.0  -3.0 0.0 1.0\n-0.5  0.0   -3.0 0.0 0.0\n-0.5  0.0   -2.0 1.0 0.0\n-0.5  1.0  -3.0 0.0 1.0\n-0.5  1.0  -2.0 1.0 1.0\n-0.5  0.0   -2.0 1.0 0.0\n\n// Upper hallway &#8211; R\n0.5  1.0  -3.0 0.0 1.0\n0.5  0.0   -3.0 0.0 0.0\n0.5  0.0   -2.0 1.0 0.0\n0.5  1.0  -3.0 0.0 1.0\n0.5  1.0  -2.0 1.0 1.0\n0.5  0.0   -2.0 1.0 0.0\n\n// Lower hallway &#8211; L\n-0.5  1.0  3.0 0.0 1.0\n-0.5  0.0   3.0 0.0 0.0\n-0.5  0.0   2.0 1.0 0.0\n-0.5  1.0  3.0 0.0 1.0\n-0.5  1.0  2.0 1.0 1.0\n-0.5  0.0   2.0 1.0 0.0\n\n// Lower hallway &#8211; R\n0.5  1.0  3.0 0.0 1.0\n0.5  0.0   3.0 0.0 0.0\n0.5  0.0   2.0 1.0 0.0\n0.5  1.0  3.0 0.0 1.0\n0.5  1.0  2.0 1.0 1.0\n0.5  0.0   2.0 1.0 0.0\n\n\n// Left hallway &#8211; Lw\n\n-3.0  1.0  0.5 1.0 1.0\n-3.0  0.0   0.5 1.0 0.0\n-2.0  0.0   0.5 0.0 0.0\n-3.0  1.0  0.5 1.0 1.0\n-2.0  1.0  0.5 0.0 1.0\n-2.0  0.0   0.5 0.0 0.0\n\n// Left hallway &#8211; Hi\n\n-3.0  1.0  -0.5 1.0 1.0\n-3.0  0.0   -0.5 1.0 0.0\n-2.0  0.0   -0.5 0.0 0.0\n-3.0  1.0  -0.5 1.0 1.0\n-2.0  1.0  -0.5 0.0 1.0\n-2.0  0.0   -0.5 0.0 0.0\n\n// Right hallway &#8211; Lw\n\n3.0  1.0  0.5 1.0 1.0\n3.0  0.0   0.5 1.0 0.0\n2.0  0.0   0.5 0.0 0.0\n3.0  1.0  0.5 1.0 1.0\n2.0  1.0  0.5 0.0 1.0\n2.0  0.0   0.5 0.0 0.0\n\n// Right hallway &#8211; Hi\n\n3.0  1.0  -0.5 1.0 1.0\n3.0  0.0   -0.5 1.0 0.0\n2.0  0.0   -0.5 0.0 0.0\n3.0  1.0  -0.5 1.0 1.0\n2.0  1.0 -0.5 0.0 1.0\n2.0  0.0   -0.5 0.0 0.0\n&#8221;)<br />
+    }</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7278">
+				<div id="div-comment-7278" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/8b9d761f3bca1c4bdda9e1e27b7dd630?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Synoecium</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1067&amp;cpage=2#comment-7278">September 2, 2012 at 11:10 am</a></div>
+
+		<p><a href="http://pastebin.com/cy49qfRv" rel="nofollow">http://pastebin.com/cy49qfRv</a></p>
+<p>Who wants this demo with jump possibility?))<br />
+Jump on space bar, you can play with values in jump object, in order to change gravity (jump.accel) and start jump speed (jump.startSpeed);</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7279">
+				<div id="div-comment-7279" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/6e24e7f90712b5dbd75fb10fa30c4bdd?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">LastBeagle</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1067&amp;cpage=2#comment-7279">September 27, 2012 at 5:14 pm</a></div>
+
+		<p>Just to help out anybody that may have had this same problem, and I realize this doesn&#8217;t make me seem to bright <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> , but&#8230;.</p>
+<p>When you&#8217;re grabbing files from the github repository to put on your local web server, be sure not just right click and save link as, if you do it will save github&#8217;s HTML representation of that file and will have a bunch of  markup that will break the code.  So I just copied and pasted the content into a new file, and saved it on my own.  Small thing, but might help a few folks.</p>
+<p>Other than that, once I set it up locally (from the IIS on my machine), it worked fairly quickly.</p>
+<p>Giles, these are great tutorials, thanks so much!</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7280">
+				<div id="div-comment-7280" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/066c29476e3e11b713177bbc506efc10?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">x13r4dx</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1067&amp;cpage=2#comment-7280">November 6, 2012 at 12:44 am</a></div>
+
+		<p>Is there a way to add collision to this demo? like, the walls are actually walls, instead of walk through barriers.</p>
+<p>i am looking to try making a single player game.</p>
+<p>Thanks</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7281">
+				<div id="div-comment-7281" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/0cf72284f7cf5f259a07969b5f1f8fde?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Fog</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1067&amp;cpage=2#comment-7281">November 14, 2012 at 8:47 am</a></div>
+
+		<p>i&#8217;m having a problem with this particular lesson, as when i try to run it locally on a simple python server, nothing shows up. i&#8217;ve done it on both chrome and firefox and checked over to make sure i copy/paste/saved it in the right formats, but i still get a black canvas.</p>
+<p>if it helps, here&#8217;s a bit of info from the server&#8217;s command line:<br />
+&#8220;GET /webgl-utils.js HTTP/1.1&#8243; 200 -<br />
+&#8220;GET /world.txt HTTP/1.1&#8243; 200 -<br />
+code 404, message File not found<br />
+&#8220;GET /favicon.ico HTTP/1.1&#8243; 404 -</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7282">
+				<div id="div-comment-7282" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/567e905cc26e13dd8f594fb3899e2a79?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://rangine.ir' rel='external nofollow' class='url'>mohammad</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1067&amp;cpage=2#comment-7282">December 9, 2012 at 7:08 am</a></div>
+
+		<p>tnx Synoecium<br />
+handleLoadedWorld functions  works fine&#8230;<br />
+very well&#8230;</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7283">
+				<div id="div-comment-7283" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/ac9a4995c59c0339b39360582b6d009c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Grüse</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1067&amp;cpage=2#comment-7283">March 5, 2013 at 1:33 pm</a></div>
+
+		<p>I have to admit that I&#8217;m having trouble understanding the part where the position is updated according to the current yaw and speed values:</p>
+<p>xPos -= Math.sin(degToRad(yaw)) * speed * elapsed;<br />
+zPos -= Math.cos(degToRad(yaw)) * speed * elapsed;</p>
+<p>Could anyone explain this &#8220;simple bit of trigonometry&#8221; in a bit more detail for slow ones like me?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7284">
+				<div id="div-comment-7284" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/ac9a4995c59c0339b39360582b6d009c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Grüse</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1067&amp;cpage=2#comment-7284">March 5, 2013 at 2:20 pm</a></div>
+
+		<p>Alright, I think I get it. Putting in actual values for yaw helped quite a bit. Still a bit confused as to why we&#8217;re subtracting the change in position here, but the general concept seems clear now.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-21465">
+				<div id="div-comment-21465" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/dbc971c286e996495818358bb62fd962?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">TranThoHoang</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1067&amp;cpage=2#comment-21465">April 25, 2013 at 5:14 am</a></div>
+
+		<p>hello,<br />
+thank for the lessons,<br />
+i have a model in 3ds max (or maya), how do i load it to the web by webgl?<br />
+please help me, thank!!</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment byuser comment-author-admin odd alt thread-odd thread-alt depth-1" id="comment-21606">
+				<div id="div-comment-21606" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/d98ca818512f5727fff1e48764b2d6c3?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">admin</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1067&amp;cpage=2#comment-21606">April 25, 2013 at 10:47 am</a></div>
+
+		<p>Hi Tony</p>
+<p>Unfortunately there is still no easy answer to this question! As in, there is no simple app where you can just upload a model and view it on your machine. There are a few online services where you can upload a model to a site and then view it in your browser. Typically you have to sign up. Two that I know and respect are <a href="http://verold.com/" rel="nofollow">http://verold.com/</a> and <a href="https://sketchfab.com/" rel="nofollow">https://sketchfab.com/</a>. They are different, both good, depending on what you are trying to do. Neither of them just let you preview the model for use in your own application&#8230; but there are other people working on tools like that, myself included. Watch this space. Good luck!</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-24641">
+				<div id="div-comment-24641" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/dbc971c286e996495818358bb62fd962?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">TranThoHoang</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1067&amp;cpage=2#comment-24641">April 30, 2013 at 12:55 am</a></div>
+
+		<p>So, How to detect collision with the wall in this lesson</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-93802">
+				<div id="div-comment-93802" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/9a55cc5da2d045e7a23e6b81f11c33f9?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">helinjan</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1067&amp;cpage=2#comment-93802">August 15, 2013 at 2:26 am</a></div>
+
+		<p>Great tutorial once again!</p>
+<p>As some others, I had problems running this locally. My set-up is: Windows 7 (64-bit), and Chrome Canary started with &#8216;&#8211;allow-file-access-from-files&#8217; command line option to allow loading of local files. Files like world.txt I saved to my hard drive directly from the web-site.</p>
+<p>The problem was that in &#8216;handleLoadedWorld()&#8217; function the lines with vertices were split up incorrectly: They came up with six items, and thus were not recognized as vertex lines. My guess is that this has something to do with linefeed differences between windows and other operating systems (based on the fact that the unwanted &#8220;sixth item&#8221; was some kind of non-printing character).</p>
+<p>As a brute force solution I made following change. Instead of this line:</p>
+<p>var vals = lines[i].replace(/^\s+/, &#8220;&#8221;).split(/\s+/);</p>
+<p>I used these lines:</p>
+<p>lines[i] = lines[i].trimRight();<br />
+lines[i] = lines[i].trimLeft();<br />
+var vals = lines[i].split(/\s+/);</p>
+<p>It is not very elegant but works for me. Hopefully also helps others who have found no other solution.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+	</ol>
+
+	<div class="navigation">
+		<div class="alignleft"><a href="http://learningwebgl.com/blog/?p=1067&#038;cpage=1#comments" >&laquo; Older Comments</a></div>
+		<div class="alignright"></div>
+	</div>
+ 
+
+
+<div id="respond">
+
+<h3>Leave a Reply</h3>
+
+<div class="cancel-comment-reply">
+	<small><a rel="nofollow" id="cancel-comment-reply-link" href="/blog/?p=1067#respond" style="display:none;">Click here to cancel reply.</a></small>
+</div>
+
+
+<form action="http://learningwebgl.com/blog/wp-comments-post.php" method="post" id="commentform">
+
+
+<p><input type="text" name="author" id="author" value="" size="22" tabindex="1" aria-required='true' />
+<label for="author"><small>Name (required)</small></label></p>
+
+<p><input type="text" name="email" id="email" value="" size="22" tabindex="2" aria-required='true' />
+<label for="email"><small>Mail (will not be published) (required)</small></label></p>
+
+<p><input type="text" name="url" id="url" value="" size="22" tabindex="3" />
+<label for="url"><small>Website</small></label></p>
+
+
+<!--<p><small><strong>XHTML:</strong> You can use these tags: <code>&lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;strike&gt; &lt;strong&gt; </code></small></p>-->
+
+<p><textarea name="comment" id="comment" cols="100%" rows="10" tabindex="4"></textarea></p>
+
+<p><input name="submit" type="submit" id="submit" tabindex="5" value="Submit Comment" />
+<input type='hidden' name='comment_post_ID' value='1067' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p>
+
+</form>
+
+</div>
+
+				
+							
+							</div>
+			</div>
+        <div class="span-8 last">
+    <div id="subscriptions">
+        <a href="http://learningwebgl.com/blog/?feed=rss2"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/rss.png" alt="Subscribe to RSS Feed" title="Subscribe to RSS Feed" /></a>		
+		<a href="https://twitter.com/learningwebgl" title="Follow Learning WebGL on Twitter"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/twitter.png" title="Follow Learning WebGL on Twitter" alt="Follow Learning WebGL on Twitter"  /></a>    </div>
+	<div id="sidebar">
+        <ul>
+            <li id="search">
+				 
+<div class="searchlayout">
+    <form method="get" id="searchform" action="http://learningwebgl.com/blog/"> 
+        <input type="text" value="Search" 
+            name="s" id="s"  onblur="if (this.value == '')  {this.value = 'Search';}"  
+            onfocus="if (this.value == 'Search') {this.value = '';}" />
+        <input type="image" src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/search.gif" style="border:0; vertical-align: top;" /> 
+    </form>
+</div>			</li>
+        </ul>
+            			<div class="addthis_toolbox">   
+    			    <div class="custom_images">
+    			            <a class="addthis_button_twitter"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/twitter.png" width="32" height="32" alt="Twitter" /></a>
+    			            <a class="addthis_button_delicious"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/delicious.png" width="32" height="32" alt="Delicious" /></a>
+    			            <a class="addthis_button_facebook"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/facebook.png" width="32" height="32" alt="Facebook" /></a>
+    			            <a class="addthis_button_digg"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/digg.png" width="32" height="32" alt="Digg" /></a>
+    			            <a class="addthis_button_stumbleupon"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/stumbleupon.png" width="32" height="32" alt="Stumbleupon" /></a>
+    			            <a class="addthis_button_favorites"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/favorites.png" width="32" height="32" alt="Favorites" /></a>
+    			            <a class="addthis_button_more"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/more.png" width="32" height="32" alt="More" /></a>
+    			    </div>
+    			    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js?pub=xa-4a65e1d93cd75e94"></script>
+    			</div>
+    					        
+		<ul>
+		  <li id="text-3" class="widget widget_text"><h2 class="widgettitle">Our Sponsors</h2>			<div class="textwidget">    <div style="margin-left: 10px; margin-top: 20px; width: 170px">
+    <a href="http://web.chemdoodle.com/" target="_blank"><img src="/ads/chemdoodle.gif" ></a>
+    <p>
+    Open-source <b>HTML5</b> solutions for the physical and life sciences.
+    <a style="font-decoration: underline; color: #880000;" href="http://web.chemdoodle.com/">Read more...</a>
+    </div>
+
+<iframe src="http://cdn.oreillystatic.com/widgets/author/217.html" height="400px" width="200px" scrolling="no" frameborder="0"></iframe>
+    <hr/>
+
+    <div style="margin-left: 10px; margin-top: 20px; width: 170px;">
+    <a href="http://www.pythonanywhere.com/"><img src="/ads/pythonanywhere.gif"></a>
+
+    <p>
+    <a href="http://www.pythonanywhere.com">A Python online IDE and web hosting environment</a>. 
+    <a style="font-decoration: underline; color: #880000;" href="http://www.pythonanywhere.com/">Read more...</a>
+    <br/>
+    <br/>
+    Interested in advertising on Learning WebGL? <a style="font-decoration: underline; color: #880000;" href="/cdn-cgi/l/email-protection#8ffbffeefde6fce6cfe8e2eee6e3a1ece0e2">Drop me a line.</a>
+    </div></div>
+		</li>		<li id="recent-posts-3" class="widget widget_recent_entries">		<h2 class="widgettitle">Recent Posts</h2>		<ul>
+				<li><a href="http://learningwebgl.com/blog/?p=6635" title="2014: The Year in Review">2014: The Year in Review </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6617" title="WebGL around the net, 11 December 2014">WebGL around the net, 11 December 2014 </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6613" title="Crowdfunding Update">Crowdfunding Update </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6599" title="WebGL around the net, 4 December 2014">WebGL around the net, 4 December 2014 </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6585" title="WebGL around the net, 25 November 2014">WebGL around the net, 25 November 2014 </a></li>
+				</ul>
+		</li>		<li id="recent-comments-3" class="widget widget_recent_comments">			<h2 class="widgettitle">Recent Comments</h2>			<ul id="recentcomments"><li class="recentcomments"><a href='http://www.pcprogramming.com' rel='external nofollow' class='url'>John Davis</a> on <a href="http://learningwebgl.com/blog/?p=6585&#038;cpage=1#comment-3652744">WebGL around the net, 25 November 2014</a></li><li class="recentcomments"><a href='http://www.pcprogramming.com' rel='external nofollow' class='url'>John Davis</a> on <a href="http://learningwebgl.com/blog/?p=6575&#038;cpage=1#comment-3618905">WebGL around the net, 20 November 2014</a></li><li class="recentcomments">jinit on <a href="http://learningwebgl.com/blog/?page_id=2&#038;cpage=1#comment-3313484">About</a></li><li class="recentcomments">Dethraid on <a href="http://learningwebgl.com/blog/?p=507&#038;cpage=3#comment-2792181">WebGL Lesson 5 – introducing textures</a></li><li class="recentcomments">Man on <a href="http://learningwebgl.com/blog/?p=6443&#038;cpage=1#comment-2572225">WebGL around the net, 7 July 2014</a></li></ul>
+		</li><li id="linkcat-2" class="widget widget_links"><h2 class="widgettitle">Blogroll</h2>
+	<ul class='xoxo blogroll'>
+<li><a href="http://blog.tojicode.com/" title="Brandon Jones&#8217; Blog" target="_blank">Brandon Jones</a></li>
+<li><a href="http://www.gilesthomas.com/" title="Giles Thomas&#8217; Personal Blog" target="_blank">Giles Thomas</a></li>
+<li><a href="http://games.greggman.com/game/" title="Gregg Tavares&#8217; Blog" target="_blank">Gregg Tavares</a></li>
+<li><a href="http://www.learnopengles.com/" title="Learn OpenGL ES" target="_blank">Learn OpenGL ES</a></li>
+<li><a href="http://learningthreejs.com/" title="Learning Three.js Blog" target="_blank">Learning Three.js</a></li>
+<li><a href="http://nehe.gamedev.net/" title="NeHe OpenGL Tutorials" target="_blank">NeHe OpenGL</a></li>
+<li><a href="http://www.paulbrunt.co.uk/" title="Paul Brunt&#8217;s Blog" target="_blank">Paul Brunt</a></li>
+<li><a href="http://pl4n3.blogspot.com/" title="PL4N3S WORLD Blog" target="_blank">PL4N3S WORLD</a></li>
+<li><a href="http://www.rozengain.com/blog/" title="Rozengain" target="_blank">Rozengain</a></li>
+<li><a href="http://www.tonyparisi.com/" title="Tony Parisi&#8217;s Personal Blog" target="_blank">Tony Parisi</a></li>
+<li><a href="http://www.webgl.com/" title="WebGL Demos and Links" target="_blank">WebGL.com</a></li>
+
+	</ul>
+</li>
+<li id="archives-3" class="widget widget_archive"><h2 class="widgettitle">Archives</h2>		<ul>
+			<li><a href='http://learningwebgl.com/blog/?m=201501' title='January 2015'>January 2015</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201412' title='December 2014'>December 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201411' title='November 2014'>November 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201410' title='October 2014'>October 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201409' title='September 2014'>September 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201408' title='August 2014'>August 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201407' title='July 2014'>July 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201406' title='June 2014'>June 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201405' title='May 2014'>May 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201404' title='April 2014'>April 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201403' title='March 2014'>March 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201402' title='February 2014'>February 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201401' title='January 2014'>January 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201312' title='December 2013'>December 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201311' title='November 2013'>November 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201310' title='October 2013'>October 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201309' title='September 2013'>September 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201308' title='August 2013'>August 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201307' title='July 2013'>July 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201306' title='June 2013'>June 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201305' title='May 2013'>May 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201304' title='April 2013'>April 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201303' title='March 2013'>March 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201212' title='December 2012'>December 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201211' title='November 2012'>November 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201210' title='October 2012'>October 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201209' title='September 2012'>September 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201208' title='August 2012'>August 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201207' title='July 2012'>July 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201206' title='June 2012'>June 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201205' title='May 2012'>May 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201204' title='April 2012'>April 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201203' title='March 2012'>March 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201202' title='February 2012'>February 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201112' title='December 2011'>December 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201111' title='November 2011'>November 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201110' title='October 2011'>October 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201109' title='September 2011'>September 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201108' title='August 2011'>August 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201107' title='July 2011'>July 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201106' title='June 2011'>June 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201105' title='May 2011'>May 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201104' title='April 2011'>April 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201103' title='March 2011'>March 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201102' title='February 2011'>February 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201101' title='January 2011'>January 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201012' title='December 2010'>December 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201011' title='November 2010'>November 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201010' title='October 2010'>October 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201009' title='September 2010'>September 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201008' title='August 2010'>August 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201007' title='July 2010'>July 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201006' title='June 2010'>June 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201005' title='May 2010'>May 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201004' title='April 2010'>April 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201003' title='March 2010'>March 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201002' title='February 2010'>February 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201001' title='January 2010'>January 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200912' title='December 2009'>December 2009</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200911' title='November 2009'>November 2009</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200910' title='October 2009'>October 2009</a></li>
+		</ul>
+</li><li id="meta-3" class="widget widget_meta"><h2 class="widgettitle">Meta</h2>			<ul>
+						<li><a href="http://learningwebgl.com/blog/wp-login.php">Log in</a></li>
+			<li><a href="http://learningwebgl.com/blog/?feed=rss2" title="Syndicate this site using RSS 2.0">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://learningwebgl.com/blog/?feed=comments-rss2" title="The latest comments to all posts in RSS">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://wordpress.org/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.org</a></li>
+						</ul>
+</li>		</ul>
+	</div>
+</div>
+
+		</div><!--/container-->
+			<div id="footer">
+				Copyright &copy; 2013 <a href="http://learningwebgl.com/blog"><strong>Learning WebGL</strong></a> -  3D Programming for the Web <br />
+                <div class="footer-credits">
+                    Powered by <a href="http://wordpress.org/">WordPress</a> | <a href="http://flexithemes.com/themes/modern-style/">Modern Style</a> theme by <a href="http://flexithemes.com/">FlexiThemes</a>
+                </div>
+			</div><!--/footer-->
+            
+	</div><!--/wrapper-->
+	
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-2240015-5");
+pageTracker._trackPageview();
+} catch(err) {}</script>    
+<script type="text/javascript">
+/* <![CDATA[ */
+(function(){try{var s,a,i,j,r,c,l=document.getElementsByTagName("a"),t=document.createElement("textarea");for(i=0;l.length-i;i++){try{a=l[i].getAttribute("href");if(a&&a.indexOf("/cdn-cgi/l/email-protection") > -1  && (a.length > 28)){s='';j=27+ 1 + a.indexOf("/cdn-cgi/l/email-protection");if (a.length > j) {r=parseInt(a.substr(j,2),16);for(j+=2;a.length>j&&a.substr(j,1)!='X';j+=2){c=parseInt(a.substr(j,2),16)^r;s+=String.fromCharCode(c);}j+=1;s+=a.substr(j,a.length-j);}t.innerHTML=s.replace(/</g,"&lt;").replace(/>/g,"&gt;");l[i].setAttribute("href","mailto:"+t.value);}}catch(e){}}}catch(e){}})();
+/* ]]> */
+</script>
+</body>
+</html>
+
+

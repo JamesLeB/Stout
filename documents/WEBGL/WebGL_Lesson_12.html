@@ -1,0 +1,1248 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>  WebGL Lesson 12 – point lighting | Learning WebGL</title>
+<script type="text/javascript">
+//<![CDATA[
+try{if (!window.CloudFlare) {var CloudFlare=[{verbose:0,p:0,byc:0,owlid:"cf",bag2:1,mirage2:0,oracle:0,paths:{cloudflare:"/cdn-cgi/nexp/dok3v=1613a3a185/"},atok:"2c1b6781e0cb3014c3b88e10d5e2d90a",petok:"ab7b7da9f68ed3b406c0ddc2e6fd39a9316e9720-1421936950-1800",zone:"learningwebgl.com",rocket:"0",apps:{}}];CloudFlare.push({"apps":{"ape":"7c61cf54d89d87c18c9eb1761be2c554"}});!function(a,b){a=document.createElement("script"),b=document.getElementsByTagName("script")[0],a.async=!0,a.src="//ajax.cloudflare.com/cdn-cgi/nexp/dok3v=919620257c/cloudflare.min.js",b.parentNode.insertBefore(a,b)}()}}catch(e){};
+//]]>
+</script>
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/screen.css" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/print.css" type="text/css" media="print" />
+<!--[if IE]><link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/ie.css" type="text/css" media="screen, projection"><![endif]-->
+<!--[if IE 6]>
+	<script src="http://learningwebgl.com/blog/wp-content/themes/modern-style/js/pngfix.js"></script>
+<![endif]--> 
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/style.css" type="text/css" media="screen" />
+<link rel="alternate" type="application/rss+xml" title="Learning WebGL RSS Feed" href="http://learningwebgl.com/blog/?feed=rss2" />
+<link rel="alternate" type="application/atom+xml" title="Learning WebGL Atom Feed" href="http://learningwebgl.com/blog/?feed=atom" />
+<link rel="pingback" href="http://learningwebgl.com/blog/xmlrpc.php" />
+
+<link rel="alternate" type="application/rss+xml" title="Learning WebGL &raquo; WebGL Lesson 12 – point lighting Comments Feed" href="http://learningwebgl.com/blog/?feed=rss2&amp;p=1359" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://learningwebgl.com/blog/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://learningwebgl.com/blog/wp-includes/wlwmanifest.xml" /> 
+<link rel='index' title='Learning WebGL' href='http://learningwebgl.com/blog' />
+<link rel='start' title='Hello, world!' href='http://learningwebgl.com/blog/?p=5' />
+<link rel='prev' title='Is it time to remove the compatibility cruft?' href='http://learningwebgl.com/blog/?p=1423' />
+<link rel='next' title='WebGL around the net, 5 Jan 2010' href='http://learningwebgl.com/blog/?p=1454' />
+<meta name="generator" content="WordPress 2.9.2" />
+<link rel='canonical' href='http://learningwebgl.com/blog/?p=1359' />
+	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+
+</head>
+<body>
+	<div id="wrapper">
+		<div id="container" class="container">  
+                        
+			<div class="span-16">
+                <div id="header">
+                    						<h1><a href="http://learningwebgl.com/blog">Learning WebGL</a></h1>
+						<h2>3D Programming for the Web</h2>
+										</div>
+                
+                <div class="navcontainer">
+					<ul id="nav">
+						<li ><a href="http://learningwebgl.com/blog/">Home</a></li>
+						<li class="page_item page-item-1217"><a href="http://learningwebgl.com/blog/?page_id=1217" title="The Lessons">The Lessons</a></li>
+<li class="page_item page-item-2438"><a href="http://learningwebgl.com/blog/?page_id=2438" title="WebGL Jobs">WebGL Jobs</a></li>
+<li class="page_item page-item-988"><a href="http://learningwebgl.com/blog/?page_id=988" title="The WebGL Cookbook">The WebGL Cookbook</a></li>
+<li class="page_item page-item-2"><a href="http://learningwebgl.com/blog/?page_id=2" title="About">About</a></li>
+		
+					</ul>
+				</div>
+            		<div id="content">	
+                	
+						
+												<div class="post-1359 post hentry category-uncategorized clearfix" id="post-1359">
+							<h2 class="title">WebGL Lesson 12 – point lighting</h2>
+							<div class="postdate">
+                                <span>January 5th, 2010</span> 
+                                <span><a href="http://learningwebgl.com/blog/?p=1359#comments" title="Comment on WebGL Lesson 12 – point lighting">38 Comments</a></span>                             </div>
+			
+							<div class="entry">
+                                								<p><span style="float: left; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=1253">&lt;&lt; Lesson 11</a></span><span style="float: right; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=1523">Lesson 13 &gt;&gt;</a></span><br/><br />
+Welcome to my number twelve in my series of WebGL tutorials, the second one that isn&#8217;t based on <a href="http://nehe.gamedev.net/">the NeHe OpenGL tutorials</a>.  In it, we&#8217;ll go through point lighting, which is pretty simple, but is important and will lead on to interesting things later.  Point lighting, as you might expect, is lighting that comes from a particular point within a scene &mdash; unlike the directional lighting we&#8217;ve been using so far, which comes from some point outside the scene.</p>
+<p>Here&#8217;s what the lesson looks like when run on a browser that supports WebGL:</p>
+<p><object width="425" height="344"><param name="movie" value="http://www.youtube.com/v/t-JPgkg2itQ&#038;hl=en_US&#038;fs=1&#038;"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/t-JPgkg2itQ&#038;hl=en_US&#038;fs=1&#038;" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="425" height="344"></embed></object></p>
+<p><a href="/lessons/lesson12/index.html">Click here and you&#8217;ll see the live WebGL version</a>, if you&#8217;ve got a browser that supports it; <a href="http://learningwebgl.com/blog/?p=11">here&#8217;s how to get one</a> if you don&#8217;t.  You&#8217;ll see a sphere and cube orbiting; both will probably be white for a few moments while the textures load, but once that&#8217;s done you should see that the sphere is the moon and the cube a (not-to-scale) wooden crate.  Both are illuminated by a point light source that is in between them.  If you want to change the light&#8217;s position, colour, etc., there are fields beneath the WebGL canvas.</p>
+<p>More on how it all works below&#8230;</p>
+<p><span id="more-1359"></span></p>
+<p>The usual <a href="http://learningwebgl.com/blog/?page_id=2">warning</a>: these lessons are targeted at people with a reasonable amount of programming knowledge, but no real experience in 3D graphics; the aim is to get you up and running, with a good understanding of what&#8217;s going on in the code, so that you can start producing your own 3D Web pages as quickly as possible.  If you haven&#8217;t read the previous tutorials already, you should probably do so before reading this one &mdash; here I will only explain the new stuff.  The lesson is based on <a href="http://learningwebgl.com/blog/?p=1253">lesson 11</a>, so you should make sure that you understand that one (and please do post a comment on  that post if anything&#8217;s unclear about it!)</p>
+<p>There may be bugs and misconceptions in this tutorial.  If you spot anything wrong, let me know in the comments and I&#8217;ll correct it ASAP.</p>
+<p>There are two ways you can get the code for this example; just &#8220;View Source&#8221; while you&#8217;re looking at the live version, or if you use GitHub, you can clone it (and the other lessons) from <a href="http://github.com/gpjt/webgl-lessons">the repository there</a>.</p>
+<p>Let&#8217;s kick off by describing exactly what we&#8217;re trying to do with point lighting; the difference between it and directional lighting is that the light comes from a point within the scene.  A moment&#8217;s thought should make it clear that this means that the angle from which it comes is different at every point in the scene.  So, the obvious way to model it is to calculate the direction toward the light&#8217;s location for each vertex and then to just do exactly the same calculations as we did for directional lighting.  And that&#8217;s what we do!</p>
+<p>(You might be thinking, at this point, that perhaps it would be even better to calculate the direction to the light not just for every vertex, but for the points between vertices &mdash; that is, for the fragments.  And you&#8217;d be quite right in thinking that; lighting like that is harder work for the graphics card, but it looks much better.  And it&#8217;s what we&#8217;ll move on to in the next lesson <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
+<p>Now we&#8217;ve determined what to do, it&#8217;s worth looking once again at <a href="/lessons/lesson12/index.html">this lesson&#8217;s demo page</a> and noting one more thing: there&#8217;s no actual object in the scene at the point where the light is coming from. If you want to have an object that appears to be casting light (say, the sun in the centre of the solar system) then you need to define the light source and the object separately.  Doing the object should be pretty easy based on the previous lessons, so in this walkthough I&#8217;ll only explain how the point light source works.  As you might expect from the description above, it&#8217;s actually really simple; most of the differences between this page and <a href="http://learningwebgl.com/blog/?p=1253">lesson 11</a>&#8217;s are simply to draw the cube and make it and the sphere orbit&#8230;</p>
+<p>As usual, we&#8217;ll start at the bottom of the source HTML file and work our way up through the differences between this file and lesson 11&#8217;s.  The first set of changes are in the HTML <code>body</code>, where the fields where you could enter a light direction have changed to be the position of the light.  This is simple enough that there&#8217;s no point in showing them here, so let&#8217;s move on up to <code>webGLStart</code>.  Once again, the changes are simple &mdash; this lesson has no mouse-based controls, so we have no mouse-handling code, and the function formerly known as <code>initTexture</code> is now called <code>initTextures</code> because it&#8217;s going to load two of them.  Not very exciting&#8230;</p>
+<p>Moving a little further up, the <code>tick</code> function has gained a new call, to <code>animate</code>, so that our scene updates over time:</p>
+<pre>
+  function tick() {
+    requestAnimFrame(tick);
+    drawScene();
+    <span style="color: red">animate();</span>
+  }
+</pre>
+<p>Above that is the animate function itself, which simply updates two global variables that describe how far around their orbits the moon and the cube are in such a manner that they orbit at 50&deg;/second:</p>
+<pre>
+  var lastTime = 0;
+  function animate() {
+    var timeNow = new Date().getTime();
+    if (lastTime != 0) {
+      var elapsed = timeNow - lastTime;
+
+      moonAngle += 0.05 * elapsed;
+      cubeAngle += 0.05 * elapsed;
+    }
+    lastTime = timeNow;
+  }
+</pre>
+<p>The next function up is <code>drawScene</code>, which has a few interesting changes.  It starts off with the normal boilerplate code to clear the canvas and set up our perspective, and then has code identical to lesson 11&#8217;s to check whether the lighting checkbox is checked and to send the ambient lighting colour to the graphics card:</p>
+<pre>
+  function drawScene() {
+    gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+    mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
+
+    var lighting = document.getElementById("lighting").checked;
+    gl.uniform1i(shaderProgram.useLightingUniform, lighting);
+    if (lighting) {
+      gl.uniform3f(
+        shaderProgram.ambientColorUniform,
+        parseFloat(document.getElementById("ambientR").value),
+        parseFloat(document.getElementById("ambientG").value),
+        parseFloat(document.getElementById("ambientB").value)
+      );
+</pre>
+<p>Next, we push the position of our point light up to the graphics card in a uniform.  This is equivalent to the code that pushed the lighting direction up in lesson 11; the difference is in something that was taken away rather than something added.  When we sent the lighting direction to the graphics card, we needed to turn it into a unit vector (that is, scale it so that its length was one unit) and reverse its direction.  No need for anything like that here: we just push the coordinates of the light directly up:</p>
+<pre>
+      gl.uniform3f(
+        shaderProgram.pointLightingLocationUniform,
+        parseFloat(document.getElementById("lightPositionX").value),
+        parseFloat(document.getElementById("lightPositionY").value),
+        parseFloat(document.getElementById("lightPositionZ").value)
+      );
+</pre>
+<p>Next, we do the same for the point light&#8217;s colour, and we&#8217;re done with the lighting code in <code>drawScene</code>.</p>
+<pre>
+      gl.uniform3f(
+        shaderProgram.pointLightingColorUniform,
+        parseFloat(document.getElementById("pointR").value),
+        parseFloat(document.getElementById("pointG").value),
+        parseFloat(document.getElementById("pointB").value)
+      );
+    }
+</pre>
+<p>Next, we actually draw the sphere and the cube in the appropriate positions:</p>
+<pre>
+    mat4.identity(mvMatrix);
+
+    mat4.translate(mvMatrix, [0, 0, -20]);
+
+    mvPushMatrix();
+    mat4.rotate(mvMatrix, degToRad(moonAngle), [0, 1, 0]);
+    mat4.translate(mvMatrix, [5, 0, 0]);
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, moonTexture);
+    gl.uniform1i(shaderProgram.samplerUniform, 0);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, moonVertexPositionBuffer);
+    gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, moonVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, moonVertexTextureCoordBuffer);
+    gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, moonVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, moonVertexNormalBuffer);
+    gl.vertexAttribPointer(shaderProgram.vertexNormalAttribute, moonVertexNormalBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, moonVertexIndexBuffer);
+    setMatrixUniforms();
+    gl.drawElements(gl.TRIANGLES, moonVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+    mvPopMatrix();
+
+    mvPushMatrix();
+    mat4.rotate(mvMatrix, degToRad(cubeAngle), [0, 1, 0]);
+    mat4.translate(mvMatrix, [5, 0, 0]);
+    gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
+    gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, cubeVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexNormalBuffer);
+    gl.vertexAttribPointer(shaderProgram.vertexNormalAttribute, cubeVertexNormalBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexTextureCoordBuffer);
+    gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, cubeVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, crateTexture);
+    gl.uniform1i(shaderProgram.samplerUniform, 0);
+
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVertexIndexBuffer);
+    setMatrixUniforms();
+    gl.drawElements(gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+    mvPopMatrix();
+  }
+</pre>
+<p>So, that&#8217;s <code>drawScene</code>.  Moving further up the code, you will see that <code>initBuffers</code> has gained our standard code for generating buffers for a cube as well as the code for a sphere, and even further up that <code>initTextures</code> is now loading two textures instead of just one.</p>
+<p>The next, and in fact the final, change in the file is the most important one.  If you scroll up to the top, where the vertex shader is, you&#8217;ll see that it has a few small changes, and its these that make the difference for this lesson.  Working through from the top, with changes in red:</p>
+<pre>
+  attribute vec3 aVertexPosition;
+  attribute vec3 aVertexNormal;
+  attribute vec2 aTextureCoord;
+
+  uniform mat4 uMVMatrix;
+  uniform mat4 uPMatrix;
+  uniform mat3 uNMatrix;
+
+  uniform vec3 uAmbientColor;
+
+  <span style="color: red">uniform vec3 uPointLightingLocation;
+  uniform vec3 uPointLightingColor;</span>
+</pre>
+<p>So, we have uniforms for the lighting location and colour to replace the old lighting direction and colour.  Next:</p>
+<pre>
+  uniform bool uUseLighting;
+
+  varying vec2 vTextureCoord;
+  varying vec3 vLightWeighting;
+
+  void main(void) {
+    <span style="color: red">vec4 mvPosition = uMVMatrix * vec4(aVertexPosition, 1.0);
+    gl_Position = uPMatrix * mvPosition;</span>
+</pre>
+<p>What we&#8217;ve done here is split our old code in two.  In all of our vertex shaders so far, we&#8217;ve applied the model-view matrix and the projection matrix to the vertex position in one go, like this:</p>
+<pre>
+    // Code from lesson 11
+    gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+</pre>
+<p>Now, we&#8217;re storing the intermediate value, the position of the vertex with the current model-view matrix applied but before it has been adjusted to allow for perspective.  This is used in the next bit:</p>
+<pre>
+    vTextureCoord = aTextureCoord;
+
+    if (!uUseLighting) {
+      vLightWeighting = vec3(1.0, 1.0, 1.0);
+    } else {
+      <span style="color: red">vec3 lightDirection = normalize(uPointLightingLocation - mvPosition.xyz);</span>
+</pre>
+<p>The light&#8217;s position is in terms of the world coordinates, and the vertex position, once it&#8217;s been multiplied by the model-view matrix, is also in terms of world coordinates.  We need to work out the direction of the point light from our current vertex in terms of these coordinates, and to work out the direction from one point to another, we just need to subtract them; once that&#8217;s done, we need to normalise the direction vector so that, just like our old lighting direction vector, it has a length of one.  Once that&#8217;s done, all of the pieces are in place to do a calculation that&#8217;s identical to the one we were doing for directional lighting, with just a few variable names changed:</p>
+<pre>
+      vec3 transformedNormal = uNMatrix * aVertexNormal;
+      float directionalLightWeighting = max(dot(transformedNormal, <span style="color: red">lightDirection</span>), 0.0);
+      vLightWeighting = uAmbientColor + <span style="color: red">uPointLightingColor</span> * directionalLightWeighting;
+</pre>
+<p>And that&#8217;s it!  You now know how to write shaders to provide point lighting.</p>
+<p>That&#8217;s it for now; next time we&#8217;ll look at lighting again, improving the realism of our scene by making the lighting work per-fragment instead of per-vertex.</p>
+<p><span style="float: left; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=1253">&lt;&lt; Lesson 11</a></span><span style="float: right; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=1523">Lesson 13 &gt;&gt;</a></span><br/></p>
+<p><em>Acknowledgments: As before, the texture-map for the moon <a href="http://maps.jpl.nasa.gov/">comes from NASA&#8217;s JPL website</a>, and the code to generate a sphere is based on <a href="https://cvs.khronos.org/svn/repos/registry/trunk/public/webgl/sdk/demos/webkit/Earth.html">this demo</a>, which was originally by the WebKit team.  Many thanks to both!</em></p>
+															</div>
+							<div class="postmeta">Posted in <a href="http://learningwebgl.com/blog/?cat=1" title="View all posts in Uncategorized" rel="category">Uncategorized</a> |  </div>
+						
+							<div class="navigation clearfix">
+								<div class="alignleft">&laquo; <a href="http://learningwebgl.com/blog/?p=1423" rel="prev">Is it time to remove the compatibility cruft?</a></div>
+								<div class="alignright"><a href="http://learningwebgl.com/blog/?p=1454" rel="next">WebGL around the net, 5 Jan 2010</a> &raquo;</div>
+							</div>
+							
+															You can <a href="#respond">leave a response</a>, or <a href="http://learningwebgl.com/blog/wp-trackback.php?p=1359" rel="trackback">trackback</a> from your own site.
+	
+													</div><!--/post-1359-->
+						
+				
+<!-- You can start editing here. -->
+
+	<h3 id="comments">38 Responses to &#8220;WebGL Lesson 12 – point lighting&#8221;</h3>
+
+	<ol class="commentlist">
+			<li class="comment even thread-even depth-1" id="comment-7383">
+				<div id="div-comment-7383" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/f06f8fad11810690c6e743c0fffc4017?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">aa</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7383">January 5, 2010 at 4:31 pm</a></div>
+
+		<p>Runs slow here <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_sad.gif' alt=':(' class='wp-smiley' /> </p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7384">
+				<div id="div-comment-7384" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/f06f8fad11810690c6e743c0fffc4017?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">aa</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7384">January 5, 2010 at 4:37 pm</a></div>
+
+		<p>Chromium profiler says  gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT) takes about 30% of cpu cycles!</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7385">
+				<div id="div-comment-7385" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7385">January 5, 2010 at 5:09 pm</a></div>
+
+		<p>Wow, that&#8217;s really weird!  Have you tried it on any other browsers?  And which OS are you on?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7386">
+				<div id="div-comment-7386" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/f06f8fad11810690c6e743c0fffc4017?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">aa</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7386">January 5, 2010 at 6:07 pm</a></div>
+
+		<p>Yeah Linux, also on Firefox. May be a driver issue (fglrx). Advanced GLGE demo works smooth though as most other demos do.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7387">
+				<div id="div-comment-7387" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7387">January 5, 2010 at 6:43 pm</a></div>
+
+		<p>Hmm, there was a silly bug in the sphere code which was causing problems on Windows Chrome, and I&#8217;ve just fixed that &#8212; could you take another look and see if it helped performance for you too?  It would be odd if it did (the bug in question stopped it from displaying under Chrome at all!) but you never know&#8230;</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7388">
+				<div id="div-comment-7388" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/e873edb1d1943ea7087468439ce64d37?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://trevor.smith.name/' rel='external nofollow' class='url'>Trevor F. Smith</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7388">January 5, 2010 at 6:50 pm</a></div>
+
+		<p>Running the tutorial scene with the latest MineField on a rev1 Intel MacBook with the RadeonX1600 is smooth.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7389">
+				<div id="div-comment-7389" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7389">January 5, 2010 at 7:17 pm</a></div>
+
+		<p>Excellent, thanks for letting me know, Trevor!</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7390">
+				<div id="div-comment-7390" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/f06f8fad11810690c6e743c0fffc4017?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">aa</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7390">January 5, 2010 at 11:36 pm</a></div>
+
+		<p>No, about as choppy, maybe a bit less.<br />
+I&#8217;m sorry: clear is only taking 0.30%!</p>
+<p>This is output firebug<br />
+drawScene	392	25.28%	309.101ms	1211.98ms	3.092ms	2.379ms	15.624ms	index.html (line 531)<br />
+(?)()	10192	11.2%	136.924ms	136.924ms	0.013ms	0.007ms	5.775ms	1 (line 2)<br />
+setMatrixUniforms	784	8.18%	99.972ms	459.569ms	0.586ms	0.445ms	6.504ms	index.html (line 285)<br />
+(?)()	10192	6.91%	84.48ms	221.404ms	0.022ms	0.012ms	5.782ms	1 (line 2)<br />
+(?)()	1960	6.17%	75.386ms	122.591ms	0.063ms	0.048ms	0.954ms	1 (line 2)<br />
+(?)()	784	5.99%	73.203ms	296.45ms	0.378ms	0.283ms	6.164ms	1 (line 2)<br />
+(?)()	1568	5.33%	65.128ms	114.127ms	0.073ms	0.05ms	0.332ms<br />
+(?)()	5876	5.42%	29.868ms	102.334ms	0.017ms	0.012ms	0.108ms</p>
+<p>first (?) () is function</p>
+<p>function (a) {<br />
+    var i, elements = a.elements || a;<br />
+    if (typeof elements[0][0] != &#8220;undefined&#8221;) {<br />
+        var b = elements.length, ki = b, nj, kj, j;<br />
+        this.elements = [];<br />
+        do {<br />
+            i = ki &#8211; b;<br />
+            nj = elements[i].length;<br />
+            kj = nj;<br />
+            this.elements[i] = [];<br />
+            do {<br />
+                j = kj &#8211; nj;<br />
+                this.elements[i][j] = elements[i][j];<br />
+            } while (&#8211;nj);<br />
+        } while (&#8211;b);<br />
+        return this;<br />
+    }<br />
+    var n = elements.length, k = n;<br />
+    this.elements = [];<br />
+    do {<br />
+        i = k &#8211; n;<br />
+        this.elements.push([elements[i]]);<br />
+    } while (&#8211;n);<br />
+    return this;<br />
+}</p>
+<p>second is</p>
+<p>function (a) {<br />
+    if (!a.elements) {<br />
+        return this.map(function (x) {return x * a;});<br />
+    }<br />
+    var b = a.modulus ? true : false;<br />
+    var M = a.elements || a;<br />
+    if (typeof M[0][0] == &#8220;undefined&#8221;) {<br />
+        M = Matrix.create(M).elements;<br />
+    }<br />
+    if (!this.canMultiplyFromLeft(M)) {<br />
+        return null;<br />
+    }<br />
+    var d = this.elements.length, ki = d, i, nj, kj = M[0].length, j;<br />
+    var e = this.elements[0].length, elements = [], sum, nc, c;<br />
+    do {<br />
+        i = ki &#8211; d;<br />
+        elements[i] = [];<br />
+        nj = kj;<br />
+        do {<br />
+            j = kj &#8211; nj;<br />
+            sum = 0;<br />
+            nc = e;<br />
+            do {<br />
+                c = e &#8211; nc;<br />
+                sum += this.elements[i][c] * M[c][j];<br />
+            } while (&#8211;nc);<br />
+            elements[i][j] = sum;<br />
+        } while (&#8211;nj);<br />
+    } while (&#8211;d);<br />
+    var M = Matrix.create(elements);<br />
+    return b ? M.col(1) : M;<br />
+}</p>
+<p>third is</p>
+<p>function () {<br />
+    if (!this.isSquare() || this.isSingular()) {<br />
+        return null;<br />
+    }<br />
+    var a = this.elements.length, ki = a, i, j;<br />
+    var M = this.augment(Matrix.I(a)).toRightTriangular();<br />
+    var b, kp = M.elements[0].length, p, els, divisor;<br />
+    var c = [], new_element;<br />
+    do {<br />
+        i = a &#8211; 1;<br />
+        els = [];<br />
+        b = kp;<br />
+        c[i] = [];<br />
+        divisor = M.elements[i][i];<br />
+        do {<br />
+            p = kp &#8211; b;<br />
+            new_element = M.elements[i][p] / divisor;<br />
+            els.push(new_element);<br />
+            if (p &gt;= ki) {<br />
+                c[i].push(new_element);<br />
+            }<br />
+        } while (&#8211;b);<br />
+        M.elements[i] = els;<br />
+        for (j = 0; j &lt; i; j++) {<br />
+            els = [];<br />
+            b = kp;<br />
+            do {<br />
+                p = kp &#8211; b;<br />
+                els.push(M.elements[j][p] &#8211; M.elements[i][p] * M.elements[j][i]);<br />
+            } while (&#8211;b);<br />
+            M.elements[j] = els;<br />
+        }<br />
+    } while (&#8211;a);<br />
+    return Matrix.create(c);<br />
+}</p>
+<p>fifth is</p>
+<p>function (a) {<br />
+    var M = new Matrix;<br />
+    return M.setElements(a);<br />
+}</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7391">
+				<div id="div-comment-7391" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7391">January 6, 2010 at 10:54 am</a></div>
+
+		<p>Thanks!  I&#8217;ll take a look.  BTW how do you get the source for unknown functions like that in Firebug?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7392">
+				<div id="div-comment-7392" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/f06f8fad11810690c6e743c0fffc4017?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">aa</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7392">January 6, 2010 at 2:30 pm</a></div>
+
+		<p>Right mouse button, copy source. Or hovering just to see them.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7393">
+				<div id="div-comment-7393" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7393">January 6, 2010 at 8:17 pm</a></div>
+
+		<p>Odd, I don&#8217;t see those.  I&#8217;m using <a href="http://getfirebug.com/releases/firebug/1.6X/firebug-1.6X.0a1.xpi" rel="nofollow">http://getfirebug.com/releases/firebug/1.6X/firebug-1.6X.0a1.xpi</a>, you?</p>
+<p>Anyway, those functions are presumably matrix multiplication stuff from Sylvester.  I suppose they might be particularly slow (I know that there&#8217;s an optimisation I need to apply to the calculation of the normal matrix) but it really does seem weird that they&#8217;re particularly slow in your browser but not in mine.  Still, if Paul&#8217;s GLGE demo is fast then it must be something specific about this one.</p>
+<p>When you say that other demos are OK, are you including the other ones I&#8217;ve done?  In particular, is the last one (the moon that can be spun around with the mouse) usable?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7394">
+				<div id="div-comment-7394" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/f06f8fad11810690c6e743c0fffc4017?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">aa</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7394">January 6, 2010 at 9:02 pm</a></div>
+
+		<p>The moon is also not usable. The most others, however, are. It&#8217;s both in Firefox as in Chromium (a little bit less in Chromium).</p>
+<p>I installed that version (was using 1.4) but those still show up.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7395">
+				<div id="div-comment-7395" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/f06f8fad11810690c6e743c0fffc4017?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">aa</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7395">January 6, 2010 at 9:20 pm</a></div>
+
+		<p>More clear: this demo is more usable in Chromium.<br />
+The moon demo is more usable in Firefox.</p>
+<p>But, there seems to be a problem at my computer! First the most examples were usable, but now only example 10 is. But that&#8217;s still strange, because the advanced glge demo is running smooth steadily at 30/40 fps!</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7396">
+				<div id="div-comment-7396" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7396">January 6, 2010 at 11:49 pm</a></div>
+
+		<p>OK, that&#8217;s really weird!  When you say &#8220;first the most examples were usable&#8221;, was this all when you checked them today, or do you mean that they perform worse now then they did when you tried them several days ago?  I&#8217;m wondering if one of my retrospective changes might have broken something.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7397">
+				<div id="div-comment-7397" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/f06f8fad11810690c6e743c0fffc4017?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">aa</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7397">January 7, 2010 at 8:27 am</a></div>
+
+		<p>Several weeks ago.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7398">
+				<div id="div-comment-7398" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/f06f8fad11810690c6e743c0fffc4017?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">aa</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7398">January 7, 2010 at 2:40 pm</a></div>
+
+		<p>Ah found the problem. Probably a driver, X, or Firefox issue. When I start certain examples in Firefox, the performance of WebGL in most examples (except some like GLGE) decreases very much after that. After computer restart performance is normal again. Maybe video memory somehow isn&#8217;t released in Firefox? In Chromium it&#8217;s no problem. It must be something like that.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7399">
+				<div id="div-comment-7399" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7399">January 7, 2010 at 7:12 pm</a></div>
+
+		<p>That&#8217;s odd!  I wonder why GLGE isn&#8217;t affected?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7400">
+				<div id="div-comment-7400" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/abc11a9ccf12dee0cb23ad45bea73a2e?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Glut</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7400">February 7, 2010 at 12:34 pm</a></div>
+
+		<p>as far as i can see, you did some changes in the initShaders method, which are not mentioned in the tutorial. maybe you&#8217;d like to add this <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7401">
+				<div id="div-comment-7401" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7401">February 7, 2010 at 1:19 pm</a></div>
+
+		<p>Hi Glut &#8212; not sure which changes you mean.  I&#8217;ve only changed the names of a couple of uniforms&#8230; unless you mean these ones?  <a href="http://learningwebgl.com/blog/?p=1606" rel="nofollow">http://learningwebgl.com/blog/?p=1606</a>  &#8212; if so, I&#8217;ve also retrospectively changed all of the lessons back to #1 <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7402">
+				<div id="div-comment-7402" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/7003deac085d650cf2e03b0ae09f9b34?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Dane Lindblad</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7402">March 7, 2011 at 9:39 pm</a></div>
+
+		<p>If you&#8217;re going through all the trouble of recalculating the reduced light intensity based on the normals, couldn&#8217;t you also (pretty painlessly) recalculate the reduced light intensity based on the reduced radiation with distance from the light source?</p>
+<p>If you store the vector</p>
+<p>uPointLightingDistance = uPointLightingLocation &#8211; mvPosition.xyz</p>
+<p>instead of normalizing it right away, you could then calculate the distance light weighting with the formula:</p>
+<p>distanceLightWeighting = alpha/(uPointLightingDistance*uPointLightingDistance)</p>
+<p>where alpha is the intensity of the light at distance d=0.</p>
+<p>This would help ensure that objects at the same orientation, but with different distances from the light source would have different degrees of shading.  I may not have the syntax right as I&#8217;m just learning this through your tutorials, but I KNOW I have the physics right.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7403">
+				<div id="div-comment-7403" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7403">March 9, 2011 at 7:47 pm</a></div>
+
+		<p>Hi Dane,</p>
+<p>Interesting.  The algorithm I&#8217;m using is pretty much a standard, but you&#8217;re quite right that the physics aren&#8217;t great and just scaling the weighting down by the distance squared (though I think you mean alpha is intensity at distance 1, right?) would make it more accurate.</p>
+<p>I&#8217;ll give it a go and see whether it works.</p>
+<p>Cheers,</p>
+<p>Giles</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7404">
+				<div id="div-comment-7404" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2f7a102b0595fb2640c354cc798efe2a?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">masterx</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7404">May 9, 2011 at 11:05 am</a></div>
+
+		<p>hi giles,</p>
+<p>i have tried this tutorial and added walking to it.<br />
+But i notice the light will move along with player how is this possible?</p>
+<p>Should the light position be minus the player position?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7405">
+				<div id="div-comment-7405" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7405">May 30, 2011 at 12:56 am</a></div>
+
+		<p>Yup, that would work.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7406">
+				<div id="div-comment-7406" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/223fd47fdfc0f1893e2562d2e920833f?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">xema25</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7406">October 10, 2011 at 11:51 am</a></div>
+
+		<p>The problem with the walking is that if you &#8220;rotate&#8221; the camera it would be wrong to just calculate de camera position using what you use.</p>
+<p>I think I should do this, but i doesn&#8217;t work right&#8230; (the light doesn&#8217;t move with the camera, but it&#8217;s bad located) Any Idea?</p>
+<p>void main(void) {<br />
+  vec4 mvPosition = uMVMatrix * vec4(aVertexPosition, 1.0);<br />
+  vec4 lightPos = uMVMatrix * vec4(uPointLightingLocation, 1.0);<br />
+  gl_Position = uPMatrix * mvPosition;<br />
+  vTextureCoord = aTextureCoord;</p>
+<p>  if (!uUseLighting) {<br />
+    vLightWeighting = vec3(1.0, 1.0, 1.0);<br />
+  } else {<br />
+    vec3 lightDirection = normalize(lightPos.xyz &#8211; mvPosition.xyz);</p>
+<p>    vec3 transformedNormal = uNMatrix * aVertexNormal;</p>
+<p>    float directionalLightWeighting = max(dot(transformedNormal, lightDirection), 0.0);<br />
+    vLightWeighting = uAmbientColor + uPointLightingColor * directionalLightWeighting;<br />
+  }<br />
+}</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7407">
+				<div id="div-comment-7407" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7407">October 10, 2011 at 7:07 pm</a></div>
+
+		<p>The problem is that you&#8217;re applying the model-view matrix (which contains the current rotation that should be applied to the object) to the light location as well.</p>
+<p>One way to do this neatly is to have separate view and model matrices instead of having one combined model-view matrix.  You then apply the inverse of the view matrix to the camera, and both the model and the view matrices to the objects.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7408">
+				<div id="div-comment-7408" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/0adf9d7540d6a93af70283d8b7961ae8?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Mari</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7408">October 12, 2011 at 3:04 pm</a></div>
+
+		<p>Hi giles,</p>
+<p>Thank you for your excellent tutorial!<br />
+Could you help me to understand the following part?</p>
+<p>&gt;   void main(void) {<br />
+&gt;    vec4 mvPosition = uMVMatrix * vec4(aVertexPosition, 1.0);<br />
+&gt;    gl_Position = uPMatrix * mvPosition;<br />
+&#8230; snip</p>
+<p>&gt;    if (!uUseLighting) {<br />
+&gt;      vLightWeighting = vec3(1.0, 1.0, 1.0);<br />
+&gt;    } else {<br />
+&gt;      vec3 lightDirection = normalize(uPointLightingLocation &#8211; mvPosition.xyz);</p>
+<p>&gt; The light&#8217;s position is in terms of the world coordinates, and the<br />
+&gt; vertex position, once it’s been multiplied by the model-view matrix,<br />
+&gt; is also in terms of world coordinates.</p>
+<p>&#8212;&#8212;&#8212;&#8212;-<br />
+&gt;      vec3 lightDirection = normalize(uPointLightingLocation &#8211; mvPosition.xyz);</p>
+<p>In this line, &#8220;uPointLightingLocation&#8221; is in terms of the world<br />
+coordinates, but &#8220;mvPosition.xyz&#8221; is in terms of the view coordinates,<br />
+not &#8220;world coordinates&#8221;. Because it has been multiplied by the model-view matrix.</p>
+<p>In this case, &#8220;uPointLightingLocation&#8221; should be multiplied by<br />
+model-view matrix?  such as,</p>
+<p>vec4 mvPositionLightingLocation = uMVMatrix * vec4(uPointLightingLocation, 1.0);</p>
+<p>and then the lightDirection should be</p>
+<p>      vec3 lightDirection = normalize(mvPointLightingLocation &#8211; mvPosition.xyz);</p>
+<p>Am I missing something?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7409">
+				<div id="div-comment-7409" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7409">October 12, 2011 at 7:30 pm</a></div>
+
+		<p>Hi Mari, glad you like the tutorial!  The difference is that the lighting&#8217;s position is fixed.  The mvMatrix combines the various translations and rotations that determine where the currently-drawn object is &#8212; that is, the position of the crate or the moon as related to the viewpoint.  The lighting therefore shouldn&#8217;t be adjusted by it, as that would make the light move around with the objects.</p>
+<p>Is that any clearer?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7410">
+				<div id="div-comment-7410" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/0adf9d7540d6a93af70283d8b7961ae8?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Mari</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7410">October 13, 2011 at 1:56 am</a></div>
+
+		<p>Hi giles,<br />
+Thank you for your quick reply!</p>
+<p>&gt; The mvMatrix combines the various translations and rotations that<br />
+&gt; determine where the currently-drawn object is — that is, the position<br />
+&gt; of the crate or the moon as related to the viewpoint. The lighting<br />
+&gt; therefore shouldn’t be adjusted by it, as that would make the light<br />
+&gt; move around with the objects.</p>
+<p>Sorry, I made a mistake.</p>
+<p>My question is as follows<br />
+&#8220;position&#8221; is multiplied by the model-view matrix to transform into<br />
+a &#8220;view&#8221; coordinate.<br />
+However, uPointLightingLocation is still in a &#8220;world&#8221; coordinate.<br />
+As both coordinates are different, you cannot subtract them.</p>
+<p>If you calculate the lightDirection, you need to transform<br />
+the uPointLightingLocation into &#8220;view&#8221; coordinate by multiplying<br />
+&#8220;view&#8221; matrix (not model-view matrix) before subtraction.</p>
+<p>I rewrote my reply as follows:</p>
+<p>&gt;&gt; In this case, “uPointLightingLocation” should be multiplied by<br />
+&#8220;view&#8221; matrix? such as,<br />
+&gt;&gt; vec4 vPositionLightingLocation = uVMatrix * vec4(uPointLightingLocation, 1.0);</p>
+<p>In your example, uVMatrix (view matrix) is not available in your example.<br />
+It need to be added.</p>
+<p>&gt;&gt; and then the lightDirection should be<br />
+&gt;&gt; vec3 lightDirection = normalize(vPointLightingLocation.xyz – mvPosition.xyz);</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7411">
+				<div id="div-comment-7411" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7411">October 18, 2011 at 1:50 pm</a></div>
+
+		<p>Hi Mari &#8212; right, I understand now.  You&#8217;re right, in this case the camera position is locked so the &#8220;model-view&#8221; matrix is strictly speaking only a model matrix.  If they were separated then you&#8217;d have a view matrix that contained the camera position and then a model matrix for positioning the items in the scene.  The light position would, as you say, be multiplied only by the view matrix.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7412">
+				<div id="div-comment-7412" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/84faee64d5ad6bb11052b08bc8451ea2?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Damien</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7412">October 21, 2011 at 5:52 pm</a></div>
+
+		<p>Hi Giles,<br />
+First, very nice&#8221;s&#8221; tutorial&#8221;s&#8221; ! I follow all of them, but I wait for the nexts =P (Sorry for my English, I&#8217;m French)</p>
+<p>But I have one question, in all tutorials I don&#8217;t find the anwser :<br />
+It&#8217;s about light effects. I try to make some static light-points in a land (by &#8220;land&#8221;, I mean a big floor ^^).<br />
+With your tutorials, I succeed to make this &#8220;land&#8221;, and a first-person-game-like with moves by pressing keys.</p>
+<p>My problem : no lesson I followed learn me how to do that..<br />
+Light effects move when the character move, it&#8217;s not a indoor-light-effect, like a lamp in the middle of a room with 4 walls..</p>
+<p>Do you know what I mean ? I can explain in another words, if I&#8217;m not clear <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+<p>Thanks if you can help me, otherwise thanks for all of your job !</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="pingback even thread-even depth-1" id="comment-7413">
+				<div id="div-comment-7413" class="comment-body">
+				<div class="comment-author vcard">
+				<cite class="fn"><a href='http://www.jlabstudio.com/webgl/2011/11/webgl-tutorial-12-punto-de-iluminacion/' rel='external nofollow' class='url'>WebGL Tutorial 12 &#8211; Punto de iluminación &middot; Experimentando en la web</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7413">November 21, 2011 at 2:26 pm</a></div>
+
+		<p>[...] tutorial de la serie Aprende webGL. Es una traducción no literal de su respectivo tutorial en Learning webGL. Ésta lección, como la anterior, no va a estar basada en ningún tutorial de OpenGL de NeHe. En [...]</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7414">
+				<div id="div-comment-7414" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/415676c50c4480625b206c052777768a?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Jeff</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7414">November 29, 2011 at 3:17 pm</a></div>
+
+		<p>Hi Giles.<br />
+this tutorial is amazing!</p>
+<p>but i have some question.</p>
+<p>how can i build a world that camera cannot penetrated?<br />
+and function requestAnimFrame(tick), how does it work?</p>
+<p>thanks a lot.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7415">
+				<div id="div-comment-7415" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/47afd04b281fd1fb5ff38a9cc5378562?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Tobias</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7415">November 30, 2011 at 5:56 pm</a></div>
+
+		<p>Thank you for that great Tutorial,<br />
+unfortunatelry as some other people here, I&#8217;m fighting with the transformation. When moving the camera the light followed.<br />
+I was solving this problem as Mari said by calculating</p>
+<p>vec4 lightPos = uMVMatrix * vec4(uPointLightingLocation, 1.0);<br />
+and<br />
+vec3 lightDirection = normalize(lightPos.xyz &#8211; mvPosition.xyz);</p>
+<p>Unfortunately I still have a problem. Maybe someone might help me with that.</p>
+<p>I made a &#8220;kind of&#8221; scene graph, which gives the opportunity to draw a cube and addChild(cube2) on it.<br />
+When drawing, I first draw the cube itself and at the end the draw() method calls for eachChildren.draw()</p>
+<p>for(var i in this.children)<br />
+{<br />
+mvPushMatrix();<br />
+  mat4.translate(mvMatrix, this.children[i].positionsVector.getVektorArray());<br />
+  mat4.rotate(mvMatrix, degToRad(this.children[i].rotation), this.children[i].rotationsVector.getVektorArray());<br />
+  this.children[i].draw();<br />
+ mvPopMatrix();<br />
+}</p>
+<p>So far everything goes fine. Except for one thing: when rotating the child cube, the coordinates are rotated as well &#8211; but for the light as well.<br />
+So the light, that comes from the top of the scene is making a side brighter. That is, because the cube (better the mvMatrix) got rotated and now the top is the side. But still the top gets brighter.<br />
+That means, the rotation isn&#8217;t included in that position calculation.</p>
+<p>Has anyone an idea how to manage this?</p>
+<p>Thank you very much for everything!<br />
+ Tobias</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7416">
+				<div id="div-comment-7416" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/47afd04b281fd1fb5ff38a9cc5378562?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Tobias</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7416">November 30, 2011 at 8:29 pm</a></div>
+
+		<p>Well, in other words, I need to rotate the lightposition &#8220;inverse&#8221; so when lighting the top, after rotating to the left, I need to light the right side.<br />
+Any ideas how to manage this? And should I do this in the shader script or on the &#8220;client side&#8221; before pushing the coordinates of the light source?<br />
+Maybe thats easier to understand.<br />
+I really hope someone may help me with that!<br />
+Thank you very much anyway,<br />
+ Tobias</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7417">
+				<div id="div-comment-7417" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/47afd04b281fd1fb5ff38a9cc5378562?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Tobias</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7417">December 1, 2011 at 2:41 pm</a></div>
+
+		<p>Ah, okay, finally I found my mistake.<br />
+Using the lightposition with the MVMatrix goes wrong when making changes to the Matrix before.<br />
+Of course I was rotating the whole matrix with this object. So The solution was simple. I was creating a Matrix only for the Camera but not to include the whole Matrix into the light position. (sorry for my bad english)<br />
+Anyway, If anyone else hast the same problem, try doing something like this:</p>
+<p>vec4 mvPosition = uMVMatrix * vec4(aVertexPosition, 1.0);<br />
+vec4 lightPos = uMVCameraMatrix * vec4(uPointLightingLocation, 1.0);<br />
+[...]<br />
+vec3 lightDirection = normalize(lightPos.xyz &#8211; mvPosition.xyz);</p>
+<p>Tadaa! It works!</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7418">
+				<div id="div-comment-7418" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/6c161a49c61c04e8427ec8c04359aa9c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://www.mediafire.com/?7ihdm8itdyec08w' rel='external nofollow' class='url'>Lord Ashes</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7418">January 22, 2012 at 3:25 am</a></div>
+
+		<p>To make the light intensity drop off with distance, I made the following modifications to the shader:</p>
+<p>attribute vec3 aVertexPosition;<br />
+attribute vec3 aVertexNormal;<br />
+attribute vec2 aTextureCoord;</p>
+<p>uniform mat4 uMVMatrix;<br />
+uniform mat4 uPMatrix;<br />
+uniform mat3 uNMatrix;</p>
+<p>uniform vec3 uAmbientColor;</p>
+<p>uniform vec3 uPointLightingLocation;<br />
+uniform vec3 uPointLightingColor;<br />
+uniform float uPointLightingIntensity;</p>
+<p>uniform bool uUseLighting;</p>
+<p>varying vec2 vTextureCoord;<br />
+varying vec3 vLightWeighting;</p>
+<p>void main(void)<br />
+{</p>
+<p>vec4 mvPosition = uMVMatrix * vec4(aVertexPosition, 1.0);<br />
+gl_Position = uPMatrix * mvPosition;</p>
+<p>vTextureCoord = aTextureCoord;</p>
+<p>if (!uUseLighting)<br />
+{<br />
+  vLightWeighting = vec3(1.0, 1.0, 1.0);<br />
+}<br />
+else<br />
+{<br />
+  vec3 lightDirection = normalize(uPointLightingLocation &#8211; mvPosition.xyz);<br />
+  float lightDistance = length(uPointLightingLocation &#8211; mvPosition.xyz);<br />
+  if(lightDistance &lt; 0.0){lightDistance = lightDistance * -1.0;}<br />
+  lightDistance = (uPointLightingIntensity &#8211; lightDistance) / uPointLightingIntensity;</p>
+<p>  vec3 transformedNormal = uNMatrix * aVertexNormal;<br />
+  float directionalLightWeighting = max(dot(transformedNormal, lightDirection), 0.0);<br />
+  vLightWeighting = uAmbientColor + uPointLightingColor * directionalLightWeighting * lightDistance;<br />
+}<br />
+}</p>
+<p>Obviously the shader init also needs to be modified to load uPointLightingIntensity with a value. This value is basically the distance at which the point light source contributions become zero. So a smaller value would mean the light source is less intense to the rest of the world (will light less of it) whereas larger values indicate a more intense light (that will light more of the surrounding world).</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="pingback even thread-even depth-1" id="comment-7419">
+				<div id="div-comment-7419" class="comment-body">
+				<div class="comment-author vcard">
+				<cite class="fn"><a href='http://weeraphan.com/?p=277' rel='external nofollow' class='url'>WebGL Lessons &laquo; WebGL+Culture</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-7419">August 24, 2012 at 4:00 am</a></div>
+
+		<p>[...] Lesson 12: point lighting shows how implement lighting that seems to come from points within your 3D scene. [...]</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="pingback odd alt thread-odd thread-alt depth-1" id="comment-22766">
+				<div id="div-comment-22766" class="comment-body">
+				<div class="comment-author vcard">
+				<cite class="fn"><a href='http://dobryanskaya.x10.mx/wp/2013/04/hello-world/' rel='external nofollow' class='url'>15 minutes of WebGL with PhiloGL | Verunders scratchpad</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1359&amp;cpage=1#comment-22766">April 26, 2013 at 10:21 pm</a></div>
+
+		<p>[...] texture courtesy of the Jet Propulsion Laboratory. Based on  Lesson 12    April 27, 2013  1 [...]</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+	</ol>
+
+	<div class="navigation">
+		<div class="alignleft"></div>
+		<div class="alignright"></div>
+	</div>
+ 
+
+
+<div id="respond">
+
+<h3>Leave a Reply</h3>
+
+<div class="cancel-comment-reply">
+	<small><a rel="nofollow" id="cancel-comment-reply-link" href="/blog/?p=1359#respond" style="display:none;">Click here to cancel reply.</a></small>
+</div>
+
+
+<form action="http://learningwebgl.com/blog/wp-comments-post.php" method="post" id="commentform">
+
+
+<p><input type="text" name="author" id="author" value="" size="22" tabindex="1" aria-required='true' />
+<label for="author"><small>Name (required)</small></label></p>
+
+<p><input type="text" name="email" id="email" value="" size="22" tabindex="2" aria-required='true' />
+<label for="email"><small>Mail (will not be published) (required)</small></label></p>
+
+<p><input type="text" name="url" id="url" value="" size="22" tabindex="3" />
+<label for="url"><small>Website</small></label></p>
+
+
+<!--<p><small><strong>XHTML:</strong> You can use these tags: <code>&lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;strike&gt; &lt;strong&gt; </code></small></p>-->
+
+<p><textarea name="comment" id="comment" cols="100%" rows="10" tabindex="4"></textarea></p>
+
+<p><input name="submit" type="submit" id="submit" tabindex="5" value="Submit Comment" />
+<input type='hidden' name='comment_post_ID' value='1359' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p>
+
+</form>
+
+</div>
+
+				
+							
+							</div>
+			</div>
+        <div class="span-8 last">
+    <div id="subscriptions">
+        <a href="http://learningwebgl.com/blog/?feed=rss2"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/rss.png" alt="Subscribe to RSS Feed" title="Subscribe to RSS Feed" /></a>		
+		<a href="https://twitter.com/learningwebgl" title="Follow Learning WebGL on Twitter"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/twitter.png" title="Follow Learning WebGL on Twitter" alt="Follow Learning WebGL on Twitter"  /></a>    </div>
+	<div id="sidebar">
+        <ul>
+            <li id="search">
+				 
+<div class="searchlayout">
+    <form method="get" id="searchform" action="http://learningwebgl.com/blog/"> 
+        <input type="text" value="Search" 
+            name="s" id="s"  onblur="if (this.value == '')  {this.value = 'Search';}"  
+            onfocus="if (this.value == 'Search') {this.value = '';}" />
+        <input type="image" src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/search.gif" style="border:0; vertical-align: top;" /> 
+    </form>
+</div>			</li>
+        </ul>
+            			<div class="addthis_toolbox">   
+    			    <div class="custom_images">
+    			            <a class="addthis_button_twitter"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/twitter.png" width="32" height="32" alt="Twitter" /></a>
+    			            <a class="addthis_button_delicious"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/delicious.png" width="32" height="32" alt="Delicious" /></a>
+    			            <a class="addthis_button_facebook"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/facebook.png" width="32" height="32" alt="Facebook" /></a>
+    			            <a class="addthis_button_digg"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/digg.png" width="32" height="32" alt="Digg" /></a>
+    			            <a class="addthis_button_stumbleupon"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/stumbleupon.png" width="32" height="32" alt="Stumbleupon" /></a>
+    			            <a class="addthis_button_favorites"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/favorites.png" width="32" height="32" alt="Favorites" /></a>
+    			            <a class="addthis_button_more"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/more.png" width="32" height="32" alt="More" /></a>
+    			    </div>
+    			    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js?pub=xa-4a65e1d93cd75e94"></script>
+    			</div>
+    					        
+		<ul>
+		  <li id="text-3" class="widget widget_text"><h2 class="widgettitle">Our Sponsors</h2>			<div class="textwidget">    <div style="margin-left: 10px; margin-top: 20px; width: 170px">
+    <a href="http://web.chemdoodle.com/" target="_blank"><img src="/ads/chemdoodle.gif" ></a>
+    <p>
+    Open-source <b>HTML5</b> solutions for the physical and life sciences.
+    <a style="font-decoration: underline; color: #880000;" href="http://web.chemdoodle.com/">Read more...</a>
+    </div>
+
+<iframe src="http://cdn.oreillystatic.com/widgets/author/217.html" height="400px" width="200px" scrolling="no" frameborder="0"></iframe>
+    <hr/>
+
+    <div style="margin-left: 10px; margin-top: 20px; width: 170px;">
+    <a href="http://www.pythonanywhere.com/"><img src="/ads/pythonanywhere.gif"></a>
+
+    <p>
+    <a href="http://www.pythonanywhere.com">A Python online IDE and web hosting environment</a>. 
+    <a style="font-decoration: underline; color: #880000;" href="http://www.pythonanywhere.com/">Read more...</a>
+    <br/>
+    <br/>
+    Interested in advertising on Learning WebGL? <a style="font-decoration: underline; color: #880000;" href="/cdn-cgi/l/email-protection#d5a1a5b4a7bca6bc95b2b8b4bcb9fbb6bab8">Drop me a line.</a>
+    </div></div>
+		</li>		<li id="recent-posts-3" class="widget widget_recent_entries">		<h2 class="widgettitle">Recent Posts</h2>		<ul>
+				<li><a href="http://learningwebgl.com/blog/?p=6635" title="2014: The Year in Review">2014: The Year in Review </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6617" title="WebGL around the net, 11 December 2014">WebGL around the net, 11 December 2014 </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6613" title="Crowdfunding Update">Crowdfunding Update </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6599" title="WebGL around the net, 4 December 2014">WebGL around the net, 4 December 2014 </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6585" title="WebGL around the net, 25 November 2014">WebGL around the net, 25 November 2014 </a></li>
+				</ul>
+		</li>		<li id="recent-comments-3" class="widget widget_recent_comments">			<h2 class="widgettitle">Recent Comments</h2>			<ul id="recentcomments"><li class="recentcomments"><a href='http://www.pcprogramming.com' rel='external nofollow' class='url'>John Davis</a> on <a href="http://learningwebgl.com/blog/?p=6585&#038;cpage=1#comment-3652744">WebGL around the net, 25 November 2014</a></li><li class="recentcomments"><a href='http://www.pcprogramming.com' rel='external nofollow' class='url'>John Davis</a> on <a href="http://learningwebgl.com/blog/?p=6575&#038;cpage=1#comment-3618905">WebGL around the net, 20 November 2014</a></li><li class="recentcomments">jinit on <a href="http://learningwebgl.com/blog/?page_id=2&#038;cpage=1#comment-3313484">About</a></li><li class="recentcomments">Dethraid on <a href="http://learningwebgl.com/blog/?p=507&#038;cpage=3#comment-2792181">WebGL Lesson 5 – introducing textures</a></li><li class="recentcomments">Man on <a href="http://learningwebgl.com/blog/?p=6443&#038;cpage=1#comment-2572225">WebGL around the net, 7 July 2014</a></li></ul>
+		</li><li id="linkcat-2" class="widget widget_links"><h2 class="widgettitle">Blogroll</h2>
+	<ul class='xoxo blogroll'>
+<li><a href="http://blog.tojicode.com/" title="Brandon Jones&#8217; Blog" target="_blank">Brandon Jones</a></li>
+<li><a href="http://www.gilesthomas.com/" title="Giles Thomas&#8217; Personal Blog" target="_blank">Giles Thomas</a></li>
+<li><a href="http://games.greggman.com/game/" title="Gregg Tavares&#8217; Blog" target="_blank">Gregg Tavares</a></li>
+<li><a href="http://www.learnopengles.com/" title="Learn OpenGL ES" target="_blank">Learn OpenGL ES</a></li>
+<li><a href="http://learningthreejs.com/" title="Learning Three.js Blog" target="_blank">Learning Three.js</a></li>
+<li><a href="http://nehe.gamedev.net/" title="NeHe OpenGL Tutorials" target="_blank">NeHe OpenGL</a></li>
+<li><a href="http://www.paulbrunt.co.uk/" title="Paul Brunt&#8217;s Blog" target="_blank">Paul Brunt</a></li>
+<li><a href="http://pl4n3.blogspot.com/" title="PL4N3S WORLD Blog" target="_blank">PL4N3S WORLD</a></li>
+<li><a href="http://www.rozengain.com/blog/" title="Rozengain" target="_blank">Rozengain</a></li>
+<li><a href="http://www.tonyparisi.com/" title="Tony Parisi&#8217;s Personal Blog" target="_blank">Tony Parisi</a></li>
+<li><a href="http://www.webgl.com/" title="WebGL Demos and Links" target="_blank">WebGL.com</a></li>
+
+	</ul>
+</li>
+<li id="archives-3" class="widget widget_archive"><h2 class="widgettitle">Archives</h2>		<ul>
+			<li><a href='http://learningwebgl.com/blog/?m=201501' title='January 2015'>January 2015</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201412' title='December 2014'>December 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201411' title='November 2014'>November 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201410' title='October 2014'>October 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201409' title='September 2014'>September 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201408' title='August 2014'>August 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201407' title='July 2014'>July 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201406' title='June 2014'>June 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201405' title='May 2014'>May 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201404' title='April 2014'>April 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201403' title='March 2014'>March 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201402' title='February 2014'>February 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201401' title='January 2014'>January 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201312' title='December 2013'>December 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201311' title='November 2013'>November 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201310' title='October 2013'>October 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201309' title='September 2013'>September 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201308' title='August 2013'>August 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201307' title='July 2013'>July 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201306' title='June 2013'>June 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201305' title='May 2013'>May 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201304' title='April 2013'>April 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201303' title='March 2013'>March 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201212' title='December 2012'>December 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201211' title='November 2012'>November 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201210' title='October 2012'>October 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201209' title='September 2012'>September 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201208' title='August 2012'>August 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201207' title='July 2012'>July 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201206' title='June 2012'>June 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201205' title='May 2012'>May 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201204' title='April 2012'>April 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201203' title='March 2012'>March 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201202' title='February 2012'>February 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201112' title='December 2011'>December 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201111' title='November 2011'>November 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201110' title='October 2011'>October 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201109' title='September 2011'>September 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201108' title='August 2011'>August 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201107' title='July 2011'>July 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201106' title='June 2011'>June 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201105' title='May 2011'>May 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201104' title='April 2011'>April 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201103' title='March 2011'>March 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201102' title='February 2011'>February 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201101' title='January 2011'>January 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201012' title='December 2010'>December 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201011' title='November 2010'>November 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201010' title='October 2010'>October 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201009' title='September 2010'>September 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201008' title='August 2010'>August 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201007' title='July 2010'>July 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201006' title='June 2010'>June 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201005' title='May 2010'>May 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201004' title='April 2010'>April 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201003' title='March 2010'>March 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201002' title='February 2010'>February 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201001' title='January 2010'>January 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200912' title='December 2009'>December 2009</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200911' title='November 2009'>November 2009</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200910' title='October 2009'>October 2009</a></li>
+		</ul>
+</li><li id="meta-3" class="widget widget_meta"><h2 class="widgettitle">Meta</h2>			<ul>
+						<li><a href="http://learningwebgl.com/blog/wp-login.php">Log in</a></li>
+			<li><a href="http://learningwebgl.com/blog/?feed=rss2" title="Syndicate this site using RSS 2.0">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://learningwebgl.com/blog/?feed=comments-rss2" title="The latest comments to all posts in RSS">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://wordpress.org/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.org</a></li>
+						</ul>
+</li>		</ul>
+	</div>
+</div>
+
+		</div><!--/container-->
+			<div id="footer">
+				Copyright &copy; 2013 <a href="http://learningwebgl.com/blog"><strong>Learning WebGL</strong></a> -  3D Programming for the Web <br />
+                <div class="footer-credits">
+                    Powered by <a href="http://wordpress.org/">WordPress</a> | <a href="http://flexithemes.com/themes/modern-style/">Modern Style</a> theme by <a href="http://flexithemes.com/">FlexiThemes</a>
+                </div>
+			</div><!--/footer-->
+            
+	</div><!--/wrapper-->
+	
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-2240015-5");
+pageTracker._trackPageview();
+} catch(err) {}</script>    
+<script type="text/javascript">
+/* <![CDATA[ */
+(function(){try{var s,a,i,j,r,c,l=document.getElementsByTagName("a"),t=document.createElement("textarea");for(i=0;l.length-i;i++){try{a=l[i].getAttribute("href");if(a&&a.indexOf("/cdn-cgi/l/email-protection") > -1  && (a.length > 28)){s='';j=27+ 1 + a.indexOf("/cdn-cgi/l/email-protection");if (a.length > j) {r=parseInt(a.substr(j,2),16);for(j+=2;a.length>j&&a.substr(j,1)!='X';j+=2){c=parseInt(a.substr(j,2),16)^r;s+=String.fromCharCode(c);}j+=1;s+=a.substr(j,a.length-j);}t.innerHTML=s.replace(/</g,"&lt;").replace(/>/g,"&gt;");l[i].setAttribute("href","mailto:"+t.value);}}catch(e){}}}catch(e){}})();
+/* ]]> */
+</script>
+</body>
+</html>
+
+

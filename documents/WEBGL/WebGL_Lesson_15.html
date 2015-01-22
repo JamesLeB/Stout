@@ -1,0 +1,651 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>  WebGL Lesson 15 – specular maps | Learning WebGL</title>
+<script type="text/javascript">
+//<![CDATA[
+try{if (!window.CloudFlare) {var CloudFlare=[{verbose:0,p:0,byc:0,owlid:"cf",bag2:1,mirage2:0,oracle:0,paths:{cloudflare:"/cdn-cgi/nexp/dok3v=1613a3a185/"},atok:"2c1b6781e0cb3014c3b88e10d5e2d90a",petok:"834c8b7a180fa939094735e93605fdc064765c60-1421937002-1800",zone:"learningwebgl.com",rocket:"0",apps:{}}];CloudFlare.push({"apps":{"ape":"02d5b92cadf7dbcb282e4bf5d594fae5"}});!function(a,b){a=document.createElement("script"),b=document.getElementsByTagName("script")[0],a.async=!0,a.src="//ajax.cloudflare.com/cdn-cgi/nexp/dok3v=919620257c/cloudflare.min.js",b.parentNode.insertBefore(a,b)}()}}catch(e){};
+//]]>
+</script>
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/screen.css" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/print.css" type="text/css" media="print" />
+<!--[if IE]><link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/ie.css" type="text/css" media="screen, projection"><![endif]-->
+<!--[if IE 6]>
+	<script src="http://learningwebgl.com/blog/wp-content/themes/modern-style/js/pngfix.js"></script>
+<![endif]--> 
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/style.css" type="text/css" media="screen" />
+<link rel="alternate" type="application/rss+xml" title="Learning WebGL RSS Feed" href="http://learningwebgl.com/blog/?feed=rss2" />
+<link rel="alternate" type="application/atom+xml" title="Learning WebGL Atom Feed" href="http://learningwebgl.com/blog/?feed=atom" />
+<link rel="pingback" href="http://learningwebgl.com/blog/xmlrpc.php" />
+
+<link rel="alternate" type="application/rss+xml" title="Learning WebGL &raquo; WebGL Lesson 15 – specular maps Comments Feed" href="http://learningwebgl.com/blog/?feed=rss2&amp;p=1778" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://learningwebgl.com/blog/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://learningwebgl.com/blog/wp-includes/wlwmanifest.xml" /> 
+<link rel='index' title='Learning WebGL' href='http://learningwebgl.com/blog' />
+<link rel='start' title='Hello, world!' href='http://learningwebgl.com/blog/?p=5' />
+<link rel='prev' title='WebGL around the net, 25 Feb 2010' href='http://learningwebgl.com/blog/?p=1832' />
+<link rel='next' title='WebGL around the net, 2 March 2010' href='http://learningwebgl.com/blog/?p=1877' />
+<meta name="generator" content="WordPress 2.9.2" />
+<link rel='canonical' href='http://learningwebgl.com/blog/?p=1778' />
+	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+
+</head>
+<body>
+	<div id="wrapper">
+		<div id="container" class="container">  
+                        
+			<div class="span-16">
+                <div id="header">
+                    						<h1><a href="http://learningwebgl.com/blog">Learning WebGL</a></h1>
+						<h2>3D Programming for the Web</h2>
+										</div>
+                
+                <div class="navcontainer">
+					<ul id="nav">
+						<li ><a href="http://learningwebgl.com/blog/">Home</a></li>
+						<li class="page_item page-item-1217"><a href="http://learningwebgl.com/blog/?page_id=1217" title="The Lessons">The Lessons</a></li>
+<li class="page_item page-item-2438"><a href="http://learningwebgl.com/blog/?page_id=2438" title="WebGL Jobs">WebGL Jobs</a></li>
+<li class="page_item page-item-988"><a href="http://learningwebgl.com/blog/?page_id=988" title="The WebGL Cookbook">The WebGL Cookbook</a></li>
+<li class="page_item page-item-2"><a href="http://learningwebgl.com/blog/?page_id=2" title="About">About</a></li>
+		
+					</ul>
+				</div>
+            		<div id="content">	
+                	
+						
+												<div class="post-1778 post hentry category-uncategorized clearfix" id="post-1778">
+							<h2 class="title">WebGL Lesson 15 – specular maps</h2>
+							<div class="postdate">
+                                <span>February 26th, 2010</span> 
+                                <span><a href="http://learningwebgl.com/blog/?p=1778#comments" title="Comment on WebGL Lesson 15 – specular maps">17 Comments</a></span>                             </div>
+			
+							<div class="entry">
+                                								<p><span style="float: left; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=1658">&lt;&lt; Lesson 14</a></span><span style="float: right; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=1786">Lesson 16 &gt;&gt;</a></span><br/><br />
+Welcome to my number fifteen in my series of WebGL tutorials!  In it, we&#8217;ll take a look specular maps, which give your scenes greater realism by making it easy to specify how reflective an object is at every point on its surface, just as normal textures allow you to specify its detailed colour.  In terms of new code, this is actually a pretty simple extension on top of what we&#8217;ve already covered, but conceptually it&#8217;s a bit of a jump.</p>
+<p>Here&#8217;s what the lesson looks like when run on a browser that supports WebGL:</p>
+<p><object width="480" height="385"><param name="movie" value="http://www.youtube.com/v/t5ccMHCauuE&#038;hl=en_US&#038;fs=1&#038;"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/t5ccMHCauuE&#038;hl=en_US&#038;fs=1&#038;" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="385"></embed></object></p>
+<p><a href="/lessons/lesson15/index.html">Click here and you&#8217;ll see the live WebGL version</a>, if you&#8217;ve got a browser that supports it; <a href="http://learningwebgl.com/blog/?p=11">here&#8217;s how to get one</a> if you don&#8217;t.  You&#8217;ll see a spinning model of the Earth, with a very bright specular glint &mdash; the reflection of the Sun from its surface.  More importantly, if you look closely, you&#8217;ll see that the specular glint only appears on the oceans; the land, as you&#8217;d expect, doesn&#8217;t reflect the light in a specular fashion.</p>
+<p>Try switching off the &#8220;Use specular map&#8221; toggle underneath the canvas.  You&#8217;ll see that now the specular highlight appears on the land too; you might also feel (as I did) that this rather ruins the illusion, and makes the specular glint look more like a very bright spotlight being shone at the Earth.  Specular maps can really improve realism by giving you fine-grained control over the way objects in your model interact with the lighting.</p>
+<p>Next, switch the &#8220;Use specular map&#8221; back on, reduce the diffuse light&#8217;s intensity to, say, (0.5, 0.5, 0.5), and then switch off the &#8220;Use color map&#8221; toggle. You&#8217;ll see that the colour texture of the earth is lost, but the specular highlight is still affected by whether or not it would be over land or sea.</p>
+<p>So, how does it work?  Read on to find out.</p>
+<p><span id="more-1778"></span></p>
+<p>Before we wade into the code, the usual <a href="http://learningwebgl.com/blog/?page_id=2">warning</a>: these lessons are targeted at people with a reasonable amount of programming knowledge, but no real experience in 3D graphics; the aim is to get you up and running, with a good understanding of what&#8217;s going on, so that you can start producing your own 3D Web pages as quickly as possible.  If you haven&#8217;t read the previous tutorials already, you should probably do so before reading this one &mdash; here I will only explain the new stuff.  The lesson is based on <a href="http://learningwebgl.com/blog/?p=1658">lesson 14</a>, so you should make sure that you understand that one.</p>
+<p>There may be bugs and misconceptions in this tutorial.  If you spot anything wrong, let me know in the comments and I&#8217;ll correct it ASAP.</p>
+<p>There are two ways you can get the code for this example; just &#8220;View Source&#8221; while you&#8217;re looking at the live version, or if you use GitHub, you can clone it (and the other lessons) from <a href="http://github.com/gpjt/webgl-lessons">the repository there</a>.</p>
+<p>Before we take a look at the code, it&#8217;s probably worth explaining the background.  So far, we&#8217;ve been treating textures as a nice easy way of &#8220;skinning&#8221; our 3D objects with images.  We specify an image, and our object has per-vertex coordinates to say which part of the image should go where, so when we draw each pixel in the object in our fragment shader, we can work out the portion of the image that corresponds to that part of the object, take its colour from the sampler object that represents the texture in the shader, and use that as the colour of the object at that point.</p>
+<p>Specular maps take this logic one step further.  The colour of a point in the texture is, of course, specified by red, green, blue, and alpha components.  In the shader, each of these is a floating point number.  But there&#8217;s no particular reason why we <i>have</i> to use them as colour values.  You will remember from the last lesson that the shininess of a material is determined by a single floating point number.  There&#8217;s no reason why we shouldn&#8217;t use textures as a way of passing a &#8220;shininess map&#8221; up to the fragment shader, just as we normally use it to pass a colour map.</p>
+<p>So that&#8217;s the trick we use in this example.  Two separate textures are passed up to the fragment shader to use on the Earth; a colour map that looks like this:</p>
+<p><img src="/lessons/lesson15/earth.jpg" width="600" height="286" alt="Colour map of the Earth" /></p>
+<p>&#8230;and a lower-resolution specular map, which looks like this:</p>
+<p><img src="/lessons/lesson15/earth-specular.gif" width="600" height="286" alt="Specular map of the Earth" /></p>
+<p>This is just a regular GIF file, which I created in <a href="http://www.paint.net/">Paint.NET</a> using the colour map as a starting point.  I decided to set the red, green and blue components of the colour at each point to the same value: the shininess of the point.  I also needed to choose a value that would mean &#8220;this bit of the Earth is not shiny&#8221;; because most of the image was pretty dark (a shininess of 32 leads to the RGB colour of 32, 32, 32, which is a very dark grey) I decide to use pure white for that.</p>
+<p>So, with all that explained, let&#8217;s go to the code.  The differences between the code for this lesson and lesson 14&#8217;s are actually quite minimal, and pretty clear.  As you might expect, the really important stuff is in the fragment shader, so let&#8217;s take a look at that (with changed stuff highlighted in red, as usual).</p>
+<p>The first change is that we have a couple of new uniforms specifying whether or not we want to use the colour and specular maps:</p>
+<pre>
+  precision mediump float;
+
+  varying vec2 vTextureCoord;
+  varying vec3 vTransformedNormal;
+  varying vec4 vPosition;
+
+  <span style="color: red">uniform bool uUseColorMap;
+  uniform bool uUseSpecularMap;</span>
+  uniform bool uUseLighting;
+</pre>
+<p>Next, we have uniform samplers for the two textures.  We&#8217;ve renamed the old <code>uSampler</code>, which was used for the colour texture, to <code>uColorMapSampler</code>, and added a new one for the sampler that represents the specular map.</p>
+<pre>
+  uniform vec3 uAmbientColor;
+
+  uniform vec3 uPointLightingLocation;
+  uniform vec3 uPointLightingSpecularColor;
+  uniform vec3 uPointLightingDiffuseColor;
+
+  <span style="color: red">uniform sampler2D uColorMapSampler;
+  uniform sampler2D uSpecularMapSampler;</span>
+</pre>
+<p>Next comes our normal boilerplate code to handle the case where the user wants to switch off lighting effects, and to calculate the normal and the light direction if they don&#8217;t:</p>
+<pre>
+  void main(void) {
+    vec3 lightWeighting;
+    if (!uUseLighting) {
+      lightWeighting = vec3(1.0, 1.0, 1.0);
+    } else {
+      vec3 lightDirection = normalize(uPointLightingLocation - vPosition.xyz);
+      vec3 normal = normalize(vTransformedNormal);
+</pre>
+<p>And finally we get the code that actually handles the specular map.  Firstly, we define a variable that will hold the amount of specular lighting we&#8217;re going to apply; this will, of course, be zero if the fragment we&#8217;re considering turns out to have no specular lighting after we&#8217;ve done all the calculations.</p>
+<pre>
+      float specularLightWeighting = 0.0;
+</pre>
+<p>Next, we want to work out the shininess for this bit of the material.  If the user has specified that we shouldn&#8217;t use the specular map, this code makes the (essentially arbitrary) choice of using 32.0.  Otherwise, we get the value from the specular map&#8217;s value for the fragment&#8217;s texture coordinates, just as we would previously have found the colour maps&#8217; value.  Now, our specular map actually has the shininess value stored in all three components of the colour at each image &mdash; red, green and blue are all the same, which is why it appears as greyscale when viewed as an image.  We use the red one in this code, though we could have used either of the others if we&#8217;d wanted to:</p>
+<pre>
+      <span style="color: red">float shininess = 32.0;
+      if (uUseSpecularMap) {
+        shininess = texture2D(uSpecularMapSampler, vec2(vTextureCoord.s, vTextureCoord.t)).r * 255.0;
+      }</span>
+</pre>
+<p>Now, you&#8217;ll remember that we needed some way of saying &#8220;this bit of the material is not shiny&#8221; in the specular map, and that I chose to use white, as that had good contrast against the dark-grey areas for the shinier parts of the Earth.  So we don&#8217;t do any calculations for specular lighting if the value for the shininess as extracted from the map is greater than or equal to 255.</p>
+<pre>
+      <span style="color: red">if (shininess < 255.0) {</span>
+</pre>
+<p>The next bit of code is just the same specular highlight calculation we had in the last lesson, except that we use the shininess constant that we extracted from the map:</p>
+<pre>
+        vec3 eyeDirection = normalize(-vPosition.xyz);
+        vec3 reflectionDirection = reflect(-lightDirection, normal);
+
+        specularLightWeighting = pow(max(dot(reflectionDirection, eyeDirection), 0.0), <span style="color: red">shininess</span>);
+      <span style="color: red">}</span>
+</pre>
+<p>And finally, we add all of the different forms of lighting&#8217;s contributions together, and use that to weight the colour of the fragment, whether it&#8217;s from the colour map or, if <code>uUseColorMap</code> is false, just a constant white.</p>
+<pre>
+      float diffuseLightWeighting = max(dot(normal, lightDirection), 0.0);
+      lightWeighting = uAmbientColor
+        + uPointLightingSpecularColor * specularLightWeighting
+        + uPointLightingDiffuseColor * diffuseLightWeighting;
+    }
+
+    vec4 fragmentColor;
+    if (<span style="color: red">uUseColorMap</span>) {
+      fragmentColor = texture2D(uColorMapSampler, vec2(vTextureCoord.s, vTextureCoord.t));
+    } else {
+      fragmentColor = vec4(1.0, 1.0, 1.0, 1.0);
+    }
+    gl_FragColor = vec4(fragmentColor.rgb * lightWeighting, fragmentColor.a);
+  }
+</pre>
+<p>If you&#8217;ve got this far, you actually understand everything there is to know about the code for this lesson.  There are other changes, but none are worth a detailed code walkthrough.  <code>initShaders</code> has new code to deal with the new uniforms, <code>initTextures</code> needs to load the two new textures, the code that loaded up the teapot is replaced by an <code>initBuffers</code> function just like the one from <a href="http://learningwebgl.com/blog/?p=1253">lesson 11</a>, <code>drawScene</code> has code to draw a sphere rather than a teapot, and to take the values in the user-input fields below the canvas and put them into the appropriate uniforms, and <code>animate</code> has been updated to make the earth spin.</p>
+<p>And after that, that&#8217;s it! You now know how to use a texture to provide information about an object&#8217;s specular shininess.  As you&#8217;ve no doubt worked out by this point, there&#8217;s nothing to stop you from using textures to pass up other fine-grained information to your shaders &mdash; people often use similar techniques to this for giving detailed maps of the variations in the surface normals, which allows you to have subtly bumpy surfaces without having to create lots of vertices.  We&#8217;ll take a closer look at that in a future lesson.</p>
+<p><span style="float: left; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=1658">&lt;&lt; Lesson 14</a></span><span style="float: right; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=1786">Lesson 16 &gt;&gt;</a></span><br/></p>
+<p><em>Acknowledgments: the Earth texture is courtesy of <a href="http://www.esa.int/esaEO/SEMGSY2IU7E_index_0.html">the European Space Agency/Envisat</a>.  Thanks also to <a href="http://www.paulbrunt.co.uk/">Paul Brunt</a> for his <a href="http://learningwebgl.com/blog/?p=1805&#038;cpage=1#comment-1426">suggestion</a> to increase the specular lighting levels to make the demo page for this lesson clearer.</em></p>
+															</div>
+							<div class="postmeta">Posted in <a href="http://learningwebgl.com/blog/?cat=1" title="View all posts in Uncategorized" rel="category">Uncategorized</a> |  </div>
+						
+							<div class="navigation clearfix">
+								<div class="alignleft">&laquo; <a href="http://learningwebgl.com/blog/?p=1832" rel="prev">WebGL around the net, 25 Feb 2010</a></div>
+								<div class="alignright"><a href="http://learningwebgl.com/blog/?p=1877" rel="next">WebGL around the net, 2 March 2010</a> &raquo;</div>
+							</div>
+							
+															You can <a href="#respond">leave a response</a>, or <a href="http://learningwebgl.com/blog/wp-trackback.php?p=1778" rel="trackback">trackback</a> from your own site.
+	
+													</div><!--/post-1778-->
+						
+				
+<!-- You can start editing here. -->
+
+	<h3 id="comments">17 Responses to &#8220;WebGL Lesson 15 – specular maps&#8221;</h3>
+
+	<ol class="commentlist">
+			<li class="comment even thread-even depth-1" id="comment-7616">
+				<div id="div-comment-7616" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2756dc4069d831735a583535a302baed?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Christof</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1778&amp;cpage=1#comment-7616">February 28, 2010 at 3:00 pm</a></div>
+
+		<p>Very nice effect <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7617">
+				<div id="div-comment-7617" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1778&amp;cpage=1#comment-7617">March 1, 2010 at 1:56 pm</a></div>
+
+		<p>Thanks!</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7618">
+				<div id="div-comment-7618" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/40829e8f34404d06aef07974e6b86209?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">jojo</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1778&amp;cpage=1#comment-7618">May 26, 2010 at 5:45 pm</a></div>
+
+		<p>hi giles! first very compliments for your tutorials, they are very useful and I appreciate them a lot!<br />
+maybe I have found a little bug in the vertex shader code (online repository). there is a gl_Position variable and it&#8217;s not declared. <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+<p>that&#8217;s all.</p>
+<p>now&#8230;i&#8217;m waiting for a normal mapping tutorial&#8230; <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_wink.gif' alt=';)' class='wp-smiley' /> </p>
+<p>thanks a lot!</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7619">
+				<div id="div-comment-7619" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/40829e8f34404d06aef07974e6b86209?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">jojo</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1778&amp;cpage=1#comment-7619">May 26, 2010 at 5:54 pm</a></div>
+
+		<p>ehm..sorry giles, i&#8217;ve realized that gl_Position is a special variable in GLSL language just like gl_FragColor.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7620">
+				<div id="div-comment-7620" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1778&amp;cpage=1#comment-7620">May 28, 2010 at 3:42 pm</a></div>
+
+		<p>@jojo &#8212; yup, that&#8217;s right.  Glad you worked it out!  I&#8217;ll definitely get normal mapping done sometime &#8212; it&#8217;s scaring me a bit, though <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_wink.gif' alt=';-)' class='wp-smiley' /> </p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7621">
+				<div id="div-comment-7621" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/77400c0e2e941e2ce2f0d45dbe8098b0?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Milos</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1778&amp;cpage=1#comment-7621">September 16, 2010 at 10:02 pm</a></div>
+
+		<p>Hello guys,<br />
+maybe this isn&#8217;t right place for this question <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /><br />
+I have problem to read depth buffer. I used this tutorial, and previous also, to create some 3d terrain. I add event click on canvas element which should back 3d coordinates depends when i click on terrain. It isn&#8217;t problem to read x and y windows coordinated, but I have NO idea how to find z coordinates. OpenGl contain readPixel which can return z coordinate depends on x and y. Some function exist in OpenGL es but it can read just color buffer.</p>
+<p>Anyone can help?<br />
+thx in advance,<br />
+Milos</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7622">
+				<div id="div-comment-7622" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1778&amp;cpage=1#comment-7622">October 3, 2010 at 8:00 pm</a></div>
+
+		<p>@Milos &#8212; I don&#8217;t think there&#8217;s any way around that with the current version of WebGL &#8212; people doing shadow-mapping (which also relies on being able to get the Z value from a framebuffer) have had to implement it by rendering the Z value into the colour buffer, which is a horrible hack&#8230;</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7623">
+				<div id="div-comment-7623" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/63aef1bbf9c9b37101a7c0c8fefdbac5?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">hider</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1778&amp;cpage=1#comment-7623">November 23, 2010 at 10:08 am</a></div>
+
+		<p>hi giles:<br />
+    Lesson is end?<br />
+    I&#8217;ve found Lesson 16 in repository, why?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7624">
+				<div id="div-comment-7624" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1778&amp;cpage=1#comment-7624">December 5, 2010 at 6:57 pm</a></div>
+
+		<p>Hi hider &#8212; no, I&#8217;ve plenty of plans for more and just haven&#8217;t had the time to write them!  Lesson 16 is pretty much ready to write up &#8212; I can&#8217;t say when I&#8217;ll be able to do it, though.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7625">
+				<div id="div-comment-7625" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/87f5f2056bfdcc4de1ae0f4f1fa522e4?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Jonathan Feldstein</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1778&amp;cpage=1#comment-7625">April 7, 2011 at 8:59 pm</a></div>
+
+		<p>I believe that this WebGL application won&#8217;t work correctly on mobile devices because the uSpecularMapSampler sampler2D needs to be set to mediump or highp. In desktop land the precision qualifiers are ignored so this isn&#8217;t showing up as an issue.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7626">
+				<div id="div-comment-7626" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1778&amp;cpage=1#comment-7626">April 27, 2011 at 9:20 pm</a></div>
+
+		<p>Thanks, I&#8217;ll take a look.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7627">
+				<div id="div-comment-7627" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/cd67017d648cb703a244cce013e79f86?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Jerome</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1778&amp;cpage=1#comment-7627">August 1, 2011 at 3:54 pm</a></div>
+
+		<p>Hello,</p>
+<p>Thanks for your great lessons. I followed all your lessons till 13 and in order to fully understand it, I mixed up two of your lessons. I made an earth planet with a full opaque sphere (the ground) and another larger, transparent sphere around it with a BMP texture of clouds. Everything is alright with the ground (when you look at it, you can see the front but not the back as expected). The front side of the clouds is transparent&#8230; great <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' />  but I can see the clouds on the other side of the planet which I want to be invisible as in real life.</p>
+<p>I know this is a normal behavior since I told him to blend the clouds sphere.<br />
+Is semi-transparent objects/sphere the solution? Where can I learn how to do it?<br />
+If you could just point me in the right direction that would be nice <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> .</p>
+<p>My next move is to start looking on the NeHe website in the openGL tutorials and try to adapt it to webGL.</p>
+<p>Thanks in advance</p>
+<p>Jerome</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7628">
+				<div id="div-comment-7628" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/ba71b33b1dd019bff9eb16b4a219010f?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">joci</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1778&amp;cpage=1#comment-7628">December 11, 2011 at 1:55 am</a></div>
+
+		<p>Hello<br />
+Is it possible to make two point lights that will shine on one object &#8220;earth&#8221; at the same time and how to do?<br />
+Thanks in advance<br />
+Jovan</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="pingback odd alt thread-odd thread-alt depth-1" id="comment-7629">
+				<div id="div-comment-7629" class="comment-body">
+				<div class="comment-author vcard">
+				<cite class="fn"><a href='http://www.jlabstudio.com/webgl/2011/12/webgl-tutorial-15-mapas-especulares/' rel='external nofollow' class='url'>WebGL Tutorial 15 &#8211; Mapas especulares &middot; Experimentando en la web</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1778&amp;cpage=1#comment-7629">December 13, 2011 at 3:43 pm</a></div>
+
+		<p>[...] tutorial de la serie Aprende webGL. Es una traducción no literal de su respectivo tutorial en Learning webGL. En él aprenderemos a usar mapas especulares, que hacen que las escenas parezcan más realistas, [...]</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7630">
+				<div id="div-comment-7630" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/70ce7dc6aa59c43e96ada053dea936df?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">komio</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1778&amp;cpage=1#comment-7630">December 17, 2011 at 12:00 pm</a></div>
+
+		<p>I added a little function, for calculating fps, to your code for this lesson and i was surprised because sometimes animation looks somewhat &#8216;jumpy&#8217;, but it is still rendered with almost 60FPS (i suppose this is the limit in nightly for some reason) in my laptop not-so-good graphic card.<br />
+Nice!</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7631">
+				<div id="div-comment-7631" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/6655fd302d011e3c3355a4809bc8f610?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Ray Bellis</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1778&amp;cpage=1#comment-7631">February 2, 2012 at 11:50 am</a></div>
+
+		<p>Your implementation of the specular map is unusual IMHO.</p>
+<p>In my experience a specular map is used to control the _amount_ of specular light reflected, and not the _degree_ (or shininess) of specularity.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7632">
+				<div id="div-comment-7632" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1778&amp;cpage=1#comment-7632">February 2, 2012 at 2:18 pm</a></div>
+
+		<p>@Jerome &#8212; sorry, can&#8217;t think of any useful references.  Good luck, though!</p>
+<p>@Jovan &#8212; it&#8217;s definitely possible &#8212; just duplicate the code for the lighting and add the per-fragment lighting weights together and it should work.  If you want to add even more lights, you might want to take a look at how to do arrays in GLSL.</p>
+<p>@komio &#8212; yup, WebGL can be pretty quick!  I suspect that the &#8220;jumpiness&#8221; is caused by something (perhaps JavaScript) running garbage-collections every now and then.</p>
+<p>@Ray Bellis &#8212; thanks, that&#8217;s interesting.  So traditionally people would just use the specular map as a scaling factor for the specular light?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+	</ol>
+
+	<div class="navigation">
+		<div class="alignleft"></div>
+		<div class="alignright"></div>
+	</div>
+ 
+
+
+<div id="respond">
+
+<h3>Leave a Reply</h3>
+
+<div class="cancel-comment-reply">
+	<small><a rel="nofollow" id="cancel-comment-reply-link" href="/blog/?p=1778#respond" style="display:none;">Click here to cancel reply.</a></small>
+</div>
+
+
+<form action="http://learningwebgl.com/blog/wp-comments-post.php" method="post" id="commentform">
+
+
+<p><input type="text" name="author" id="author" value="" size="22" tabindex="1" aria-required='true' />
+<label for="author"><small>Name (required)</small></label></p>
+
+<p><input type="text" name="email" id="email" value="" size="22" tabindex="2" aria-required='true' />
+<label for="email"><small>Mail (will not be published) (required)</small></label></p>
+
+<p><input type="text" name="url" id="url" value="" size="22" tabindex="3" />
+<label for="url"><small>Website</small></label></p>
+
+
+<!--<p><small><strong>XHTML:</strong> You can use these tags: <code>&lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;strike&gt; &lt;strong&gt; </code></small></p>-->
+
+<p><textarea name="comment" id="comment" cols="100%" rows="10" tabindex="4"></textarea></p>
+
+<p><input name="submit" type="submit" id="submit" tabindex="5" value="Submit Comment" />
+<input type='hidden' name='comment_post_ID' value='1778' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p>
+
+</form>
+
+</div>
+
+				
+							
+							</div>
+			</div>
+        <div class="span-8 last">
+    <div id="subscriptions">
+        <a href="http://learningwebgl.com/blog/?feed=rss2"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/rss.png" alt="Subscribe to RSS Feed" title="Subscribe to RSS Feed" /></a>		
+		<a href="https://twitter.com/learningwebgl" title="Follow Learning WebGL on Twitter"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/twitter.png" title="Follow Learning WebGL on Twitter" alt="Follow Learning WebGL on Twitter"  /></a>    </div>
+	<div id="sidebar">
+        <ul>
+            <li id="search">
+				 
+<div class="searchlayout">
+    <form method="get" id="searchform" action="http://learningwebgl.com/blog/"> 
+        <input type="text" value="Search" 
+            name="s" id="s"  onblur="if (this.value == '')  {this.value = 'Search';}"  
+            onfocus="if (this.value == 'Search') {this.value = '';}" />
+        <input type="image" src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/search.gif" style="border:0; vertical-align: top;" /> 
+    </form>
+</div>			</li>
+        </ul>
+            			<div class="addthis_toolbox">   
+    			    <div class="custom_images">
+    			            <a class="addthis_button_twitter"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/twitter.png" width="32" height="32" alt="Twitter" /></a>
+    			            <a class="addthis_button_delicious"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/delicious.png" width="32" height="32" alt="Delicious" /></a>
+    			            <a class="addthis_button_facebook"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/facebook.png" width="32" height="32" alt="Facebook" /></a>
+    			            <a class="addthis_button_digg"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/digg.png" width="32" height="32" alt="Digg" /></a>
+    			            <a class="addthis_button_stumbleupon"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/stumbleupon.png" width="32" height="32" alt="Stumbleupon" /></a>
+    			            <a class="addthis_button_favorites"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/favorites.png" width="32" height="32" alt="Favorites" /></a>
+    			            <a class="addthis_button_more"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/more.png" width="32" height="32" alt="More" /></a>
+    			    </div>
+    			    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js?pub=xa-4a65e1d93cd75e94"></script>
+    			</div>
+    					        
+		<ul>
+		  <li id="text-3" class="widget widget_text"><h2 class="widgettitle">Our Sponsors</h2>			<div class="textwidget">    <div style="margin-left: 10px; margin-top: 20px; width: 170px">
+    <a href="http://web.chemdoodle.com/" target="_blank"><img src="/ads/chemdoodle.gif" ></a>
+    <p>
+    Open-source <b>HTML5</b> solutions for the physical and life sciences.
+    <a style="font-decoration: underline; color: #880000;" href="http://web.chemdoodle.com/">Read more...</a>
+    </div>
+
+<iframe src="http://cdn.oreillystatic.com/widgets/author/217.html" height="400px" width="200px" scrolling="no" frameborder="0"></iframe>
+    <hr/>
+
+    <div style="margin-left: 10px; margin-top: 20px; width: 170px;">
+    <a href="http://www.pythonanywhere.com/"><img src="/ads/pythonanywhere.gif"></a>
+
+    <p>
+    <a href="http://www.pythonanywhere.com">A Python online IDE and web hosting environment</a>. 
+    <a style="font-decoration: underline; color: #880000;" href="http://www.pythonanywhere.com/">Read more...</a>
+    <br/>
+    <br/>
+    Interested in advertising on Learning WebGL? <a style="font-decoration: underline; color: #880000;" href="/cdn-cgi/l/email-protection#b7c3c7d6c5dec4def7d0dad6dedb99d4d8da">Drop me a line.</a>
+    </div></div>
+		</li>		<li id="recent-posts-3" class="widget widget_recent_entries">		<h2 class="widgettitle">Recent Posts</h2>		<ul>
+				<li><a href="http://learningwebgl.com/blog/?p=6635" title="2014: The Year in Review">2014: The Year in Review </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6617" title="WebGL around the net, 11 December 2014">WebGL around the net, 11 December 2014 </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6613" title="Crowdfunding Update">Crowdfunding Update </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6599" title="WebGL around the net, 4 December 2014">WebGL around the net, 4 December 2014 </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6585" title="WebGL around the net, 25 November 2014">WebGL around the net, 25 November 2014 </a></li>
+				</ul>
+		</li>		<li id="recent-comments-3" class="widget widget_recent_comments">			<h2 class="widgettitle">Recent Comments</h2>			<ul id="recentcomments"><li class="recentcomments"><a href='http://www.pcprogramming.com' rel='external nofollow' class='url'>John Davis</a> on <a href="http://learningwebgl.com/blog/?p=6585&#038;cpage=1#comment-3652744">WebGL around the net, 25 November 2014</a></li><li class="recentcomments"><a href='http://www.pcprogramming.com' rel='external nofollow' class='url'>John Davis</a> on <a href="http://learningwebgl.com/blog/?p=6575&#038;cpage=1#comment-3618905">WebGL around the net, 20 November 2014</a></li><li class="recentcomments">jinit on <a href="http://learningwebgl.com/blog/?page_id=2&#038;cpage=1#comment-3313484">About</a></li><li class="recentcomments">Dethraid on <a href="http://learningwebgl.com/blog/?p=507&#038;cpage=3#comment-2792181">WebGL Lesson 5 – introducing textures</a></li><li class="recentcomments">Man on <a href="http://learningwebgl.com/blog/?p=6443&#038;cpage=1#comment-2572225">WebGL around the net, 7 July 2014</a></li></ul>
+		</li><li id="linkcat-2" class="widget widget_links"><h2 class="widgettitle">Blogroll</h2>
+	<ul class='xoxo blogroll'>
+<li><a href="http://blog.tojicode.com/" title="Brandon Jones&#8217; Blog" target="_blank">Brandon Jones</a></li>
+<li><a href="http://www.gilesthomas.com/" title="Giles Thomas&#8217; Personal Blog" target="_blank">Giles Thomas</a></li>
+<li><a href="http://games.greggman.com/game/" title="Gregg Tavares&#8217; Blog" target="_blank">Gregg Tavares</a></li>
+<li><a href="http://www.learnopengles.com/" title="Learn OpenGL ES" target="_blank">Learn OpenGL ES</a></li>
+<li><a href="http://learningthreejs.com/" title="Learning Three.js Blog" target="_blank">Learning Three.js</a></li>
+<li><a href="http://nehe.gamedev.net/" title="NeHe OpenGL Tutorials" target="_blank">NeHe OpenGL</a></li>
+<li><a href="http://www.paulbrunt.co.uk/" title="Paul Brunt&#8217;s Blog" target="_blank">Paul Brunt</a></li>
+<li><a href="http://pl4n3.blogspot.com/" title="PL4N3S WORLD Blog" target="_blank">PL4N3S WORLD</a></li>
+<li><a href="http://www.rozengain.com/blog/" title="Rozengain" target="_blank">Rozengain</a></li>
+<li><a href="http://www.tonyparisi.com/" title="Tony Parisi&#8217;s Personal Blog" target="_blank">Tony Parisi</a></li>
+<li><a href="http://www.webgl.com/" title="WebGL Demos and Links" target="_blank">WebGL.com</a></li>
+
+	</ul>
+</li>
+<li id="archives-3" class="widget widget_archive"><h2 class="widgettitle">Archives</h2>		<ul>
+			<li><a href='http://learningwebgl.com/blog/?m=201501' title='January 2015'>January 2015</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201412' title='December 2014'>December 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201411' title='November 2014'>November 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201410' title='October 2014'>October 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201409' title='September 2014'>September 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201408' title='August 2014'>August 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201407' title='July 2014'>July 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201406' title='June 2014'>June 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201405' title='May 2014'>May 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201404' title='April 2014'>April 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201403' title='March 2014'>March 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201402' title='February 2014'>February 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201401' title='January 2014'>January 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201312' title='December 2013'>December 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201311' title='November 2013'>November 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201310' title='October 2013'>October 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201309' title='September 2013'>September 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201308' title='August 2013'>August 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201307' title='July 2013'>July 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201306' title='June 2013'>June 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201305' title='May 2013'>May 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201304' title='April 2013'>April 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201303' title='March 2013'>March 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201212' title='December 2012'>December 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201211' title='November 2012'>November 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201210' title='October 2012'>October 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201209' title='September 2012'>September 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201208' title='August 2012'>August 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201207' title='July 2012'>July 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201206' title='June 2012'>June 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201205' title='May 2012'>May 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201204' title='April 2012'>April 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201203' title='March 2012'>March 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201202' title='February 2012'>February 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201112' title='December 2011'>December 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201111' title='November 2011'>November 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201110' title='October 2011'>October 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201109' title='September 2011'>September 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201108' title='August 2011'>August 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201107' title='July 2011'>July 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201106' title='June 2011'>June 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201105' title='May 2011'>May 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201104' title='April 2011'>April 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201103' title='March 2011'>March 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201102' title='February 2011'>February 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201101' title='January 2011'>January 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201012' title='December 2010'>December 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201011' title='November 2010'>November 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201010' title='October 2010'>October 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201009' title='September 2010'>September 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201008' title='August 2010'>August 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201007' title='July 2010'>July 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201006' title='June 2010'>June 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201005' title='May 2010'>May 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201004' title='April 2010'>April 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201003' title='March 2010'>March 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201002' title='February 2010'>February 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201001' title='January 2010'>January 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200912' title='December 2009'>December 2009</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200911' title='November 2009'>November 2009</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200910' title='October 2009'>October 2009</a></li>
+		</ul>
+</li><li id="meta-3" class="widget widget_meta"><h2 class="widgettitle">Meta</h2>			<ul>
+						<li><a href="http://learningwebgl.com/blog/wp-login.php">Log in</a></li>
+			<li><a href="http://learningwebgl.com/blog/?feed=rss2" title="Syndicate this site using RSS 2.0">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://learningwebgl.com/blog/?feed=comments-rss2" title="The latest comments to all posts in RSS">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://wordpress.org/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.org</a></li>
+						</ul>
+</li>		</ul>
+	</div>
+</div>
+
+		</div><!--/container-->
+			<div id="footer">
+				Copyright &copy; 2013 <a href="http://learningwebgl.com/blog"><strong>Learning WebGL</strong></a> -  3D Programming for the Web <br />
+                <div class="footer-credits">
+                    Powered by <a href="http://wordpress.org/">WordPress</a> | <a href="http://flexithemes.com/themes/modern-style/">Modern Style</a> theme by <a href="http://flexithemes.com/">FlexiThemes</a>
+                </div>
+			</div><!--/footer-->
+            
+	</div><!--/wrapper-->
+	
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-2240015-5");
+pageTracker._trackPageview();
+} catch(err) {}</script>    
+<script type="text/javascript">
+/* <![CDATA[ */
+(function(){try{var s,a,i,j,r,c,l=document.getElementsByTagName("a"),t=document.createElement("textarea");for(i=0;l.length-i;i++){try{a=l[i].getAttribute("href");if(a&&a.indexOf("/cdn-cgi/l/email-protection") > -1  && (a.length > 28)){s='';j=27+ 1 + a.indexOf("/cdn-cgi/l/email-protection");if (a.length > j) {r=parseInt(a.substr(j,2),16);for(j+=2;a.length>j&&a.substr(j,1)!='X';j+=2){c=parseInt(a.substr(j,2),16)^r;s+=String.fromCharCode(c);}j+=1;s+=a.substr(j,a.length-j);}t.innerHTML=s.replace(/</g,"&lt;").replace(/>/g,"&gt;");l[i].setAttribute("href","mailto:"+t.value);}}catch(e){}}}catch(e){}})();
+/* ]]> */
+</script>
+</body>
+</html>
+
+

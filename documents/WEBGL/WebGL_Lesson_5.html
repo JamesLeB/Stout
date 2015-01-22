@@ -1,0 +1,1190 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>  WebGL Lesson 5 – introducing textures | Learning WebGL</title>
+<script type="text/javascript">
+//<![CDATA[
+try{if (!window.CloudFlare) {var CloudFlare=[{verbose:0,p:0,byc:0,owlid:"cf",bag2:1,mirage2:0,oracle:0,paths:{cloudflare:"/cdn-cgi/nexp/dok3v=1613a3a185/"},atok:"2c1b6781e0cb3014c3b88e10d5e2d90a",petok:"3306b4490da6cdad9b48904117708fe9e45ccecc-1421936779-1800",zone:"learningwebgl.com",rocket:"0",apps:{}}];CloudFlare.push({"apps":{"ape":"41960d7ff4bd9c66b4fd93d6882c5444"}});!function(a,b){a=document.createElement("script"),b=document.getElementsByTagName("script")[0],a.async=!0,a.src="//ajax.cloudflare.com/cdn-cgi/nexp/dok3v=919620257c/cloudflare.min.js",b.parentNode.insertBefore(a,b)}()}}catch(e){};
+//]]>
+</script>
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/screen.css" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/print.css" type="text/css" media="print" />
+<!--[if IE]><link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/ie.css" type="text/css" media="screen, projection"><![endif]-->
+<!--[if IE 6]>
+	<script src="http://learningwebgl.com/blog/wp-content/themes/modern-style/js/pngfix.js"></script>
+<![endif]--> 
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/style.css" type="text/css" media="screen" />
+<link rel="alternate" type="application/rss+xml" title="Learning WebGL RSS Feed" href="http://learningwebgl.com/blog/?feed=rss2" />
+<link rel="alternate" type="application/atom+xml" title="Learning WebGL Atom Feed" href="http://learningwebgl.com/blog/?feed=atom" />
+<link rel="pingback" href="http://learningwebgl.com/blog/xmlrpc.php" />
+
+<link rel="alternate" type="application/rss+xml" title="Learning WebGL &raquo; WebGL Lesson 5 – introducing textures Comments Feed" href="http://learningwebgl.com/blog/?feed=rss2&amp;p=507" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://learningwebgl.com/blog/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://learningwebgl.com/blog/wp-includes/wlwmanifest.xml" /> 
+<link rel='index' title='Learning WebGL' href='http://learningwebgl.com/blog' />
+<link rel='start' title='Hello, world!' href='http://learningwebgl.com/blog/?p=5' />
+<link rel='prev' title='Restrospectively changing my retrospective changes&#8230;' href='http://learningwebgl.com/blog/?p=479' />
+<link rel='next' title='X3DOM &#8211; specifying 3D WebGL content with HTML tags' href='http://learningwebgl.com/blog/?p=521' />
+<meta name="generator" content="WordPress 2.9.2" />
+<link rel='canonical' href='http://learningwebgl.com/blog/?p=507' />
+	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+
+</head>
+<body>
+	<div id="wrapper">
+		<div id="container" class="container">  
+                        
+			<div class="span-16">
+                <div id="header">
+                    						<h1><a href="http://learningwebgl.com/blog">Learning WebGL</a></h1>
+						<h2>3D Programming for the Web</h2>
+										</div>
+                
+                <div class="navcontainer">
+					<ul id="nav">
+						<li ><a href="http://learningwebgl.com/blog/">Home</a></li>
+						<li class="page_item page-item-1217"><a href="http://learningwebgl.com/blog/?page_id=1217" title="The Lessons">The Lessons</a></li>
+<li class="page_item page-item-2438"><a href="http://learningwebgl.com/blog/?page_id=2438" title="WebGL Jobs">WebGL Jobs</a></li>
+<li class="page_item page-item-988"><a href="http://learningwebgl.com/blog/?page_id=988" title="The WebGL Cookbook">The WebGL Cookbook</a></li>
+<li class="page_item page-item-2"><a href="http://learningwebgl.com/blog/?page_id=2" title="About">About</a></li>
+		
+					</ul>
+				</div>
+            		<div id="content">	
+                	
+						
+												<div class="post-507 post hentry category-uncategorized clearfix" id="post-507">
+							<h2 class="title">WebGL Lesson 5 – introducing textures</h2>
+							<div class="postdate">
+                                <span>November 2nd, 2009</span> 
+                                <span><a href="http://learningwebgl.com/blog/?p=507#comments" title="Comment on WebGL Lesson 5 – introducing textures">142 Comments</a></span>                             </div>
+			
+							<div class="entry">
+                                								<p><span style="float: left; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=370">&lt;&lt; Lesson 4</a></span><span style="float: right; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=571">Lesson 6 &gt;&gt;</a></span><br/><br />
+Welcome to my number five in my series of WebGL tutorials, based on <a href="http://nehe.gamedev.net/data/lessons/lesson.asp?lesson=06">number 6</a> in the NeHe OpenGL tutorials.  This time we&#8217;re going to add a texture to a 3D object &mdash; that is, we will cover it with an image that we load from a separate file.  This is a really useful way to add detail to your 3D scene without having to make the objects you&#8217;re drawing incredibly complex.  Imagine a stone wall in a maze-type game; you probably don&#8217;t want to model each block in the wall as a separate object, so instead you create an image of masonry and cover the wall with it; a whole wall can now be just one object.</p>
+<p>Here&#8217;s what the lesson looks like when run on a browser that supports WebGL:<br />
+<object width="480" height="385"><param name="movie" value="http://www.youtube.com/v/s9kMjEMzF6k&#038;hl=en&#038;fs=1&#038;hd=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/s9kMjEMzF6k&#038;hl=en&#038;fs=1&#038;hd=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="385"></embed></object></p>
+<p><a href="/lessons/lesson05/index.html">Click here and you&#8217;ll see the live WebGL version</a>, if you&#8217;ve got a browser that supports it; <a href="http://learningwebgl.com/blog/?p=11">here&#8217;s how to get one</a> if you don&#8217;t.</p>
+<p>More on how it all works below&#8230;</p>
+<p><span id="more-507"></span></p>
+<p>The usual <a href="http://learningwebgl.com/blog/?page_id=2">warning</a>: these lessons are targeted at people with a reasonable amount of programming knowledge, but no real experience in 3D graphics; the aim is to get you up and running, with a good understanding of what&#8217;s going on in the code, so that you can start producing your own 3D Web pages as quickly as possible.  If you haven&#8217;t read the previous tutorials already, you should probably do so before reading this one — here I will only explain the differences between the code for <a href="http://learningwebgl.com/blog/?p=370">lesson 4</a> and the new code.</p>
+<p>There may be bugs and misconceptions in this tutorial.  If you spot anything wrong, let me know in the comments and I&#8217;ll correct it ASAP.</p>
+<p>There are two ways you can get the code for this example; just &#8220;View Source&#8221; while you&#8217;re looking at the live version, or if you use GitHub, you can clone it (and the other lessons) from <a href="http://github.com/gpjt/webgl-lessons">the repository there</a>.  Either way, once you have the code, load it up in your favourite text editor and take a look.</p>
+<p>The trick to understanding how textures work is that they are a special way of setting the colour of a point on a 3D object.  As you will remember from <a href="http://learningwebgl.com/blog/?p=134">lesson 2</a>, colours are specified by fragment shaders, so what we need to do is load the image and send it over to the fragment shader.  The fragment shader also needs to know which bit of the image to use for the fragment it&#8217;s working on, so we need to send that information over to it too.</p>
+<p>Let&#8217;s start off by looking at the code that loads the texture.  We call it right at the start of the execution of our page&#8217;s JavaScript, in <code>webGLStart</code> at the bottom of the page (new code in red):</p>
+<pre>
+  function webGLStart() {
+    var canvas = document.getElementById("lesson05-canvas");
+    initGL(canvas);
+    initShaders();
+    initBuffers();
+    <span style="color: red;">initTexture();</span>
+
+    gl.clearColor(0.0, 0.0, 0.0, 1.0);
+</pre>
+<p>Let&#8217;s look at <code>initTexture</code> &mdash; it&#8217;s about a third of the way from the top of the file, and is all new code:</p>
+<pre>
+  var neheTexture;
+  function initTexture() {
+    neheTexture = gl.createTexture();
+    neheTexture.image = new Image();
+    neheTexture.image.onload = function() {
+      handleLoadedTexture(neheTexture)
+    }
+
+    neheTexture.image.src = "nehe.gif";
+  }
+</pre>
+<p>So, we&#8217;re creating a global variable to hold the texture; obviously in a real-world example you&#8217;d have multiple textures and wouldn&#8217;t use globals, but we&#8217;re keeping things simple for now.  We use <code>gl.createTexture</code> to create a texture reference to put into the global, then we create a JavaScript <code>Image</code> object and put it into a a new attribute that we attach to the texture, yet again taking advantage of JavaScript’s willingness to set any field on any object; texture objects don&#8217;t have an image field by default, but it&#8217;s convenient for us to have one, so we create one.  The obvious next step is to get the <code>Image</code> object to load up the actual image it will contain, but before we do that we attach a callback function to it; this will be called when the image has been fully loaded, and so it&#8217;s safest to set it first.  Once that&#8217;s set up, we set the image&#8217;s <code>src</code> property, and we&#8217;re done.  The image will load asynchronously &mdash; that is, the code that sets the <code>src</code> of the image will return immediately, and a background thread will load the image from the web server.  Once it&#8217;s done, our callback gets called, and it calls <code>handleLoadedTexture</code>:</p>
+<pre>
+  function handleLoadedTexture(texture) {
+    gl.bindTexture(gl.TEXTURE_2D, texture);
+    gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+    gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture.image);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);
+    gl.bindTexture(gl.TEXTURE_2D, null);
+  }
+</pre>
+<p>The first thing we do is tell WebGL that our texture is the &#8220;current&#8221; texture.  WebGL texture functions all operate on this &#8220;current&#8221; texture instead of taking a texture as a parameter, and <code>bindTexture</code> is how we set the current one; it&#8217;s similar to the <code>gl.bindBuffer</code> pattern that we&#8217;ve looked at before.</p>
+<p>Next, we tell WebGL that all images we load into textures need to be flipped vertically.  We do this because of a difference in coordinates; for our texture coordinates, we use coordinates that, like the ones you would normally use in mathematics, increase as you move upwards along the vertical axis; this is consistent with the X, Y, Z coordinates we&#8217;re using to specify our vertex positions.  By contrast, most other computer graphics systems &mdash; for example, the GIF format we use for the texture image &mdash; use coordinates that increase as you move <i>downwards</i> on the vertical axis.  The horizontal axis is the same in both coordinate systems.  This difference on the vertical axis means that from the WebGL perspective, the GIF image we&#8217;re using for our texture is already flipped vertically, and we need to &#8220;unflip&#8221; it.  (Thanks to Ilmari Heikkinen for clarifying that in the comments.)</p>
+<p>The next step is to upload our freshly-loaded image to the texture&#8217;s space in the graphics card using <code>texImage2D</code>.  The parameters are, in order, what kind of image we&#8217;re using, the level of detail (which is something we&#8217;ll look at in a later lesson), the format in which we want it to be stored on the graphics card (repeated twice for reasons we&#8217;ll also look at later), the size of each &#8220;channel&#8221; of the image (that is, the datatype used to store red, green, or blue), and finally the image itself.</p>
+<p>On to the next two lines: these specify special scaling parameters for the texture.  The first tells WebGL what to do when the texture is filling up a large amount of the screen relative to the image size; in other words, it gives it hints on how to scale it up.  The second is the equivalent hint for how to scale it down.  There are various kinds of scaling hints you can specify; <code>NEAREST</code> is the least attractive of these, as it just says you should use the original image as-is, which means that it will look very blocky when close-up.  It has the advantage, however, of being really fast, even on slow machines.  In the next lesson we&#8217;ll look at using different scaling hints, so you can compare the performance and appearance of each.</p>
+<p>Once this is done, we set the current texture to <code>null</code>; this is not strictly necessary, but is good practice; a kind of tidying up after yourself.</p>
+<p>So, that&#8217;s all the code required to load the texture.  Next, let&#8217;s move on to <code>initBuffers</code>.  This has, of course, lost all of the code relating to the pyramid that we had in lesson 4 but have now removed, but a more interesting change is the replacement of the cube&#8217;s vertex colour buffer with a new one &mdash; the texture coordinate buffer.  It looks like this:</p>
+<pre>
+    cubeVertexTextureCoordBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexTextureCoordBuffer);
+    var textureCoords = [
+      // Front face
+      0.0, 0.0,
+      1.0, 0.0,
+      1.0, 1.0,
+      0.0, 1.0,
+
+      // Back face
+      1.0, 0.0,
+      1.0, 1.0,
+      0.0, 1.0,
+      0.0, 0.0,
+
+      // Top face
+      0.0, 1.0,
+      0.0, 0.0,
+      1.0, 0.0,
+      1.0, 1.0,
+
+      // Bottom face
+      1.0, 1.0,
+      0.0, 1.0,
+      0.0, 0.0,
+      1.0, 0.0,
+
+      // Right face
+      1.0, 0.0,
+      1.0, 1.0,
+      0.0, 1.0,
+      0.0, 0.0,
+
+      // Left face
+      0.0, 0.0,
+      1.0, 0.0,
+      1.0, 1.0,
+      0.0, 1.0,
+    ];
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(textureCoords), gl.STATIC_DRAW);
+    cubeVertexTextureCoordBuffer.itemSize = 2;
+    cubeVertexTextureCoordBuffer.numItems = 24;
+</pre>
+<p>You should be pretty comfortable with this kind of code now, and see that all we&#8217;re doing is specifying a new per-vertex attribute in an array buffer, and that this attribute has two values per vertex.  What these texture coordinates specify is where, in cartesian <i>x, y</i> coordinates, the vertex lies in the texture.  For the purposes of these coordinates, we treat the texture as being 1.0 wide by 1.0 high, so (0, 0) is at the bottom left, (1, 1) the top right.  The conversion from this to the real resolution of the texture image is handled for us by WebGL.</p>
+<p>That&#8217;s the only change in <code>initBuffers</code>, so let&#8217;s move on to <code>drawScene</code>.   The most interesting changes in this function are, of course, the ones that make it use the texture.  However, before we go through these, there are a number of changes related to really simple stuff like the removal of the pyramid and the fact that the cube is now spinning around in a different way.  I won&#8217;t describe these in detail, as they should be pretty easy to work out; they&#8217;re highlighted in red in this snippet from the top of the <code>drawScene</code> function:</p>
+<pre>
+  <span style="color:red;">var xRot = 0;
+  var yRot = 0;
+  var zRot = 0;</span>
+  function drawScene() {
+    gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+    mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
+
+    mat4.identity(mvMatrix);
+
+    <span style="color:red;">mat4.translate(mvMatrix, [0.0, 0.0, -5.0]);
+
+    mat4.rotate(mvMatrix, degToRad(xRot), [1, 0, 0]);
+    mat4.rotate(mvMatrix, degToRad(yRot), [0, 1, 0]);
+    mat4.rotate(mvMatrix, degToRad(zRot), [0, 0, 1]);</span>
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
+    gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, cubeVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+</pre>
+<p>There are also matching changes in the <code>animate</code> function to update <code>xRot</code>, <code>yRot</code> and <code>zRot</code>, which I won&#8217;t go over.</p>
+<p>So, with those out of the way, let&#8217;s look at the texture code.  In <code>initBuffers</code> we set up a buffer containing the texture coordinates, so here we need to bind it to the appropriate attribute so that the shaders can see it:</p>
+<pre>
+    gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexTextureCoordBuffer);
+    gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, cubeVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
+</pre>
+<p>&#8230;and now that WebGL knows which bit of the texture each vertex uses, we need to tell it to use the texture that we loaded earlier, then draw the cube:</p>
+<pre>
+    <span style="color:red;">gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, neheTexture);
+    gl.uniform1i(shaderProgram.samplerUniform, 0);</span>
+
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVertexIndexBuffer);
+    setMatrixUniforms();
+    gl.drawElements(gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+</pre>
+<p>What&#8217;s happening here is somewhat complex.  WebGL can deal with up to 32 textures during any given call to functions like <code>gl.drawElements</code>, and they&#8217;re numbered from <code>TEXTURE0</code> to <code>TEXTURE31</code>.  What we&#8217;re doing is saying in the first two lines that texture zero is the one we loaded earlier, and then in the third line we&#8217;re passing the value zero up to a shader uniform (which, like the other uniforms that we use for the matrices, we extract from the shader program in <code>initShaders</code>); this tells the shader that we&#8217;re using texture zero.  We&#8217;ll see how that&#8217;s used later.</p>
+<p>Anyway, once those three lines are executed, we&#8217;re ready to go, so we just use the same code as before to draw the triangles that make up the cube.</p>
+<p>The only remaining new code to explain is the changes to the shaders.  Let&#8217;s look at the vertex shader first:</p>
+<pre>
+  attribute vec3 aVertexPosition;
+  <span style="color:red;">attribute vec2 aTextureCoord;</span>
+
+  uniform mat4 uMVMatrix;
+  uniform mat4 uPMatrix;
+
+  <span style="color:red;">varying vec2 vTextureCoord;</span>
+
+  void main(void) {
+    gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+    <span style="color:red;">vTextureCoord = aTextureCoord;</span>
+  }
+</pre>
+<p>This is very similar to the colour-related stuff we put into our vertex shader in lesson 2; all we&#8217;re doing is accepting the texture coordinates (again, instead of the colour) as a per-vertex attribute, and passing it straight out in a varying variable.</p>
+<p>Once this has been called for each vertex, WebGL will work out values for the fragments (which, remember, are basically just pixels) between vertices by using linear interpolation between the vertices &mdash; just as it did with the colours in lesson 2.  So, a fragment half-way between vertices with texture coordinates (1, 0) and (0, 0) will get the texture coordinates (0.5, 0), and one halfway between (0, 0) and (1, 1) will get (0.5, 0.5).  Next stop, the fragment shader:</p>
+<pre>
+  precision mediump float;
+
+  <span style="color:red;">varying vec2 vTextureCoord;
+
+  uniform sampler2D uSampler;</span>
+
+  void main(void) {
+    <span style="color:red;">gl_FragColor = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));</span>
+  }
+</pre>
+<p>So, we pick up the interpolated texture coordinates, and we have a variable of type <code>sampler</code>, which is the shader&#8217;s way of representing the texture.  In <code>drawScene</code>, our texture was bound to <code>gl.TEXTURE0</code>, and the uniform <code>uSampler</code> was set to the value zero, so this sampler represents our texture.  All the shader does is use the function <code>texture2D</code> to get the appropriate colour from the texture using the coordinates.  Textures traditionally use s and t for their coordinates rather than x and y, and the shader language supports these as aliases; we could just as easily used <code>vTextureCoord.x</code> and <code>vTextureCoord.y</code>.</p>
+<p>Once we have the colour for the fragment, we&#8217;re done!  We have a textured object on the screen.</p>
+<p>So, that&#8217;s it for this time.  Now you know all there is to learn from this lesson: how to add textures to 3D objects in WebGL by loading an image, telling WebGL to use it for a texture, giving your object texture coordinates, and using the coordinates and the texture in the shaders.</p>
+<p>If you have any questions, comments, or corrections, please do leave a comment below!</p>
+<p>Otherwise, <a href="http://learningwebgl.com/blog/?p=571">check out the next lesson</a>, in which I show how you can get basic key-based input into the JavaScript that animates your 3D scene, so that we can start making it interact with the person viewing the web page.  We&#8217;ll use that to allow the viewer to change the spin of the cube, to zoom in and out, and to adjust the hints given to WebGL to control the scaling of textures.</p>
+<p><span style="float: left; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=370">&lt;&lt; Lesson 4</a></span><span style="float: right; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=571">Lesson 6 &gt;&gt;</a></span><br/></p>
+<p><em>Acknowledgments: Chris Marrin&#8217;s <a href="http://webkit.org/blog-files/webgl/SpiritBox.html">spinning box</a> was a great help when writing this, as was an extension of that demo by <a href="http://blog.nihilogic.dk/">Jacob Seidelin</a>.  As always, I&#8217;m deeply in debt to <a href="http://nehe.gamedev.net/">NeHe</a> for his <a href="http://nehe.gamedev.net/data/lessons/lesson.asp?lesson=06">OpenGL tutorial</a> for the script for this lesson.</em></p>
+															</div>
+							<div class="postmeta">Posted in <a href="http://learningwebgl.com/blog/?cat=1" title="View all posts in Uncategorized" rel="category">Uncategorized</a> |  </div>
+						
+							<div class="navigation clearfix">
+								<div class="alignleft">&laquo; <a href="http://learningwebgl.com/blog/?p=479" rel="prev">Restrospectively changing my retrospective changes&#8230;</a></div>
+								<div class="alignright"><a href="http://learningwebgl.com/blog/?p=521" rel="next">X3DOM &#8211; specifying 3D WebGL content with HTML tags</a> &raquo;</div>
+							</div>
+							
+															You can <a href="#respond">leave a response</a>, or <a href="http://learningwebgl.com/blog/wp-trackback.php?p=507" rel="trackback">trackback</a> from your own site.
+	
+													</div><!--/post-507-->
+						
+				
+<!-- You can start editing here. -->
+
+	<h3 id="comments">142 Responses to &#8220;WebGL Lesson 5 – introducing textures&#8221;</h3>
+
+	<ol class="commentlist">
+			<li class="comment even thread-even depth-1" id="comment-6909">
+				<div id="div-comment-6909" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/6c161a49c61c04e8427ec8c04359aa9c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://www.mediafire.com/?7ihdm8itdyec08w' rel='external nofollow' class='url'>Lord Ashes</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6909">December 18, 2011 at 10:42 pm</a></div>
+
+		<p>****************************************<br />
+*** WebGL Joint And Object Framework ***<br />
+****************************************</p>
+<p>I have created a WebGL based Framework which allows user to easily create object parts that are joined to each other and can be moved and rotated with respect to each other.</p>
+<p>The framework is designed to be easy to use by hiding all lower level WebGL implementation. Don&#8217;t know what a WebGL buffer is or what shaders or binding means? No problem. When you use the JOA Framework you don&#8217;t need to know about any of that because the JOA Framework will handle all that for you.</p>
+<p>All you need is basic knowledge of Vertices, Texture Coordinates and Indices. Since you are on Lesson 4 of the WebGL Tutorial, I&#8217;m guessing you do. If not go through the first 5 Tutorial lessons first.</p>
+<p>The JOA Framework implements a object structure that allows objects to be related to each other (such as the upper arm is connected to the lower arm), allows the user to define the 3D appearance of the objects, allows the objects to be textured, allows the objects to be moved and rotated while keeping their connections to their parents and children and even allows objects to be cloned so that you can create multiple objects from one object definition.</p>
+<p>A sample project of a bendable human body is provided.</p>
+<p>Instructions are also provided how to extract data from a freely available program called Anim8tor so that the 3D objects can be created using a program GUI as opposed to hand-coding.</p>
+<p>My JOA Framework, available for free, is downloadable from Media Fire at the following link:</p>
+<p><a href="http://www.mediafire.com/?7ihdm8itdyec08w" rel="nofollow">http://www.mediafire.com/?7ihdm8itdyec08w</a></p>
+<p>The template file, support files and the Framework files are all coded in HTML or Javascript so you can easy to verify that there is no malicious code inside.</p>
+<p>The Framework includes everything you need to start using the framework. No additional files are required (except for a WebGL compatible browser).</p>
+<p>Merry Christmas!</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6910">
+				<div id="div-comment-6910" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/6c161a49c61c04e8427ec8c04359aa9c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://www.mediafire.com/?7ihdm8itdyec08w' rel='external nofollow' class='url'>Lord Ashes</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6910">December 19, 2011 at 3:14 am</a></div>
+
+		<p>WebGL Joint And Object (JOA) Framework Version 1.1 Update</p>
+<p>Revision Log:</p>
+<p>* No changes to the JOA Framework itself.<br />
+* Only changes to the Body Project Example as follows:</p>
+<p>     * Added Hands<br />
+     * Added Boots<br />
+     * Added Boots Texture<br />
+     * Added Walking Animation<br />
+     * Added Key To Toggle Animation On/Off</p>
+<p>Link: <a href="http://www.mediafire.com/?knpw896bqsjttby" rel="nofollow">http://www.mediafire.com/?knpw896bqsjttby</a></p>
+<p>Enjoy!</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6911">
+				<div id="div-comment-6911" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/c57a8beddd9caf96bea57786f151928a?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://onetrickaweek.blogspot.com' rel='external nofollow' class='url'>ReaperUnreal</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6911">December 21, 2011 at 9:23 pm</a></div>
+
+		<p>Just a note, you mentioned changes in initShaders() but didn&#8217;t explicitly cover them. Not sure if this was intended or not. I mean, they&#8217;re pretty simple changes, but might be worth going over.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6912">
+				<div id="div-comment-6912" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/44b899f5dab50d7c75fe718c6f54b269?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Tux</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6912">December 29, 2011 at 4:47 pm</a></div>
+
+		<p>FYI:<br />
+If you wish to save this code and run it locally(to play around with it), the texture image will not load because it is considered a cross domain image in this context. To fix this you need to add the line:<br />
+neheTexture.image.crossOrigin = &#8220;anonymous&#8221;;<br />
+just below:<br />
+neheTexture.image = new Image();</p>
+<p>Happy New Year&#8230;.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6913">
+				<div id="div-comment-6913" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/8e6d3de07ca63e3583e6c2cd4fbbdf22?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://zproxy.wordpress.com' rel='external nofollow' class='url'>zproxy</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6913">December 29, 2011 at 9:18 pm</a></div>
+
+		<p>IDL says:</p>
+<p>void pixelStorei(GLenum pname, GLint param);</p>
+<p>Example could state:</p>
+<p>gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, 1);</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6914">
+				<div id="div-comment-6914" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/ffdffc18ba5c2c8b3425155ae10dd5e0?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">l5</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6914">January 11, 2012 at 2:55 pm</a></div>
+
+		<p>Hi,</p>
+<p>Locally, this example doesn&#8217;t work in Chrome&#8230;only works in FF. Whats wrong?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="pingback even thread-even depth-1" id="comment-6915">
+				<div id="div-comment-6915" class="comment-body">
+				<div class="comment-author vcard">
+				<cite class="fn"><a href='http://www.cisay.com/iphone/?p=56' rel='external nofollow' class='url'>WebGL学习教程5 - iphone编程教程</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6915">January 13, 2012 at 8:02 am</a></div>
+
+		<p>[...] <a href="http://learningwebgl.com/blog/?p=507" rel="nofollow">http://learningwebgl.com/blog/?p=507</a> 因为我是业余的翻译者，不一定翻译得非常好，你如果感兴趣，可以参考原文进行学习，期待与你一起进步  作者：cocoa | 分类目录：html5+css | 标签： [...]</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6916">
+				<div id="div-comment-6916" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/6b4e8c5e0ad0928202b4f037cb123b2c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Erik</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6916">January 20, 2012 at 9:30 pm</a></div>
+
+		<p>To I5:<br />
+I was having the same problem. Kept getting:<br />
+Uncaught Error: SECURITY_ERR: DOM Exception 18<br />
+Turns out it&#8217;s somehow a security risk to load files locally, even though you&#8217;re running your JavaScript in the same directory.<br />
+I found two ways to test locally, but here&#8217;s the one I went with. You run Chrome from the command line with the tag &#8220;&#8211;allow-file-access-from-files&#8221;. You have to make sure you close all Chrome windows before you do that or else it won&#8217;t work.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6917">
+				<div id="div-comment-6917" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/9a3c6f3487b634d3d8049798c9cb62f4?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">hdam</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6917">January 26, 2012 at 5:35 pm</a></div>
+
+		<p>Hi,</p>
+<p>Thank you very much for this fantastic series.</p>
+<p>I want to play with different images, simply by loading different image files, but most of them don&#8217;t display (see only black background).  What have I done wrong? any restrictions on the image size, style, format, etc.?</p>
+<p>Thanks &#8211; H</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6918">
+				<div id="div-comment-6918" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/9a3c6f3487b634d3d8049798c9cb62f4?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">hdam</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6918">January 27, 2012 at 7:03 pm</a></div>
+
+		<p>My bad, found previous posts about the image size should be a power of 2.</p>
+<p>-H</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6919">
+				<div id="div-comment-6919" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/e1282d3b80561c0586f72bb2cf8f7461?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Dheepan Raju</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6919">March 19, 2012 at 9:20 am</a></div>
+
+		<p>Hi,<br />
+   When i tried to run it with different image, It simply shows black background. Nothing is happening. Could you tell me what should i do for that?</p>
+<p>Thanks in advance.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="pingback odd alt thread-odd thread-alt depth-1" id="comment-6920">
+				<div id="div-comment-6920" class="comment-body">
+				<div class="comment-author vcard">
+				<cite class="fn"><a href='http://3d.marcusnygren.se/?p=30' rel='external nofollow' class='url'>2012-03-(17-18) | 3D-projekt</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6920">March 20, 2012 at 3:18 pm</a></div>
+
+		<p>[...] jobbat med learning webGL. Har gjort nästan 5 lektioner, men får inte texturerna att fungera i lektion 5. ~7h   This entry was posted in Uncategorized by Jonas Petersson. Bookmark the [...]</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6921">
+				<div id="div-comment-6921" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/e6c9ed090d66cd9015e7c0d3546c56a6?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://www.rodrigo-silveira.com/' rel='external nofollow' class='url'>Rodrigo Silveira</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6921">March 26, 2012 at 11:18 pm</a></div>
+
+		<p>I see this has already been mentioned, but I think it’s worth emphasizing the fact that the texture size MUST BE A POWER OF 2! This used to be the case in OpenGL 2.0 and earlier, but it is still the case in WebGL.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6922">
+				<div id="div-comment-6922" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/1a0315006b091da09caca6c6b0116e4a?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">casi</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6922">March 29, 2012 at 11:38 am</a></div>
+
+		<p>I have the same problem..its not loading when i try with a diifferent image of the same dimensions 256&#215;256..any solutions??</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6923">
+				<div id="div-comment-6923" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/d7cc90ff4b9f71653ed351d9b3dd10bd?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://www.dannyhendrix.com' rel='external nofollow' class='url'>Danny</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6923">April 1, 2012 at 10:57 am</a></div>
+
+		<p>@Casi Make sure the color depth of the image is 256 <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_razz.gif' alt=':P' class='wp-smiley' /> .</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6924">
+				<div id="div-comment-6924" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/aa4b360d52a64e94bfaadce5a5c4ad23?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Erik</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6924">April 11, 2012 at 5:32 pm</a></div>
+
+		<p>Hello all. Upon completing this tutorial, my object is being rendered with colour, except the colour is uniform. Basically, the whole thing is exactly the same shade of green as opposed to having varying colours based on my texture.</p>
+<p>I thought that this may be a lighting issue (since I have not added any) in that everything defaults to the same shade; but the more I think about that, the less likely it seems.</p>
+<p>The other option is that my textureCoords (i.e. 0.0 to 1.0) aren&#8217;t being set correctly, but I&#8217;ve done some digger there and it does seem to be setting correctly. In that I mean: my bottom-left vertex as UV (0, 0), my top-right vertex has UV (1, 1) and the inbetweeners have some range between that based on their position.</p>
+<p>Any thoughts on something I may be missing?</p>
+<p>Appreciate any feedback.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6925">
+				<div id="div-comment-6925" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/aa4b360d52a64e94bfaadce5a5c4ad23?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Erik</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6925">April 11, 2012 at 5:40 pm</a></div>
+
+		<p>If I change the very first pixel (i.e. top-left) in the image, everything gets set to that colour. So it must be something to do with my textureCoords.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6926">
+				<div id="div-comment-6926" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/aa4b360d52a64e94bfaadce5a5c4ad23?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Erik</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6926">April 11, 2012 at 6:56 pm</a></div>
+
+		<p>Got it. I had missed adding this to my initShaders method:</p>
+<p>shaderProgram.textureCoordAttribute = gl.getAttribLocation(shaderProgram, &#8220;aTextureCoord&#8221;);<br />
+gl.enableVertexAttribArray(shaderProgram.textureCoordAttribute);</p>
+<p>Which I see now that ReaperUnreal mentioned above.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6927">
+				<div id="div-comment-6927" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/6079f63ee51b674c8db9b631953204dc?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Olle</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6927">April 21, 2012 at 1:50 pm</a></div>
+
+		<p>Hi!</p>
+<p>When I look at the live Webgl demo it sometimes freezes a bit. Just for very short time but it happens frequently and not reguarly. I look at it in Firefox.</p>
+<p>Does anyone know why this happens?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6928">
+				<div id="div-comment-6928" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/1c509df09fc0b1c63500acc279c093dc?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://chrislord.net/' rel='external nofollow' class='url'>Chris Lord</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6928">June 18, 2012 at 10:20 am</a></div>
+
+		<p>Nice tutorial, but it really ought to cover deleting the texture too&#8230;</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="pingback even thread-even depth-1" id="comment-6929">
+				<div id="div-comment-6929" class="comment-body">
+				<div class="comment-author vcard">
+				<cite class="fn"><a href='http://www.kenzan8000.org/blog/?p=288' rel='external nofollow' class='url'>ガラパゴスブログ &raquo; Blog Archive &raquo; WebGLレッスン5 – テクスチャの導入</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6929">August 3, 2012 at 2:12 am</a></div>
+
+		<p>[...] 以下の文章は、WebGL Lesson 5 – introducing texturesの日本語訳です。  WebGLのチュートリアルシリーズ第五回へようこそ。このチュートリアルは、第六回NeHeさんのOpenGLチュートリアルの基礎になります。チュートリアルは、分離したファイルから画像を読み込むといったものです。これは、複雑なオブジェクトを描画せずに3D空間を表現するのにお手軽な　手法です。ダンジョンゲームで岩が落下するところを想像してみてください。おそらく、ひとつひとつの岩をダンジョンの壁と別のオブジェクトとしてモデリングしたくはないでしょう。よって、壁全体はひとつのオブジェクトとして扱い、むしろ岩の画像を用意して壁を補うでしょう。  レッスンの内容をWebGLをサポートするブラウザで動かした様子です。    WebGLをサポートするブラウザ環境であれば、リンクをクリックして、WebGLの現行版をチェックしてみてください。もし持っていなければ、リンクから導入方法がわかります。  より詳しい原理を下記します。  注意点：レッスンは、プログラミングの知識を持っており、3Dグラフィックスの経験がないひとを対象にしています。できる限り早く個人の3D Webページを持てるよう、深く理解していただけると幸いです。すでに前回のチュートリアルをご覧になられていたら、この記事を読む前に読んでいただきたいです。なぜなら、このチュートリアルでは、レッスン4と新しいコードとの違いしか説明していないからです。  このチュートリアルには、バグや誤りがあるかもしれません。なにか誤りがあれば、コメントや訂正をできる限り早く教えていただきたいです。  例で紹介しているコードを手に入れるには、２つのやり方があります。現行のものを観察するようなまさにソースを見るやり方。Githubを使って、リンクのリポジトリからcloneしてくる(他のレッスンも)方法もあります。どちらかのやり方でコードを手に入れて、お気に入りのテキストエディタに読み込んで読んでみてください。  テクスチャがどのように機能しているか理解するには、3Dオブジェクト上で色の点がセットされる特有の仕組みを知ることです。レッスン２、色がフラグメントシェーダによって指定されるかを覚えていたら、画像を読み込んで、画像をフラグメントシェーダに送るには何が必要かわかりますか。フラグメントシェーダは、フラグメントを利用して画像のどの部分を取得するのか知る必要があります。  テクスチャを読み込むコードを見ていきましょう。ページ下部にあるWebGLStartのJavaScriptの実行結果を見てください(新たに追加されたコードは赤で書かれています)。 [...]</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6930">
+				<div id="div-comment-6930" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/7630697717449e3960d0b4b34968d725?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Robert</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6930">August 21, 2012 at 7:44 pm</a></div>
+
+		<p>Hi,</p>
+<p>First I want to say that your tutorials are awesome. I already knew a lot of Open GL when I started them, but I feel like you have really deepened my understanding.</p>
+<p>However, when downloading the source code and running this lesson from my computer I am only seeing a black box where the canvas is. All previous 4 tutorials worked so I believe it is something to do with the loading of the texture. I downloaded your nehe.gif to my local directory and it seems as if it&#8217;s being used but somehow not loading correctly. I&#8217;m not sure if this is the right approach or what I should try but any help would be really great.</p>
+<p>Thanks</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6931">
+				<div id="div-comment-6931" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/7630697717449e3960d0b4b34968d725?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Robert</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6931">August 21, 2012 at 7:53 pm</a></div>
+
+		<p>Also, I&#8217;ve traced it to this line in the code that it doesn&#8217;t go past.</p>
+<p>gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture.image);</p>
+<p>In the function<br />
+    function handleLoadedTexture(texture) {<br />
+        alert(&#8220;Entered handleLoadedTexture&#8221;);<br />
+        gl.bindTexture(gl.TEXTURE_2D, texture);<br />
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);<br />
+        alert(&#8220;Got here&#8221;);                                                    &lt;&#8212;- It gets here<br />
+        gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture.image);<br />
+        alert(&quot;Got here2&quot;);                                                    &lt;&#8212;- But it doesn&#039;t get here<br />
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST);<br />
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST);<br />
+        gl.bindTexture(gl.TEXTURE_2D, null);<br />
+        alert(&quot;Exited handleLoadedTexture&quot;);<br />
+    }</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6932">
+				<div id="div-comment-6932" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/7630697717449e3960d0b4b34968d725?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Robert</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6932">August 21, 2012 at 10:01 pm</a></div>
+
+		<p>For anyone else with the same issue, chrome doesn&#8217;t normally allow access to local files (as someone nicely mentioned above). Running from the command line (on a mac) with</p>
+<p>open /Applications/Google\ Chrome.app &#8211;args &#8211;allow-file-access-from-files</p>
+<p>will fix this problem. (but make sure you close all open windows first)</p>
+<p>Thanks again for the awesome tutorials, I&#8217;m really excited to continue them <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6933">
+				<div id="div-comment-6933" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/daec4e0708ee54371cd07eababcd635e?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">John Wright</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6933">August 22, 2012 at 8:09 pm</a></div>
+
+		<p>I am trying to make a texture scroll down, the Y-axis, on a 2D square via the shaders. My plan is to simply update the uv coordinates to make the texture appear to move instead of translating the piece of geometry with the texture on it. I can get the texture to move, but it never updates. Can anyone please give me an example of how this can be accomplished?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6934">
+				<div id="div-comment-6934" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/08cf585579ea425d3a992151333971c2?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">AJ</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6934">August 30, 2012 at 6:00 am</a></div>
+
+		<p>I spend the longest time comparing code trying to figure out why the texture wasn&#8217;t rendering. Turns out my camera was pulled back farther than in the example and as a result caused problems with the scaling used in the example. After digging around I ended up generating a mipmap and all worked.</p>
+<p>gl.bindTexture(gl.TEXTURE_2D, texture);<br />
+gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);<br />
+gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, gl.RGBA, gl.UNSIGNED_BYTE, texture.image);<br />
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);<br />
+gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR_MIPMAP_NEAREST);<br />
+gl.generateMipmap(gl.TEXTURE_2D);<br />
+gl.bindTexture(gl.TEXTURE_2D, null);</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6935">
+				<div id="div-comment-6935" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/f1ff20b1fd19e2d9604c589f2f412dc0?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Dima</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6935">September 17, 2012 at 4:36 pm</a></div>
+
+		<p>For chrome users.</p>
+<p>You can install chrome canary and run it with the flag<br />
+&#8211;allow-file-access-from-files</p>
+<p>And you can have your normal chrome running with many windows you need.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="pingback odd alt thread-odd thread-alt depth-1" id="comment-6936">
+				<div id="div-comment-6936" class="comment-body">
+				<div class="comment-author vcard">
+				<cite class="fn"><a href='http://www.Blue-Apartment.com/2012/09/building-an-html5-game-dont-shrug-off-atlases/' rel='external nofollow' class='url'>Building an HTML5 game? Don&#8217;t shrug off atlases</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6936">September 20, 2012 at 3:10 am</a></div>
+
+		<p>[...] WebGL game can modify the UV-Coordinates of a vertex to reference a subsection of a larger image using normalized floating point [...]</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6937">
+				<div id="div-comment-6937" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/27b33dd16668d9509c46ffb30eefad39?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Anastasia</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6937">September 22, 2012 at 5:23 pm</a></div>
+
+		<p>Hello!</p>
+<p>I would like to texture the pyramid from the previous lessons. Does texturing pyramids much differ from texturing cubes? I&#8217;d like to know the size of the texture and the position of vertices. Appreciate examples.</p>
+<p>Thanks!</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6938">
+				<div id="div-comment-6938" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/c092ab1e40b7ba7815dee9b088aa5feb?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Andy</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6938">September 26, 2012 at 6:26 pm</a></div>
+
+		<p>Using the switch –allow-file-access-from-files I can get the texture to load locally but it is scaled incorrectly and not rendered onto a cube face (just flat across the canvas). I have the RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have  incompatible texture filtering or is not &#8216;texture complete&#8217;</p>
+<p>At the moment I&#8217;m running the code from my glassfish server on localhost which seems to get things working, although the render warning is still displayed so maybe something else is happening?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6939">
+				<div id="div-comment-6939" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/f1ab00da48af64666b97023e0979c5e2?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Christine</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6939">October 24, 2012 at 4:31 pm</a></div>
+
+		<p>Hello,<br />
+  I would like to texture the spinning cube with two different images. I would like an image for front, top, right faces and a separate image for the rest. Does anyone know how to do this?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6940">
+				<div id="div-comment-6940" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/c75cee7d63cc42b03ef1a20eea31e3ef?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Nick</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6940">November 20, 2012 at 8:44 am</a></div>
+
+		<p>Hello,<br />
+  Big thanks.  I&#8217;ve been using NeHe&#8217;s tutorials for years, and it makes it so much easier to learn a new binding when someone build tutorials with good explanations like yours.</p>
+<p>My problem is somewhat strange- This is all working on my box, using both localhost/ and /, but the textures aren&#8217;t loading on other machines.  I can point to the images and see them, and I added an  that showed up fine, but the textures don&#8217;t load in the webgl.  Any ideas?</p>
+<p>Thanks,<br />
+Nick</p>
+<p>Christine:<br />
+  You basically have 3 options, I arrange here from simplest but slowest to most complicated but fastest:</p>
+<p>1) render the different faces entirely separately.  Make one set of buffers for all of the faces that uses the same image.  Render the different sets in order.</p>
+<p>2) Use one set of buffers, but break it up into different calls to gl.drawElements with different offsets:</p>
+<p>gl.bindBuffer(gl.ARRAY_BUFFER, imgA);<br />
+gl.drawElements(gl.TRIANGLES, numItemsWithFirstImg , gl.UNSIGNED_SHORT, 0);<br />
+gl.bindBuffer(gl.ARRAY_BUFFER, imgB);<br />
+gl.drawElements(gl.TRIANGLES, numItemsWithSecondImg , gl.UNSIGNED_SHORT, numItemsWithSecondImg * 3, 0);</p>
+<p>3)  Finally, you can load both textures into the shader using different gl.TEXTUREN numbers. Then, use a separate aVectorTextureNum to pass the texture number per vertex</p>
+<p>Hope that helps,<br />
+Nick</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6941">
+				<div id="div-comment-6941" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/c75cee7d63cc42b03ef1a20eea31e3ef?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Nick</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6941">November 20, 2012 at 8:48 am</a></div>
+
+		<p>oops, left an extra arg in the last gl.drawElements.  There&#8217;s no last 0 arg.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6942">
+				<div id="div-comment-6942" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/fa4d3d042d1624111c7a10c1ddc84318?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://www.4r7w4re.com' rel='external nofollow' class='url'>DrBearhands</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6942">December 31, 2012 at 1:06 pm</a></div>
+
+		<p>I&#8217;d like to mention textures may not have loaded before the first draw. I had disabled animations/multiple draws which caused &#8216;black&#8217; textures. Took a while to figure out.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6943">
+				<div id="div-comment-6943" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/a2fc27ccd767f25793946e041317da0c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://www.MavajSunCo.com' rel='external nofollow' class='url'>Mavaj</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6943">January 6, 2013 at 1:00 pm</a></div>
+
+		<p>Hi ,</p>
+<p>Thanks for all your wonderful tutorial , I am learning a lot .</p>
+<p>I need one more help from you . I search in google but I could not find any good example or references .</p>
+<p>I want to use live video stream which is comping from IP camera as texture for each face of cube . Or use motion JPG to grab image from IP camera and refresh the image at lest 10 frame per second . Can you guide me in this task ?</p>
+<p>Many Thanks</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6944">
+				<div id="div-comment-6944" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/7abce11eb2e24c9b843cfb12a9ec64da?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">hugues</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6944">February 14, 2013 at 2:54 pm</a></div>
+
+		<p>Hello<br />
+On chrome, everything worked but I had a warning like :</p>
+<p>RENDER WARNING: texture bound to texture unit 0 is not renderable. It maybe non-power-of-2 and have  incompatible texture filtering or is not &#8216;texture complete&#8217;</p>
+<p>I had noticed on other projects that chrome and firefox sometimes miss the image set up when one is using the DOM to load them, which is the case in this program.</p>
+<p>So I ended up doing a webGLStart(0) which runs until the initTextures included then at the end of the last handleLoadedTexture, I launch a timeout on webGLStart(1) which runs the subsequent.</p>
+<p>I had no more warning after this.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6945">
+				<div id="div-comment-6945" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/ac9a4995c59c0339b39360582b6d009c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Grüse</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6945">February 26, 2013 at 2:24 pm</a></div>
+
+		<p>Hi all,</p>
+<p>just expanding on what hugues said above concerning the texture RENDER WARNING:</p>
+<p>The warning is caused by activating and binding the texture in drawScene() before the corresponding image is loaded. In other words, this warning is triggered every time you render until the image has completed loading.</p>
+<p>While you could theoretically do the quick and dirty trick of calling<br />
+window.setTimeout(tick, 1000);<br />
+at the end of webGLStart(), you&#8217;ll still get the warning for slow connections and/or more textures.</p>
+<p>My solution works as follows: I removed the call of tick() in webGLStart() and changed initTexture() to this:</p>
+<p>var numTextures = 1;<br />
+var textureImagesLoaded = 0;</p>
+<p>var initTexture = function() {<br />
+	cubeTexture = gl.createTexture();<br />
+	cubeTexture.image = new Image();<br />
+	cubeTexture.image.onload = function() {<br />
+		handleLoadedTexture(cubeTexture);<br />
+		textureImagesLoaded++;<br />
+		if(textureImagesLoaded &gt;= numTextures) {<br />
+			tick();<br />
+		}<br />
+	};<br />
+	cubeTexture.image.src = &#8220;./img/nehe.gif&#8221;;<br />
+};</p>
+<p>This calls tick() for the first time AFTER all the textures (in this case just one) have loaded. Voila!</p>
+<p>numTextures and textureImagesLoaded are global variables, but of course they could be stored differently. You could also use some sort of signalling instead of calling tick() directly, but the concept remains the same.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6946">
+				<div id="div-comment-6946" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/78983584dd9d798f1e86e2026f87e404?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">roman21</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-6946">February 26, 2013 at 10:42 pm</a></div>
+
+		<p>Hey,</p>
+<p>I have been trying to follow your tutorials, but when I download the source code it doesn&#8217;t work and I have no idea why.  All the lessons source shows the same thing, blank canvas with the 2 &#8220;back to lesson&#8221; links.  anyone else have this problem and does anyone have a fix?</p>
+<p>I tried the neheTexture.image.crossOrigin = “anonymous”; but that didnt help.</p>
+<p>Thanks</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-76660">
+				<div id="div-comment-76660" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/3d7bc4dea76d2339041f254496a674a6?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Evren</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-76660">July 24, 2013 at 2:24 pm</a></div>
+
+		<p>Hi,</p>
+<p>thanks for all the these demos. They are really helpful.</p>
+<p>Questions:</p>
+<p>1) why does not the webgl use quaternion ? Is it just to stick to openGL way ?</p>
+<p>2)<br />
+What if I wanted to map multiple images on different faces of the cube.</p>
+<p>say nehe.gif on one size(front face)  and crate.gif on all others ?</p>
+<p>Say I want front face to be nehe and rest crate.</p>
+<p>Would I remove the front face coordinates from textureCoords<br />
+and reduce the num items to 20 instead of 24. (so front face is gone)</p>
+<p>and create a separate array say &#8220;frontface&#8221; coordinates.<br />
+and a separate &#8220;faceVertexTextureCoordBuffer&#8221; and map that to frontface and pass that to the shader?</p>
+<p>Also what if I want my texture to wrap around the edge of the cube ?</p>
+<p>Say I want to map an texture of a cube (unwrapped) Think about one texture that would go around the cube. </p>
+<p>I have always worked with engines which wraps opengl or directX. This is kind of new to me.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-86852">
+				<div id="div-comment-86852" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/c0eaaf45cde17c84dc5869f05bdad044?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://echofromfuture.com' rel='external nofollow' class='url'>kevin</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-86852">August 6, 2013 at 7:26 pm</a></div>
+
+		<p>good stuff.<br />
+I made a cube orbiting in a circle with different face rendered diffferent texture.<br />
+Bascially the procedure is to add 3 different matrix of indices 3 different pair of faces and each bind each matrix to a different texture.<br />
+See the examples in the link below:</p>
+<p><a href="http://echofromfuture.com/webgltexture1.html" rel="nofollow">http://echofromfuture.com/webgltexture1.html</a></p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-583303">
+				<div id="div-comment-583303" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/a028eadc7e4309e52f9d7c169b716496?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">xsailor</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-583303">December 25, 2013 at 7:01 am</a></div>
+
+		<p>Thank you for your lessons! I learned a lot from it.<br />
+I test the lesson05 source code on f://html/webgl/lesson05.html. but it doesn&#8217;t work.<br />
+the info:<br />
+Uncaught SecurityError: Failed to execute &#8216;texImage2D&#8217; on &#8216;WebGLRenderingContext&#8217;: the cross-origin image at file:///F:/html/webGL/nehe.gif may not be loaded.<br />
+than I open a http server on localhost, than it works!<br />
+the URL is like this:<br />
+<a href="http://localhost:8083/shopping/webgl/lesson5.html" rel="nofollow">http://localhost:8083/shopping/webgl/lesson5.html</a><br />
+There maybe something wrong with the http protocol or the file protocol !<br />
+Webgl loads gif picture failed when work with the file protocol.<br />
+Can you find a way to solve it？Many thanks！</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-2792181">
+				<div id="div-comment-2792181" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/e04e3538eda4f5c3d428f392224b6add?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Dethraid</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=507&amp;cpage=3#comment-2792181">September 1, 2014 at 7:54 am</a></div>
+
+		<p>When you use the texture coordinates in your fragment shader, yo use them like</p>
+<p>gl_FragColor = texture2D( uSampler, vec2( vTexcoord.s, vTexcoord.t ) );</p>
+<p>When you could just put</p>
+<p>gl_FragColor = texture2D( uSampler, vTexcoord );</p>
+<p>Since vTexcoord is already a vec2, and there&#8217;s no need to split it up and recombine it.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+	</ol>
+
+	<div class="navigation">
+		<div class="alignleft"><a href="http://learningwebgl.com/blog/?p=507&#038;cpage=2#comments" >&laquo; Older Comments</a></div>
+		<div class="alignright"></div>
+	</div>
+ 
+
+
+<div id="respond">
+
+<h3>Leave a Reply</h3>
+
+<div class="cancel-comment-reply">
+	<small><a rel="nofollow" id="cancel-comment-reply-link" href="/blog/?p=507#respond" style="display:none;">Click here to cancel reply.</a></small>
+</div>
+
+
+<form action="http://learningwebgl.com/blog/wp-comments-post.php" method="post" id="commentform">
+
+
+<p><input type="text" name="author" id="author" value="" size="22" tabindex="1" aria-required='true' />
+<label for="author"><small>Name (required)</small></label></p>
+
+<p><input type="text" name="email" id="email" value="" size="22" tabindex="2" aria-required='true' />
+<label for="email"><small>Mail (will not be published) (required)</small></label></p>
+
+<p><input type="text" name="url" id="url" value="" size="22" tabindex="3" />
+<label for="url"><small>Website</small></label></p>
+
+
+<!--<p><small><strong>XHTML:</strong> You can use these tags: <code>&lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;strike&gt; &lt;strong&gt; </code></small></p>-->
+
+<p><textarea name="comment" id="comment" cols="100%" rows="10" tabindex="4"></textarea></p>
+
+<p><input name="submit" type="submit" id="submit" tabindex="5" value="Submit Comment" />
+<input type='hidden' name='comment_post_ID' value='507' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p>
+
+</form>
+
+</div>
+
+				
+							
+							</div>
+			</div>
+        <div class="span-8 last">
+    <div id="subscriptions">
+        <a href="http://learningwebgl.com/blog/?feed=rss2"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/rss.png" alt="Subscribe to RSS Feed" title="Subscribe to RSS Feed" /></a>		
+		<a href="https://twitter.com/learningwebgl" title="Follow Learning WebGL on Twitter"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/twitter.png" title="Follow Learning WebGL on Twitter" alt="Follow Learning WebGL on Twitter"  /></a>    </div>
+	<div id="sidebar">
+        <ul>
+            <li id="search">
+				 
+<div class="searchlayout">
+    <form method="get" id="searchform" action="http://learningwebgl.com/blog/"> 
+        <input type="text" value="Search" 
+            name="s" id="s"  onblur="if (this.value == '')  {this.value = 'Search';}"  
+            onfocus="if (this.value == 'Search') {this.value = '';}" />
+        <input type="image" src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/search.gif" style="border:0; vertical-align: top;" /> 
+    </form>
+</div>			</li>
+        </ul>
+            			<div class="addthis_toolbox">   
+    			    <div class="custom_images">
+    			            <a class="addthis_button_twitter"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/twitter.png" width="32" height="32" alt="Twitter" /></a>
+    			            <a class="addthis_button_delicious"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/delicious.png" width="32" height="32" alt="Delicious" /></a>
+    			            <a class="addthis_button_facebook"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/facebook.png" width="32" height="32" alt="Facebook" /></a>
+    			            <a class="addthis_button_digg"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/digg.png" width="32" height="32" alt="Digg" /></a>
+    			            <a class="addthis_button_stumbleupon"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/stumbleupon.png" width="32" height="32" alt="Stumbleupon" /></a>
+    			            <a class="addthis_button_favorites"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/favorites.png" width="32" height="32" alt="Favorites" /></a>
+    			            <a class="addthis_button_more"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/more.png" width="32" height="32" alt="More" /></a>
+    			    </div>
+    			    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js?pub=xa-4a65e1d93cd75e94"></script>
+    			</div>
+    					        
+		<ul>
+		  <li id="text-3" class="widget widget_text"><h2 class="widgettitle">Our Sponsors</h2>			<div class="textwidget">    <div style="margin-left: 10px; margin-top: 20px; width: 170px">
+    <a href="http://web.chemdoodle.com/" target="_blank"><img src="/ads/chemdoodle.gif" ></a>
+    <p>
+    Open-source <b>HTML5</b> solutions for the physical and life sciences.
+    <a style="font-decoration: underline; color: #880000;" href="http://web.chemdoodle.com/">Read more...</a>
+    </div>
+
+<iframe src="http://cdn.oreillystatic.com/widgets/author/217.html" height="400px" width="200px" scrolling="no" frameborder="0"></iframe>
+    <hr/>
+
+    <div style="margin-left: 10px; margin-top: 20px; width: 170px;">
+    <a href="http://www.pythonanywhere.com/"><img src="/ads/pythonanywhere.gif"></a>
+
+    <p>
+    <a href="http://www.pythonanywhere.com">A Python online IDE and web hosting environment</a>. 
+    <a style="font-decoration: underline; color: #880000;" href="http://www.pythonanywhere.com/">Read more...</a>
+    <br/>
+    <br/>
+    Interested in advertising on Learning WebGL? <a style="font-decoration: underline; color: #880000;" href="/cdn-cgi/l/email-protection#80f4f0e1f2e9f3e9c0e7ede1e9ecaee3efed">Drop me a line.</a>
+    </div></div>
+		</li>		<li id="recent-posts-3" class="widget widget_recent_entries">		<h2 class="widgettitle">Recent Posts</h2>		<ul>
+				<li><a href="http://learningwebgl.com/blog/?p=6635" title="2014: The Year in Review">2014: The Year in Review </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6617" title="WebGL around the net, 11 December 2014">WebGL around the net, 11 December 2014 </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6613" title="Crowdfunding Update">Crowdfunding Update </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6599" title="WebGL around the net, 4 December 2014">WebGL around the net, 4 December 2014 </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6585" title="WebGL around the net, 25 November 2014">WebGL around the net, 25 November 2014 </a></li>
+				</ul>
+		</li>		<li id="recent-comments-3" class="widget widget_recent_comments">			<h2 class="widgettitle">Recent Comments</h2>			<ul id="recentcomments"><li class="recentcomments"><a href='http://www.pcprogramming.com' rel='external nofollow' class='url'>John Davis</a> on <a href="http://learningwebgl.com/blog/?p=6585&#038;cpage=1#comment-3652744">WebGL around the net, 25 November 2014</a></li><li class="recentcomments"><a href='http://www.pcprogramming.com' rel='external nofollow' class='url'>John Davis</a> on <a href="http://learningwebgl.com/blog/?p=6575&#038;cpage=1#comment-3618905">WebGL around the net, 20 November 2014</a></li><li class="recentcomments">jinit on <a href="http://learningwebgl.com/blog/?page_id=2&#038;cpage=1#comment-3313484">About</a></li><li class="recentcomments">Dethraid on <a href="http://learningwebgl.com/blog/?p=507&#038;cpage=3#comment-2792181">WebGL Lesson 5 – introducing textures</a></li><li class="recentcomments">Man on <a href="http://learningwebgl.com/blog/?p=6443&#038;cpage=1#comment-2572225">WebGL around the net, 7 July 2014</a></li></ul>
+		</li><li id="linkcat-2" class="widget widget_links"><h2 class="widgettitle">Blogroll</h2>
+	<ul class='xoxo blogroll'>
+<li><a href="http://blog.tojicode.com/" title="Brandon Jones&#8217; Blog" target="_blank">Brandon Jones</a></li>
+<li><a href="http://www.gilesthomas.com/" title="Giles Thomas&#8217; Personal Blog" target="_blank">Giles Thomas</a></li>
+<li><a href="http://games.greggman.com/game/" title="Gregg Tavares&#8217; Blog" target="_blank">Gregg Tavares</a></li>
+<li><a href="http://www.learnopengles.com/" title="Learn OpenGL ES" target="_blank">Learn OpenGL ES</a></li>
+<li><a href="http://learningthreejs.com/" title="Learning Three.js Blog" target="_blank">Learning Three.js</a></li>
+<li><a href="http://nehe.gamedev.net/" title="NeHe OpenGL Tutorials" target="_blank">NeHe OpenGL</a></li>
+<li><a href="http://www.paulbrunt.co.uk/" title="Paul Brunt&#8217;s Blog" target="_blank">Paul Brunt</a></li>
+<li><a href="http://pl4n3.blogspot.com/" title="PL4N3S WORLD Blog" target="_blank">PL4N3S WORLD</a></li>
+<li><a href="http://www.rozengain.com/blog/" title="Rozengain" target="_blank">Rozengain</a></li>
+<li><a href="http://www.tonyparisi.com/" title="Tony Parisi&#8217;s Personal Blog" target="_blank">Tony Parisi</a></li>
+<li><a href="http://www.webgl.com/" title="WebGL Demos and Links" target="_blank">WebGL.com</a></li>
+
+	</ul>
+</li>
+<li id="archives-3" class="widget widget_archive"><h2 class="widgettitle">Archives</h2>		<ul>
+			<li><a href='http://learningwebgl.com/blog/?m=201501' title='January 2015'>January 2015</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201412' title='December 2014'>December 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201411' title='November 2014'>November 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201410' title='October 2014'>October 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201409' title='September 2014'>September 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201408' title='August 2014'>August 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201407' title='July 2014'>July 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201406' title='June 2014'>June 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201405' title='May 2014'>May 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201404' title='April 2014'>April 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201403' title='March 2014'>March 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201402' title='February 2014'>February 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201401' title='January 2014'>January 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201312' title='December 2013'>December 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201311' title='November 2013'>November 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201310' title='October 2013'>October 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201309' title='September 2013'>September 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201308' title='August 2013'>August 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201307' title='July 2013'>July 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201306' title='June 2013'>June 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201305' title='May 2013'>May 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201304' title='April 2013'>April 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201303' title='March 2013'>March 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201212' title='December 2012'>December 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201211' title='November 2012'>November 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201210' title='October 2012'>October 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201209' title='September 2012'>September 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201208' title='August 2012'>August 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201207' title='July 2012'>July 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201206' title='June 2012'>June 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201205' title='May 2012'>May 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201204' title='April 2012'>April 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201203' title='March 2012'>March 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201202' title='February 2012'>February 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201112' title='December 2011'>December 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201111' title='November 2011'>November 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201110' title='October 2011'>October 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201109' title='September 2011'>September 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201108' title='August 2011'>August 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201107' title='July 2011'>July 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201106' title='June 2011'>June 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201105' title='May 2011'>May 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201104' title='April 2011'>April 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201103' title='March 2011'>March 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201102' title='February 2011'>February 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201101' title='January 2011'>January 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201012' title='December 2010'>December 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201011' title='November 2010'>November 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201010' title='October 2010'>October 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201009' title='September 2010'>September 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201008' title='August 2010'>August 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201007' title='July 2010'>July 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201006' title='June 2010'>June 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201005' title='May 2010'>May 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201004' title='April 2010'>April 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201003' title='March 2010'>March 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201002' title='February 2010'>February 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201001' title='January 2010'>January 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200912' title='December 2009'>December 2009</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200911' title='November 2009'>November 2009</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200910' title='October 2009'>October 2009</a></li>
+		</ul>
+</li><li id="meta-3" class="widget widget_meta"><h2 class="widgettitle">Meta</h2>			<ul>
+						<li><a href="http://learningwebgl.com/blog/wp-login.php">Log in</a></li>
+			<li><a href="http://learningwebgl.com/blog/?feed=rss2" title="Syndicate this site using RSS 2.0">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://learningwebgl.com/blog/?feed=comments-rss2" title="The latest comments to all posts in RSS">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://wordpress.org/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.org</a></li>
+						</ul>
+</li>		</ul>
+	</div>
+</div>
+
+		</div><!--/container-->
+			<div id="footer">
+				Copyright &copy; 2013 <a href="http://learningwebgl.com/blog"><strong>Learning WebGL</strong></a> -  3D Programming for the Web <br />
+                <div class="footer-credits">
+                    Powered by <a href="http://wordpress.org/">WordPress</a> | <a href="http://flexithemes.com/themes/modern-style/">Modern Style</a> theme by <a href="http://flexithemes.com/">FlexiThemes</a>
+                </div>
+			</div><!--/footer-->
+            
+	</div><!--/wrapper-->
+	
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-2240015-5");
+pageTracker._trackPageview();
+} catch(err) {}</script>    
+<script type="text/javascript">
+/* <![CDATA[ */
+(function(){try{var s,a,i,j,r,c,l=document.getElementsByTagName("a"),t=document.createElement("textarea");for(i=0;l.length-i;i++){try{a=l[i].getAttribute("href");if(a&&a.indexOf("/cdn-cgi/l/email-protection") > -1  && (a.length > 28)){s='';j=27+ 1 + a.indexOf("/cdn-cgi/l/email-protection");if (a.length > j) {r=parseInt(a.substr(j,2),16);for(j+=2;a.length>j&&a.substr(j,1)!='X';j+=2){c=parseInt(a.substr(j,2),16)^r;s+=String.fromCharCode(c);}j+=1;s+=a.substr(j,a.length-j);}t.innerHTML=s.replace(/</g,"&lt;").replace(/>/g,"&gt;");l[i].setAttribute("href","mailto:"+t.value);}}catch(e){}}}catch(e){}})();
+/* ]]> */
+</script>
+</body>
+</html>
+
+

@@ -1,0 +1,1226 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>  WebGL Lesson 16 – rendering to textures | Learning WebGL</title>
+<script type="text/javascript">
+//<![CDATA[
+try{if (!window.CloudFlare) {var CloudFlare=[{verbose:0,p:0,byc:0,owlid:"cf",bag2:1,mirage2:0,oracle:0,paths:{cloudflare:"/cdn-cgi/nexp/dok3v=1613a3a185/"},atok:"2c1b6781e0cb3014c3b88e10d5e2d90a",petok:"a25145aba56dd195634ad2f166ebaa0330fd728a-1421937022-1800",zone:"learningwebgl.com",rocket:"0",apps:{}}];CloudFlare.push({"apps":{"ape":"11d51f5efdb02d3fc401ef5c35a7397c"}});!function(a,b){a=document.createElement("script"),b=document.getElementsByTagName("script")[0],a.async=!0,a.src="//ajax.cloudflare.com/cdn-cgi/nexp/dok3v=919620257c/cloudflare.min.js",b.parentNode.insertBefore(a,b)}()}}catch(e){};
+//]]>
+</script>
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/screen.css" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/print.css" type="text/css" media="print" />
+<!--[if IE]><link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/ie.css" type="text/css" media="screen, projection"><![endif]-->
+<!--[if IE 6]>
+	<script src="http://learningwebgl.com/blog/wp-content/themes/modern-style/js/pngfix.js"></script>
+<![endif]--> 
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/style.css" type="text/css" media="screen" />
+<link rel="alternate" type="application/rss+xml" title="Learning WebGL RSS Feed" href="http://learningwebgl.com/blog/?feed=rss2" />
+<link rel="alternate" type="application/atom+xml" title="Learning WebGL Atom Feed" href="http://learningwebgl.com/blog/?feed=atom" />
+<link rel="pingback" href="http://learningwebgl.com/blog/xmlrpc.php" />
+
+<link rel="alternate" type="application/rss+xml" title="Learning WebGL &raquo; WebGL Lesson 16 – rendering to textures Comments Feed" href="http://learningwebgl.com/blog/?feed=rss2&amp;p=1786" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://learningwebgl.com/blog/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://learningwebgl.com/blog/wp-includes/wlwmanifest.xml" /> 
+<link rel='index' title='Learning WebGL' href='http://learningwebgl.com/blog' />
+<link rel='start' title='Hello, world!' href='http://learningwebgl.com/blog/?p=5' />
+<link rel='prev' title='WebGL around the net, 5 December 2010' href='http://learningwebgl.com/blog/?p=2726' />
+<link rel='next' title='WebGL extensions' href='http://learningwebgl.com/blog/?p=2821' />
+<meta name="generator" content="WordPress 2.9.2" />
+<link rel='canonical' href='http://learningwebgl.com/blog/?p=1786' />
+	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+
+</head>
+<body>
+	<div id="wrapper">
+		<div id="container" class="container">  
+                        
+			<div class="span-16">
+                <div id="header">
+                    						<h1><a href="http://learningwebgl.com/blog">Learning WebGL</a></h1>
+						<h2>3D Programming for the Web</h2>
+										</div>
+                
+                <div class="navcontainer">
+					<ul id="nav">
+						<li ><a href="http://learningwebgl.com/blog/">Home</a></li>
+						<li class="page_item page-item-1217"><a href="http://learningwebgl.com/blog/?page_id=1217" title="The Lessons">The Lessons</a></li>
+<li class="page_item page-item-2438"><a href="http://learningwebgl.com/blog/?page_id=2438" title="WebGL Jobs">WebGL Jobs</a></li>
+<li class="page_item page-item-988"><a href="http://learningwebgl.com/blog/?page_id=988" title="The WebGL Cookbook">The WebGL Cookbook</a></li>
+<li class="page_item page-item-2"><a href="http://learningwebgl.com/blog/?page_id=2" title="About">About</a></li>
+		
+					</ul>
+				</div>
+            		<div id="content">	
+                	
+						
+												<div class="post-1786 post hentry category-uncategorized clearfix" id="post-1786">
+							<h2 class="title">WebGL Lesson 16 – rendering to textures</h2>
+							<div class="postdate">
+                                <span>December 6th, 2010</span> 
+                                <span><a href="http://learningwebgl.com/blog/?p=1786#comments" title="Comment on WebGL Lesson 16 – rendering to textures">47 Comments</a></span>                             </div>
+			
+							<div class="entry">
+                                								<p><span style="float: left; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=1778">&lt;&lt; Lesson 15</a></span><br/><br />
+Welcome to my number sixteen in my series of WebGL tutorials!  In it, we&#8217;ll get started with an extremely useful technique: rendering a 3D scene to a texture, which we can then later use as an input for rendering a different scene.  This is a neat trick not just because it makes it possible to have scenes within scenes, as in the demo page for this tutorial, but also because it is the foundation required for adding picking (selection of 3D objects with the mouse), shadows, reflections, and many other 3D effects.</p>
+<p>Here&#8217;s what the lesson looks like when run on a browser that supports WebGL:</p>
+<p><object width="480" height="385"><param name="movie" value="http://www.youtube.com/v/avFT1om0mmU&#038;hl=en_US&#038;fs=1&#038;"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/avFT1om0mmU&#038;hl=en_US&#038;fs=1&#038;" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="385"></embed></object></p>
+<p><a href="/lessons/lesson16/index.html">Click here and you&#8217;ll see the live WebGL version</a>, if you&#8217;ve got a browser that supports it; <a href="http://learningwebgl.com/blog/?p=11">here&#8217;s how to get one</a> if you don&#8217;t.  You&#8217;ll see a model of a white laptop, with all of the various lighting effects you&#8217;ll have seen in the previous lessons (including a specular gleam on its screen).  But, more interestingly, on the screen of the laptop you&#8217;ll see another 3D scene being displayed &mdash; the orbiting moon and crate that made up the demo for <a href="http://learningwebgl.com/blog/?p=1523">lesson 13</a>.  I&#8217;m sure it&#8217;s clear that what&#8217;s happening in this page is that we&#8217;re rendering the scene from lesson 13 to a texture, and then using that texture on the screen of the laptop.</p>
+<p>So, how does it work?  Read on to find out.</p>
+<p><span id="more-1786"></span></p>
+<p>Before we wade into the code, the usual <a href="http://learningwebgl.com/blog/?page_id=2">warning</a>: these lessons are targeted at people with a reasonable amount of programming knowledge, but no real experience in 3D graphics; the aim is to get you up and running, with a good understanding of what&#8217;s going on, so that you can start producing your own 3D Web pages as quickly as possible.  If you haven&#8217;t read the previous tutorials already, you should probably do so before reading this one &mdash; here I will only explain the new stuff.  The lesson is based on lessons <a href="http://learningwebgl.com/blog/?p=1523">13</a> and <a href="http://learningwebgl.com/blog/?p=1658">14</a>, so you should make sure that you understand those.</p>
+<p>There may be bugs and misconceptions in this tutorial.  However, thanks the <a href="#acknowledgments">kind help</a> of Marco Di Benedetto, the creator of <a href="http://spidergl.org/">SpiderGL</a>, and <a href="http://www.paulbrunt.co.uk/">Paul Brunt</a> of <a href="http://www.glge.org/">GLGE</a> fame, and a legion of testers, particularly Stephen White, this tutorial&#8217;s more correct than it would otherwise have been.  Of course, any errors are entirely my own fault, so please don&#8217;t hesitate to let me know what I got wrong <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
+<p>There are two ways you can get the code for this example; just &#8220;View Source&#8221; while you&#8217;re looking at the live version, or if you use GitHub, you can clone it (and the other lessons) from <a href="http://github.com/gpjt/webgl-lessons">the repository there</a>.</p>
+<p>Once you have a copy of the code, load up index.html in a text editor and have a look.  This tutorial&#8217;s file has quite a few changes from previous lessons, so let&#8217;s start at the bottom and work our way up.  Firstly, <code>webGLStart</code>; I&#8217;ve highlighted new stuff in red, as usual:</p>
+<pre>
+  function webGLStart() {
+    var canvas = document.getElementById("lesson16-canvas");
+    initGL(canvas);
+    <span style="color: red">initTextureFramebuffer();</span>
+    initShaders();
+    initBuffers();
+    initTextures();
+    loadLaptop();
+
+    gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    gl.enable(gl.DEPTH_TEST);
+
+    tick();
+  }
+</pre>
+<p>So, we&#8217;re doing our usual setup, initialising WebGL, loading our shaders, creating buffers of vertices to draw, loading the textures we&#8217;ll use (the moon and the crate), and kicking off a request to load the JSON model of the laptop, just like we did to load the teapot model in <a href="http://learningwebgl.com/blog/?p=1658">lesson 14</a>.  The exciting new bit is that we&#8217;re creating a framebuffer for the texture.  Before I show you the code that does this, let&#8217;s look at what a framebuffer is.</p>
+<p>When you render something with WebGL, you obviously need some kind of memory on the graphics card to receive the results of the rendering.  You have really fine-grained control over what kind of memory is allocated for this.  You need, at the very least, space to store the colours of the various pixels that make up the results of your rendering; it&#8217;s also pretty important (though occasionally not essential) to have a depth buffer, so that your rendering can take account of how close objects in the scene hide distant objects (as discussed in <a href="http://learningwebgl.com/blog/?p=859#depth-buffer">lesson 8</a>), so that needs a bit of memory too.  And there are other kinds of buffers that can also be useful, like a stencil buffer &mdash; which is something we&#8217;ll take a look at in a future lesson.</p>
+<p>A framebuffer is a thing to which you can render a scene, and it&#8217;s made up of these various bits of memory.  There&#8217;s a &#8220;default&#8221; framebuffer, which is the one we&#8217;ve always been rendering to in the past, and is displayed in the web page &mdash; but you can create your own framebuffers and render to them instead.  In this tutorial, we&#8217;ll create a framebuffer and we&#8217;ll tell it to use a texture as the bit of memory where it should store the colours when it&#8217;s rendering; we&#8217;ll also have to allocate it a bit of memory to use for its depth calculations.</p>
+<p>So, having explained all that, let&#8217;s take a look at some code that does it all.  The function is <code>initTextureFramebuffer</code>, and it&#8217;s about a third of the way from the top of the file.</p>
+<pre>
+  var rttFramebuffer;
+  var rttTexture;
+
+  function initTextureFramebuffer() {
+</pre>
+<p>Before the function starts, we define some global variables to store the framebuffer to which we&#8217;re going to render the the stuff that is to go on the laptop&#8217;s screen, and to store the texture that stores the result of the rendering to this framebuffer (which we&#8217;ll need to access when we&#8217;re drawing the laptop itself).  On to the function:</p>
+<pre>
+    rttFramebuffer = gl.createFramebuffer();
+    gl.bindFramebuffer(gl.FRAMEBUFFER, rttFramebuffer);
+    rttFramebuffer.width = 512;
+    rttFramebuffer.height = 512;
+</pre>
+<p>Our first step is to create the framebuffer itself, and, following the normal pattern (as with textures, vertex attribute buffers, and so on) we make it our current one  &mdash; that is, the one the next function calls will operate on.  We also store away the width and height of the scene we&#8217;re going to be rendering to it; these attributes aren&#8217;t normally part of a framebuffer, I&#8217;ve just used the normal JavaScript trick of associating them as new properties because they&#8217;ll be needed at later points when we&#8217;re doing stuff with the framebuffer.  I&#8217;ve picked 512&#215;512 pixels as a size &mdash; remember, textures have to have widths and heights that are powers of two, and I found that 256&#215;256 was too blocky, while 1024&#215;1024 didn&#8217;t make things noticeably better.</p>
+<p>Next, we create a texture object, and set up the same parameters as usual:</p>
+<pre>
+    rttTexture = gl.createTexture();
+    gl.bindTexture(gl.TEXTURE_2D, rttTexture);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+    gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR_MIPMAP_NEAREST);
+    gl.generateMipmap(gl.TEXTURE_2D);
+</pre>
+<p>But there&#8217;s one small difference; the call to <code>gl.texImage2D</code> has rather different parameters:</p>
+<pre>
+      gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGBA, rttFramebuffer.width, rttFramebuffer.height, 0, gl.RGBA, gl.UNSIGNED_BYTE, null);
+</pre>
+<p>Normally when we&#8217;re creating textures to show images that we&#8217;ve loaded into JavaScript, we call <code>gl.texImage2D</code> to bind the two together.  Now, of course, there&#8217;s no loaded image; what we need to do is call a different version of <code>gl.texImage2D</code>, telling it that we don&#8217;t have any image data and we&#8217;d just like it to allocate a particular amount of empty space on the graphics card for our texture.   Strictly speaking, the last parameter to the function is an array which is to be copied into the freshly-allocated memory as a starting point, and by specifying <code>null</code> we&#8217;re telling it that we don&#8217;t have anything to copy.  (Early versions of Minefield required you to pass an appropriately-sized empty array in for this, but that seems to have been fixed now.)</p>
+<p>OK, so we now have an empty texture which can store the colour values for our rendered scene.  Next, we create a depth buffer to store the depth information:</p>
+<pre>
+    var renderbuffer = gl.createRenderbuffer();
+    gl.bindRenderbuffer(gl.RENDERBUFFER, renderbuffer);
+    gl.renderbufferStorage(gl.RENDERBUFFER, gl.DEPTH_COMPONENT16, rttFramebuffer.width, rttFramebuffer.height);
+</pre>
+<p>What we&#8217;ve done here is create a renderbuffer object; this is a generic kind of object that stores some lump of memory that we&#8217;re intending to associate with a framebuffer.  We bind it &mdash; just as with textures, framebuffers, and everything else, WebGL has a current renderbuffer &mdash; and then call <code>gl.renderbufferStorage</code> to tell WebGL that the currently-bound renderbuffer needs enough storage for 16-bit depth values across a buffer with the given width and height.</p>
+<p>Next:</p>
+<pre>
+    gl.framebufferTexture2D(gl.FRAMEBUFFER, gl.COLOR_ATTACHMENT0, gl.TEXTURE_2D, rttTexture, 0);
+    gl.framebufferRenderbuffer(gl.FRAMEBUFFER, gl.DEPTH_ATTACHMENT, gl.RENDERBUFFER, renderbuffer);
+</pre>
+<p>We attach everything to the current framebuffer (remember, we bound our new one to be the current one just after creating it at the top of the function).  We tell it that the framebuffer&#8217;s space for rendering colours (<code>gl.COLOR_ATTACHMENT0</code>) is our texture, and that the memory it should use for depth information (<code>gl.DEPTH_ATTACHMENT</code>) is the depth buffer we just created.</p>
+<p>Now we have all of the memory set up for our framebuffer; WebGL knows what to render to when we&#8217;re using it.  So now, we tidy up, setting the current texture, renderbuffer, and framebuffer back to their defaults:</p>
+<pre>
+    gl.bindTexture(gl.TEXTURE_2D, null);
+    gl.bindRenderbuffer(gl.RENDERBUFFER, null);
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);
+  }
+</pre>
+<p>&#8230;and we&#8217;re done.  Our framebuffer is properly set up.  So now that we&#8217;ve got it, how do we use it?  The place to start looking is drawScene, near the bottom of the file.  Right at the start of the function, before the normal code to set the viewport and clear the canvas, you&#8217;ll see something new:</p>
+<pre>
+  var laptopAngle = 0;
+
+  function drawScene() {
+<span style="color: red;">    gl.bindFramebuffer(gl.FRAMEBUFFER, rttFramebuffer);
+    drawSceneOnLaptopScreen();
+
+    gl.bindFramebuffer(gl.FRAMEBUFFER, null);</span>
+
+    gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+
+    mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
+</pre>
+<p>In the light of the description above, it should be pretty obvious what&#8217;s happening there &mdash; we&#8217;re switching away from the default framebuffer, which renders to the canvas in the HTML page, to the render-to-texture framebuffer that we created in <code>initTextureFramebuffer</code>, then we&#8217;re calling a function called <code>drawSceneOnLaptopScreen</code> to render the scene that we want displayed on the laptop&#8217;s screen (implicitly, rendering it to the RTT framebuffer), and when that&#8217;s done, we&#8217;re switching back to the default framebuffer.  Before moving on with <code>drawScene</code>, it&#8217;s worth taking a look at the <code>drawSceneOnLaptopScreen</code> function.  I won&#8217;t copy it in here, because it&#8217;s actually really very simple &mdash; it&#8217;s just a stripped-down version of the <code>drawScene</code> function from lesson 13!  This is because our rendering code until now hasn&#8217;t made any assumptions about where it&#8217;s rendering to; it&#8217;s just rendered it to the current framebuffer.  The only changes made for this lesson were the simplifications made possible by removing the movable light source and other things lesson 13 had that weren&#8217;t necessary for this tutorial.</p>
+<p>So, once those first three lines of <code>drawScene</code> have been executed, we have a frame from lesson 13 rendered to a texture.  The remainder of <code>drawScene</code> simply draws the laptop, and uses this texture for its screen.  We start off with some normal code to set up the model-view matrix and to rotate the laptop by an amount determined by <code>laptopAngle</code> (which, as in the other tutorials, is updated in a <code>animate</code> function that&#8217;s called every time we draw the scene to make the laptop keep rotating):</p>
+<pre>
+    mat4.identity(mvMatrix);
+
+    mvPushMatrix();
+
+    mat4.translate(mvMatrix, [0, -0.4, -2.2]);
+    mat4.rotate(mvMatrix, degToRad(laptopAngle), [0, 1, 0]);
+    mat4.rotate(mvMatrix, degToRad(-90), [1, 0, 0]);
+</pre>
+<p>We send the values defining the colours and locations of our light sources to the graphics card as normal:</p>
+<pre>
+    gl.uniform1i(shaderProgram.showSpecularHighlightsUniform, true);
+    gl.uniform3f(shaderProgram.pointLightingLocationUniform, -1, 2, -1);
+
+    gl.uniform3f(shaderProgram.ambientLightingColorUniform, 0.2, 0.2, 0.2);
+    gl.uniform3f(shaderProgram.pointLightingDiffuseColorUniform, 0.8, 0.8, 0.8);
+    gl.uniform3f(shaderProgram.pointLightingSpecularColorUniform, 0.8, 0.8, 0.8);
+</pre>
+<p>Next, we pass the graphics card information about the lighting-related parameters of the laptop&#8217;s body, which is the first thing we&#8217;re going to draw.  There&#8217;s something new here that&#8217;s not directly related to rendering to textures.  You may remember that way back in <a href="http://learningwebgl.com/blog/?p=684">lesson 7</a>, when I described the Phong lighting model, I mentioned that materials had different colours for each kind of light &mdash; an ambient colour, a diffuse colour, and a specular colour.  At that time, and in all of the lessons since, we&#8217;ve been making the simplifying assumption that these colours were always white, or the colour of the texture, depending on whether textures were switched off or on.  For reasons we&#8217;ll look at in a moment, that&#8217;s not quite enough for this tutorial &mdash; we&#8217;ll need to specify colours in a bit more detail for the laptop screen, and we&#8217;ll have to use a new kind of colour, the <i>emissive</i> colour.  However, for the laptop&#8217;s body, we don&#8217;t need to worry too much about this: the material colour parameters are simple, the laptop is just white.</p>
+<pre>
+    // The laptop body is quite shiny and has no texture.  It reflects lots of specular light
+    gl.uniform3f(shaderProgram.materialAmbientColorUniform, 1.0, 1.0, 1.0);
+    gl.uniform3f(shaderProgram.materialDiffuseColorUniform, 1.0, 1.0, 1.0);
+    gl.uniform3f(shaderProgram.materialSpecularColorUniform, 1.5, 1.5, 1.5);
+    gl.uniform1f(shaderProgram.materialShininessUniform, 5);
+    gl.uniform3f(shaderProgram.materialEmissiveColorUniform, 0.0, 0.0, 0.0);
+    gl.uniform1i(shaderProgram.useTexturesUniform, false);
+</pre>
+<p>The next step is, if the laptop&#8217;s various vertex coordinates have been loaded yet, to draw it.  This code should be pretty familiar by now, especially after lesson 14 (from which it&#8217;s largely copied):</p>
+<pre>
+    if (laptopVertexPositionBuffer) {
+      gl.bindBuffer(gl.ARRAY_BUFFER, laptopVertexPositionBuffer);
+      gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, laptopVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+      gl.bindBuffer(gl.ARRAY_BUFFER, laptopVertexTextureCoordBuffer);
+      gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, laptopVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+      gl.bindBuffer(gl.ARRAY_BUFFER, laptopVertexNormalBuffer);
+      gl.vertexAttribPointer(shaderProgram.vertexNormalAttribute, laptopVertexNormalBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, laptopVertexIndexBuffer);
+      setMatrixUniforms();
+      gl.drawElements(gl.TRIANGLES, laptopVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+    }
+</pre>
+<p>Once we&#8217;ve done all that, the laptop body has been draw.  Next, we need to draw the screen.  Its lighting settings are done first, and this time we set an emissive colour:</p>
+<pre>
+    gl.uniform3f(shaderProgram.materialAmbientColorUniform, 0.0, 0.0, 0.0);
+    gl.uniform3f(shaderProgram.materialDiffuseColorUniform, 0.0, 0.0, 0.0);
+    gl.uniform3f(shaderProgram.materialSpecularColorUniform, 0.5, 0.5, 0.5);
+    gl.uniform1f(shaderProgram.materialShininessUniform, 20);
+    gl.uniform3f(shaderProgram.materialEmissiveColorUniform, 1.5, 1.5, 1.5);
+    gl.uniform1i(shaderProgram.useTexturesUniform, true);
+</pre>
+<p>So, what&#8217;s the emissive colour?  Well, screens on things like laptops don&#8217;t just reflect light &mdash; they emit it.  We want the colour of the screen to be determined by the colour of the texture much more than by the lighting effects.  We could do that by changing the uniforms that govern the lighting, to switch off point lighting and bump ambient lighting up to 100% before drawing the screen, and then restoring the old values afterwards, but that would be a bit of a hack &mdash; after all, this emissivity of the screen is property of the screen, not the light.  In this particular example, we could also do it just by using the ambient lighting, because the ambient light is white-coloured, so setting the screen&#8217;s ambient colour to 1.5, 1.5, 1.5 would have the right effect.  But if someone then changed the ambient lighting, the screen&#8217;s colour would change, which would be odd.  After all, if you put your laptop in a red-lit room, the screen doesn&#8217;t go red.  So we use a new emissive colour uniform, which is handled by the shader using some simple code we&#8217;ll come to later.</p>
+<p>(A side note: it&#8217;s worth remembering that an object&#8217;s emissive colour in this sense doesn&#8217;t affect any other objects around it &mdash; that is, it doesn&#8217;t make the object turn into a lighting source and light other things up.  It&#8217;s just a way of making an object have a colour that is independent of the scene&#8217;s lighting.)</p>
+<p>The requirement for the emissive colour also explains why we needed to separate the other material colour parameters out for this tutorial; our laptop screen has an emissive colour determined by its texture, but its specular colour should be fixed any unaffected by this &mdash; after all, the thing showing on your laptop&#8217;s screen doesn&#8217;t change the colour of the reflection in it of the window behind you.  So that colour is still white.</p>
+<p>Right, moving on, we bind the buffers that specify the laptop screen&#8217;s vertex attributes:</p>
+<pre>
+    gl.bindBuffer(gl.ARRAY_BUFFER, laptopScreenVertexPositionBuffer);
+    gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, laptopScreenVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, laptopScreenVertexNormalBuffer);
+    gl.vertexAttribPointer(shaderProgram.vertexNormalAttribute, laptopScreenVertexNormalBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, laptopScreenVertexTextureCoordBuffer);
+    gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, laptopScreenVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
+</pre>
+<p>Next, we specify that we want to use the texture to which we rendered earlier:</p>
+<pre>
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, rttTexture);
+    gl.uniform1i(shaderProgram.samplerUniform, 0);
+</pre>
+<p>Then we draw the screen, and we&#8217;re done:</p>
+<pre>
+    setMatrixUniforms();
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, laptopScreenVertexPositionBuffer.numItems);
+
+    mvPopMatrix();
+  }
+</pre>
+<p>Almost an anti-climax, isn&#8217;t it <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_wink.gif' alt=';-)' class='wp-smiley' />   That was all of the code required to render a scene to a texture, and then to use that texture in another scene.</p>
+<p>That&#8217;s pretty much it for this tutorial, but let&#8217;s just quickly run through the other changes from the previous lessons; there&#8217;s a pair of functions called <code>loadLaptop</code> and <code>handleLoadedLaptop</code> to load up the JSON data that makes the laptop; they&#8217;re basically the same as the code to load the teapot in lesson 14.  There&#8217;s also a bit of code at the end of <code>initBuffers</code> to initialise the vertex buffers for the laptop screen; this is a bit ugly and will be improved in a later version of this tutorial (the values should be loaded up from JSON like the laptop data but are currently sitting there in the code).</p>
+<p>Finally, there&#8217;s the new fragment shader, which needs to handle per-lighting-type material colours as an alternative to the texture colour.  All of it should be pretty easy to understand in the light of the earlier shaders; the only thing that&#8217;s really new is the emissive lighting, and all that happens with that is that it&#8217;s added to the final fragment colour right at the end.  Here&#8217;s the code:</p>
+<pre>
+  precision mediump float;
+
+  varying vec2 vTextureCoord;
+  varying vec3 vTransformedNormal;
+  varying vec4 vPosition;
+
+  uniform vec3 uMaterialAmbientColor;
+  uniform vec3 uMaterialDiffuseColor;
+  uniform vec3 uMaterialSpecularColor;
+  uniform float uMaterialShininess;
+  uniform vec3 uMaterialEmissiveColor;
+
+  uniform bool uShowSpecularHighlights;
+  uniform bool uUseTextures;
+
+  uniform vec3 uAmbientLightingColor;
+
+  uniform vec3 uPointLightingLocation;
+  uniform vec3 uPointLightingDiffuseColor;
+  uniform vec3 uPointLightingSpecularColor;
+
+  uniform sampler2D uSampler;
+
+  void main(void) {
+    vec3 ambientLightWeighting = uAmbientLightingColor;
+
+    vec3 lightDirection = normalize(uPointLightingLocation - vPosition.xyz);
+    vec3 normal = normalize(vTransformedNormal);
+
+    vec3 specularLightWeighting = vec3(0.0, 0.0, 0.0);
+    if (uShowSpecularHighlights) {
+      vec3 eyeDirection = normalize(-vPosition.xyz);
+      vec3 reflectionDirection = reflect(-lightDirection, normal);
+
+      float specularLightBrightness = pow(max(dot(reflectionDirection, eyeDirection), 0.0), uMaterialShininess);
+      specularLightWeighting = uPointLightingSpecularColor * specularLightBrightness;
+    }
+
+    float diffuseLightBrightness = max(dot(normal, lightDirection), 0.0);
+    vec3 diffuseLightWeighting = uPointLightingDiffuseColor * diffuseLightBrightness;
+
+    vec3 materialAmbientColor = uMaterialAmbientColor;
+    vec3 materialDiffuseColor = uMaterialDiffuseColor;
+    vec3 materialSpecularColor = uMaterialSpecularColor;
+    vec3 materialEmissiveColor = uMaterialEmissiveColor;
+    float alpha = 1.0;
+    if (uUseTextures) {
+      vec4 textureColor = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
+      materialAmbientColor = materialAmbientColor * textureColor.rgb;
+      materialDiffuseColor = materialDiffuseColor * textureColor.rgb;
+      materialEmissiveColor = materialEmissiveColor * textureColor.rgb;
+      alpha = textureColor.a;
+    }
+    gl_FragColor = vec4(
+      materialAmbientColor * ambientLightWeighting
+      + materialDiffuseColor * diffuseLightWeighting
+      + materialSpecularColor * specularLightWeighting
+      + materialEmissiveColor,
+      alpha
+    );
+  }
+</pre>
+<p>And that truly is it!  In this tutorial, we&#8217;ve gone over how to render a scene to a texture and use it in another scene, and on the way touched on material colours and how they work.  In the next tutorial, I&#8217;ll show how to do something really useful with this: GPU picking, so that you can write 3D scenes that people can interact with by clicking on objects.</p>
+<p><span style="float: left; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=1778">&lt;&lt; Lesson 15</a></span><br/></p>
+<p><em><br />
+<span id="acknowledgments">Acknowledgments</span>: I needed a lot of help to get this one running, in particular because the first version had bugs that didn&#8217;t show up when I ran it on my own laptop.  I&#8217;d particularly like to thank Marco Di Benedetto, the creator of <a href="http://spidergl.org/">SpiderGL</a>, and <a href="http://www.paulbrunt.co.uk/">Paul Brunt</a>, of <a href="http://www.glge.org/">GLGE</a> fame, for telling me what I&#8217;d got wrong and how to fix it.  But I owe a lot of gratitude to the people who tested version after version of the demo until we finally get one that should work pretty much anywhere &mdash; Stephen White (who also made it clear to me that RTT was a necessity for sensible picking, which was what made it the topic for this lesson), Denny (creator of <a href="http://energize.cc/">EnergizeGL</a>), blinblin, nameless, <a href="http://blog.nihilogic.dk/">Jacob Seidelin</a>, Pyro Technick, <a href="http://ewgl.wordpress.com/">ewgl</a>, Peter, Springer, <a href="http://3dgames.pl/blog">Christofer</a>, Thormme, and titan.</p>
+<p>Other places where I took much-needed inspiration were the <a href="http://www.amazon.com/dp/0321502795?tag=lewe-20&#038;camp=14573&#038;creative=327641&#038;linkCode=as1&#038;creativeASIN=0321502795&#038;adid=0C33EQN278C20VPP67F0&#038;">OpenGL ES 2.0 Programming Guide</a>, <a href="http://glge.org/">Paul Brunt&#8217;s GLGE library</a>, and a variety of iPhone development forum posts and queries: <a href="http://www.iphonedevsdk.com/forum/iphone-sdk-development/33008-render-texture-problem-opengl-es.html ">here</a>, <a href="http://stackoverflow.com/questions/1024603/opengl-es-render-to-texture">here</a>, and <a href="http://stackoverflow.com/questions/1649222/opengl-es-render-to-texture-then-draw-texture">here</a>.  Obviously. <a href="https://cvs.khronos.org/svn/repos/registry/trunk/public/webgl/doc/spec/WebGL-spec.html#5.5">the WebGL specification</a> helped too&#8230;</p>
+<p>The <a href="http://www.turbosquid.com/3d-models/apple-macbook-max-free/391534">3D model of the laptop</a> was made freely available by Xedium, and the Moon texture is courtesy of <a href="http://maps.jpl.nasa.gov/">the Jet Propulsion Laboratory</a>.</p>
+<p>Phew.  That was beginning to sound like an Oscar acceptance speech&#8230;<br />
+</em></p>
+															</div>
+							<div class="postmeta">Posted in <a href="http://learningwebgl.com/blog/?cat=1" title="View all posts in Uncategorized" rel="category">Uncategorized</a> |  </div>
+						
+							<div class="navigation clearfix">
+								<div class="alignleft">&laquo; <a href="http://learningwebgl.com/blog/?p=2726" rel="prev">WebGL around the net, 5 December 2010</a></div>
+								<div class="alignright"><a href="http://learningwebgl.com/blog/?p=2821" rel="next">WebGL extensions</a> &raquo;</div>
+							</div>
+							
+															You can <a href="#respond">leave a response</a>, or <a href="http://learningwebgl.com/blog/wp-trackback.php?p=1786" rel="trackback">trackback</a> from your own site.
+	
+													</div><!--/post-1786-->
+						
+				
+<!-- You can start editing here. -->
+
+	<h3 id="comments">47 Responses to &#8220;WebGL Lesson 16 – rendering to textures&#8221;</h3>
+
+	<ol class="commentlist">
+			<li class="comment even thread-even depth-1" id="comment-8013">
+				<div id="div-comment-8013" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/63aef1bbf9c9b37101a7c0c8fefdbac5?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">hider</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8013">December 6, 2010 at 9:08 am</a></div>
+
+		<p>Thank you for your lessons, they&#8217;re very useful.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-8014">
+				<div id="div-comment-8014" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8014">December 7, 2010 at 6:43 pm</a></div>
+
+		<p>@hider &#8212; thanks!  Glad you find them useful.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-8015">
+				<div id="div-comment-8015" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/5237a63b5fb02a2d7169d9c5e3091e33?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Alvaro</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8015">December 8, 2010 at 11:56 pm</a></div>
+
+		<p>Good tutorial.</p>
+<p>One interesting issue: Unlike Firefox, Chrome applies nice antialiasing to WebGL graphics, but in this demo, antialiasing is gone.</p>
+<p>I don&#8217;t really understand why, but if you comment out the line calling &#8220;drawSceneOnLaptopScreen();&#8221; (disabling the actual render to texture) then the view (i.e. the laptop) becomes nicely antialiased.</p>
+<p>A chrome bug, I guess&#8230;</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-8016">
+				<div id="div-comment-8016" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/a8ede2ccdd720f3348001c0bce67a443?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">steve</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8016">December 10, 2010 at 12:03 pm</a></div>
+
+		<p>@Alvaro; I think the antialiasing is coming from GL_LINEAR, which is set once. The rebinding to another framebuffer may be wiping out this setting. You could test this by putting the GL_LINEAR call into the render loop?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-8017">
+				<div id="div-comment-8017" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/103849a0a2d024bdde440a928d0a5c5c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Wiz</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8017">December 20, 2010 at 7:47 pm</a></div>
+
+		<p>You can use NPOT with webgl under some conditions (no mipmaps, and use clamp to edges). Just enough to do some post processing.<br />
+Ref: <a href="http://khronos.org/webgl/wiki/WebGL_and_OpenGL_Differences" rel="nofollow">http://khronos.org/webgl/wiki/WebGL_and_OpenGL_Differences</a></p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-8018">
+				<div id="div-comment-8018" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8018">December 23, 2010 at 3:24 am</a></div>
+
+		<p>@Wiz &#8212; you&#8217;re right, and somewhere else on the blog I explain that.  I should put something appropriate in this post too.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-8019">
+				<div id="div-comment-8019" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8019">December 23, 2010 at 3:38 am</a></div>
+
+		<p>@Alvaro &#8212; if you get a chance to run this demo with steve&#8217;s suggested modification I&#8217;d be really pleased to hear what results you get.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-8020">
+				<div id="div-comment-8020" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2b2b07fe8688479d2559704d4bf8a264?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">szimek</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8020">January 9, 2011 at 8:59 pm</a></div>
+
+		<p>Does call to gl.generateMipmap(gl.TEXTURE_2D) in initTextureFramebuffer function actually does anything if the texture has just been created and is empty at that time?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-8021">
+				<div id="div-comment-8021" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8021">January 10, 2011 at 12:35 am</a></div>
+
+		<p>@szimek &#8212; good question!  I suspect it doesn&#8217;t and I just left it there out of habit.  I&#8217;ll double-check and remove it if necessary.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-8022">
+				<div id="div-comment-8022" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/a2b51961d5cb9140c6b949d2c9bfe0a7?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Nicolas</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8022">January 23, 2011 at 8:30 pm</a></div>
+
+		<p>Hi, very useful tutorial, thank you very much!</p>
+<p>I have one question: What does gl.STREAM_DRAW (as opposed to gl.STATIC_DRAW) do for the moon indices? The box indices have gl.STATIC_DRAW. I don&#8217;t understand which one should be used in this case.</p>
+<p>Thanks again!</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-8023">
+				<div id="div-comment-8023" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8023">February 1, 2011 at 1:58 am</a></div>
+
+		<p>Hi Nicolas, glad you found the tutorial useful!</p>
+<p>Re: the STREAM_DRAW vs STATIC_DRAW &#8212; you know, I&#8217;d never realised that I was using a different constant!  The last parameter to the gl.bufferData call is actually a hint to the runtime saying how you expect the values in the buffer to change over time; more details <a href="http://www.khronos.org/registry/gles/specs/2.0/es_full_spec_2.0.24.pdf" rel="nofollow">here</a> and <a href="http://www.opengl.org/sdk/docs/man/xhtml/glBufferData.xml" rel="nofollow">here</a>. Given the nature of my demos, I should really be using STATIC_DRAW in every case.  I&#8217;ll update the tutorials to remove any chance of confusion, thanks for pointing it out!</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-8024">
+				<div id="div-comment-8024" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/90c79d6f46436f24c9e06907a15b2598?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Jian</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8024">February 11, 2011 at 2:48 am</a></div>
+
+		<p>Great tutorial! I&#8217;ve done quite some 3D programming but the problem has always been how to deliver the content to the client-end in a hassle-free way. Now, with WebGL, no more need to require the user to install this and that dll or ActiveX. The only sad thing is that the stubborn Microsoft still refuses to embrace open standards such as WebGL &#8212; so IE users would still have to install something&#8230; Very sad situation for a developer&#8230;.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-8025">
+				<div id="div-comment-8025" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8025">February 11, 2011 at 2:21 pm</a></div>
+
+		<p>Thanks, Jian.  Re: IE &#8212; very true.  Hopefully Chrome Frame will make it less of a problem, though.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-8026">
+				<div id="div-comment-8026" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/bde03bb91229d218818cbab8a13ded94?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://rajaamir.blogspot.com' rel='external nofollow' class='url'>rajasekhar</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8026">February 22, 2011 at 6:08 am</a></div>
+
+		<p>Hi,<br />
+I am getting  gl.FRAMEBUFFER_INCOMPLETE_ATTACHMENT when checking for checkFramebufferStatus after using bindFramebuffer. Any idea on this.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-8027">
+				<div id="div-comment-8027" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8027">March 5, 2011 at 7:26 pm</a></div>
+
+		<p>Hmm, no idea, sorry.  Have you tried asking in the <a href="http://www.khronos.org/message_boards/viewforum.php?f=34" rel="nofollow">WebGL forums</a>?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-8028">
+				<div id="div-comment-8028" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/646ce2d66b99aaf2e4b9c3aa980a230f?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Nobita</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8028">March 27, 2011 at 12:00 pm</a></div>
+
+		<p>Hi giles,<br />
+That’s very a cool demo.<br />
+I walk on internet several days and try to convert some model type .3ds .blend .max … to Json Model. The only way, i can find, is using the blend converter using the file WebGLExport.py.<br />
+When I view it on browser, it’s not the model I converted. It lose some planes, it don’t have color …<br />
+So, Please Help me how to work with model in WebGL. My Final exercise is building a Web site with WebGL and I just have 4 month to do it.<br />
+My mail is <a href="/cdn-cgi/l/email-protection#d5a1a7b4bbada0b4bba1bcb0bbedec95b2b8b4bcb9fbb6bab8"><span class="__cf_email__" data-cfemail="ed999f8c8395988c8399848883d5d4ad8a808c8481c38e8280">[email&#160;protected]</span><script cf-hash='f9e31' type="text/javascript">
+/* <![CDATA[ */!function(){try{var t="currentScript"in document?document.currentScript:function(){for(var t=document.getElementsByTagName("script"),e=t.length;e--;)if(t[e].getAttribute("cf-hash"))return t[e]}();if(t&&t.previousSibling){var e,r,n,i,c=t.previousSibling,a=c.getAttribute("data-cfemail");if(a){for(e="",r=parseInt(a.substr(0,2),16),n=2;a.length-n;n+=2)i=parseInt(a.substr(n,2),16)^r,e+=String.fromCharCode(i);e=document.createTextNode(e),c.parentNode.replaceChild(e,c)}}}catch(u){}}();/* ]]> */</script></a>. Please contact with me.</p>
+<p>Thank’s for all and sorry about my poor english.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-8029">
+				<div id="div-comment-8029" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/646ce2d66b99aaf2e4b9c3aa980a230f?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Nobita</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8029">March 27, 2011 at 5:56 pm</a></div>
+
+		<p>this is my model in browser<br />
+<a href="http://www.upanh.com/upanh_erro/v/5tvb9n7k7w.htm" rel="nofollow">http://www.upanh.com/upanh_erro/v/5tvb9n7k7w.htm</a></p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-8030">
+				<div id="div-comment-8030" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8030">March 29, 2011 at 2:33 pm</a></div>
+
+		<p>Hi Nobita &#8212; try importing yout model into Blender and then exporting it using <a href="http://3dgames.pl/blog/2011/02/blender-json-exporter-with-english-translation/" rel="nofollow">the instructions here</a>.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-8031">
+				<div id="div-comment-8031" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/646ce2d66b99aaf2e4b9c3aa980a230f?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Nobita</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8031">March 30, 2011 at 3:45 pm</a></div>
+
+		<p>That&#8217;s really good link, thank giles.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-8032">
+				<div id="div-comment-8032" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/6b5e303d71b22f457c0e1774810ed738?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Nobita</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8032">April 10, 2011 at 5:18 pm</a></div>
+
+		<p>Hi giles,<br />
+I have converted an animated knight model with your help. The knight walks throught a maze that is just a tiny program but it really make me happy.</p>
+<p>I continued with skybox, a simple effect. It worked well, but I had a trouble with the function mat4.LookAt(). This function work strangely,so I can&#8217;t understand how to set up this function.<br />
+this is the way I set up the function :</p>
+<p>        mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);<br />
+        mat4.lookAt([0, 0, 0], [0, 0, -100], [0, 1, 0], pMatrix);<br />
+        mat4.identity(mvMatrix);</p>
+<p>In that function,the eye postion is [0,0,0], look at the point [0,0,-100] (Deep inside the monitor), and UP vector is [0,1,0]. but it didn&#8217;t work as I Expected. If you see any mistake, please let me know.<br />
+  Sorry about my annoy. I&#8217;m just a beginer ^^.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-8033">
+				<div id="div-comment-8033" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/6d5e719df2d45ddc051b4c0a46679a3e?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://juriy.com' rel='external nofollow' class='url'>Juriy</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8033">April 14, 2011 at 9:48 pm</a></div>
+
+		<p>I believe, you&#8217;re applying your lookAt method to the wrong matrix. Try the same code with the modelview matrix.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-8034">
+				<div id="div-comment-8034" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/6996d9750c07644e0d83460dbe3a17e4?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">dragon8xa2</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8034">April 15, 2011 at 11:43 am</a></div>
+
+		<p>i have the same problem with him, i also used with mvMatrix, but it&#8217;s also wrong. Could you give us an example of lookAt function?<br />
+Thank you so much.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-8035">
+				<div id="div-comment-8035" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8035">April 27, 2011 at 9:13 pm</a></div>
+
+		<p>Hi all &#8212; I don&#8217;t tend to use lookAt, but what Juriy says sounds right to me.  So what Nobita should have done was this:</p>
+<pre>
+mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
+mat4.lookAt([0, 0, 0], [0, 0, -100], [0, 1, 0], mvMatrix);
+</pre>
+<p>&#8211; note that the <code>mat4.identity</code> is gone, and the last parameter of <code>lookAt</code> has changed.</p>
+<p>Does that help?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-8036">
+				<div id="div-comment-8036" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/e532224318b3307a46c4dc0e11d827f0?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">hamid</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8036">May 8, 2011 at 10:40 am</a></div>
+
+		<p>hello<br />
+tanks for this learning.<br />
+we study your educations in our class.<br />
+we are engineer Computer that we like learn your educations.<br />
+Now,we translate your educations for our friends.<br />
+good luck</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-8037">
+				<div id="div-comment-8037" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8037">May 30, 2011 at 12:57 am</a></div>
+
+		<p>@hamid &#8212; that&#8217;s great, glad it helps!  If you put the translation online, let me know &#8212; I&#8217;d be happy to add a link to it.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="pingback odd alt thread-odd thread-alt depth-1" id="comment-8038">
+				<div id="div-comment-8038" class="comment-body">
+				<div class="comment-author vcard">
+				<cite class="fn"><a href='http://labs.miaumiau.cat/?p=507' rel='external nofollow' class='url'>Labs &#8211; miaumiau.cat &raquo; Blog Archive &raquo; Shadow Particles (part I: Generating a Shadow Map)</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8038">June 15, 2011 at 4:59 pm</a></div>
+
+		<p>[...] Once the particles are draw in the framebuffer we only have to get the final texture to the next pass, one good example of how to make this appears in this tutorial from LearningWebGL. [...]</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-8039">
+				<div id="div-comment-8039" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/646ce2d66b99aaf2e4b9c3aa980a230f?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://localhost' rel='external nofollow' class='url'>_Nobita_</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8039">July 5, 2011 at 4:42 am</a></div>
+
+		<p>Hi all,<br />
+When I&#8217;m trying to do picking on webgl, I use the framebuffer and read the pixel color to do this. And it thow the (SECURITY_ERR : Dom Eception 18) while the function gl.readpixels run.<br />
+<a href="http://imageshack.us/f/94/readpxielerror.jpg/" rel="nofollow">http://imageshack.us/f/94/readpxielerror.jpg/</a><br />
+I don&#8217;t know how to solve this problem.<br />
+So help me please !!!</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-8040">
+				<div id="div-comment-8040" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2b8a817dd1a1ce4e20da37fe609fe281?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">dj</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8040">July 10, 2011 at 12:14 am</a></div>
+
+		<p>can you write a tutorial to demonstrating picking using mouse click on object</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="pingback even thread-even depth-1" id="comment-8041">
+				<div id="div-comment-8041" class="comment-body">
+				<div class="comment-author vcard">
+				<cite class="fn"><a href='http://www.miaumiau.cat/2011/06/shadow-particles-part-i-generating-a-shadow-map/' rel='external nofollow' class='url'>Shadow Particles (part I: Generating a Shadow Map) &laquo; miaumiau interactive studio</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8041">July 24, 2011 at 11:21 pm</a></div>
+
+		<p>[...] Once the particles are draw in the framebuffer we only have to get the final texture to the next pass, one good example of how to make this appears in this tutorial from LearningWebGL. [...]</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-8042">
+				<div id="div-comment-8042" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/eccd133b9e23b027091f3acdf3b1d135?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://www.barricane.com' rel='external nofollow' class='url'>Chris Dew</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8042">September 29, 2011 at 2:22 pm</a></div>
+
+		<p>Thanks for this excellent series.</p>
+<p>Are you planning the stencil lesson some time soon?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-8043">
+				<div id="div-comment-8043" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/b5446a52b0c4f8c7106353aa2d304745?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Tobias</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8043">November 23, 2011 at 4:46 am</a></div>
+
+		<p>Hi, thanks for this great tutorial!<br />
+I&#8217;m using Three.js right now, do you have any idea how to realize this using Three.js?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-8044">
+				<div id="div-comment-8044" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/b5446a52b0c4f8c7106353aa2d304745?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Tobias</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8044">November 26, 2011 at 7:06 pm</a></div>
+
+		<p>Solved my own question right there with: <a href="http://mrdoob.github.com/three.js/examples/webgl_rtt.html" rel="nofollow">http://mrdoob.github.com/three.js/examples/webgl_rtt.html</a></p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="pingback even thread-even depth-1" id="comment-8045">
+				<div id="div-comment-8045" class="comment-body">
+				<div class="comment-author vcard">
+				<cite class="fn"><a href='http://www.jlabstudio.com/webgl/2011/12/tutorial-webgl-16-texturas-renderizadas/' rel='external nofollow' class='url'>Tutorial WebGL 16 &#8211; Texturas renderizadas &middot; Experimentando en la web</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8045">December 14, 2011 at 2:42 pm</a></div>
+
+		<p>[...] tutorial de la serie Aprende webGL. Es una traducción no literal de su respectivo tutorial en Learning webGL.En él vamos a enseñar una técnica que os resultará muy útil: La representación de una escena [...]</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-8046">
+				<div id="div-comment-8046" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/3ae96aab829649e5d7a64e60ae109cba?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Dagstjerna</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8046">April 3, 2012 at 3:51 pm</a></div>
+
+		<p>I need a function to return the position of my matrix, is this right way to do it?</p>
+<p>var xyz = mat4.getPosition(pMatrix);</p>
+<p>I´m missing this function in gl-matrix.js</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-8047">
+				<div id="div-comment-8047" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/c89a47140d283373704beb9475a8135a?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://wiki.gametheorylabs.com' rel='external nofollow' class='url'>Corey Clark</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8047">April 4, 2012 at 4:25 am</a></div>
+
+		<p>so once you have rendered to the texture, is there a way to save this texture so you don&#8217;t have to keep rendering to it on every draw call.  So basically you would render the scene on the laptop screen once, then just keep reusing that texture, so you are basically only rendering a screen quad, with the saved RTT.</p>
+<p>Currently if I don&#8217;t keep rendering the scene every update, the texture is blanked out.</p>
+<p>Any help on this would be much appreciated</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-8048">
+				<div id="div-comment-8048" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/c89a47140d283373704beb9475a8135a?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://wiki.gametheorylabs.com' rel='external nofollow' class='url'>Corey Clark</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8048">April 4, 2012 at 5:18 am</a></div>
+
+		<p>Looks like the issue may have been, I was drawing the RTT first, and the model had not fully loaded, and therefore was not shown on the texture.  Once I put the RTT on keypress, it works just fine.  Now I only render the scene once and then just render texture to quad for all other frame updates.</p>
+<p>Another question I had, was looking at the output of the WebGL Inspector, and since the demo calls gl.generateMipmap(gl.TEXTURE_2D);  on every draw call, it is being called several times&#8230; Is there a reason the mimpas have to be generated every frame?</p>
+<p>With all of the other objects I draw, I only had to create the mipmaps when I loaded them, I did not call it on every draw.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-8049">
+				<div id="div-comment-8049" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/3237cddbf003e1af3b51900c02ec005b?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Nikola</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8049">May 11, 2012 at 11:18 pm</a></div>
+
+		<p>I wanna put two json included obj but i got error:<br />
+XMLHttprequest is not defined<br />
+var request1 = new XMLHttprequest();<br />
+I do everything similar but program doesnt work?SomeBody !</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-8050">
+				<div id="div-comment-8050" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2e9781f946d0b1182d623cb50a534c23?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Hernan</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8050">June 25, 2012 at 4:59 pm</a></div>
+
+		<p>Great series of articles!<br />
+Are you planning on adding new lessons?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="pingback even thread-even depth-1" id="comment-8051">
+				<div id="div-comment-8051" class="comment-body">
+				<div class="comment-author vcard">
+				<cite class="fn"><a href='http://blog.bongiovi.tw/?p=418' rel='external nofollow' class='url'>Smokes | bongiovi&#39;s</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8051">July 31, 2012 at 5:50 pm</a></div>
+
+		<p>[...] there&#039;s a way to render to a texture as well in webgl, please check the super tutorial here, however i&#039;m still struggling with it, so the result of javascript version is less interesting then [...]</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="pingback odd alt thread-odd thread-alt depth-1" id="comment-8052">
+				<div id="div-comment-8052" class="comment-body">
+				<div class="comment-author vcard">
+				<cite class="fn"><a href='http://weeraphan.com/?p=277' rel='external nofollow' class='url'>WebGL Lessons &laquo; WebGL+Culture</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8052">August 24, 2012 at 4:00 am</a></div>
+
+		<p>[...] WebGL Lesson 16: render-to-texture shows how to render a WebGL scene into a texture that can then be used in another scene — a neat trick in itself, and a useful foundation for other techiques.   &laquo; Presentation 7 [...]</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-8053">
+				<div id="div-comment-8053" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/22261c1cf184954d928a325c5c067f56?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">AbstractAlgorithm</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8053">January 13, 2013 at 9:26 pm</a></div>
+
+		<p>I want to create post-processing glow effect.<br />
+So I need object rendered normally -&gt; first texture.<br />
+Then same object rendered only with glow maps -&gt; second texture.<br />
+And then combining first and blurred second texture to blend them and display it on some quad as finished pp effect.</p>
+<p>What are changes required to render scenes to multiple textures?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-8054">
+				<div id="div-comment-8054" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/22261c1cf184954d928a325c5c067f56?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">AbstractAlgorithm</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8054">January 14, 2013 at 10:19 am</a></div>
+
+		<p>I created yet another framebuffer, renderbuffer and texture and that did the job. Will try to minify number of changes.</p>
+<p>Great tutorials. <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-8055">
+				<div id="div-comment-8055" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/afa050b030f7de107d5224acab75aade?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Zhilong</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8055">February 1, 2013 at 4:18 am</a></div>
+
+		<p>Great Job! I learned a lot from this lesson.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="pingback odd alt thread-odd thread-alt depth-1" id="comment-8056">
+				<div id="div-comment-8056" class="comment-body">
+				<div class="comment-author vcard">
+				<cite class="fn"><a href='http://iwantaneff.in/blog/using-webgl_depth_texture/' rel='external nofollow' class='url'>Using WEBGL_depth_texture &#8211; DEVNULL</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-8056">March 25, 2013 at 8:13 pm</a></div>
+
+		<p>[...] does. I&#8217;ll assume that you&#8217;re familiar with the basics of render-to-texture. If not, read up here. Before this extension was available you could render to a color texture, but the depth component [...]</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-18777">
+				<div id="div-comment-18777" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/7c8a3719a335acdf06f246b7f0a304bc?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Filo</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-18777">April 21, 2013 at 12:00 pm</a></div>
+
+		<p>Hi, this example (lesson16) works amazingly on google chrome, firefox and opera mobile, but it doesn&#8217;t work on opera desktop, do you know why?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-58692">
+				<div id="div-comment-58692" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/be499eddedbe30ab62cde4c717cc2c14?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Michael</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-58692">June 24, 2013 at 11:37 am</a></div>
+
+		<p>Please add a lesson about displaying text with WebGL.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-68093">
+				<div id="div-comment-68093" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/e45ccc36d359006ace894302719058dd?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Stuart</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1786&amp;cpage=1#comment-68093">July 13, 2013 at 7:24 am</a></div>
+
+		<p>Is this sort of how portal (the game) works? E.g. each &#8216;portal&#8217; is just another rendered view into the same physical scenery from a different position, and you walk through the textures?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+	</ol>
+
+	<div class="navigation">
+		<div class="alignleft"></div>
+		<div class="alignright"></div>
+	</div>
+ 
+
+
+<div id="respond">
+
+<h3>Leave a Reply</h3>
+
+<div class="cancel-comment-reply">
+	<small><a rel="nofollow" id="cancel-comment-reply-link" href="/blog/?p=1786#respond" style="display:none;">Click here to cancel reply.</a></small>
+</div>
+
+
+<form action="http://learningwebgl.com/blog/wp-comments-post.php" method="post" id="commentform">
+
+
+<p><input type="text" name="author" id="author" value="" size="22" tabindex="1" aria-required='true' />
+<label for="author"><small>Name (required)</small></label></p>
+
+<p><input type="text" name="email" id="email" value="" size="22" tabindex="2" aria-required='true' />
+<label for="email"><small>Mail (will not be published) (required)</small></label></p>
+
+<p><input type="text" name="url" id="url" value="" size="22" tabindex="3" />
+<label for="url"><small>Website</small></label></p>
+
+
+<!--<p><small><strong>XHTML:</strong> You can use these tags: <code>&lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;strike&gt; &lt;strong&gt; </code></small></p>-->
+
+<p><textarea name="comment" id="comment" cols="100%" rows="10" tabindex="4"></textarea></p>
+
+<p><input name="submit" type="submit" id="submit" tabindex="5" value="Submit Comment" />
+<input type='hidden' name='comment_post_ID' value='1786' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p>
+
+</form>
+
+</div>
+
+				
+							
+							</div>
+			</div>
+        <div class="span-8 last">
+    <div id="subscriptions">
+        <a href="http://learningwebgl.com/blog/?feed=rss2"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/rss.png" alt="Subscribe to RSS Feed" title="Subscribe to RSS Feed" /></a>		
+		<a href="https://twitter.com/learningwebgl" title="Follow Learning WebGL on Twitter"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/twitter.png" title="Follow Learning WebGL on Twitter" alt="Follow Learning WebGL on Twitter"  /></a>    </div>
+	<div id="sidebar">
+        <ul>
+            <li id="search">
+				 
+<div class="searchlayout">
+    <form method="get" id="searchform" action="http://learningwebgl.com/blog/"> 
+        <input type="text" value="Search" 
+            name="s" id="s"  onblur="if (this.value == '')  {this.value = 'Search';}"  
+            onfocus="if (this.value == 'Search') {this.value = '';}" />
+        <input type="image" src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/search.gif" style="border:0; vertical-align: top;" /> 
+    </form>
+</div>			</li>
+        </ul>
+            			<div class="addthis_toolbox">   
+    			    <div class="custom_images">
+    			            <a class="addthis_button_twitter"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/twitter.png" width="32" height="32" alt="Twitter" /></a>
+    			            <a class="addthis_button_delicious"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/delicious.png" width="32" height="32" alt="Delicious" /></a>
+    			            <a class="addthis_button_facebook"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/facebook.png" width="32" height="32" alt="Facebook" /></a>
+    			            <a class="addthis_button_digg"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/digg.png" width="32" height="32" alt="Digg" /></a>
+    			            <a class="addthis_button_stumbleupon"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/stumbleupon.png" width="32" height="32" alt="Stumbleupon" /></a>
+    			            <a class="addthis_button_favorites"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/favorites.png" width="32" height="32" alt="Favorites" /></a>
+    			            <a class="addthis_button_more"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/more.png" width="32" height="32" alt="More" /></a>
+    			    </div>
+    			    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js?pub=xa-4a65e1d93cd75e94"></script>
+    			</div>
+    					        
+		<ul>
+		  <li id="text-3" class="widget widget_text"><h2 class="widgettitle">Our Sponsors</h2>			<div class="textwidget">    <div style="margin-left: 10px; margin-top: 20px; width: 170px">
+    <a href="http://web.chemdoodle.com/" target="_blank"><img src="/ads/chemdoodle.gif" ></a>
+    <p>
+    Open-source <b>HTML5</b> solutions for the physical and life sciences.
+    <a style="font-decoration: underline; color: #880000;" href="http://web.chemdoodle.com/">Read more...</a>
+    </div>
+
+<iframe src="http://cdn.oreillystatic.com/widgets/author/217.html" height="400px" width="200px" scrolling="no" frameborder="0"></iframe>
+    <hr/>
+
+    <div style="margin-left: 10px; margin-top: 20px; width: 170px;">
+    <a href="http://www.pythonanywhere.com/"><img src="/ads/pythonanywhere.gif"></a>
+
+    <p>
+    <a href="http://www.pythonanywhere.com">A Python online IDE and web hosting environment</a>. 
+    <a style="font-decoration: underline; color: #880000;" href="http://www.pythonanywhere.com/">Read more...</a>
+    <br/>
+    <br/>
+    Interested in advertising on Learning WebGL? <a style="font-decoration: underline; color: #880000;" href="/cdn-cgi/l/email-protection#0c787c6d7e657f654c6b616d6560226f6361">Drop me a line.</a>
+    </div></div>
+		</li>		<li id="recent-posts-3" class="widget widget_recent_entries">		<h2 class="widgettitle">Recent Posts</h2>		<ul>
+				<li><a href="http://learningwebgl.com/blog/?p=6635" title="2014: The Year in Review">2014: The Year in Review </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6617" title="WebGL around the net, 11 December 2014">WebGL around the net, 11 December 2014 </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6613" title="Crowdfunding Update">Crowdfunding Update </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6599" title="WebGL around the net, 4 December 2014">WebGL around the net, 4 December 2014 </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6585" title="WebGL around the net, 25 November 2014">WebGL around the net, 25 November 2014 </a></li>
+				</ul>
+		</li>		<li id="recent-comments-3" class="widget widget_recent_comments">			<h2 class="widgettitle">Recent Comments</h2>			<ul id="recentcomments"><li class="recentcomments"><a href='http://www.pcprogramming.com' rel='external nofollow' class='url'>John Davis</a> on <a href="http://learningwebgl.com/blog/?p=6585&#038;cpage=1#comment-3652744">WebGL around the net, 25 November 2014</a></li><li class="recentcomments"><a href='http://www.pcprogramming.com' rel='external nofollow' class='url'>John Davis</a> on <a href="http://learningwebgl.com/blog/?p=6575&#038;cpage=1#comment-3618905">WebGL around the net, 20 November 2014</a></li><li class="recentcomments">jinit on <a href="http://learningwebgl.com/blog/?page_id=2&#038;cpage=1#comment-3313484">About</a></li><li class="recentcomments">Dethraid on <a href="http://learningwebgl.com/blog/?p=507&#038;cpage=3#comment-2792181">WebGL Lesson 5 – introducing textures</a></li><li class="recentcomments">Man on <a href="http://learningwebgl.com/blog/?p=6443&#038;cpage=1#comment-2572225">WebGL around the net, 7 July 2014</a></li></ul>
+		</li><li id="linkcat-2" class="widget widget_links"><h2 class="widgettitle">Blogroll</h2>
+	<ul class='xoxo blogroll'>
+<li><a href="http://blog.tojicode.com/" title="Brandon Jones&#8217; Blog" target="_blank">Brandon Jones</a></li>
+<li><a href="http://www.gilesthomas.com/" title="Giles Thomas&#8217; Personal Blog" target="_blank">Giles Thomas</a></li>
+<li><a href="http://games.greggman.com/game/" title="Gregg Tavares&#8217; Blog" target="_blank">Gregg Tavares</a></li>
+<li><a href="http://www.learnopengles.com/" title="Learn OpenGL ES" target="_blank">Learn OpenGL ES</a></li>
+<li><a href="http://learningthreejs.com/" title="Learning Three.js Blog" target="_blank">Learning Three.js</a></li>
+<li><a href="http://nehe.gamedev.net/" title="NeHe OpenGL Tutorials" target="_blank">NeHe OpenGL</a></li>
+<li><a href="http://www.paulbrunt.co.uk/" title="Paul Brunt&#8217;s Blog" target="_blank">Paul Brunt</a></li>
+<li><a href="http://pl4n3.blogspot.com/" title="PL4N3S WORLD Blog" target="_blank">PL4N3S WORLD</a></li>
+<li><a href="http://www.rozengain.com/blog/" title="Rozengain" target="_blank">Rozengain</a></li>
+<li><a href="http://www.tonyparisi.com/" title="Tony Parisi&#8217;s Personal Blog" target="_blank">Tony Parisi</a></li>
+<li><a href="http://www.webgl.com/" title="WebGL Demos and Links" target="_blank">WebGL.com</a></li>
+
+	</ul>
+</li>
+<li id="archives-3" class="widget widget_archive"><h2 class="widgettitle">Archives</h2>		<ul>
+			<li><a href='http://learningwebgl.com/blog/?m=201501' title='January 2015'>January 2015</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201412' title='December 2014'>December 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201411' title='November 2014'>November 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201410' title='October 2014'>October 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201409' title='September 2014'>September 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201408' title='August 2014'>August 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201407' title='July 2014'>July 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201406' title='June 2014'>June 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201405' title='May 2014'>May 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201404' title='April 2014'>April 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201403' title='March 2014'>March 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201402' title='February 2014'>February 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201401' title='January 2014'>January 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201312' title='December 2013'>December 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201311' title='November 2013'>November 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201310' title='October 2013'>October 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201309' title='September 2013'>September 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201308' title='August 2013'>August 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201307' title='July 2013'>July 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201306' title='June 2013'>June 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201305' title='May 2013'>May 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201304' title='April 2013'>April 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201303' title='March 2013'>March 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201212' title='December 2012'>December 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201211' title='November 2012'>November 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201210' title='October 2012'>October 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201209' title='September 2012'>September 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201208' title='August 2012'>August 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201207' title='July 2012'>July 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201206' title='June 2012'>June 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201205' title='May 2012'>May 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201204' title='April 2012'>April 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201203' title='March 2012'>March 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201202' title='February 2012'>February 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201112' title='December 2011'>December 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201111' title='November 2011'>November 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201110' title='October 2011'>October 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201109' title='September 2011'>September 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201108' title='August 2011'>August 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201107' title='July 2011'>July 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201106' title='June 2011'>June 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201105' title='May 2011'>May 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201104' title='April 2011'>April 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201103' title='March 2011'>March 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201102' title='February 2011'>February 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201101' title='January 2011'>January 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201012' title='December 2010'>December 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201011' title='November 2010'>November 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201010' title='October 2010'>October 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201009' title='September 2010'>September 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201008' title='August 2010'>August 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201007' title='July 2010'>July 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201006' title='June 2010'>June 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201005' title='May 2010'>May 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201004' title='April 2010'>April 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201003' title='March 2010'>March 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201002' title='February 2010'>February 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201001' title='January 2010'>January 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200912' title='December 2009'>December 2009</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200911' title='November 2009'>November 2009</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200910' title='October 2009'>October 2009</a></li>
+		</ul>
+</li><li id="meta-3" class="widget widget_meta"><h2 class="widgettitle">Meta</h2>			<ul>
+						<li><a href="http://learningwebgl.com/blog/wp-login.php">Log in</a></li>
+			<li><a href="http://learningwebgl.com/blog/?feed=rss2" title="Syndicate this site using RSS 2.0">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://learningwebgl.com/blog/?feed=comments-rss2" title="The latest comments to all posts in RSS">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://wordpress.org/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.org</a></li>
+						</ul>
+</li>		</ul>
+	</div>
+</div>
+
+		</div><!--/container-->
+			<div id="footer">
+				Copyright &copy; 2013 <a href="http://learningwebgl.com/blog"><strong>Learning WebGL</strong></a> -  3D Programming for the Web <br />
+                <div class="footer-credits">
+                    Powered by <a href="http://wordpress.org/">WordPress</a> | <a href="http://flexithemes.com/themes/modern-style/">Modern Style</a> theme by <a href="http://flexithemes.com/">FlexiThemes</a>
+                </div>
+			</div><!--/footer-->
+            
+	</div><!--/wrapper-->
+	
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-2240015-5");
+pageTracker._trackPageview();
+} catch(err) {}</script>    
+<script type="text/javascript">
+/* <![CDATA[ */
+(function(){try{var s,a,i,j,r,c,l=document.getElementsByTagName("a"),t=document.createElement("textarea");for(i=0;l.length-i;i++){try{a=l[i].getAttribute("href");if(a&&a.indexOf("/cdn-cgi/l/email-protection") > -1  && (a.length > 28)){s='';j=27+ 1 + a.indexOf("/cdn-cgi/l/email-protection");if (a.length > j) {r=parseInt(a.substr(j,2),16);for(j+=2;a.length>j&&a.substr(j,1)!='X';j+=2){c=parseInt(a.substr(j,2),16)^r;s+=String.fromCharCode(c);}j+=1;s+=a.substr(j,a.length-j);}t.innerHTML=s.replace(/</g,"&lt;").replace(/>/g,"&gt;");l[i].setAttribute("href","mailto:"+t.value);}}catch(e){}}}catch(e){}})();
+/* ]]> */
+</script>
+</body>
+</html>
+
+

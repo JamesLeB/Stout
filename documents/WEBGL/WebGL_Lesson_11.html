@@ -1,0 +1,983 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>  WebGL Lesson 11 – spheres, rotation matrices, and mouse events | Learning WebGL</title>
+<script type="text/javascript">
+//<![CDATA[
+try{if (!window.CloudFlare) {var CloudFlare=[{verbose:0,p:0,byc:0,owlid:"cf",bag2:1,mirage2:0,oracle:0,paths:{cloudflare:"/cdn-cgi/nexp/dok3v=1613a3a185/"},atok:"2c1b6781e0cb3014c3b88e10d5e2d90a",petok:"17b9d784b84da9a4e8dec7edc78ee23f614a8a9b-1421936933-1800",zone:"learningwebgl.com",rocket:"0",apps:{}}];CloudFlare.push({"apps":{"ape":"a631677beb674a041e6ccd9e6207f83d"}});!function(a,b){a=document.createElement("script"),b=document.getElementsByTagName("script")[0],a.async=!0,a.src="//ajax.cloudflare.com/cdn-cgi/nexp/dok3v=919620257c/cloudflare.min.js",b.parentNode.insertBefore(a,b)}()}}catch(e){};
+//]]>
+</script>
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/screen.css" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/print.css" type="text/css" media="print" />
+<!--[if IE]><link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/ie.css" type="text/css" media="screen, projection"><![endif]-->
+<!--[if IE 6]>
+	<script src="http://learningwebgl.com/blog/wp-content/themes/modern-style/js/pngfix.js"></script>
+<![endif]--> 
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/style.css" type="text/css" media="screen" />
+<link rel="alternate" type="application/rss+xml" title="Learning WebGL RSS Feed" href="http://learningwebgl.com/blog/?feed=rss2" />
+<link rel="alternate" type="application/atom+xml" title="Learning WebGL Atom Feed" href="http://learningwebgl.com/blog/?feed=atom" />
+<link rel="pingback" href="http://learningwebgl.com/blog/xmlrpc.php" />
+
+<link rel="alternate" type="application/rss+xml" title="Learning WebGL &raquo; WebGL Lesson 11 – spheres, rotation matrices, and mouse events Comments Feed" href="http://learningwebgl.com/blog/?feed=rss2&amp;p=1253" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://learningwebgl.com/blog/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://learningwebgl.com/blog/wp-includes/wlwmanifest.xml" /> 
+<link rel='index' title='Learning WebGL' href='http://learningwebgl.com/blog' />
+<link rel='start' title='Hello, world!' href='http://learningwebgl.com/blog/?p=5' />
+<link rel='prev' title='WebGL around the net, 18 Dec 2009' href='http://learningwebgl.com/blog/?p=1297' />
+<link rel='next' title='WebGL around the net, 22 Dec 2009' href='http://learningwebgl.com/blog/?p=1362' />
+<meta name="generator" content="WordPress 2.9.2" />
+<link rel='canonical' href='http://learningwebgl.com/blog/?p=1253' />
+	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+
+</head>
+<body>
+	<div id="wrapper">
+		<div id="container" class="container">  
+                        
+			<div class="span-16">
+                <div id="header">
+                    						<h1><a href="http://learningwebgl.com/blog">Learning WebGL</a></h1>
+						<h2>3D Programming for the Web</h2>
+										</div>
+                
+                <div class="navcontainer">
+					<ul id="nav">
+						<li ><a href="http://learningwebgl.com/blog/">Home</a></li>
+						<li class="page_item page-item-1217"><a href="http://learningwebgl.com/blog/?page_id=1217" title="The Lessons">The Lessons</a></li>
+<li class="page_item page-item-2438"><a href="http://learningwebgl.com/blog/?page_id=2438" title="WebGL Jobs">WebGL Jobs</a></li>
+<li class="page_item page-item-988"><a href="http://learningwebgl.com/blog/?page_id=988" title="The WebGL Cookbook">The WebGL Cookbook</a></li>
+<li class="page_item page-item-2"><a href="http://learningwebgl.com/blog/?page_id=2" title="About">About</a></li>
+		
+					</ul>
+				</div>
+            		<div id="content">	
+                	
+						
+												<div class="post-1253 post hentry category-uncategorized clearfix" id="post-1253">
+							<h2 class="title">WebGL Lesson 11 – spheres, rotation matrices, and mouse events</h2>
+							<div class="postdate">
+                                <span>December 18th, 2009</span> 
+                                <span><a href="http://learningwebgl.com/blog/?p=1253#comments" title="Comment on WebGL Lesson 11 – spheres, rotation matrices, and mouse events">78 Comments</a></span>                             </div>
+			
+							<div class="entry">
+                                								<p><span style="float: left; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=1067">&lt;&lt; Lesson 10</a></span><span style="float: right; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=1359">Lesson 12 &gt;&gt;</a></span><br/><br />
+Welcome to my number eleven in my series of WebGL tutorials, the first one that isn&#8217;t based on <a href="http://nehe.gamedev.net/">the NeHe OpenGL tutorials</a>.  In it, we&#8217;ll show a texture-mapped sphere with directional lighting, which the viewer can spin around using the mouse.</p>
+<p>Here&#8217;s what the lesson looks like when run on a browser that supports WebGL:</p>
+<p><object width="425" height="344"><param name="movie" value="http://www.youtube.com/v/jB9FCQv8-vM&#038;hl=en_US&#038;fs=1&#038;"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/jB9FCQv8-vM&#038;hl=en_US&#038;fs=1&#038;" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="425" height="344"></embed></object></p>
+<p><a href="/lessons/lesson11/index.html">Click here and you&#8217;ll see the live WebGL version</a>, if you&#8217;ve got a browser that supports it; <a href="http://learningwebgl.com/blog/?p=11">here&#8217;s how to get one</a> if you don&#8217;t.   You&#8217;ll see a white sphere for a few moments while the texture loads, and then once that&#8217;s done you should see the moon, with lighting coming from above, to the right, and towards you.  If you drag it around, it will spin, with the lighting remaining constant.  If you want to change the lighting, there are fields beneath the WebGL canvas that will be familiar from <a href="http://learningwebgl.com/blog/?p=684">lesson 7</a>.</p>
+<p>More on how it all works below&#8230;</p>
+<p><span id="more-1253"></span></p>
+<p>The usual <a href="http://learningwebgl.com/blog/?page_id=2">warning</a>: these lessons are targeted at people with a reasonable amount of programming knowledge, but no real experience in 3D graphics; the aim is to get you up and running, with a good understanding of what&#8217;s going on in the code, so that you can start producing your own 3D Web pages as quickly as possible.  If you haven&#8217;t read the previous tutorials already, you should probably do so before reading this one &mdash; here I will only explain the new stuff.  The lesson is based on <a href="http://learningwebgl.com/blog/?p=684">lesson 7</a>, so you should make sure that you understand that one (and please do post a comment on  that post if anything&#8217;s unclear about it!)</p>
+<p>There may be bugs and misconceptions in this tutorial.  If you spot anything wrong, let me know in the comments and I&#8217;ll correct it ASAP.</p>
+<p>There are two ways you can get the code for this example; just &#8220;View Source&#8221; while you&#8217;re looking at the live version, or if you use GitHub, you can clone it (and the other lessons) from <a href="http://github.com/gpjt/webgl-lessons">the repository there</a>.</p>
+<p>As usual, the best way to understand the code for this page is by starting at the bottom and working our way up, looking at all of the new stuff as we go.  The HTML code inside the <code>&lt;body&gt;</code> tags is no different to lesson 7, so let&#8217;s kick off with the new code in <code>webGLStart</code>:</p>
+<pre>
+  function webGLStart() {
+    canvas = document.getElementById("lesson11-canvas");
+    initGL(canvas);
+    initShaders();
+    initBuffers();
+    initTexture();
+
+    gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    gl.enable(gl.DEPTH_TEST);
+
+    <span style="color: red">canvas.onmousedown = handleMouseDown;
+    document.onmouseup = handleMouseUp;
+    document.onmousemove = handleMouseMove;</span>
+
+    tick();
+  }
+</pre>
+<p>These three new lines allow us to detect mouse events and thus spin the moon when the user drags it around.  Obviously, we only want to pick up mouse-down events on the 3D canvas (because it would be confusing if the moon span around when you dragged somewhere else in the HTML page, for example in the lighting text fields).  Slightly less obviously, we want to listen for mouse-up and -move events on the document rather than the canvas; by doing this, we are able to pick up drag events even when the mouse is moved or released outside the 3D canvas, so long as the drag started in the canvas &mdash; this stops us from being one of those irritating pages where you press the mouse button inside the scene you want to spin, and then release it outside, only to find that when you move the mouse back over the scene the mouse-up has not taken effect and it still thinks you&#8217;re dragging stuff around until you click somewhere.</p>
+<p>Moving a bit further up through the code, we come to our <code>tick</code> function, which for this page just schedules the next frame and calls <code>drawScene</code>, as it has no need to handle keys (because we&#8217;re not looking at key-presses) or to animate the scene (because it only responds to user input and does no independent animation).</p>
+<pre>
+  function tick() {
+    requestAnimFrame(tick);
+    drawScene();
+  }
+</pre>
+<p>The next relevant changes are in <code>drawScene</code>.  We start it off with our boilerplate canvas-clearing and perspective code, then do the same as we did in lesson 7 to set up the lighting:</p>
+<pre>
+  function drawScene() {
+    gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
+    mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
+
+    var lighting = document.getElementById("lighting").checked;
+    gl.uniform1i(shaderProgram.useLightingUniform, lighting);
+    if (lighting) {
+      gl.uniform3f(
+        shaderProgram.ambientColorUniform,
+        parseFloat(document.getElementById("ambientR").value),
+        parseFloat(document.getElementById("ambientG").value),
+        parseFloat(document.getElementById("ambientB").value)
+      );
+
+      var lightingDirection = [
+        parseFloat(document.getElementById("lightDirectionX").value),
+        parseFloat(document.getElementById("lightDirectionY").value),
+        parseFloat(document.getElementById("lightDirectionZ").value)
+      ];
+      var adjustedLD = vec3.create();
+      vec3.normalize(lightingDirection, adjustedLD);
+      vec3.scale(adjustedLD, -1);
+      gl.uniform3fv(shaderProgram.lightingDirectionUniform, adjustedLD);
+
+      gl.uniform3f(
+        shaderProgram.directionalColorUniform,
+        parseFloat(document.getElementById("directionalR").value),
+        parseFloat(document.getElementById("directionalG").value),
+        parseFloat(document.getElementById("directionalB").value)
+      );
+    }
+</pre>
+<p>Next, we move to the correct position to draw the mooon:</p>
+<pre>
+    mat4.identity(mvMatrix);
+
+    mat4.translate(mvMatrix, [0, 0, -6]);
+</pre>
+<p>&#8230;and here comes the first bit that might look odd!  For reasons that I&#8217;ll explain a little later, we&#8217;re storing the current rotational state of the moon in a matrix; this matrix starts off as the identity matrix (ie., we don&#8217;t rotate it at all) and then as the user manipulates it with the mouse, it changes to reflect those manipulations.  So, before we draw the moon, we need to apply the rotation matrix to the current model-view matrix, which we can do with the <code>mat4.multiply</code> function:</p>
+<pre>
+    mat4.multiply(mvMatrix, moonRotationMatrix);
+</pre>
+<p>Once that&#8217;s done, all that remains is to actually draw the moon.  This code is pretty standard &mdash; we just set the texture then use the same kind of code as we&#8217;ve used many times before to tell WebGL to use some pre-prepared buffers to draw a bunch of triangles:</p>
+<pre>
+    gl.activeTexture(gl.TEXTURE0);
+    gl.bindTexture(gl.TEXTURE_2D, moonTexture);
+    gl.uniform1i(shaderProgram.samplerUniform, 0);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, moonVertexPositionBuffer);
+    gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, moonVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, moonVertexTextureCoordBuffer);
+    gl.vertexAttribPointer(shaderProgram.textureCoordAttribute, moonVertexTextureCoordBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, moonVertexNormalBuffer);
+    gl.vertexAttribPointer(shaderProgram.vertexNormalAttribute, moonVertexNormalBuffer.itemSize, gl.FLOAT, false, 0, 0);
+
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, moonVertexIndexBuffer);
+    setMatrixUniforms();
+    gl.drawElements(gl.TRIANGLES, moonVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);
+  }
+</pre>
+<p>So: how do we create vertex position, normal, texture-coordinate and index buffers with the correct values to draw a sphere?  Conveniently, that&#8217;s the next function up: <code>initBuffers</code>.</p>
+<p>It starts off by defining global variables for the buffers, and deciding how many latitude and longitude bands to use, and what the sphere&#8217;s radius is.  If you were going to use this code in a WebGL page of your own, you&#8217;d parameterise the latitude and longitude bands, and the radius, and you&#8217;d store the buffers somewhere other than in global variables.  I&#8217;ve done it in this simple imperative way so as not to impose a particular OO or functional design on you.</p>
+<pre>
+  var moonVertexPositionBuffer;
+  var moonVertexNormalBuffer;
+  var moonVertexTextureCoordBuffer;
+  var moonVertexIndexBuffer;
+  function initBuffers() {
+    var latitudeBands = 30;
+    var longitudeBands = 30;
+    var radius = 2;
+</pre>
+<p>So, what are the latitude and longitude bands?  In order to draw a set of triangles that are an approximation to a sphere, we need to divide it up.  There are many <a href="http://www.3dbuzz.com/vbforum/showpost.php?s=48224b61b82dda993bf82f067c057c11&#038;p=961840&#038;postcount=7">clever ways</a> of doing it, and one simple way based on high school geometry that (a) gets perfectly decent results and (b) I can actually understand without making my head hurt.  So here&#8217;s that one <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' />   It&#8217;s based on one of the <a href="https://cvs.khronos.org/svn/repos/registry/trunk/public/webgl/sdk/demos/webkit/Earth.html">demos on the Khronos website</a>, was originally developed by the WebKit team, and it works like this:</p>
+<p>Let&#8217;s start by defining the terminology: the lines of latitude are the ones that, on a globe, tell you how far north or how far south you are.  The distance between them, as measured along the surface of the sphere, is constant.  If you were to slice up a sphere from top to bottom along its lines of latitude, you&#8217;d wind up with thin lense-shaped bits for the top and the bottom, and then increasingly thick disc-like slices for the middle.  (If this is hard to visualise, imagine slicing a <a href="http://mealadvisor.us/restaurant/ann-sathers/menu/sliced-tomato">tomato into discs for a salad</a>, but trying to keep the same length of skin from the top to the bottom of each slice.  Obviously the slices in the middle would be thicker than those at the top.)</p>
+<p>The lines of longitude are different; they divide the sphere into segments.  If you were to slice a sphere up along its lines of longitude, it would come apart <a href="http://veganyumyum.com/2007/01/making-pretty-orange-segments/">rather like an orange</a>.</p>
+<p><img style="float: left; margin-right: 10px;" src="/lessons/lesson11/sphere-triangles.png" />Now, to draw our sphere, imagine that we&#8217;ve drawn the lines of latitude from top to bottom, and the lines of longitude around it.  What we want to do is work out all of the points where those lines intersect, and use those as vertex positions.  We can then split each square formed by two adjacent lines of longitude and two adjacent lines of latitude into two triangles, and draw them.  Hopefully the image to the left makes that a little bit clearer!</p>
+<p>The next question is, how do we calculate the points where the lines of latitude and longitude intersect?  Let&#8217;s assume that the sphere has a radius of one unit, and start by taking a slice vertically through its centre, in the plane of the X and Y axes,<img style="float: right; margin-left: 10px;" src="/lessons/lesson11/sphere-latitude.png" /> as in the example to the right.  Obviously, the slice&#8217;s shape is a circle, and the lines of latitude are lines across that circle.  In the example, you can see that we&#8217;re looking at the third latitude band from the top, and there are 10 latitude bands in total.  The angle between the Y axis and the point where the latitude band reaches the edge of the circle is &theta;.  With a bit of simple trigonometry, we can see that the point has a Y coordinate of cos(&theta;) and an X coordinate of sin(&theta;).</p>
+<p>Now, let&#8217;s generalise that to work out the equivalent points for all lines of latitude.  Because we want each line to be separated by the same distance around the surface of the sphere from its neighbour, we can simply define them by values of &theta; that are evenly spaced.  There are &pi; radians in a semi-circle, so in our ten-line example we can take values of &theta; of 0, &pi;/10, 2&pi;/10, 3&pi;/10, and so on up to 10&pi;/10, and we can be sure that we&#8217;ve split up the sphere into even bands of latitude.</p>
+<p>Now, all of the points at a particular latitude, whatever their longitude, have the same Y coordinate.  So, given the formula for the Y coordinate above, we can say that all of the points around the <i>n</i>th latitude of the sphere of radius one and ten lines of latitude will have the Y coordinate of cos(<i>n</i>&pi; / 10).</p>
+<p>So that&#8217;s sorted out the Y coordinate.  What about X and Z?  Well, just as we can see that the Y coordinate is cos(<i>n</i>&pi; / 10), we can see that the X coordinate of the point where Z is zero is sin(<i>n</i>&pi; / 10).  <img style="float: left; margin-right: 10px;" src="/lessons/lesson11/sphere-longitude.png" /> Let&#8217;s take a different slice through the sphere, as shown in the picture to the left: a horizontal one through the plane of the <i>n</i>th latitude.  We can see that all of the points are in a circle with a radius of sin(<i>n</i>&pi; / 10); let&#8217;s call this value <i>k</i>.  If we take divide the circle up by the lines of longitude, of which we will assume there are 10, and consider that there will be 2&pi; radians in the circle and thus values for &phi;, the angle we&#8217;re taking around the circle, of 0, 2&pi;/10, 4&pi;/10, and so on, once again by simple trigonometry we can see that our X coordinate is <i>k</i>cos&phi; and our Z coordinate is <i>k</i>sin&phi;.</p>
+<p>So, to generalise, for a sphere of radius <i>r</i>, with <i>m</i> latitude bands and <i>n</i> longitude bands, we can generate values for <i>x</i>, <i>y</i>, and <i>z</i> by taking a range of values for &theta; by splitting the range 0 to &pi; up into <i>m</i> parts, and taking a range of values for &phi; by splitting the range 0 to 2&pi; into <i>n</i> parts, and then just calculating:</p>
+<ul>
+<li>x = <i>r</i> sin&theta; cos&phi;</li>
+<li>y = <i>r</i> cos&theta;</li>
+<li>z = <i>r</i> sin&theta; sin&phi;</li>
+</ul>
+<p>That&#8217;s how we work out the vertices.  Now, what about the other values we need for each point: the normals and the texture coordinates?  Well, the normals are really easy: remember, a normal is a vector with a length of one that sticks directly out of a surface.  For a sphere with a radius of one unit, that&#8217;s the same as the vector that goes from the centre of the sphere to the surface &mdash; which is something we&#8217;ve already worked out as part of calculating the vertex&#8217;s position!  In fact, the easiest way to calculate the vertex position and the normal is just to do the calculations above but not multiply them by the radius, store the results as the normal, and then to multiply the normal values by the radius to get the vertex positions.</p>
+<p>The texture coordinates are, if anything, easier.  We expect that when someone provides a texture to put onto a sphere, they&#8217;ll give us a rectangular image (indeed, WebGL, not to say JavaScript, would probably be confused by anything else!).  We can safely assume that this texture is stretched at the top and the bottom, following the <a href="http://en.wikipedia.org/wiki/File:Usgs_map_mercator.svg">Mercator projection</a>.  This means that we can split up the left-to-right <i>u</i> texture coordinate evenly by the lines of longitude and the top-to-bottom <i>v</i> by lines of latitude.</p>
+<p>Right, that&#8217;s how it works &mdash; the JavaScript code should now be incredibly easy to understand!  We just loop through all of the latitudinal slices, then within that loop we run through the longitudinal segments, and we generate the normals, texture coordinates, and vertex positions for each.  The only oddity to note is that our loops terminate when the index is <i>greater</i> than the number of longitudinal/latitudinal lines &mdash; that is, we use <code>&lt;=</code> rather than <code>&lt;</code> in the loop conditions.  This means that for, say, 30 longitudes, we will generate 31 vertices per latitude.  Because the trigonometric functions cycle, the last one will be in the same position as the first, and so this gives us an overlap so that everything joins up.</p>
+<pre>
+    var vertexPositionData = [];
+    var normalData = [];
+    var textureCoordData = [];
+    for (var latNumber = 0; latNumber <= latitudeBands; latNumber++) {
+      var theta = latNumber * Math.PI / latitudeBands;
+      var sinTheta = Math.sin(theta);
+      var cosTheta = Math.cos(theta);
+
+      for (var longNumber = 0; longNumber <= longitudeBands; longNumber++) {
+        var phi = longNumber * 2 * Math.PI / longitudeBands;
+        var sinPhi = Math.sin(phi);
+        var cosPhi = Math.cos(phi);
+
+        var x = cosPhi * sinTheta;
+        var y = cosTheta;
+        var z = sinPhi * sinTheta;
+        var u = 1 - (longNumber / longitudeBands);
+        var v = 1 - (latNumber / latitudeBands);
+
+        normalData.push(x);
+        normalData.push(y);
+        normalData.push(z);
+        textureCoordData.push(u);
+        textureCoordData.push(v);
+        vertexPositionData.push(radius * x);
+        vertexPositionData.push(radius * y);
+        vertexPositionData.push(radius * z);
+      }
+    }
+</pre>
+<p>Now that we have the vertices, we need to stitch them together by generating a list of vertex indices that contains sequences of six values, each representing a square expressed as a pair of triangles.  Here's the code:</p>
+<pre>
+    var indexData = [];
+    for (var latNumber = 0; latNumber < latitudeBands; latNumber++) {
+      for (var longNumber = 0; longNumber < longitudeBands; longNumber++) {
+        var first = (latNumber * (longitudeBands + 1)) + longNumber;
+        var second = first + longitudeBands + 1;
+        indexData.push(first);
+        indexData.push(second);
+        indexData.push(first + 1);
+
+        indexData.push(second);
+        indexData.push(second + 1);
+        indexData.push(first + 1);
+      }
+    }
+</pre>
+<p>This is actually pretty easy to understand.  We loop through our vertices, and <img style="float: left; margin-right: 10px;" src="/lessons/lesson11/sphere-triangle-stitching.png" />for each one, we store its index in <code>first</code>, and then count <code>longitudeBands + 1</code> indices forward to find its counterpart one latitude band down &mdash; adding the one because of the extra vertices we had to add to allow for the overlap &mdash; and store that in <code>second</code>.  We then generate two triangles, as in the diagram.</p>
+<p>Right &mdash; that's the difficult bit done (at least, the bit that's difficult to explain).  Let's move on up the code and see what else has changed.</p>
+<p>Immediately above the <code>initBuffers</code> function are the three functions that deal with the mouse.  These deserve careful examination... Let's start by carefully considering what we're aiming to do.  We want the viewer of our scene to be able to rotate the moon around by dragging it.  A naive implementation of this might be to have, say, three variables representing rotations around the X, Y and Z axes.  We could then adjust each one appropriately when the user dragged the mouse.  If, say, they dragged it up or down, we could adjust the rotation around the X axis, and if it was from side to side, we could adjust it around the Y axis.  The problem with doing things this way is that when you're rotating an object around various axes, and you're doing a number of different rotations, it matters what order you apply them in.  Let's say the viewer rotates the moon 90&deg; around the Y axis, then drags the mouse down.  If we rotate around the X axis as planned, they will see the moon rotate around what is now the Z axis; the first rotation rotated the axes as well.  This will look weird to them.  The problem only gets worse when the viewer has, say, rotated 10&deg; around the X axis, then 23&deg; around the rotated Y axis, and then...  we could put in all kind of clever logic to say something like "given the current rotational state, if the user drags the mouse downwards then adjust all three of the rotation values appropriately".  But an easier way of handling this would be to keep some kind of record of every rotation that the viewer has applied to the moon, and then to replay them every time we draw it.  On the face of it, this might sound like an expensive way of doing things, unless you remember that we already have a perfectly good way of keeping track of a sequence of different geometrical transforms in one place and applying them in one operation: a matrix.</p>
+<p>We keep a matrix to store the current rotation state of the moon, logically enough called <code>moonRotationMatrix</code>.  When the user drags the mouse around, we get a sequence of mouse-move events, and each time we see one we work out how many degrees of rotation around the <i>current</i> X and Y axes as seen by the user that drag amounts to.  We then calculate a matrix that represents those two rotations, and pre-multiply the <code>moonRotationMatrix</code> by it &mdash; pre-multiplying for the same reason as we apply transformations in reverse order when positioning the camera; the rotation is in terms of eye space, not model space.  (A note for readers &mdash; I'm sure there's a better way of explaining that, but don't want to delay posting this until I've had the moment of clarity required <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' />   Any suggestions on better phrasing would be gratefully received!)</p>
+<p>So, with all that explained, the code below should be pretty clear:</p>
+<pre>
+  var mouseDown = false;
+  var lastMouseX = null;
+  var lastMouseY = null;
+
+  var moonRotationMatrix = mat4.create();
+  mat4.identity(moonRotationMatrix);
+
+  function handleMouseDown(event) {
+    mouseDown = true;
+    lastMouseX = event.clientX;
+    lastMouseY = event.clientY;
+  }
+
+  function handleMouseUp(event) {
+    mouseDown = false;
+  }
+
+  function handleMouseMove(event) {
+    if (!mouseDown) {
+      return;
+    }
+    var newX = event.clientX;
+    var newY = event.clientY;
+
+    var deltaX = newX - lastMouseX;
+    var newRotationMatrix = mat4.create();
+    mat4.identity(newRotationMatrix);
+    mat4.rotate(newRotationMatrix, degToRad(deltaX / 10), [0, 1, 0]);
+
+    var deltaY = newY - lastMouseY;
+    mat4.rotate(newRotationMatrix, degToRad(deltaY / 10), [1, 0, 0]);
+
+    mat4.multiply(newRotationMatrix, moonRotationMatrix, moonRotationMatrix);
+
+    lastMouseX = newX
+    lastMouseY = newY;
+  }
+</pre>
+<p>That's the last substantial bit of new code in this lesson.  Moving up from there, all of the changes you can see are those required to our texture code to load up the new texture into the changed variable names.</p>
+<p>That's it!  You now know how to draw a sphere using a simple but effective algorithm, how to hook up mouse events so that viewers can drag to manipulate your 3D objects, and how to use matrices to represent the current rotational state of an object in a scene.</p>
+<p>That's it for now; the next lesson will show a new kind of lighting: point lighting, which comes from a particular place in the scene and radiates outwards, just like the light from a bare light bulb.</p>
+<p><span style="float: left; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=1067">&lt;&lt; Lesson 10</a></span><span style="float: right; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=1359">Lesson 12 &gt;&gt;</a></span><br/></p>
+<p><em>Acknowledgments: The texture-map for the moon <a href="http://maps.jpl.nasa.gov/">comes from NASA's JPL website</a>.  The code to generate a sphere is based on <a href="https://cvs.khronos.org/svn/repos/registry/trunk/public/webgl/sdk/demos/webkit/Earth.html">this demo</a>, which was originally by the WebKit team.  Many thanks to both!</em></p>
+															</div>
+							<div class="postmeta">Posted in <a href="http://learningwebgl.com/blog/?cat=1" title="View all posts in Uncategorized" rel="category">Uncategorized</a> |  </div>
+						
+							<div class="navigation clearfix">
+								<div class="alignleft">&laquo; <a href="http://learningwebgl.com/blog/?p=1297" rel="prev">WebGL around the net, 18 Dec 2009</a></div>
+								<div class="alignright"><a href="http://learningwebgl.com/blog/?p=1362" rel="next">WebGL around the net, 22 Dec 2009</a> &raquo;</div>
+							</div>
+							
+															You can <a href="#respond">leave a response</a>, or <a href="http://learningwebgl.com/blog/wp-trackback.php?p=1253" rel="trackback">trackback</a> from your own site.
+	
+													</div><!--/post-1253-->
+						
+				
+<!-- You can start editing here. -->
+
+	<h3 id="comments">78 Responses to &#8220;WebGL Lesson 11 – spheres, rotation matrices, and mouse events&#8221;</h3>
+
+	<ol class="commentlist">
+			<li class="comment even thread-even depth-1" id="comment-7358">
+				<div id="div-comment-7358" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/607d17d9946ffc61ea96990b59e7bf89?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Andreas</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1253&amp;cpage=2#comment-7358">August 10, 2011 at 12:48 pm</a></div>
+
+		<p>Hi,<br />
+u are using the mat4.multiply two times.</p>
+<p>First one:<br />
+mat4.multiply(mvMatrix, moonRotationMatrix);</p>
+<p>Second one:<br />
+mat4.multiply(newRotationMatrix, moonRotationMatrix, moonRotationMatrix);</p>
+<p>In your comment from &#8220;June 23&#8243; you say</p>
+<p>&#8220;That’s the line that applies the new rotation matrix onto the existing one — the last parameter is where the results are stored. If we were able to use normal arithmetic operators to multiply matrices, it would look like this:</p>
+<p>moonRotationMatrix = newRotationMatrix * moonRotationMatrix;&#8221;</p>
+<p>This makes sense to me but why does the first mat4.multiply only have 2 parameters and the second one THREE parameters ??? Where is the result of the multipliction stored in the first case ???</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7359">
+				<div id="div-comment-7359" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/29043c044e7544e38b8101f621eb2795?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">azad</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1253&amp;cpage=2#comment-7359">August 22, 2011 at 12:56 pm</a></div>
+
+		<p>hi , very thanks to this greet Tutorails,<br />
+my final project ,in college, is a game(webgl-based) that like &#8220;Quake v.2&#8243;<br />
+but i&#8217;m not so good that make this.<br />
+please steerage me, what can i do?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7360">
+				<div id="div-comment-7360" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/936a443a7ed788c9739a5ac7759e55a1?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Thomas</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1253&amp;cpage=2#comment-7360">September 1, 2011 at 1:02 pm</a></div>
+
+		<p>I&#8217;m getting some odd behavior: if I mousedown on the canvas, drag out of the canvas (still on the page) and mouseup, then mousdown and drag on the canvas again &#8211; the second drag doesn&#8217;t rotate the moon until mouseup.  At that point it continues to rotate (with no button pressed) until I press and release the button a third time.</p>
+<p>  Its seems the reason for this is my browser (Chrome 13 on Ubuntu) interprets the first drag as &#8220;select text&#8221; (but still forwards the events onto the script) but it interprets second drag as &#8220;drag-and-drop selection&#8221; (and apparently does not forward the mousemove or mouseup events to the script) at which point any subsequent mousemoves are interpreted by the script as rotations (because it missed the mouseup event and therefore believes the button is pressed).</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7361">
+				<div id="div-comment-7361" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/26d5024db3f1a78d0222162ae91bc21d?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Jarav</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1253&amp;cpage=2#comment-7361">September 21, 2011 at 9:19 am</a></div>
+
+		<p>The way you are constructing the triangles on the sphere is, I think, against convention: clockwise instead of anticlockwise.</p>
+<p>You can see this by adding gl.enable(gl.CULL_FACE) in webGLStart, which is supposed to speed up rendering. The sphere will look a bit odd and behave even more oddly upon dragging.</p>
+<p>Actually, I noticed this when I had a simple coloured sphere with no texture: the lighting looked odd.<br />
+gl.enable(gl.CULL_FACE), i am told, by default, culls the back faces, which again, by default, are faces described by a clockwise order of vertices.</p>
+<p>To fix this, the equations for x and z should be swapped:</p>
+<p>x = sin(phi)*sin(theta)<br />
+z = cos(phi)*sin(theta)</p>
+<p>that is, phi should be measured with respect to the y-z plane rather than the x-y plane.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7362">
+				<div id="div-comment-7362" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/26d5024db3f1a78d0222162ae91bc21d?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Jarav</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1253&amp;cpage=2#comment-7362">September 21, 2011 at 9:28 am</a></div>
+
+		<p>Your drawing of the order of vertices suggests an anticlockwise order but actually they are rendered in clockwise order.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="pingback odd alt thread-odd thread-alt depth-1" id="comment-7363">
+				<div id="div-comment-7363" class="comment-body">
+				<div class="comment-author vcard">
+				<cite class="fn"><a href='http://visualideation.org/?p=986' rel='external nofollow' class='url'>An introduction to WebGL</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1253&amp;cpage=2#comment-7363">November 2, 2011 at 2:53 pm</a></div>
+
+		<p>[...] This code shows some of the basic WebGL features that you may want to include in a simple program. The accompanying notes provide ample explanation, and links to the PhiloGL documentation for further details. You should take this example and experiment, making changes to what&#8217;s there already and maybe even adding a few things of your own design. If you&#8217;re curious you can compare this PhiloGL implementation with its equivalent in &#8220;raw&#8221; WebGL. [...]</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="pingback even thread-even depth-1" id="comment-7364">
+				<div id="div-comment-7364" class="comment-body">
+				<div class="comment-author vcard">
+				<cite class="fn"><a href='http://www.jlabstudio.com/webgl/2011/11/webgl-tutorial-11-esferas-matrices-de-rotacion-y-eventos-de-raton/' rel='external nofollow' class='url'>WebGL Tutorial 11 &#8211; Esferas, matrices de rotación y eventos de ratón &middot; Experimentando en la web</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1253&amp;cpage=2#comment-7364">November 18, 2011 at 5:04 pm</a></div>
+
+		<p>[...] tutorial de la serie Aprende webGL. Es una traducción no literal de su respectivo tutorial en Learning webGL. Ésta lección va a ser la primera que no está basada en algún tutorial de OpenGL de NeHe. Aquí [...]</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7365">
+				<div id="div-comment-7365" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/ad077f77866ae757bef649424b1c242f?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">brainturtle</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1253&amp;cpage=2#comment-7365">December 11, 2011 at 12:55 pm</a></div>
+
+		<p>Maybe I have misunderstood the way the texture wraps the sphere, but it sounds to me more like the Equirectangular projection, rather than Mercator projection (?).</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7366">
+				<div id="div-comment-7366" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/0d0821f5ddca075ad4fbdea52035c81c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Anton</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1253&amp;cpage=2#comment-7366">December 14, 2011 at 8:38 am</a></div>
+
+		<p>Hi. Could you explain, why the sphere is smoothed? I can&#8217;t get it <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_sad.gif' alt=':(' class='wp-smiley' /> </p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7367">
+				<div id="div-comment-7367" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/c5491dac3c0c71b11cdf58beef3d3680?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Sergejack</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1253&amp;cpage=2#comment-7367">January 9, 2012 at 1:22 pm</a></div>
+
+		<p>I tried rendering the sphere using 300 longitudes and 300 latitudes but then some triangles are missing.<br />
+Is there a limitation to be aware of when drawing a shape or a scene?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7368">
+				<div id="div-comment-7368" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/c5491dac3c0c71b11cdf58beef3d3680?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Sergejack</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1253&amp;cpage=2#comment-7368">January 9, 2012 at 2:07 pm</a></div>
+
+		<p>@Anton: Because vLightWeighting is interpolated.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7369">
+				<div id="div-comment-7369" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/c5491dac3c0c71b11cdf58beef3d3680?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Sergejack</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1253&amp;cpage=2#comment-7369">January 12, 2012 at 3:25 pm</a></div>
+
+		<p>I think I know why you can&#8217;t have 300 longitudes and 300 latitudes.<br />
+I couldn&#8217;t make sure of it but I think indexes are limited to uShort values (from 0 to 65535) which means you can have up to 255&#215;255 vertex.</p>
+<p>If someone can confirm this it might be worth mentioning in those lessons.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7370">
+				<div id="div-comment-7370" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/f7ea9349ac8e95976958b6fc782928a0?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">arg</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1253&amp;cpage=2#comment-7370">March 13, 2012 at 9:38 am</a></div>
+
+		<p>Hi, I tried to change the texture&#8217;s image source and it does not render. I can only see black. Only moon.gif and nehe.gif from lesson 5 will render. All other graphics files failed. Why is this?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7371">
+				<div id="div-comment-7371" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/f7ea9349ac8e95976958b6fc782928a0?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">arg</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1253&amp;cpage=2#comment-7371">March 13, 2012 at 3:15 pm</a></div>
+
+		<p>Got it. I changed the size of the image source to a power of two.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7372">
+				<div id="div-comment-7372" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/a49d01a950f63cffab29083249ed06f2?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Vikki</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1253&amp;cpage=2#comment-7372">March 13, 2012 at 3:30 pm</a></div>
+
+		<p>@arg I was tripped up by that one first for a bit too. You need to use a gif of a size that is a power of 2, e.g. a 256*256 gif. Inappropriately sized images (anything that isn&#8217;t a power of 2)  and compressed images(e.g. png) won&#8217;t work.</p>
+<p>I used pixlr.com to resize my image and <a href="http://www.pictureresize.org/online-images-converter.html" rel="nofollow">http://www.pictureresize.org/online-images-converter.html</a> to resize the image&#8230; Also the WebGL inspector <a href="http://benvanik.github.com/WebGL-Inspector/" rel="nofollow">http://benvanik.github.com/WebGL-Inspector/</a> can tell you if your texture is screwed or the image isn&#8217;t loading. Hope they help you <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7373">
+				<div id="div-comment-7373" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/1a0315006b091da09caca6c6b0116e4a?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">casi</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1253&amp;cpage=2#comment-7373">April 10, 2012 at 6:49 am</a></div>
+
+		<p>hi..how do i implement the mousewheel command so that i scroll the mouse to<br />
+zoomin/zoom out..where do i find stuff related to that??</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7374">
+				<div id="div-comment-7374" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/7ac292e4f8410ccf3b1abd5f0fb1d8cb?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Komio</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1253&amp;cpage=2#comment-7374">May 14, 2012 at 9:53 pm</a></div>
+
+		<p>There is something wrong with implementation of rotation of mv matrix.<br />
+If you circle mouse few times it&#8217;s produces rotation against Z axis and in theory shouldn&#8217;t. Maybe it&#8217;s caused by poor precision of javascript implementation?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7375">
+				<div id="div-comment-7375" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/6a4e41a751ffc3f5412e7195989be44e?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://paulkoppen.com/' rel='external nofollow' class='url'>Paul</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1253&amp;cpage=2#comment-7375">May 20, 2012 at 8:31 pm</a></div>
+
+		<p>@Komio I noticed the exact same problem and solved it by making a copy of moonRotationMatrix at mouse down, and in handleMouseMove not updating the lastMouseX and Y values:</p>
+<p>* Where you declare &#8220;var moonRotationMatrix &#8230;&#8221; add a line:<br />
+     var oldMoonRotationMatrix;<br />
+* Add a line to the function handleMouseDown:<br />
+     oldMoonRotationMatrix = mat4.create(moonRotationMatrix);<br />
+* Change the multiplication in handleMouseMove to the following:<br />
+     mat4.multiply(newRotationMatrix, oldMoonRotationMatrix, moonRotationMatrix);<br />
+* And in that same function comment out the last two lines:<br />
+     // lastMouseX = newX<br />
+     // lastMouseY = newY;</p>
+<p>That should do the trick because no matter what part of the code is skipped or what round-off error is made, as long as you hold your mouse down everything is computed from the exact point where you pressed it.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7376">
+				<div id="div-comment-7376" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/b64f23b690d5a6fb5ab4a6f085424c0c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://dtconfect.wordpress.com' rel='external nofollow' class='url'>Confect</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1253&amp;cpage=2#comment-7376">June 15, 2012 at 3:23 pm</a></div>
+
+		<p>@Komio and @Paul</p>
+<p>Probably a bit late  by now, but I think you&#8217;ll find this is a perfectly natural result of this kind of accumulative rotation. If you load up a first person space sim, or just use your hand to try out the sequence of pitches and yaws that moving the mouse in a circle would produce, you&#8217;ll find your (or ship) hand has rolled a little more after each circle.</p>
+<p>It may be even clearer when doing a similar thing with keyboard input, rather than with a mouse.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7377">
+				<div id="div-comment-7377" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/5d7cc3d5bba0353481a235782a633cc7?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Sime</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1253&amp;cpage=2#comment-7377">June 23, 2012 at 11:58 am</a></div>
+
+		<p>For @Casi (zoom in, zoom out)</p>
+<p>weblStart()<br />
+&#8230;<br />
+if (canvas.addEventListener)<br />
+	canvas.addEventListener(&#8216;DOMMouseScroll&#8217;,handleMouseWheel, false);</p>
+<p>&#8230;<br />
+var z=-5.0;</p>
+<p>	function handleMouseWheel(event){<br />
+        var delta = 0;<br />
+        if (!event) /* For IE. */<br />
+                event = window.event;<br />
+        if (event.wheelDelta) { /* IE/Opera. */<br />
+                delta = event.wheelDelta/120;<br />
+        } else if (event.detail) { /** Mozilla case. */<br />
+                /** In Mozilla, sign of delta is different than in IE.<br />
+                 * Also, delta is multiple of 3.<br />
+                 */<br />
+                delta = -event.detail/3;<br />
+        }<br />
+        /** If delta is nonzero, handle it.<br />
+         * Basically, delta is now positive if wheel was scrolled up,<br />
+         * and negative, if wheel was scrolled down.<br />
+         */<br />
+        if (delta)<br />
+                handleScroll(delta);<br />
+        /** Prevent default actions caused by mouse wheel.<br />
+         * That might be ugly, but we handle scrolls somehow<br />
+         * anyway, so don&#8217;t bother here..<br />
+         */<br />
+        if (event.preventDefault)<br />
+                event.preventDefault();<br />
+	event.returnValue = false;<br />
+	}</p>
+<p>	function handleScroll(delta) {<br />
+        if (delta &lt; 0)<br />
+		z=z-0.25;<br />
+        else<br />
+		z=z+0.25;<br />
+}</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7378">
+				<div id="div-comment-7378" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/5d7cc3d5bba0353481a235782a633cc7?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Sime</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1253&amp;cpage=2#comment-7378">June 23, 2012 at 12:48 pm</a></div>
+
+		<p>+</p>
+<p>drawScene()</p>
+<p>&#8230;<br />
+at4.translate(mvMatrix, [0.0, 0.0, z]);</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7379">
+				<div id="div-comment-7379" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/5d7cc3d5bba0353481a235782a633cc7?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Sime</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1253&amp;cpage=2#comment-7379">June 23, 2012 at 12:48 pm</a></div>
+
+		<p>*mat4.translate(mvMatrix, [0.0, 0.0, z]);</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7380">
+				<div id="div-comment-7380" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/60e840799d38eaf036b48900724b0558?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Thanoc</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1253&amp;cpage=2#comment-7380">June 28, 2012 at 10:05 am</a></div>
+
+		<p>Hello, congrats for your great tutorials!<br />
+In this example you use an event listener for the whole canvas, is there a way that you use an event listener only for the sphere?<br />
+Thanks!</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7381">
+				<div id="div-comment-7381" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/8b9d761f3bca1c4bdda9e1e27b7dd630?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Synoecium</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1253&amp;cpage=2#comment-7381">September 9, 2012 at 10:33 am</a></div>
+
+		<p>I&#8217;ve changed demo code a bit. In this version there is no texture, but random colours of squares. Suppose, it helps to understand how the sphere can be represented as set of squares.<br />
+Also mouse wheel zoom as Sime described was added.<br />
+<a href="http://pastebin.com/wvZdA4zb" rel="nofollow">http://pastebin.com/wvZdA4zb</a></p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7382">
+				<div id="div-comment-7382" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/1c9e974c08914cda5ca2e7620c4fd3b6?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://link' rel='external nofollow' class='url'>Diego</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1253&amp;cpage=2#comment-7382">February 11, 2013 at 10:25 pm</a></div>
+
+		<p>Where&#8217;s the postbox?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-63548">
+				<div id="div-comment-63548" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/d72651c42f233f15a0b5cbb730acb20a?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">nikita</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1253&amp;cpage=2#comment-63548">July 4, 2013 at 11:07 am</a></div>
+
+		<p>hey&#8230;&#8230;.. i m trying to read these tutorials&#8230;.. but wen i use the source code&#8230;&#8230; instead of the sphere &#8230;all i can see is white space&#8230;.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-70609">
+				<div id="div-comment-70609" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2c51a9a8e974cd1c88136d8a5ee4956b?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Randall</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1253&amp;cpage=2#comment-70609">July 16, 2013 at 11:55 pm</a></div>
+
+		<p>At GitHub, there is a pull request (<a href="https://github.com/gpjt/webgl-lessons/pull/9" rel="nofollow">https://github.com/gpjt/webgl-lessons/pull/9</a>) which makes this example work for a touch screen too.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-2028419">
+				<div id="div-comment-2028419" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/094776c4aca8da622598adae689b8dd9?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Winged</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=1253&amp;cpage=2#comment-2028419">April 8, 2014 at 1:21 am</a></div>
+
+		<p>How can I exclude one axis from rotation, totally? I have got a problem that when I make mouse circular movements, it is not only rotating around X and Y axis, but also slightly around Z.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+	</ol>
+
+	<div class="navigation">
+		<div class="alignleft"><a href="http://learningwebgl.com/blog/?p=1253&#038;cpage=1#comments" >&laquo; Older Comments</a></div>
+		<div class="alignright"></div>
+	</div>
+ 
+
+
+<div id="respond">
+
+<h3>Leave a Reply</h3>
+
+<div class="cancel-comment-reply">
+	<small><a rel="nofollow" id="cancel-comment-reply-link" href="/blog/?p=1253#respond" style="display:none;">Click here to cancel reply.</a></small>
+</div>
+
+
+<form action="http://learningwebgl.com/blog/wp-comments-post.php" method="post" id="commentform">
+
+
+<p><input type="text" name="author" id="author" value="" size="22" tabindex="1" aria-required='true' />
+<label for="author"><small>Name (required)</small></label></p>
+
+<p><input type="text" name="email" id="email" value="" size="22" tabindex="2" aria-required='true' />
+<label for="email"><small>Mail (will not be published) (required)</small></label></p>
+
+<p><input type="text" name="url" id="url" value="" size="22" tabindex="3" />
+<label for="url"><small>Website</small></label></p>
+
+
+<!--<p><small><strong>XHTML:</strong> You can use these tags: <code>&lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;strike&gt; &lt;strong&gt; </code></small></p>-->
+
+<p><textarea name="comment" id="comment" cols="100%" rows="10" tabindex="4"></textarea></p>
+
+<p><input name="submit" type="submit" id="submit" tabindex="5" value="Submit Comment" />
+<input type='hidden' name='comment_post_ID' value='1253' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p>
+
+</form>
+
+</div>
+
+				
+							
+							</div>
+			</div>
+        <div class="span-8 last">
+    <div id="subscriptions">
+        <a href="http://learningwebgl.com/blog/?feed=rss2"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/rss.png" alt="Subscribe to RSS Feed" title="Subscribe to RSS Feed" /></a>		
+		<a href="https://twitter.com/learningwebgl" title="Follow Learning WebGL on Twitter"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/twitter.png" title="Follow Learning WebGL on Twitter" alt="Follow Learning WebGL on Twitter"  /></a>    </div>
+	<div id="sidebar">
+        <ul>
+            <li id="search">
+				 
+<div class="searchlayout">
+    <form method="get" id="searchform" action="http://learningwebgl.com/blog/"> 
+        <input type="text" value="Search" 
+            name="s" id="s"  onblur="if (this.value == '')  {this.value = 'Search';}"  
+            onfocus="if (this.value == 'Search') {this.value = '';}" />
+        <input type="image" src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/search.gif" style="border:0; vertical-align: top;" /> 
+    </form>
+</div>			</li>
+        </ul>
+            			<div class="addthis_toolbox">   
+    			    <div class="custom_images">
+    			            <a class="addthis_button_twitter"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/twitter.png" width="32" height="32" alt="Twitter" /></a>
+    			            <a class="addthis_button_delicious"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/delicious.png" width="32" height="32" alt="Delicious" /></a>
+    			            <a class="addthis_button_facebook"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/facebook.png" width="32" height="32" alt="Facebook" /></a>
+    			            <a class="addthis_button_digg"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/digg.png" width="32" height="32" alt="Digg" /></a>
+    			            <a class="addthis_button_stumbleupon"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/stumbleupon.png" width="32" height="32" alt="Stumbleupon" /></a>
+    			            <a class="addthis_button_favorites"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/favorites.png" width="32" height="32" alt="Favorites" /></a>
+    			            <a class="addthis_button_more"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/more.png" width="32" height="32" alt="More" /></a>
+    			    </div>
+    			    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js?pub=xa-4a65e1d93cd75e94"></script>
+    			</div>
+    					        
+		<ul>
+		  <li id="text-3" class="widget widget_text"><h2 class="widgettitle">Our Sponsors</h2>			<div class="textwidget">    <div style="margin-left: 10px; margin-top: 20px; width: 170px">
+    <a href="http://web.chemdoodle.com/" target="_blank"><img src="/ads/chemdoodle.gif" ></a>
+    <p>
+    Open-source <b>HTML5</b> solutions for the physical and life sciences.
+    <a style="font-decoration: underline; color: #880000;" href="http://web.chemdoodle.com/">Read more...</a>
+    </div>
+
+<iframe src="http://cdn.oreillystatic.com/widgets/author/217.html" height="400px" width="200px" scrolling="no" frameborder="0"></iframe>
+    <hr/>
+
+    <div style="margin-left: 10px; margin-top: 20px; width: 170px;">
+    <a href="http://www.pythonanywhere.com/"><img src="/ads/pythonanywhere.gif"></a>
+
+    <p>
+    <a href="http://www.pythonanywhere.com">A Python online IDE and web hosting environment</a>. 
+    <a style="font-decoration: underline; color: #880000;" href="http://www.pythonanywhere.com/">Read more...</a>
+    <br/>
+    <br/>
+    Interested in advertising on Learning WebGL? <a style="font-decoration: underline; color: #880000;" href="/cdn-cgi/l/email-protection#add9ddccdfc4dec4edcac0ccc4c183cec2c0">Drop me a line.</a>
+    </div></div>
+		</li>		<li id="recent-posts-3" class="widget widget_recent_entries">		<h2 class="widgettitle">Recent Posts</h2>		<ul>
+				<li><a href="http://learningwebgl.com/blog/?p=6635" title="2014: The Year in Review">2014: The Year in Review </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6617" title="WebGL around the net, 11 December 2014">WebGL around the net, 11 December 2014 </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6613" title="Crowdfunding Update">Crowdfunding Update </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6599" title="WebGL around the net, 4 December 2014">WebGL around the net, 4 December 2014 </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6585" title="WebGL around the net, 25 November 2014">WebGL around the net, 25 November 2014 </a></li>
+				</ul>
+		</li>		<li id="recent-comments-3" class="widget widget_recent_comments">			<h2 class="widgettitle">Recent Comments</h2>			<ul id="recentcomments"><li class="recentcomments"><a href='http://www.pcprogramming.com' rel='external nofollow' class='url'>John Davis</a> on <a href="http://learningwebgl.com/blog/?p=6585&#038;cpage=1#comment-3652744">WebGL around the net, 25 November 2014</a></li><li class="recentcomments"><a href='http://www.pcprogramming.com' rel='external nofollow' class='url'>John Davis</a> on <a href="http://learningwebgl.com/blog/?p=6575&#038;cpage=1#comment-3618905">WebGL around the net, 20 November 2014</a></li><li class="recentcomments">jinit on <a href="http://learningwebgl.com/blog/?page_id=2&#038;cpage=1#comment-3313484">About</a></li><li class="recentcomments">Dethraid on <a href="http://learningwebgl.com/blog/?p=507&#038;cpage=3#comment-2792181">WebGL Lesson 5 – introducing textures</a></li><li class="recentcomments">Man on <a href="http://learningwebgl.com/blog/?p=6443&#038;cpage=1#comment-2572225">WebGL around the net, 7 July 2014</a></li></ul>
+		</li><li id="linkcat-2" class="widget widget_links"><h2 class="widgettitle">Blogroll</h2>
+	<ul class='xoxo blogroll'>
+<li><a href="http://blog.tojicode.com/" title="Brandon Jones&#8217; Blog" target="_blank">Brandon Jones</a></li>
+<li><a href="http://www.gilesthomas.com/" title="Giles Thomas&#8217; Personal Blog" target="_blank">Giles Thomas</a></li>
+<li><a href="http://games.greggman.com/game/" title="Gregg Tavares&#8217; Blog" target="_blank">Gregg Tavares</a></li>
+<li><a href="http://www.learnopengles.com/" title="Learn OpenGL ES" target="_blank">Learn OpenGL ES</a></li>
+<li><a href="http://learningthreejs.com/" title="Learning Three.js Blog" target="_blank">Learning Three.js</a></li>
+<li><a href="http://nehe.gamedev.net/" title="NeHe OpenGL Tutorials" target="_blank">NeHe OpenGL</a></li>
+<li><a href="http://www.paulbrunt.co.uk/" title="Paul Brunt&#8217;s Blog" target="_blank">Paul Brunt</a></li>
+<li><a href="http://pl4n3.blogspot.com/" title="PL4N3S WORLD Blog" target="_blank">PL4N3S WORLD</a></li>
+<li><a href="http://www.rozengain.com/blog/" title="Rozengain" target="_blank">Rozengain</a></li>
+<li><a href="http://www.tonyparisi.com/" title="Tony Parisi&#8217;s Personal Blog" target="_blank">Tony Parisi</a></li>
+<li><a href="http://www.webgl.com/" title="WebGL Demos and Links" target="_blank">WebGL.com</a></li>
+
+	</ul>
+</li>
+<li id="archives-3" class="widget widget_archive"><h2 class="widgettitle">Archives</h2>		<ul>
+			<li><a href='http://learningwebgl.com/blog/?m=201501' title='January 2015'>January 2015</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201412' title='December 2014'>December 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201411' title='November 2014'>November 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201410' title='October 2014'>October 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201409' title='September 2014'>September 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201408' title='August 2014'>August 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201407' title='July 2014'>July 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201406' title='June 2014'>June 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201405' title='May 2014'>May 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201404' title='April 2014'>April 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201403' title='March 2014'>March 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201402' title='February 2014'>February 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201401' title='January 2014'>January 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201312' title='December 2013'>December 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201311' title='November 2013'>November 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201310' title='October 2013'>October 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201309' title='September 2013'>September 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201308' title='August 2013'>August 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201307' title='July 2013'>July 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201306' title='June 2013'>June 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201305' title='May 2013'>May 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201304' title='April 2013'>April 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201303' title='March 2013'>March 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201212' title='December 2012'>December 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201211' title='November 2012'>November 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201210' title='October 2012'>October 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201209' title='September 2012'>September 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201208' title='August 2012'>August 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201207' title='July 2012'>July 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201206' title='June 2012'>June 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201205' title='May 2012'>May 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201204' title='April 2012'>April 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201203' title='March 2012'>March 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201202' title='February 2012'>February 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201112' title='December 2011'>December 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201111' title='November 2011'>November 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201110' title='October 2011'>October 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201109' title='September 2011'>September 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201108' title='August 2011'>August 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201107' title='July 2011'>July 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201106' title='June 2011'>June 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201105' title='May 2011'>May 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201104' title='April 2011'>April 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201103' title='March 2011'>March 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201102' title='February 2011'>February 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201101' title='January 2011'>January 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201012' title='December 2010'>December 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201011' title='November 2010'>November 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201010' title='October 2010'>October 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201009' title='September 2010'>September 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201008' title='August 2010'>August 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201007' title='July 2010'>July 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201006' title='June 2010'>June 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201005' title='May 2010'>May 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201004' title='April 2010'>April 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201003' title='March 2010'>March 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201002' title='February 2010'>February 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201001' title='January 2010'>January 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200912' title='December 2009'>December 2009</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200911' title='November 2009'>November 2009</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200910' title='October 2009'>October 2009</a></li>
+		</ul>
+</li><li id="meta-3" class="widget widget_meta"><h2 class="widgettitle">Meta</h2>			<ul>
+						<li><a href="http://learningwebgl.com/blog/wp-login.php">Log in</a></li>
+			<li><a href="http://learningwebgl.com/blog/?feed=rss2" title="Syndicate this site using RSS 2.0">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://learningwebgl.com/blog/?feed=comments-rss2" title="The latest comments to all posts in RSS">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://wordpress.org/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.org</a></li>
+						</ul>
+</li>		</ul>
+	</div>
+</div>
+
+		</div><!--/container-->
+			<div id="footer">
+				Copyright &copy; 2013 <a href="http://learningwebgl.com/blog"><strong>Learning WebGL</strong></a> -  3D Programming for the Web <br />
+                <div class="footer-credits">
+                    Powered by <a href="http://wordpress.org/">WordPress</a> | <a href="http://flexithemes.com/themes/modern-style/">Modern Style</a> theme by <a href="http://flexithemes.com/">FlexiThemes</a>
+                </div>
+			</div><!--/footer-->
+            
+	</div><!--/wrapper-->
+	
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-2240015-5");
+pageTracker._trackPageview();
+} catch(err) {}</script>    
+<script type="text/javascript">
+/* <![CDATA[ */
+(function(){try{var s,a,i,j,r,c,l=document.getElementsByTagName("a"),t=document.createElement("textarea");for(i=0;l.length-i;i++){try{a=l[i].getAttribute("href");if(a&&a.indexOf("/cdn-cgi/l/email-protection") > -1  && (a.length > 28)){s='';j=27+ 1 + a.indexOf("/cdn-cgi/l/email-protection");if (a.length > j) {r=parseInt(a.substr(j,2),16);for(j+=2;a.length>j&&a.substr(j,1)!='X';j+=2){c=parseInt(a.substr(j,2),16)^r;s+=String.fromCharCode(c);}j+=1;s+=a.substr(j,a.length-j);}t.innerHTML=s.replace(/</g,"&lt;").replace(/>/g,"&gt;");l[i].setAttribute("href","mailto:"+t.value);}}catch(e){}}}catch(e){}})();
+/* ]]> */
+</script>
+</body>
+</html>
+
+

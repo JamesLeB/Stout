@@ -1,0 +1,995 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>  WebGL Lesson 7 – basic directional and ambient lighting | Learning WebGL</title>
+<script type="text/javascript">
+//<![CDATA[
+try{if (!window.CloudFlare) {var CloudFlare=[{verbose:0,p:0,byc:0,owlid:"cf",bag2:1,mirage2:0,oracle:0,paths:{cloudflare:"/cdn-cgi/nexp/dok3v=1613a3a185/"},atok:"2c1b6781e0cb3014c3b88e10d5e2d90a",petok:"7c3cfa6a00bd0143325fc9878af9d0cb7f9a4218-1421936851-1800",zone:"learningwebgl.com",rocket:"0",apps:{}}];CloudFlare.push({"apps":{"ape":"e6fae83fc3b077d7365a1f82937f2aa5"}});!function(a,b){a=document.createElement("script"),b=document.getElementsByTagName("script")[0],a.async=!0,a.src="//ajax.cloudflare.com/cdn-cgi/nexp/dok3v=919620257c/cloudflare.min.js",b.parentNode.insertBefore(a,b)}()}}catch(e){};
+//]]>
+</script>
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/screen.css" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/print.css" type="text/css" media="print" />
+<!--[if IE]><link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/ie.css" type="text/css" media="screen, projection"><![endif]-->
+<!--[if IE 6]>
+	<script src="http://learningwebgl.com/blog/wp-content/themes/modern-style/js/pngfix.js"></script>
+<![endif]--> 
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/style.css" type="text/css" media="screen" />
+<link rel="alternate" type="application/rss+xml" title="Learning WebGL RSS Feed" href="http://learningwebgl.com/blog/?feed=rss2" />
+<link rel="alternate" type="application/atom+xml" title="Learning WebGL Atom Feed" href="http://learningwebgl.com/blog/?feed=atom" />
+<link rel="pingback" href="http://learningwebgl.com/blog/xmlrpc.php" />
+
+<link rel="alternate" type="application/rss+xml" title="Learning WebGL &raquo; WebGL Lesson 7 – basic directional and ambient lighting Comments Feed" href="http://learningwebgl.com/blog/?feed=rss2&amp;p=684" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://learningwebgl.com/blog/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://learningwebgl.com/blog/wp-includes/wlwmanifest.xml" /> 
+<link rel='index' title='Learning WebGL' href='http://learningwebgl.com/blog' />
+<link rel='start' title='Hello, world!' href='http://learningwebgl.com/blog/?p=5' />
+<link rel='prev' title='Blog design' href='http://learningwebgl.com/blog/?p=742' />
+<link rel='next' title='Two big retrospective changes to the lessons' href='http://learningwebgl.com/blog/?p=838' />
+<meta name="generator" content="WordPress 2.9.2" />
+<link rel='canonical' href='http://learningwebgl.com/blog/?p=684' />
+	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+
+</head>
+<body>
+	<div id="wrapper">
+		<div id="container" class="container">  
+                        
+			<div class="span-16">
+                <div id="header">
+                    						<h1><a href="http://learningwebgl.com/blog">Learning WebGL</a></h1>
+						<h2>3D Programming for the Web</h2>
+										</div>
+                
+                <div class="navcontainer">
+					<ul id="nav">
+						<li ><a href="http://learningwebgl.com/blog/">Home</a></li>
+						<li class="page_item page-item-1217"><a href="http://learningwebgl.com/blog/?page_id=1217" title="The Lessons">The Lessons</a></li>
+<li class="page_item page-item-2438"><a href="http://learningwebgl.com/blog/?page_id=2438" title="WebGL Jobs">WebGL Jobs</a></li>
+<li class="page_item page-item-988"><a href="http://learningwebgl.com/blog/?page_id=988" title="The WebGL Cookbook">The WebGL Cookbook</a></li>
+<li class="page_item page-item-2"><a href="http://learningwebgl.com/blog/?page_id=2" title="About">About</a></li>
+		
+					</ul>
+				</div>
+            		<div id="content">	
+                	
+						
+												<div class="post-684 post hentry category-uncategorized clearfix" id="post-684">
+							<h2 class="title">WebGL Lesson 7 – basic directional and ambient lighting</h2>
+							<div class="postdate">
+                                <span>November 12th, 2009</span> 
+                                <span><a href="http://learningwebgl.com/blog/?p=684#comments" title="Comment on WebGL Lesson 7 – basic directional and ambient lighting">78 Comments</a></span>                             </div>
+			
+							<div class="entry">
+                                								<p><span style="float: left; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=571">&lt;&lt; Lesson 6</a></span><span style="float: right; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=859">Lesson 8 &gt;&gt;</a></span><br/><br />
+Welcome to my number seven in my series of WebGL tutorials, based on the part of <a href="http://nehe.gamedev.net/data/lessons/lesson.asp?lesson=07">number 7</a> in the NeHe OpenGL tutorials that I didn&#8217;t go over in <a href="http://learningwebgl.com/blog/?p=571">lesson 6</a>.  In it, we&#8217;ll go over how you add simple lighting to your WebGL pages; this takes a bit more work in WebGL than it does in OpenGL, but hopefully it&#8217;s all pretty easy to understand.</p>
+<p>Here&#8217;s what the lesson looks like when run on a browser that supports WebGL:</p>
+<p><object width="480" height="385"><param name="movie" value="http://www.youtube.com/v/wq68Q6WJgyo&#038;hl=en_US&#038;fs=1&#038;hd=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/wq68Q6WJgyo&#038;hl=en_US&#038;fs=1&#038;hd=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="385"></embed></object></p>
+<p><a href="/lessons/lesson07/index.html">Click here and you&#8217;ll see the live WebGL version</a>, if you&#8217;ve got a browser that supports it; <a href="http://learningwebgl.com/blog/?p=11">here&#8217;s how to get one</a> if you don&#8217;t.  You should see a slowly-spinning cube, with lighting appearing to come from a point that is towards the front (that is, between you and the cube), slightly above and to the right.</p>
+<p>You can use the checkbox underneath the canvas to switch off or on the use of lighting so that you can see what effect it&#8217;s having.   You can also change the colour of the directional and ambient lights (more about precisely what that means later) and the direction of the directional light.  Do try playing with them a bit; it&#8217;s particularly fun to try out special effects with directional lighting RGB values of greater than one (though if you go much above 5 you lose much of the texture).  Also, just like <a href="http://learningwebgl.com/blog/?p=571">last time</a>, you can also use the cursor keys to make the box spin around faster or more slowly, and <code>Page Up</code> and <code>Page Down</code> to zoom in and out.  We&#8217;re using the best texture filter only this time, so the <code>F</code> key no longer does anything.</p>
+<p>More on how it all works below&#8230;</p>
+<p><span id="more-684"></span></p>
+<p>The usual <a href="http://learningwebgl.com/blog/?page_id=2">warning</a>: these lessons are targeted at people with a reasonable amount of programming knowledge, but no real experience in 3D graphics; the aim is to get you up and running, with a good understanding of what&#8217;s going on in the code, so that you can start producing your own 3D Web pages as quickly as possible.  If you haven&#8217;t read the previous tutorials already, you should probably do so before reading this one — here I will only explain the differences between the code for <a href="http://learningwebgl.com/blog/?p=571">lesson 6</a> and the new code.</p>
+<p>There may be bugs and misconceptions in this tutorial.  If you spot anything wrong, let me know in the comments and I&#8217;ll correct it ASAP.</p>
+<p>There are two ways you can get the code for this example; just &#8220;View Source&#8221; while you&#8217;re looking at the live version, or if you use GitHub, you can clone it (and the other lessons) from <a href="http://github.com/gpjt/webgl-lessons">the repository there</a>.  Either way, once you have the code, load it up in your favourite text editor and take a look.</p>
+<p>Before we get into the details of how to do lighting in WebGL, I&#8217;ll kick off with the bad news.  WebGL has absolutely no <em>built-in</em> support for lighting.  Unlike OpenGL, which lets you specify at least 8 light sources and then handles them all for you, WebGL leaves you to do everything yourself.  But &mdash; and it&#8217;s a big &#8220;but&#8221; &mdash; lighting is actually pretty easy once it&#8217;s explained.  If you&#8217;re comfortable with the shader stuff we&#8217;ve gone over so far, you&#8217;ll have no problems at all with lighting &mdash; and having to code your own simple lights as a beginner makes it much easier to understand the kind of code you have to write as when you&#8217;re just a little more advanced!  After all, OpenGL&#8217;s lighting is too basic for really realistic scenes &mdash; it doesn&#8217;t handle shadows, for example, and it can give quite rough effects with curved surfaces &mdash; so anything beyond simple scenes needs hand-coding anyway.</p>
+<p>Right.  Let&#8217;s begin by thinking about what we want from lighting.  The aim is to be able to simulate a number of light sources within the scene.  These sources don&#8217;t need to be visible themselves, but they do need to light up the 3D objects realistically, so that the side of the object that is towards the light is bright, and the side that&#8217;s away from the light is dark.  So to put it another way, we want to be able to specify a set of light sources, then for each part of our 3D scene we want to work out how the all of the lights affect it.  By now I&#8217;m sure you&#8217;ll know WebGL well enough to realise that this is going to involve doing stuff with shaders.  Specifically, what we&#8217;ll do in this lesson is write vertex shaders that handle the lighting.  For each vertex, we&#8217;ll work out how the light affects it, and use that to adjust its colour.  We&#8217;ll only do this for one light for now; doing it for multiple lights is just a case of repeating the same procedure for each light and adding the results together.</p>
+<p>One side note here; because we&#8217;re working out the lighting on a per-vertex basis, the effects of the light on the pixels that lie between vertices will be worked out by doing the usual linear interpolation.  This means that the spaces between the vertices will be lit up as if they were flat; conveniently, because we&#8217;re drawing a cube, this is exactly what we want!  For curved surfaces, where you want to calculate the effects of lighting on every pixel independently, you can use a technique called <em>per-fragment (or per-pixel) lighting</em>, which gives much better effects.  We&#8217;ll look at per-fragment lighting in a future lesson.  What we&#8217;re doing here is called, logically enough, per-vertex lighting.</p>
+<p>OK, on to the next step: if our task is to write a vertex shader that works out how a single light source affects the colour at the vertex, what do we do?  Well, a good starting point is the <a href="http://en.wikipedia.org/wiki/Phong_shading">Phong Reflection Model</a>.  I found this easiest to understand by starting with the following points:</p>
+<ul>
+<li>While in the real world there is just one kind of light, it&#8217;s convenient for graphics to pretend that there are two kinds:
+<ol>
+<li>Light that comes from specific directions and only lights up things that face the direction it&#8217;s coming from.  We&#8217;ll call this <i>directional light</i>.
+<li>Light that comes from everywhere and lights up everything evenly, regardless of which way it faces.  This is called <i>ambient light</i>.  (Of course, in the real world this is just directional light that has been scattered by reflection from other objects, the air, dust, and so on.  But for our purposes, we&#8217;ll model it separately.)</li>
+</ol>
+</li>
+<li>When light hits a surface, it comes off in two different ways:
+<ol>
+<li>Diffusely: that is, regardless of the angle at which it hits the surface, it&#8217;s bounced off evenly in all directions.  No matter what angle you&#8217;re looking at it from, the brightness of the reflected light is governed entirely by the angle at which the light hits the surface &mdash; the steeper the angle of incidence, the dimmer the reflection.  This diffuse reflection is what we normally think of when we&#8217;re thinking of an object that is lit up.</li>
+<li id="specular-explanation">Specularly: that is, in a mirror-like fashion.  The portion of the light that is reflected this way bounces off the surface at the same angle as it hit it.  In this case, the brightness of the light you see reflected from the material depends on whether or not your eyes happen to be in the line along which the light was bounced &mdash; that is, it depends not only on the angle at which the light hit the surface but on the angle between your line of sight and the surface.  This specular reflection is what causes &#8220;glints&#8221; or &#8220;highlights&#8221; on objects, and the amount of specular reflection can obviously vary from material to material; unpolished wood will probably have very little specular reflection, and highly-polished metal will have quite a lot.  </li>
+</ol>
+</ul>
+<p>The Phong model adds a further twist to this four-step system, by saying that all lights have two properties:</p>
+<ol>
+<li>The RGB values for the diffuse light they produce.</li>
+<li>The RGB values for the specular light they produce.</li>
+</ol>
+<p>&#8230;and that all materials have four:</p>
+<ol>
+<li>The RGB values for the ambient light they reflect.</li>
+<li>The RGB values for the diffuse light they reflect.</li>
+<li>The RGB values for the specular light they reflect.</li>
+<li>The shininess of the object, which determines the details of the specular reflection.</li>
+</ol>
+<p>For each point in the scene, the colour is a combination of the colour of the light shining on it, the material&#8217;s own colours, and the lighting effects.  So, in order to completely specify lighting in a scene according to the Phong model, we need two properties per light, and four per point on the surface of our object.  Ambient light is, by its very nature, not tied to any particular light, but we also need a way of storing the amount of the ambient light for the scene as a whole; sometimes it can be easiest to just specify an ambient level for each light source and then add them all up into a single term.</p>
+<p>Anyway, once we have all of that information, we can work out colours related to the ambient, directional, and specular reflection of light at every point, and then add them together to work out the overall colour.  Here&#8217;s <a href="http://en.wikipedia.org/wiki/File:Phong_components_version_4.png">an excellent diagram on Wikipedia showing how that works</a>.  All our shader needs to do is work out for each vertex the contributions to the vertex&#8217;s red, green and blue colours for ambient, diffuse and specular lighting, use them to weight the colour&#8217;s RGB components, add them all together, and output the result.</p>
+<p>Now, for this lesson, we&#8217;re going to keep things simple.  We&#8217;re only going to consider diffuse and ambient lighting, and will ignore specular.  We&#8217;ll use the textured cube from the last lesson, and we&#8217;ll assume that the colours in the texture are the values to use for both diffuse and ambient reflection.  And finally, we will consider only one simple kind of diffuse lighting &mdash; the simplest directional kind.  It&#8217;s worth explaining that with a diagram.</p>
+<p><img style="float: left; margin: 10px;" src="/lessons/lesson07/directional.png" alt="Directional lighting" /> Light that&#8217;s coming towards a surface from one direction can be of two kinds &mdash; simple directional lighting that is in the same direction across the whole scene, and lighting that comes from a single point within the scene (and is thus at a different angle in different places).</p>
+<p>For simple directional lighting, the angle at which the light hits the vertices on a given face &mdash; at points A and B on the diagram &mdash; is always the same.  Think of light from the sun; all rays are parallel.</p>
+<p><img style="float: left; margin: 10px;" src="/lessons/lesson07/point.png" alt="Point lighting" />If, instead, the light is coming from a point within the scene, the angle the light makes will be different at each vertex; at point A in this second diagram, the angle is about 45 degrees, whereas at point B it is about 90 degrees to the surface.</p>
+<p>What this means is that for point lighting, we need to work out the direction from which the light is coming for every vertex, whereas for directional lighting we only need to have one value for the directional light source.  This makes point lighting a little bit harder, so this lesson will only use simple directional lighting and <a href="http://learningwebgl.com/blog/?p=1359">point lighting will come later</a> (and shouldn&#8217;t be too hard for you to work out on your own anyway <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
+<p>So, now we&#8217;ve refined the problem a bit more.  We know that all of the light in our scene will be coming in a particular direction, and this direction won&#8217;t change from vertex to vertex.  This means that we can put it in a uniform variable, and the shader can pick it up.  We also know that the effect the light has at each vertex will be determined by the angle it makes with the surface of our object at that vertex, so we need to represent the orientation of the surface somehow.  The best way to do this in 3D geometry is to specify the <a href="http://en.wikipedia.org/wiki/Surface_normal">normal vector</a> to the surface at the vertex; this allows us to specify the direction in which the surface is facing as a set of three numbers.   (In 2D geometry we could equally well use the tangent &mdash; that is, the direction of the surface itself at the vertex &mdash; but in 3D geometry the tangent can slope in two directions, so we&#8217;d need two vectors to describe it, while the normal lets us use just one vector.)</p>
+<p>Once we have the normal, there&#8217;s a final piece required before we can write our shader; given a surface&#8217;s normal vector at a vertex and the vector that describes the direction the light is coming from, we need to work out how much light the surface will diffusely reflect.  This turns out to be proportional to the cosine of the angle between those two vectors; if the normal is 0 degrees (that is, the light is hitting the surface full-on, at 90 degrees to the surface in all directions) then we can say it reflects all of the light.  If the light&#8217;s angle to the normal is 90 degrees, nothing is reflected.  And for everything in between, it follows the cosine&#8217;s curve.  (If the angle is more than 90 degrees, then we would in theory get negative amounts of reflected light.  This is obviously silly, so we actually use the cosine or zero, whichever is the larger.)</p>
+<p>Conveniently for us, calculating the cosine of the angle between two vectors is a trivial calculation, if they both have a length of one; it&#8217;s done by taking their <a href="http://en.wikipedia.org/wiki/Dot_product">dot product</a>.  And even more conveniently, dot products are built into shaders, using the logically-named <code>dot</code> function.</p>
+<p>Whew!  That was quite a lot of theory to get started with &mdash; but now we know that all we need to do to get simple directional lighting working is:</p>
+<ul>
+<li>Keep a set of normal vectors, one for each vertex.</li>
+<li>Have a direction vector for the light.</li>
+<li>In the vertex shader, calculate the dot product of the vertex&#8217;s normal and the lighting vector, and weight the colours appropriately, also adding in a component for the ambient lighting</li>
+</ul>
+<p>Let&#8217;s take a look at how that works in the code.  We&#8217;ll start at the bottom and work our way up.  Obviously the HTML for this lesson differs from the last one, because we have all of the extra input fields, but I won&#8217;t bore you with the details there&#8230; let&#8217;s move up to the JavaScript, where our first port of call is the <code>initBuffers</code> function.  In there, just after the code that creates the buffer containing the vertex positions but before the code that does the same for the texture coordinates, you&#8217;ll see some code to set up the normals.  This should look pretty familiar in style by now:</p>
+<pre>
+    cubeVertexNormalBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexNormalBuffer);
+    var vertexNormals = [
+      // Front face
+       0.0,  0.0,  1.0,
+       0.0,  0.0,  1.0,
+       0.0,  0.0,  1.0,
+       0.0,  0.0,  1.0,
+
+      // Back face
+       0.0,  0.0, -1.0,
+       0.0,  0.0, -1.0,
+       0.0,  0.0, -1.0,
+       0.0,  0.0, -1.0,
+
+      // Top face
+       0.0,  1.0,  0.0,
+       0.0,  1.0,  0.0,
+       0.0,  1.0,  0.0,
+       0.0,  1.0,  0.0,
+
+      // Bottom face
+       0.0, -1.0,  0.0,
+       0.0, -1.0,  0.0,
+       0.0, -1.0,  0.0,
+       0.0, -1.0,  0.0,
+
+      // Right face
+       1.0,  0.0,  0.0,
+       1.0,  0.0,  0.0,
+       1.0,  0.0,  0.0,
+       1.0,  0.0,  0.0,
+
+      // Left face
+      -1.0,  0.0,  0.0,
+      -1.0,  0.0,  0.0,
+      -1.0,  0.0,  0.0,
+      -1.0,  0.0,  0.0,
+    ];
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertexNormals), gl.STATIC_DRAW);
+    cubeVertexNormalBuffer.itemSize = 3;
+    cubeVertexNormalBuffer.numItems = 24;
+</pre>
+<p>Simple enough.  The next change is a bit further down, in <code>drawScene</code>, and is just the code required to bind that buffer to the appropriate shader attribute:</p>
+<pre>
+    gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexNormalBuffer);
+    gl.vertexAttribPointer(shaderProgram.vertexNormalAttribute, cubeVertexNormalBuffer.itemSize, gl.FLOAT, false, 0, 0);
+</pre>
+<p>Just after this, also in <code>drawScene</code>, is code related to the fact that we&#8217;ve removed the code from lesson 6 that allowed us to switch between textures, so we have only one texture to use:</p>
+<pre>
+    gl.bindTexture(gl.TEXTURE_2D, <span style="color: red;">crateTexture</span>);
+</pre>
+<p>The next bit is a little more involved.  Firstly, we see if the &#8220;lighting&#8221; checkbox is checked, and set a uniform for our shaders telling them whether or not it is:</p>
+<pre>
+    var lighting = document.getElementById("lighting").checked;
+    gl.uniform1i(shaderProgram.useLightingUniform, lighting);
+</pre>
+<p>Next, if lighting is enabled, we read out the red, green and blue values for the ambient lighting as specified in the input fields at the bottom of the page and push them up to the shaders too:</p>
+<pre>
+    if (lighting) {
+      gl.uniform3f(
+        shaderProgram.ambientColorUniform,
+        parseFloat(document.getElementById("ambientR").value),
+        parseFloat(document.getElementById("ambientG").value),
+        parseFloat(document.getElementById("ambientB").value)
+      );
+</pre>
+<p>Next, we want to push up the lighting direction:</p>
+<pre>
+      var lightingDirection = [
+        parseFloat(document.getElementById("lightDirectionX").value),
+        parseFloat(document.getElementById("lightDirectionY").value),
+        parseFloat(document.getElementById("lightDirectionZ").value)
+      ];
+      var adjustedLD = vec3.create();
+      vec3.normalize(lightingDirection, adjustedLD);
+      vec3.scale(adjustedLD, -1);
+      gl.uniform3fv(shaderProgram.lightingDirectionUniform, adjustedLD);
+</pre>
+<p>You can see that we adjust the lighting direction vector before passing it to the shader, using the <code>vec3</code> module &#8212; which, like the <code>mat4</code> we use for our model-view and projection matrices, is part of <a href="http://code.google.com/p/glmatrix/">glMatrix</a>.  The first adjustment, <code>vec3.normalize</code>, scales it up or down so that its length is one; you will remember that for the cosine of the angle between two vectors to be equal to the dot product, they both need to be of length one.  The normals we defined earlier all had the correct length, but as the lighting direction is entered by the user (and it would be a pain for them to have normalise vectors themselves) then we convert this one.  The second adjustment is to multiply the vector by a scalar -1 &mdash; that is, to reverse its direction.  This is because we&#8217;re specifying the lighting direction in terms of where the light is going, while the calculations we discussed earlier were in terms of where the light is coming from.  Once we&#8217;ve done that, we pass it up to the shaders using <code>gl.uniform3fv</code>, which puts a three-element <code>Float32Array</code> (which is what the <code>vec3</code> functions are dealing with) into a uniform.</p>
+<p>The next bit of code is simpler; it just copies the directional light&#8217;s colour components up to the appropriate shader uniform:</p>
+<pre>
+      gl.uniform3f(
+        shaderProgram.directionalColorUniform,
+        parseFloat(document.getElementById("directionalR").value),
+        parseFloat(document.getElementById("directionalG").value),
+        parseFloat(document.getElementById("directionalB").value)
+      );
+    }
+</pre>
+<p>That&#8217;s all of the changes in <code>drawScene</code>.  Moving up to the key-handling code, there are simple changes to remove the handler for the <code>F</code> key, which we can ignore, and then the next interesting change is in the function <code>setMatrixUniforms</code>, which you will remember copies the model-view and the projection matrices up to the shader&#8217;s uniforms.  We&#8217;ve added four lines to copy up a new matrix, based on the model-view one:</p>
+<pre>
+    var normalMatrix = mat3.create();
+    mat4.toInverseMat3(mvMatrix, normalMatrix);
+    mat3.transpose(normalMatrix);
+    gl.uniformMatrix3fv(shaderProgram.nMatrixUniform, false, normalMatrix);
+</pre>
+<p>As you&#8217;d expect from something called a normal matrix, it&#8217;s used to transform the normals <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' />   We can&#8217;t transform them in the same way as we transform the vertex positions, using the regular model-view matrix, because normals would be converted by our translations as well as our rotations &mdash; for example, if we ignore rotation and assume we&#8217;ve done an mvTranslate of (0, 0, -5), the normal (0, 0, 1) would become (0, 0, -4), which is not only too long but is pointing in precisely the wrong direction.  We could work around that; you may have noticed that in the vertex shaders, when we multiply the 3-element vertex positions by the 4&#215;4 model-view matrix, in order to make the two compatible we extend the vertex position to four elements by adding an extra 1 onto the end.  This 1 is required not just to pad things out, but also to make the multiplication apply translations as well as rotations and other transformations, and it so happens that by adding on a 0 instead of a 1, we could make the multiplication ignore the translations.  This would work perfectly well for us right now, but unfortunately wouldn&#8217;t handle cases where our model-view matrix included different transformations, specifically scaling and shearing.  For example, if we had a model-view matrix that doubled the size of the objects we were drawing, their normals would wind up double-length as well, even with a trailing zero &mdash; which would cause serious problems with the lighting.  So, in order not to get into bad habits, we&#8217;re doing it properly <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
+<p>The proper way to get the normals pointing in the right direction, is to use the transposed inverse of the top-left 3&#215;3 portion of the model-view matrix.  There&#8217;s more on this <a href="http://www.lighthouse3d.com/opengl/glsl/index.php?normalmatrix">here</a>, and you might also find Coolcat&#8217;s comments below useful (he made them regarding an earlier version of this lesson).  (Thanks also to Shy for <a href="http://learningwebgl.com/blog/?p=3322&#038;cpage=1#comment-18985">further advice</a>.)</p>
+<p>Anyway, once we&#8217;ve calculated this matrix and done the appropriate magic, it&#8217;s put into the shader uniforms just like the other matrices.</p>
+<p>Moving up through the code from there, there are a few trivial changes to the texture-loading code to make it just load one mipmapped texture instead of the list of three that we did last time, and some new code in <code>initShaders</code> to initialise the <code>vertexNormalAttribute</code> attribute on the program so that <code>drawScene</code> can use it to push the normals up to the shaders, and also to do likewise for all of the newly-introduced uniforms.  None of these is worth going over in any detail, so let&#8217;s move straight on to the shaders.</p>
+<p>The fragment shader is simpler, so let&#8217;s look at it first:</p>
+<pre>
+  precision mediump float;
+
+  varying vec2 vTextureCoord;
+  varying vec3 vLightWeighting;
+
+  uniform sampler2D uSampler;
+
+  void main(void) {
+     vec4 textureColor = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));
+     gl_FragColor = vec4(textureColor.rgb * vLightWeighting, textureColor.a);
+  }
+</pre>
+<p>As you can see, we&#8217;re extracting the colour from texture just like we did in lesson 6, but before returning it we&#8217;re adjusting its R, G and B values by a varying variable called <code>vLightWeighting</code>.  <code>vLightWeighting</code> is a 3-element vector, and (as you would expect) holds adjustment factors for red, green and blue as calculated from the lighting by the vertex shader.</p>
+<p>So, how does that work?  Let&#8217;s look at the vertex shader code; new stuff in red:</p>
+<pre>
+  attribute vec3 aVertexPosition;
+<span style="color: red">  attribute vec3 aVertexNormal;</span>
+  attribute vec2 aTextureCoord;
+
+  uniform mat4 uMVMatrix;
+  uniform mat4 uPMatrix;
+<span style="color: red">  uniform mat3 uNMatrix;
+
+  uniform vec3 uAmbientColor;
+
+  uniform vec3 uLightingDirection;
+  uniform vec3 uDirectionalColor;
+
+  uniform bool uUseLighting;
+</span>
+  varying vec2 vTextureCoord;
+<span style="color: red">  varying vec3 vLightWeighting;</span>
+
+  void main(void) {
+    gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+    vTextureCoord = aTextureCoord;
+
+<span style="color: red">    if (!uUseLighting) {
+      vLightWeighting = vec3(1.0, 1.0, 1.0);
+    } else {
+      vec3 transformedNormal = uNMatrix * aVertexNormal;
+      float directionalLightWeighting = max(dot(transformedNormal, uLightingDirection), 0.0);
+      vLightWeighting = uAmbientColor + uDirectionalColor * directionalLightWeighting;
+    }
+  }</span>
+</pre>
+<p>The new attribute, <code>aVertexNormal</code>, of course holds the vertex normals we&#8217;re specifying in <code>initBuffers</code> and passing up to the shader in <code>drawScene</code>.  <code>uNMatrix</code> is our normal matrix, <code>uUseLighting</code> is the uniform specifying whether lighting is on, and <code>uAmbientColor</code>, <code>uDirectionalColor</code>, and <code>uLightingDirection</code> are the obvious values that the user specifies in the input fields in the web page.</p>
+<p>In light of the maths we went through above, the actual body of the code should be fairly easy to understand.  The main output of the shader is the varying variable <code>vLightWeighting</code>, which we just saw is used to adjust the colour of the image in the fragment shader.  If lighting is switched off, we just use a default value of (1, 1, 1), meaning that colours should not be changed.  If lighting is switched on, we work out the normal&#8217;s orientation by applying the normal matrix, then take the dot product of the normal and the lighting direction to get a number for how much the light is reflected (with a minimum of zero, as I mentioned earlier).  We can then work out a final light weighting for the fragment shader by multiplying the colour components of the directional light by this weighting, and then adding in the ambient lighting colour.  The result is just what the fragment shader needs, so we&#8217;re done!</p>
+<p>Now you know all there is to learn from this lesson: you have a solid foundation for understanding how lighting works in graphics systems like WebGL, and should know the details of how to implement the two simplest forms of lighting, ambient and directional.</p>
+<p>If you have any questions, comments, or corrections, please do leave a comment below!</p>
+<p>Next time, <a href="http://learningwebgl.com/blog/?p=859">we&#8217;ll take a look at blending</a>, which we will use to make objects that are partly transparent.</p>
+<p><span style="float: left; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=571">&lt;&lt; Lesson 6</a></span><span style="float: right; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=859">Lesson 8 &gt;&gt;</a></span><br/></p>
+<p><em>Acknowledgments: <a href="http://en.wikipedia.org/wiki/Phong_shading">the Wikipedia page on Phong shading</a> helped a lot when writing this, especially in trying to make sense of the maths.  The difference between the matrices required to adjust vertex positions and normals was made much clearer by <a href="http://www.lighthouse3d.com/opengl/glsl/index.php?normalmatrix">this Lighthouse 3D tutorial</a>, especially once <a href="http://martin-weusten.de/">Coolcat</a> had clarified things in the comments below.  Chris Marrin&#8217;s <a href="http://webkit.org/blog-files/webgl/SpiritBox.html">spinning box</a> (with an extended version by <a href="http://blog.nihilogic.dk/">Jacob Seidelin</a>) was also a helpful guide, and <a href="http://www.peternitsch.net/blog/?p=574">Peter Nitsch&#8217;s spinning box</a> helped too.  As always, I&#8217;m deeply in debt to <a href="http://nehe.gamedev.net/">NeHe</a> for his <a href="http://nehe.gamedev.net/data/lessons/lesson.asp?lesson=07">OpenGL tutorial</a> for the script for this lesson.</em></p>
+															</div>
+							<div class="postmeta">Posted in <a href="http://learningwebgl.com/blog/?cat=1" title="View all posts in Uncategorized" rel="category">Uncategorized</a> |  </div>
+						
+							<div class="navigation clearfix">
+								<div class="alignleft">&laquo; <a href="http://learningwebgl.com/blog/?p=742" rel="prev">Blog design</a></div>
+								<div class="alignright"><a href="http://learningwebgl.com/blog/?p=838" rel="next">Two big retrospective changes to the lessons</a> &raquo;</div>
+							</div>
+							
+															You can <a href="#respond">leave a response</a>, or <a href="http://learningwebgl.com/blog/wp-trackback.php?p=684" rel="trackback">trackback</a> from your own site.
+	
+													</div><!--/post-684-->
+						
+				
+<!-- You can start editing here. -->
+
+	<h3 id="comments">78 Responses to &#8220;WebGL Lesson 7 – basic directional and ambient lighting&#8221;</h3>
+
+	<ol class="commentlist">
+			<li class="pingback even thread-even depth-1" id="comment-7047">
+				<div id="div-comment-7047" class="comment-body">
+				<div class="comment-author vcard">
+				<cite class="fn"><a href='http://opengles2learning.wordpress.com/2011/06/30/simple-directional-lighting/' rel='external nofollow' class='url'>Simple Directional Lighting | OpenGL ES2 Learning Progress&#8230;.</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=684&amp;cpage=2#comment-7047">June 30, 2011 at 3:24 pm</a></div>
+
+		<p>[...] detailed theory, you can refer here and here which offers great theoretical part of lightings. I have nothing new to [...]</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7048">
+				<div id="div-comment-7048" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/0c90c87d523ed13d98e82a66a5daf058?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">131</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=684&amp;cpage=2#comment-7048">August 16, 2011 at 8:21 pm</a></div>
+
+		<p>var normalMatrix = mat3.create();<br />
+mat4.toInverseMat3(mvMatrix, normalMatrix);<br />
+mat3.transpose(normalMatrix);<br />
+gl.uniformMatrix3fv(shaderProgram.nMatrixUniform, false, normalMatrix);</p>
+<p>As i read the webgl specs, i found the 2nd arg of uniformMatrix* functions is &#8220;GLboolean transpose&#8221;, does this mean you can obtain the same result doing simply</p>
+<p>var normalMatrix = mat3.create();<br />
+mat4.toInverseMat3(mvMatrix, normalMatrix);<br />
+gl.uniformMatrix3fv(shaderProgram.nMatrixUniform, true, normalMatrix);</p>
+<p>?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="pingback even thread-even depth-1" id="comment-7049">
+				<div id="div-comment-7049" class="comment-body">
+				<div class="comment-author vcard">
+				<cite class="fn"><a href='http://adamspector.com/blog/?p=23' rel='external nofollow' class='url'>Away3d 4.0 Examples | Adam Spector</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=684&amp;cpage=2#comment-7049">August 18, 2011 at 8:33 pm</a></div>
+
+		<p>[...] model whereas DirectionLight has a constant level. To learn more about these lights check out this tutorial on webgl which I&#8217;ve found most [...]</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7050">
+				<div id="div-comment-7050" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/b1bc135d29696fe4e29a3c7ccbd17492?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">xema25</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=684&amp;cpage=2#comment-7050">August 18, 2011 at 8:37 pm</a></div>
+
+		<p>Hi. How can I get two different directional lights on the box?</p>
+<p>Thanks <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_biggrin.gif' alt=':D' class='wp-smiley' /> </p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7051">
+				<div id="div-comment-7051" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/4d15afcf4f93f204e101adce1279b91f?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Matthew Mitchell</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=684&amp;cpage=2#comment-7051">August 24, 2011 at 7:41 pm</a></div>
+
+		<p>Copying all the source code to a local directory and running it on chrome fails but the online version works. I copied the gif and the two libraries. It doesn&#8217;t work. Odd.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7052">
+				<div id="div-comment-7052" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/aa11f554890fc07ad917ddc83b87f317?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://none' rel='external nofollow' class='url'>baluv12</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=684&amp;cpage=2#comment-7052">August 26, 2011 at 6:57 pm</a></div>
+
+		<p>Hi!</p>
+<p>If I don&#8217;t use texture, how can I write this section?!</p>
+<p>vec4 textureColor = texture2D(uSampler, vec2(vTextureCoord.s, vTextureCoord.t));<br />
+gl_FragColor = vec4(textureColor.rgb * vLightWeighting, textureColor.a);</p>
+<p>I would like to use it for a simple coloring (vColor)&#8230;</p>
+<p>e.g. for a red cube&#8230;</p>
+<p>thanks</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7053">
+				<div id="div-comment-7053" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/aa11f554890fc07ad917ddc83b87f317?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://none' rel='external nofollow' class='url'>baluv12</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=684&amp;cpage=2#comment-7053">August 27, 2011 at 2:50 pm</a></div>
+
+		<p>This is my simple demo:</p>
+<p><a href="http://baluv12.atw.hu/" rel="nofollow">http://baluv12.atw.hu/</a></p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7054">
+				<div id="div-comment-7054" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/3ad1806da3388f4849512c954bcd48b5?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Anton</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=684&amp;cpage=2#comment-7054">October 25, 2011 at 6:28 pm</a></div>
+
+		<p>In GLSL what exactly does it mean when you use the * operator with two vectors.</p>
+<p>For example in the Fragment shader we do the following:</p>
+<p>textureColor.rgb * vLightWeighting</p>
+<p>My guess is that the first element of each vector is multiplied and the product is used as the first element of the resulting vector. This would continue for all the elements in the vectors.</p>
+<p>I am correct in this assumption?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7055">
+				<div id="div-comment-7055" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/3d4631945ce90f63abb00cde0a7a69c5?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://webdev.sweeto.co.uk/' rel='external nofollow' class='url'>Alex Bunting</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=684&amp;cpage=2#comment-7055">November 5, 2011 at 11:35 pm</a></div>
+
+		<p>@Anton &#8211; yes, presumably by multiplying it is taking the cross product of the two.</p>
+<p>In questions of my own I am having trouble getting this to work &#8211; verbose and Javascript console dont give me any errors but the cube wont show. The lack of error suggests the things has just gone black and yet the values for how bright it is are all set high.</p>
+<p>Interestingly when I take out the:</p>
+<p>shaderProgram.vertexNormalAttribute = gl.getAttribLocation(shaderProgram, &#8220;aVertexNormal&#8221;);<br />
+gl.enableVertexAttribArray(shaderProgram.vertexNormalAttribute);</p>
+<p>lines, it starts to work, but without the directional lighting. Just the ambient.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7056">
+				<div id="div-comment-7056" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/3d4631945ce90f63abb00cde0a7a69c5?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://webdev.sweeto.co.uk/' rel='external nofollow' class='url'>Alex Bunting</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=684&amp;cpage=2#comment-7056">November 6, 2011 at 9:27 am</a></div>
+
+		<p>ah, nevermind, had an issue with my variable itemSize for the normals variable.</p>
+<p>Another great tutorial by the way, thanks. Especially liking your nice lengthly descriptions <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="pingback even thread-even depth-1" id="comment-7057">
+				<div id="div-comment-7057" class="comment-body">
+				<div class="comment-author vcard">
+				<cite class="fn"><a href='http://www.jlabstudio.com/webgl/2011/11/webgl-tutorial-7-iluminacion-direccional-y-ambiental-basica/' rel='external nofollow' class='url'>WebGL Tutorial 7 &#8211; Iluminación direccional y ambiental básica &middot; Experimentando en la web</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=684&amp;cpage=2#comment-7057">November 6, 2011 at 9:42 pm</a></div>
+
+		<p>[...] tutorial de la serie Aprende webGL. Es una traducción no literal de su respectivo tutorial en Learning webGL, que a su vez está basada en el capítulo 7 del tutorial sobre openGL de NeHe. Vamos a aprender a [...]</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7058">
+				<div id="div-comment-7058" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/96c98d34a52643dccdea6361c77fddc1?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://users.soe.ucsc.edu/~linzhp' rel='external nofollow' class='url'>Zhongpeng Lin</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=684&amp;cpage=2#comment-7058">January 2, 2012 at 7:09 am</a></div>
+
+		<p>It looks like the link to the lighthouse3d.com page about normal matrix has been moved to</p>
+<p><a href="http://www.lighthouse3d.com/tutorials/glsl-tutorial/the-normal-matrix/" rel="nofollow">http://www.lighthouse3d.com/tutorials/glsl-tutorial/the-normal-matrix/</a></p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7059">
+				<div id="div-comment-7059" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/dd5bc4a0dde576079b0961827b2f9028?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://None' rel='external nofollow' class='url'>Maruthi</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=684&amp;cpage=2#comment-7059">January 3, 2012 at 11:30 am</a></div>
+
+		<p>Hi,</p>
+<p>Thanks for the tutorials. They are of great help in getting me started.<br />
+I had a question.</p>
+<p>In this tutorial, the ambient light is added to the directional light while computing the lightWeighting. However the lightWeighting is multiplied (kind of dot product) with the Texture Color Vec3 in the shader. At One place the colors are additive (ambient+Directional) and at other place they are multiplicative (TextureRGB*lightWeighting). I can understand that the multiplication produces different colors, but wanted to understand why addition at one place and multiplication at the other</p>
+<p>Also, looks like the mainlink <a href="http://www.lighthouse3d.com" rel="nofollow">http://www.lighthouse3d.com</a> is broken. I found another good link that explains OpenGL Normal Vector Transformation. Might be of help to readers.  <a href="http://www.songho.ca/opengl/gl_normaltransform.html" rel="nofollow">http://www.songho.ca/opengl/gl_normaltransform.html</a></p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7060">
+				<div id="div-comment-7060" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/c5491dac3c0c71b11cdf58beef3d3680?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Sergejack</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=684&amp;cpage=2#comment-7060">January 6, 2012 at 10:39 am</a></div>
+
+		<p>When you describe &#8220;Point lighting&#8221; shouldn&#8217;t the light be computed for every fragment not every vertex?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7061">
+				<div id="div-comment-7061" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/5059e7c305b6ef4eb8b6038e13d3bb8f?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://blog.webtricks.pro' rel='external nofollow' class='url'>Eugene</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=684&amp;cpage=2#comment-7061">January 12, 2012 at 4:45 am</a></div>
+
+		<p>@Maruthi</p>
+<p>At place with (ambient+Directional) calculating lighting level, not color. For example, if we have scene ambient color with power 0.2 and vertex direction lighting with power 0.3 &#8211; total vertex lighting level will be half (0.5).</p>
+<p>For apply lighting level to pure texture color we use multiplication. For this example we half down base color intensity.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7062">
+				<div id="div-comment-7062" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/1d1402271736acb18486397eb8b3cc18?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://jamestrusler.co.uk/games/adventure5/' rel='external nofollow' class='url'>James</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=684&amp;cpage=2#comment-7062">February 22, 2012 at 10:26 pm</a></div>
+
+		<p>I am exporting an .x3d from Blender.</p>
+<p>When I do my directional lighting upon the normals/indices I have been given from Blender with settings:</p>
+<p>Apply modifiers/ Triangulate/ Normals / Hierarchy<br />
+Forward = Y forward<br />
+Up = Z up</p>
+<p>I come across a problem. The lighting seems to spread across the face it points at but also leaks onto the sides in a diffusion.</p>
+<p>This leads me to think the normals and indices that are being given to me need to be translated in some way.</p>
+<p>If I look at the x3d XML that i get, I see some extra values I have not been using:</p>
+<p>I looked into what IFS stood for and realised it could be translations for the normals.</p>
+<p>Here are 2 questions.</p>
+<p>1.Can you rotate/scale normals without Rotating/Scaling the vertices (Which have already had translations made)</p>
+<p>2.How does this work:  <a href="http://www.jamestrusler.co.uk/files/webglquestion/question1.html" rel="nofollow">http://www.jamestrusler.co.uk/files/webglquestion/question1.html</a></p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7063">
+				<div id="div-comment-7063" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/1d1402271736acb18486397eb8b3cc18?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://jamestrusler.co.uk/games/adventure5/' rel='external nofollow' class='url'>James</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=684&amp;cpage=2#comment-7063">February 23, 2012 at 9:48 pm</a></div>
+
+		<p>OMFG.. YOU WONT BELIEVE WHAT THE BUG WAS. I FEEL LIKE A COMPLETE NOOB!<br />
+                                obj[a].Transform.Group.Shape[b].vertexIndexBuffer = gl.createBuffer();<br />
+gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, obj[a].vertexIndexBuffer);</p>
+<p>LOLLLL can u believe.. 3 days wasted to 1 bug. That&#8217;s what happens when you&#8217;re a complete NOOB!</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7064">
+				<div id="div-comment-7064" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/364106680d19a4eb0f3800dfaeacd695?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://antongerdelan.net/webgl' rel='external nofollow' class='url'>capnramses</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=684&amp;cpage=2#comment-7064">May 31, 2012 at 2:24 pm</a></div>
+
+		<p>@AlexBunting @Anton To clarify;</p>
+<p>Anton is correct r,g,b,a * r,g,b,a = (r*r,g*g,b*b,a*a). This is called &#8220;component-wise&#8221; multiplication and is achieved in GLSL with the asterisk operator. Useful for vectors that hold colours, or for multiplying a vector by a scalar (float).</p>
+<p>Cross-product multiplication is quite different, and is achieved with the vectorC = cross (vectorA, vectorB) built-in function. You use this for direction vectors to get a vector that is perpendicular to 2 other vectors.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7065">
+				<div id="div-comment-7065" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/892c6cff36756c5dceada5b3378234ae?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Chris B</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=684&amp;cpage=2#comment-7065">November 4, 2012 at 5:35 pm</a></div>
+
+		<p>@Matthew Mitchell, you need something like WAMP or MAMP server to run webgl from localhost</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7066">
+				<div id="div-comment-7066" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/88db4150978d432e03c103e486196e24?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://learningwebgl.com' rel='external nofollow' class='url'>Karen Reed</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=684&amp;cpage=2#comment-7066">November 10, 2012 at 2:57 pm</a></div>
+
+		<p>Your website would be a whole lot more useful if the user could remove the panel of ads going down the right side of the screen.  There doesn&#8217;t appear to be any way to close it so you can&#8217;t read the text on the website.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-7067">
+				<div id="div-comment-7067" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/57b19101be1f5ae14ee928a0acbfd010?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Danny</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=684&amp;cpage=2#comment-7067">January 28, 2013 at 12:48 pm</a></div>
+
+		<p>I dont get this, how come we don&#8217;t need to do a shaderProgram.vertexNormalAttribute = gl.getAttribLocation(shaderProgram, &#8220;aVertexNormal&#8221;); and enable it?? Can someone tell me please <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_sad.gif' alt=':(' class='wp-smiley' /> </p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-7068">
+				<div id="div-comment-7068" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/ac9a4995c59c0339b39360582b6d009c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Grüse</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=684&amp;cpage=2#comment-7068">March 4, 2013 at 11:55 am</a></div>
+
+		<p>Danny, why would you think you don&#8217;t need to do that? Check the source code, it&#8217;s right there, in the initShaders() function.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-62098">
+				<div id="div-comment-62098" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/be499eddedbe30ab62cde4c717cc2c14?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Michael</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=684&amp;cpage=2#comment-62098">June 30, 2013 at 1:20 pm</a></div>
+
+		<p>var normalMatrix = mat3.create();<br />
+mat4.toInverseMat3(mvMatrix, normalMatrix);<br />
+mat3.transpose(normalMatrix);</p>
+<p>Here it&#8217;s unnecessary to inverse or transpose the matrix.<br />
+Since for orthogonal transformations the inverse and the transpose are the same thing you&#8217;re just canceling the previous step and end up where you started.<br />
+You just need to copy the top-left 9 numbers from mat4 to mat3.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-62511">
+				<div id="div-comment-62511" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/be499eddedbe30ab62cde4c717cc2c14?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Michael</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=684&amp;cpage=2#comment-62511">July 1, 2013 at 12:09 pm</a></div>
+
+		<p>On light direction.<br />
+You could mention that the vertex shader is in clip space, which is left handed (-z points towards you), while the code in your app before sending stuff to the vertex shader is in eye space, which is right-handed (-z points away from you).<br />
+That&#8217;s why the light direction works as expected in the x and y directions, while the z direction works differently.<br />
+For example, consider these light directions:<br />
+[1.0, 0.0, 0.0] lights up the right face of the cube, as expected<br />
+[-1.0, 0.0, 0.0] the left face, as expected<br />
+[0.0, 1.0, 0.0] lights up the top face, as expected<br />
+[0.0, -1.0, 0.0] the bottom face, as expected, however<br />
+[0.0, 0.0, 1.0] oops, lights up the back face, and<br />
+[0.0, 0.0, -1.0] oops again, lights up the front face<br />
+because, as mentioned, in the vertex shader the z axis is inverted because the clip space is left-handed.</p>
+<p>This effect also shows up in your demo.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-89915">
+				<div id="div-comment-89915" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/937e92a1d7587a8504a016fcb993afcb?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://GeoKone.NET' rel='external nofollow' class='url'>Sakari</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=684&amp;cpage=2#comment-89915">August 10, 2013 at 4:46 am</a></div>
+
+		<p>Thanks for these great tutorials ^_^</p>
+<p>I decided to use the newest version of glmatrix, the 2.x series.<br />
+So if you are using the new glmatrix library, you will have to change the following parts in this tutorial in order for it to work properly:</p>
+<p>in setMatrixUnifors, instead of</p>
+<p>        var normalMatrix = mat3.create();<br />
+        mat4.toInverseMat3(mvMatrix, normalMatrix);<br />
+        mat3.transpose(normalMatrix);<br />
+        gl.uniformMatrix3fv(shaderProgram.nMatrixUniform, false, normalMatrix);</p>
+<p>You can use:</p>
+<p>	var normalMatrix = mat3.create();<br />
+	mat3.normalFromMat4(normalMatrix, mvMatrix);</p>
+<p>Seems that in 2.x this has been combined to one function.</p>
+<p>Also, in drawScene, instead of:</p>
+<p>        var adjustedLD = vec3.create();<br />
+        vec3.normalize(lightingDirection, adjustedLD);<br />
+        vec3.scale(adjustedLD, -1);</p>
+<p>You will have to swap the parameters around like this:</p>
+<p>	var adjustedLD = vec3.create();<br />
+	vec3.normalize(adjustedLD, lightingDirection);<br />
+	vec3.scale(adjustedLD, adjustedLD, -1);</p>
+<p>Took me a while to figure this out, but also a good thing so I had to take a look what glmatrix is actually doing <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-1978508">
+				<div id="div-comment-1978508" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/a43ccb49dd3814da394cb1fcec2c1b5f?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Kendzi</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=684&amp;cpage=2#comment-1978508">March 28, 2014 at 3:27 am</a></div>
+
+		<p>As I understands value of variable vLightWeighting should be in range , but when I&#8217;m looking into equation: uAmbientColor + uDirectionalColor * directionalLightWeighting it can become vector of 2. It could happen when directionalColor and ambientColor is (1,1,1) and dot product is in direction of light. </p>
+<p>Is it correct?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-2113348">
+				<div id="div-comment-2113348" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/75877bf17facb143f44f95adf7a1ecf3?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Midas</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=684&amp;cpage=2#comment-2113348">April 20, 2014 at 11:41 am</a></div>
+
+		<p>I&#8217;m sorry. I don&#8217;t speak on English.</p>
+<p>mm&#8230;</p>
+<p>How I can change light algoritm on Ward model?</p>
+<p>I have this example:<br />
+// Isotropic Ward fragment shader<br />
+// </p>
+<p>varying vec3 l;<br />
+varying vec3 h;<br />
+varying vec3 v;<br />
+varying vec3 n; </p>
+<p>void main (void)<br />
+{<br />
+ const vec4 diffColor = vec4 ( 0.5, 0.0, 0.0, 1.0 );<br />
+ const vec4 specColor = vec4 ( 0.7, 0.7, 0.0, 1.0 );<br />
+ const float k = 10.0; </p>
+<p> vec3 n2 = normalize ( n );<br />
+ vec3 l2 = normalize ( l );<br />
+ vec3 h2 = normalize ( h );<br />
+ float hn = dot ( h, n );<br />
+ float hn2 = hn * hn; </p>
+<p> vec4 diff = diffColor * max ( dot ( n2, l2 ), 0.0 );<br />
+ vec4 spec = specColor * exp ( &#8211; k * (1.0 &#8211; hn2) / hn2 ); </p>
+<p> gl_FragColor = diff + spec;<br />
+} </p>
+<p>but i don&#8217;t undestand how use that in this lesson?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-2321812">
+				<div id="div-comment-2321812" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/4498712ab82e34e8fc849f40697eda7f?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Doguleez</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=684&amp;cpage=2#comment-2321812">May 22, 2014 at 9:40 pm</a></div>
+
+		<p>Multiplying the normal by transpose of the inverse of the 3&#215;3 submatrix of mvMatrix does produce a vector that is orthogonal to the transformed surface, but it might not be of length 1 &#8211; it needs to be normalized.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+	</ol>
+
+	<div class="navigation">
+		<div class="alignleft"><a href="http://learningwebgl.com/blog/?p=684&#038;cpage=1#comments" >&laquo; Older Comments</a></div>
+		<div class="alignright"></div>
+	</div>
+ 
+
+
+<div id="respond">
+
+<h3>Leave a Reply</h3>
+
+<div class="cancel-comment-reply">
+	<small><a rel="nofollow" id="cancel-comment-reply-link" href="/blog/?p=684#respond" style="display:none;">Click here to cancel reply.</a></small>
+</div>
+
+
+<form action="http://learningwebgl.com/blog/wp-comments-post.php" method="post" id="commentform">
+
+
+<p><input type="text" name="author" id="author" value="" size="22" tabindex="1" aria-required='true' />
+<label for="author"><small>Name (required)</small></label></p>
+
+<p><input type="text" name="email" id="email" value="" size="22" tabindex="2" aria-required='true' />
+<label for="email"><small>Mail (will not be published) (required)</small></label></p>
+
+<p><input type="text" name="url" id="url" value="" size="22" tabindex="3" />
+<label for="url"><small>Website</small></label></p>
+
+
+<!--<p><small><strong>XHTML:</strong> You can use these tags: <code>&lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;strike&gt; &lt;strong&gt; </code></small></p>-->
+
+<p><textarea name="comment" id="comment" cols="100%" rows="10" tabindex="4"></textarea></p>
+
+<p><input name="submit" type="submit" id="submit" tabindex="5" value="Submit Comment" />
+<input type='hidden' name='comment_post_ID' value='684' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p>
+
+</form>
+
+</div>
+
+				
+							
+							</div>
+			</div>
+        <div class="span-8 last">
+    <div id="subscriptions">
+        <a href="http://learningwebgl.com/blog/?feed=rss2"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/rss.png" alt="Subscribe to RSS Feed" title="Subscribe to RSS Feed" /></a>		
+		<a href="https://twitter.com/learningwebgl" title="Follow Learning WebGL on Twitter"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/twitter.png" title="Follow Learning WebGL on Twitter" alt="Follow Learning WebGL on Twitter"  /></a>    </div>
+	<div id="sidebar">
+        <ul>
+            <li id="search">
+				 
+<div class="searchlayout">
+    <form method="get" id="searchform" action="http://learningwebgl.com/blog/"> 
+        <input type="text" value="Search" 
+            name="s" id="s"  onblur="if (this.value == '')  {this.value = 'Search';}"  
+            onfocus="if (this.value == 'Search') {this.value = '';}" />
+        <input type="image" src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/search.gif" style="border:0; vertical-align: top;" /> 
+    </form>
+</div>			</li>
+        </ul>
+            			<div class="addthis_toolbox">   
+    			    <div class="custom_images">
+    			            <a class="addthis_button_twitter"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/twitter.png" width="32" height="32" alt="Twitter" /></a>
+    			            <a class="addthis_button_delicious"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/delicious.png" width="32" height="32" alt="Delicious" /></a>
+    			            <a class="addthis_button_facebook"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/facebook.png" width="32" height="32" alt="Facebook" /></a>
+    			            <a class="addthis_button_digg"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/digg.png" width="32" height="32" alt="Digg" /></a>
+    			            <a class="addthis_button_stumbleupon"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/stumbleupon.png" width="32" height="32" alt="Stumbleupon" /></a>
+    			            <a class="addthis_button_favorites"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/favorites.png" width="32" height="32" alt="Favorites" /></a>
+    			            <a class="addthis_button_more"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/more.png" width="32" height="32" alt="More" /></a>
+    			    </div>
+    			    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js?pub=xa-4a65e1d93cd75e94"></script>
+    			</div>
+    					        
+		<ul>
+		  <li id="text-3" class="widget widget_text"><h2 class="widgettitle">Our Sponsors</h2>			<div class="textwidget">    <div style="margin-left: 10px; margin-top: 20px; width: 170px">
+    <a href="http://web.chemdoodle.com/" target="_blank"><img src="/ads/chemdoodle.gif" ></a>
+    <p>
+    Open-source <b>HTML5</b> solutions for the physical and life sciences.
+    <a style="font-decoration: underline; color: #880000;" href="http://web.chemdoodle.com/">Read more...</a>
+    </div>
+
+<iframe src="http://cdn.oreillystatic.com/widgets/author/217.html" height="400px" width="200px" scrolling="no" frameborder="0"></iframe>
+    <hr/>
+
+    <div style="margin-left: 10px; margin-top: 20px; width: 170px;">
+    <a href="http://www.pythonanywhere.com/"><img src="/ads/pythonanywhere.gif"></a>
+
+    <p>
+    <a href="http://www.pythonanywhere.com">A Python online IDE and web hosting environment</a>. 
+    <a style="font-decoration: underline; color: #880000;" href="http://www.pythonanywhere.com/">Read more...</a>
+    <br/>
+    <br/>
+    Interested in advertising on Learning WebGL? <a style="font-decoration: underline; color: #880000;" href="/cdn-cgi/l/email-protection#4a3e3a2b382339230a2d272b232664292527">Drop me a line.</a>
+    </div></div>
+		</li>		<li id="recent-posts-3" class="widget widget_recent_entries">		<h2 class="widgettitle">Recent Posts</h2>		<ul>
+				<li><a href="http://learningwebgl.com/blog/?p=6635" title="2014: The Year in Review">2014: The Year in Review </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6617" title="WebGL around the net, 11 December 2014">WebGL around the net, 11 December 2014 </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6613" title="Crowdfunding Update">Crowdfunding Update </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6599" title="WebGL around the net, 4 December 2014">WebGL around the net, 4 December 2014 </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6585" title="WebGL around the net, 25 November 2014">WebGL around the net, 25 November 2014 </a></li>
+				</ul>
+		</li>		<li id="recent-comments-3" class="widget widget_recent_comments">			<h2 class="widgettitle">Recent Comments</h2>			<ul id="recentcomments"><li class="recentcomments"><a href='http://www.pcprogramming.com' rel='external nofollow' class='url'>John Davis</a> on <a href="http://learningwebgl.com/blog/?p=6585&#038;cpage=1#comment-3652744">WebGL around the net, 25 November 2014</a></li><li class="recentcomments"><a href='http://www.pcprogramming.com' rel='external nofollow' class='url'>John Davis</a> on <a href="http://learningwebgl.com/blog/?p=6575&#038;cpage=1#comment-3618905">WebGL around the net, 20 November 2014</a></li><li class="recentcomments">jinit on <a href="http://learningwebgl.com/blog/?page_id=2&#038;cpage=1#comment-3313484">About</a></li><li class="recentcomments">Dethraid on <a href="http://learningwebgl.com/blog/?p=507&#038;cpage=3#comment-2792181">WebGL Lesson 5 – introducing textures</a></li><li class="recentcomments">Man on <a href="http://learningwebgl.com/blog/?p=6443&#038;cpage=1#comment-2572225">WebGL around the net, 7 July 2014</a></li></ul>
+		</li><li id="linkcat-2" class="widget widget_links"><h2 class="widgettitle">Blogroll</h2>
+	<ul class='xoxo blogroll'>
+<li><a href="http://blog.tojicode.com/" title="Brandon Jones&#8217; Blog" target="_blank">Brandon Jones</a></li>
+<li><a href="http://www.gilesthomas.com/" title="Giles Thomas&#8217; Personal Blog" target="_blank">Giles Thomas</a></li>
+<li><a href="http://games.greggman.com/game/" title="Gregg Tavares&#8217; Blog" target="_blank">Gregg Tavares</a></li>
+<li><a href="http://www.learnopengles.com/" title="Learn OpenGL ES" target="_blank">Learn OpenGL ES</a></li>
+<li><a href="http://learningthreejs.com/" title="Learning Three.js Blog" target="_blank">Learning Three.js</a></li>
+<li><a href="http://nehe.gamedev.net/" title="NeHe OpenGL Tutorials" target="_blank">NeHe OpenGL</a></li>
+<li><a href="http://www.paulbrunt.co.uk/" title="Paul Brunt&#8217;s Blog" target="_blank">Paul Brunt</a></li>
+<li><a href="http://pl4n3.blogspot.com/" title="PL4N3S WORLD Blog" target="_blank">PL4N3S WORLD</a></li>
+<li><a href="http://www.rozengain.com/blog/" title="Rozengain" target="_blank">Rozengain</a></li>
+<li><a href="http://www.tonyparisi.com/" title="Tony Parisi&#8217;s Personal Blog" target="_blank">Tony Parisi</a></li>
+<li><a href="http://www.webgl.com/" title="WebGL Demos and Links" target="_blank">WebGL.com</a></li>
+
+	</ul>
+</li>
+<li id="archives-3" class="widget widget_archive"><h2 class="widgettitle">Archives</h2>		<ul>
+			<li><a href='http://learningwebgl.com/blog/?m=201501' title='January 2015'>January 2015</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201412' title='December 2014'>December 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201411' title='November 2014'>November 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201410' title='October 2014'>October 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201409' title='September 2014'>September 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201408' title='August 2014'>August 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201407' title='July 2014'>July 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201406' title='June 2014'>June 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201405' title='May 2014'>May 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201404' title='April 2014'>April 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201403' title='March 2014'>March 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201402' title='February 2014'>February 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201401' title='January 2014'>January 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201312' title='December 2013'>December 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201311' title='November 2013'>November 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201310' title='October 2013'>October 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201309' title='September 2013'>September 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201308' title='August 2013'>August 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201307' title='July 2013'>July 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201306' title='June 2013'>June 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201305' title='May 2013'>May 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201304' title='April 2013'>April 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201303' title='March 2013'>March 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201212' title='December 2012'>December 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201211' title='November 2012'>November 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201210' title='October 2012'>October 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201209' title='September 2012'>September 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201208' title='August 2012'>August 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201207' title='July 2012'>July 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201206' title='June 2012'>June 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201205' title='May 2012'>May 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201204' title='April 2012'>April 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201203' title='March 2012'>March 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201202' title='February 2012'>February 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201112' title='December 2011'>December 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201111' title='November 2011'>November 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201110' title='October 2011'>October 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201109' title='September 2011'>September 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201108' title='August 2011'>August 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201107' title='July 2011'>July 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201106' title='June 2011'>June 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201105' title='May 2011'>May 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201104' title='April 2011'>April 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201103' title='March 2011'>March 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201102' title='February 2011'>February 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201101' title='January 2011'>January 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201012' title='December 2010'>December 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201011' title='November 2010'>November 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201010' title='October 2010'>October 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201009' title='September 2010'>September 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201008' title='August 2010'>August 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201007' title='July 2010'>July 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201006' title='June 2010'>June 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201005' title='May 2010'>May 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201004' title='April 2010'>April 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201003' title='March 2010'>March 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201002' title='February 2010'>February 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201001' title='January 2010'>January 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200912' title='December 2009'>December 2009</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200911' title='November 2009'>November 2009</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200910' title='October 2009'>October 2009</a></li>
+		</ul>
+</li><li id="meta-3" class="widget widget_meta"><h2 class="widgettitle">Meta</h2>			<ul>
+						<li><a href="http://learningwebgl.com/blog/wp-login.php">Log in</a></li>
+			<li><a href="http://learningwebgl.com/blog/?feed=rss2" title="Syndicate this site using RSS 2.0">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://learningwebgl.com/blog/?feed=comments-rss2" title="The latest comments to all posts in RSS">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://wordpress.org/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.org</a></li>
+						</ul>
+</li>		</ul>
+	</div>
+</div>
+
+		</div><!--/container-->
+			<div id="footer">
+				Copyright &copy; 2013 <a href="http://learningwebgl.com/blog"><strong>Learning WebGL</strong></a> -  3D Programming for the Web <br />
+                <div class="footer-credits">
+                    Powered by <a href="http://wordpress.org/">WordPress</a> | <a href="http://flexithemes.com/themes/modern-style/">Modern Style</a> theme by <a href="http://flexithemes.com/">FlexiThemes</a>
+                </div>
+			</div><!--/footer-->
+            
+	</div><!--/wrapper-->
+	
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-2240015-5");
+pageTracker._trackPageview();
+} catch(err) {}</script>    
+<script type="text/javascript">
+/* <![CDATA[ */
+(function(){try{var s,a,i,j,r,c,l=document.getElementsByTagName("a"),t=document.createElement("textarea");for(i=0;l.length-i;i++){try{a=l[i].getAttribute("href");if(a&&a.indexOf("/cdn-cgi/l/email-protection") > -1  && (a.length > 28)){s='';j=27+ 1 + a.indexOf("/cdn-cgi/l/email-protection");if (a.length > j) {r=parseInt(a.substr(j,2),16);for(j+=2;a.length>j&&a.substr(j,1)!='X';j+=2){c=parseInt(a.substr(j,2),16)^r;s+=String.fromCharCode(c);}j+=1;s+=a.substr(j,a.length-j);}t.innerHTML=s.replace(/</g,"&lt;").replace(/>/g,"&gt;");l[i].setAttribute("href","mailto:"+t.value);}}catch(e){}}}catch(e){}})();
+/* ]]> */
+</script>
+</body>
+</html>
+
+

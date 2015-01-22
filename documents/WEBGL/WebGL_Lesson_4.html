@@ -1,0 +1,870 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>  WebGL Lesson 4 – some real 3D objects | Learning WebGL</title>
+<script type="text/javascript">
+//<![CDATA[
+try{if (!window.CloudFlare) {var CloudFlare=[{verbose:0,p:0,byc:0,owlid:"cf",bag2:1,mirage2:0,oracle:0,paths:{cloudflare:"/cdn-cgi/nexp/dok3v=1613a3a185/"},atok:"2c1b6781e0cb3014c3b88e10d5e2d90a",petok:"fd0e9e0a1893a75b509f17708d86614f498f6e59-1421936748-1800",zone:"learningwebgl.com",rocket:"0",apps:{}}];CloudFlare.push({"apps":{"ape":"deb55602a292e1301112bc51cd99fbcf"}});!function(a,b){a=document.createElement("script"),b=document.getElementsByTagName("script")[0],a.async=!0,a.src="//ajax.cloudflare.com/cdn-cgi/nexp/dok3v=919620257c/cloudflare.min.js",b.parentNode.insertBefore(a,b)}()}}catch(e){};
+//]]>
+</script>
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/screen.css" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/print.css" type="text/css" media="print" />
+<!--[if IE]><link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/ie.css" type="text/css" media="screen, projection"><![endif]-->
+<!--[if IE 6]>
+	<script src="http://learningwebgl.com/blog/wp-content/themes/modern-style/js/pngfix.js"></script>
+<![endif]--> 
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/style.css" type="text/css" media="screen" />
+<link rel="alternate" type="application/rss+xml" title="Learning WebGL RSS Feed" href="http://learningwebgl.com/blog/?feed=rss2" />
+<link rel="alternate" type="application/atom+xml" title="Learning WebGL Atom Feed" href="http://learningwebgl.com/blog/?feed=atom" />
+<link rel="pingback" href="http://learningwebgl.com/blog/xmlrpc.php" />
+
+<link rel="alternate" type="application/rss+xml" title="Learning WebGL &raquo; WebGL Lesson 4 – some real 3D objects Comments Feed" href="http://learningwebgl.com/blog/?feed=rss2&amp;p=370" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://learningwebgl.com/blog/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://learningwebgl.com/blog/wp-includes/wlwmanifest.xml" /> 
+<link rel='index' title='Learning WebGL' href='http://learningwebgl.com/blog' />
+<link rel='start' title='Hello, world!' href='http://learningwebgl.com/blog/?p=5' />
+<link rel='prev' title='WebGL around the net, 26 Oct 2009' href='http://learningwebgl.com/blog/?p=364' />
+<link rel='next' title='Groups for WebGL?' href='http://learningwebgl.com/blog/?p=390' />
+<meta name="generator" content="WordPress 2.9.2" />
+<link rel='canonical' href='http://learningwebgl.com/blog/?p=370' />
+	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+
+</head>
+<body>
+	<div id="wrapper">
+		<div id="container" class="container">  
+                        
+			<div class="span-16">
+                <div id="header">
+                    						<h1><a href="http://learningwebgl.com/blog">Learning WebGL</a></h1>
+						<h2>3D Programming for the Web</h2>
+										</div>
+                
+                <div class="navcontainer">
+					<ul id="nav">
+						<li ><a href="http://learningwebgl.com/blog/">Home</a></li>
+						<li class="page_item page-item-1217"><a href="http://learningwebgl.com/blog/?page_id=1217" title="The Lessons">The Lessons</a></li>
+<li class="page_item page-item-2438"><a href="http://learningwebgl.com/blog/?page_id=2438" title="WebGL Jobs">WebGL Jobs</a></li>
+<li class="page_item page-item-988"><a href="http://learningwebgl.com/blog/?page_id=988" title="The WebGL Cookbook">The WebGL Cookbook</a></li>
+<li class="page_item page-item-2"><a href="http://learningwebgl.com/blog/?page_id=2" title="About">About</a></li>
+		
+					</ul>
+				</div>
+            		<div id="content">	
+                	
+						
+												<div class="post-370 post hentry category-uncategorized clearfix" id="post-370">
+							<h2 class="title">WebGL Lesson 4 – some real 3D objects</h2>
+							<div class="postdate">
+                                <span>October 26th, 2009</span> 
+                                <span><a href="http://learningwebgl.com/blog/?p=370#comments" title="Comment on WebGL Lesson 4 – some real 3D objects">70 Comments</a></span>                             </div>
+			
+							<div class="entry">
+                                								<p><span style="float: left; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=239">&lt;&lt; Lesson 3</a></span><span style="float: right; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=507">Lesson 5 &gt;&gt;</a></span><br/><br />
+Welcome to my number four in my series of WebGL tutorials.  This time we&#8217;re going to display some 3D objects.  The lesson is based on <a href="http://nehe.gamedev.net/data/lessons/lesson.asp?lesson=05">number 5</a> in the NeHe OpenGL tutorials.</p>
+<p>Here&#8217;s what the lesson looks like when run on a browser that supports WebGL:<br />
+<object width="480" height="385"><param name="movie" value="http://www.youtube.com/v/Oa71cNJdkts&#038;hl=en&#038;fs=1&#038;hd=1"></param><param name="allowFullScreen" value="true"></param><param name="allowscriptaccess" value="always"></param><embed src="http://www.youtube.com/v/Oa71cNJdkts&#038;hl=en&#038;fs=1&#038;hd=1" type="application/x-shockwave-flash" allowscriptaccess="always" allowfullscreen="true" width="480" height="385"></embed></object></p>
+<p><a href="/lessons/lesson04/index.html">Click here and you&#8217;ll see the live WebGL version</a>, if you&#8217;ve got a browser that supports it; <a href="http://learningwebgl.com/blog/?p=11">here&#8217;s how to get one</a> if you don&#8217;t.</p>
+<p>More on how it all works below&#8230;</p>
+<p><span id="more-370"></span></p>
+<p>The usual <a href="http://learningwebgl.com/blog/?page_id=2">warning</a>: these lessons are targeted at people with a reasonable amount of programming knowledge, but no real experience in 3D graphics; the aim is to get you up and running, with a good understanding of what&#8217;s going on in the code, so that you can start producing your own 3D Web pages as quickly as possible.  If you haven&#8217;t read the <a href="http://learningwebgl.com/blog/?p=28">first</a>, <a href="http://learningwebgl.com/blog/?p=134">second</a>, or <a href="http://learningwebgl.com/blog/?p=239">third</a> tutorials already, you should probably do so before reading this one — here I will only explain the differences between the code for lesson 3 and the new code.</p>
+<p>As before, there may be bugs and misconceptions in this tutorial.  If you spot anything wrong, let me know in the comments and I&#8217;ll correct it ASAP.</p>
+<p>There are two ways you can get the code for this example; just &#8220;View Source&#8221; while you&#8217;re looking at the live version, or if you use GitHub, you can clone it (and the other lessons) from <a href="http://github.com/gpjt/webgl-lessons">the repository there</a>.  Either way, once you have the code, load it up in your favourite text editor and take a look.</p>
+<p>The differences between the code for this lesson and the previous one are entirely concentrated in the <code>animate</code>, the <code>initBuffers</code>, and the <code>drawScene</code> functions.  If you scroll down to <code>animate</code> now, you&#8217;ll see one first, very minor change: the variables that remember the current rotation state of the two objects in the scene have been renamed; they used to be <code>rTri</code> and <code>rSquare</code>.  We&#8217;ve also reversed the direction of spin of the cube (just because it looks prettier), so now we have:</p>
+<pre>
+      <span style="color: red;">rPyramid</span> += (90 * elapsed) / 1000.0;
+      <span style="color: red;">rCube</span> -= (75 * elapsed) / 1000.0;
+ </pre>
+<p>That&#8217;s all for that function; let&#8217;s move up to <code>drawScene</code>.  Just above the function declaration, we have definitions for the new variables:</p>
+<pre>
+  var <span style="color: red;">rPyramid</span> = 0;
+  var <span style="color: red;">rCube</span> = 0;
+</pre>
+<p>Next comes the function header, followed by our setup code and the code to move into position for drawing the pyramid.  Once that&#8217;s all done, we rotate it about the Y axis just as we did for the triangle in the previous lesson:</p>
+<pre>
+    mat4.rotate(mvMatrix, degToRad(<span style="color: red;">rPyramid</span>), [0, 1, 0]);
+</pre>
+<p>&#8230;and then we draw it.  The only difference between the code in the last lesson that drew the colourful triangle and the new code to draw our equally-pretty pyramid is that there are more vertices, and equally more colours, so that will all be handled in <code>initBuffers</code> (which we&#8217;ll look at in a moment).  This means that apart from a change in the names of the buffers we use, the code is identical:</p>
+<pre>
+    gl.bindBuffer(gl.ARRAY_BUFFER, <span style="color: red;">pyramidVertexPositionBuffer</span>);
+    gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, <span style="color: red;">pyramidVertexPositionBuffer</span>.itemSize, gl.FLOAT, false, 0, 0);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, <span style="color: red;">pyramidVertexColorBuffer</span>);
+    gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, <span style="color: red;">pyramidVertexColorBuffer</span>.itemSize, gl.FLOAT, false, 0, 0);
+
+    setMatrixUniforms();
+    gl.drawArrays(gl.TRIANGLES, 0, <span style="color: red;">pyramidVertexPositionBuffer</span>.numItems);
+</pre>
+<p>Right, that was easy.  Let&#8217;s look at the code for the cube.  The first step is to rotate it; this time, instead of just rotating on the X axis, we&#8217;ll rotate around an axis that is (from the perspective of the viewer) upwards, to the right, and towards you:</p>
+<pre id="changedfromhere">
+    mat4.rotate(mvMatrix, degToRad(rCube), [<span style="color: red;">1, 1, 1</span>]);
+</pre>
+<p>Next, we draw the cube.  This is a little more involved.  There are three ways we can draw a cube:</p>
+<ol>
+<li>Use a single triangle strip.  If the whole cube was one colour, this would be reasonably easy &mdash; we could use the vertex positions we&#8217;ve been using until now to draw a front face, then add another two points to add another face, and another two for another, and so on.  This would be very efficient.  Unfortunately, we want every face to have a different colour.  Because each vertex specifies a corner of the cube, and each corner is shared between three faces, we&#8217;d need to specify each vertex three times, and doing this would be so tricky that I won&#8217;t even <i>try</i> to explain it&#8230;</li>
+<li>We could cheat, and draw our cube by drawing six separate squares, one for each face, with separate sets of vertex positions and colours for each.  The first version of this lesson (prior to 30 October 2009) actually did this, and it worked just fine.  However, it wouldn&#8217;t be good practice; because it costs a certain amount in terms of time every time you tell WebGL to draw another object in your scene, it&#8217;s much better to have a minimum number of calls to <code>drawArrays</code>.</li>
+<li>The final option is to specify the cube as six squares, each made up of of two triangles, but to send that all over to WebGL to be drawn in one go.  This is similar to the way we would have done it with a triangle strip, but because we&#8217;re specifying the triangles in their entirety each time rather than simply defining each triangle by adding a single point on to the previous one, it&#8217;s easier to specify the per-side colours.  It also has the advantage that the neatest way to code it lets me introduce a new function, <code>drawElements</code> &mdash; so it&#8217;s the way we&#8217;re going to do it <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' />
+</ol>
+<p>The first step is to associate the buffers containing the cube&#8217;s vertex positions and colours that we&#8217;ll be creating in <code>initBuffers</code> with the appropriate attributes, just as we did with the pyramid:</p>
+<pre>
+    gl.bindBuffer(gl.ARRAY_BUFFER, <span style="color: red;">cubeVertexPositionBuffer</span>);
+    gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, <span style="color: red;">cubeVertexPositionBuffer</span>.itemSize, gl.FLOAT, false, 0, 0);
+
+    gl.bindBuffer(gl.ARRAY_BUFFER, <span style="color: red;">cubeVertexColorBuffer</span>);
+    gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, <span style="color: red;">cubeVertexColorBuffer</span>.itemSize, gl.FLOAT, false, 0, 0);
+</pre>
+<p>The next step is to draw the triangles.  There&#8217;s a bit of a problem here.  Let&#8217;s consider the front face; we have four vertex positions for it, and each of them has an associated colour.  However, it needs to be drawn using two triangles, and because we&#8217;re using simple triangles, which need their own vertices specified individually, rather than triangle strips, which can share vertices, we have to specify six vertices in total for it.  But we only have four for it in our array buffer.</p>
+<p>What we want to do is specify something like &#8220;draw a triangle made up of the first three vertices in the array buffer, then draw another made out of the first one, the third, and the fourth&#8221;.  This would draw our front face; drawing the rest of the cube would be similar.  And this is exactly what we do.</p>
+<p>We use something called an <i>element array buffer</i> and a new call, <code>drawElements</code>, for this.  Just like the array buffers we&#8217;ve been using until now, the element array buffer will be populated with appropriate values in <code>initBuffers</code>, and it will hold a list of vertices using a zero-based index into the arrays we used for the positions and the colours; we&#8217;ll take a look at that in a moment.</p>
+<p>In order to use it, we make our cube&#8217;s element array buffer the current one (WebGL keeps different current array buffers and element array buffers, so we must specify which one we&#8217;re binding in the call to <code>gl.bindBuffer</code>), then we do the normal code to push our model-view and projection matrices up to the graphics card, then and call <code>drawElements</code> to draw the triangles:</p>
+<pre>
+    <span style="color: red;">gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVertexIndexBuffer);</span>
+    setMatrixUniforms();
+    <span style="color: red;">gl.drawElements(gl.TRIANGLES, cubeVertexIndexBuffer.numItems, gl.UNSIGNED_SHORT, 0);</span>
+</pre>
+<p>That&#8217;s it for <code>drawScene</code>.  The remainder of the code is in <code>initBuffers</code>, and is pretty obvious.  We define buffers with new names to reflect the new kinds of objects we&#8217;re dealing with, and we add a new one in for the cube&#8217;s vertex index buffer:</p>
+<pre>
+  var pyramidVertexPositionBuffer;
+  var pyramidVertexColorBuffer;
+  var cubeVertexPositionBuffer;
+  var cubeVertexColorBuffer;
+  var cubeVertexIndexBuffer;
+</pre>
+<p>We put values in the pyramid&#8217;s vertex position buffer for all of the faces, with an appropriate change to the <code>numItems</code>:</p>
+<pre>
+    pyramidVertexPositionBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, pyramidVertexPositionBuffer);
+    var vertices = [
+        // Front face
+         0.0,  1.0,  0.0,
+        -1.0, -1.0,  1.0,
+         1.0, -1.0,  1.0,
+        // Right face
+         0.0,  1.0,  0.0,
+         1.0, -1.0,  1.0,
+         1.0, -1.0, -1.0,
+        // Back face
+         0.0,  1.0,  0.0,
+         1.0, -1.0, -1.0,
+        -1.0, -1.0, -1.0,
+        // Left face
+         0.0,  1.0,  0.0,
+        -1.0, -1.0, -1.0,
+        -1.0, -1.0,  1.0
+    ];
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+    pyramidVertexPositionBuffer.itemSize = 3;
+    pyramidVertexPositionBuffer.numItems = 12;
+</pre>
+<p>&#8230;likewise for the pyramid&#8217;s vertex colour buffer:</p>
+<pre>
+    pyramidVertexColorBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, pyramidVertexColorBuffer);
+    var colors = [
+        // Front face
+        1.0, 0.0, 0.0, 1.0,
+        0.0, 1.0, 0.0, 1.0,
+        0.0, 0.0, 1.0, 1.0,
+        // Right face
+        1.0, 0.0, 0.0, 1.0,
+        0.0, 0.0, 1.0, 1.0,
+        0.0, 1.0, 0.0, 1.0,
+        // Back face
+        1.0, 0.0, 0.0, 1.0,
+        0.0, 1.0, 0.0, 1.0,
+        0.0, 0.0, 1.0, 1.0,
+        // Left face
+        1.0, 0.0, 0.0, 1.0,
+        0.0, 0.0, 1.0, 1.0,
+        0.0, 1.0, 0.0, 1.0
+    ];
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
+    pyramidVertexColorBuffer.itemSize = 4;
+    pyramidVertexColorBuffer.numItems = 12;
+</pre>
+<p>&#8230;and for the cube&#8217;s vertex position buffer:</p>
+<pre>
+    cubeVertexPositionBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexPositionBuffer);
+    vertices = [
+      // Front face
+      -1.0, -1.0,  1.0,
+       1.0, -1.0,  1.0,
+       1.0,  1.0,  1.0,
+      -1.0,  1.0,  1.0,
+
+      // Back face
+      -1.0, -1.0, -1.0,
+      -1.0,  1.0, -1.0,
+       1.0,  1.0, -1.0,
+       1.0, -1.0, -1.0,
+
+      // Top face
+      -1.0,  1.0, -1.0,
+      -1.0,  1.0,  1.0,
+       1.0,  1.0,  1.0,
+       1.0,  1.0, -1.0,
+
+      // Bottom face
+      -1.0, -1.0, -1.0,
+       1.0, -1.0, -1.0,
+       1.0, -1.0,  1.0,
+      -1.0, -1.0,  1.0,
+
+      // Right face
+       1.0, -1.0, -1.0,
+       1.0,  1.0, -1.0,
+       1.0,  1.0,  1.0,
+       1.0, -1.0,  1.0,
+
+      // Left face
+      -1.0, -1.0, -1.0,
+      -1.0, -1.0,  1.0,
+      -1.0,  1.0,  1.0,
+      -1.0,  1.0, -1.0,
+    ];
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+    cubeVertexPositionBuffer.itemSize = 3;
+    cubeVertexPositionBuffer.numItems = 24;
+</pre>
+<p>The colour buffer is marginally more complex, because we use a loop to create a list of vertex colours so that we don&#8217;t have to specify each colour four times, one for each vertex:</p>
+<pre>
+    cubeVertexColorBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, cubeVertexColorBuffer);
+    colors = [
+      [1.0, 0.0, 0.0, 1.0],     // Front face
+      [1.0, 1.0, 0.0, 1.0],     // Back face
+      [0.0, 1.0, 0.0, 1.0],     // Top face
+      [1.0, 0.5, 0.5, 1.0],     // Bottom face
+      [1.0, 0.0, 1.0, 1.0],     // Right face
+      [0.0, 0.0, 1.0, 1.0],     // Left face
+    ];
+    var unpackedColors = [];
+    for (var i in colors) {
+      var color = colors[i];
+      for (var j=0; j < 4; j++) {
+        unpackedColors = unpackedColors.concat(color);
+      }
+    }
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(unpackedColors), gl.STATIC_DRAW);
+    cubeVertexColorBuffer.itemSize = 4;
+    cubeVertexColorBuffer.numItems = 24;
+</pre>
+<p>Finally, we define the element array buffer (note again the difference in the first parameter to <code>gl.bindBuffer</code> and <code>gl.bufferData</code>):</p>
+<pre>
+    cubeVertexIndexBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVertexIndexBuffer);
+    var cubeVertexIndices = [
+      0, 1, 2,      0, 2, 3,    // Front face
+      4, 5, 6,      4, 6, 7,    // Back face
+      8, 9, 10,     8, 10, 11,  // Top face
+      12, 13, 14,   12, 14, 15, // Bottom face
+      16, 17, 18,   16, 18, 19, // Right face
+      20, 21, 22,   20, 22, 23  // Left face
+    ]
+    gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(cubeVertexIndices), gl.STATIC_DRAW);
+    cubeVertexIndexBuffer.itemSize = 1;
+    cubeVertexIndexBuffer.numItems = 36;
+</pre>
+<p>Remember, each number in this buffer is an index into the vertex position and colour buffers.  So, the first line, combines with the instruction to draw triangles in <code>drawScene</code>, means that we get a triangle using vertices 0, 1, and 2, and then another using 0, 2 and 3.  Because both triangles are the same colour and they are adjacent, the result is a square using vertices 0, 1, 2 and 3.  Repeat for all faces of the cube, and you're done!</p>
+<p>Now you know how to make WebGL scenes using 3D objects, and you know how to re-use the vertices you've specified in array buffers by using element array buffers and <code>drawElements</code>.  If you have any questions, comments, or corrections, please do leave a comment below.</p>
+<p>Next time, <a href="http://learningwebgl.com/blog/?p=507">we'll go over texture mapping</a>.</p>
+<p><span style="float: left; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=239">&lt;&lt; Lesson 3</a></span><span style="float: right; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=507">Lesson 5 &gt;&gt;</a></span><br/></p>
+<p><em>Acknowledgments: As always, I'm deeply in debt to <a href="http://nehe.gamedev.net/">NeHe</a> for his <a href="http://nehe.gamedev.net/data/lessons/lesson.asp?lesson=05">OpenGL tutorial</a> for the script for this lesson.  Chris Marrin's <a href="http://webkit.org/blog-files/webgl/SpinningBox.html">WebKit spinning box</a> was the inspiration for adapting this lesson to introduce element array buffers.</em></p>
+															</div>
+							<div class="postmeta">Posted in <a href="http://learningwebgl.com/blog/?cat=1" title="View all posts in Uncategorized" rel="category">Uncategorized</a> |  </div>
+						
+							<div class="navigation clearfix">
+								<div class="alignleft">&laquo; <a href="http://learningwebgl.com/blog/?p=364" rel="prev">WebGL around the net, 26 Oct 2009</a></div>
+								<div class="alignright"><a href="http://learningwebgl.com/blog/?p=390" rel="next">Groups for WebGL?</a> &raquo;</div>
+							</div>
+							
+															You can <a href="#respond">leave a response</a>, or <a href="http://learningwebgl.com/blog/wp-trackback.php?p=370" rel="trackback">trackback</a> from your own site.
+	
+													</div><!--/post-370-->
+						
+				
+<!-- You can start editing here. -->
+
+	<h3 id="comments">70 Responses to &#8220;WebGL Lesson 4 – some real 3D objects&#8221;</h3>
+
+	<ol class="commentlist">
+			<li class="comment even thread-even depth-1" id="comment-6778">
+				<div id="div-comment-6778" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/433e107664a2cf66c07da341ddef5f5d?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">athom</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=370&amp;cpage=2#comment-6778">March 10, 2012 at 1:46 pm</a></div>
+
+		<p>hi, @giles one question,<br />
+can the line in drawScene() be removed?<br />
+gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, cubeVertexIndexBuffer);<br />
+I think it has already done in initBuffer()</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6779">
+				<div id="div-comment-6779" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/969d4b263a9c6f92f6c2a9ce4136d708?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">pravin mali</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=370&amp;cpage=2#comment-6779">March 30, 2012 at 3:22 pm</a></div>
+
+		<p>you must have used 8 different vertices of cube and should have used only 8 indices to refer to vertices instead of 23 in cubeVertexIndices</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6780">
+				<div id="div-comment-6780" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/00dc102bfb41b2c8a7856927981e16ad?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">And1</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=370&amp;cpage=2#comment-6780">March 31, 2012 at 1:09 pm</a></div>
+
+		<p>this line is not necessary since size doesn&#8217;t need to be supplied for index buffers:<br />
+cubeVertexIndexBuffer.itemSize = 1;</p>
+<p>Also, in drawScene you shouldn&#8217;t compute the perspective matrix every time, it should just be done once.</p>
+<p>Generally I think you could&#8217;ve used more objects or at least breaked down some functions into smaller ones instead of having everything in one script in large functions, it got really big till this point. (I know probably the reason for doing it so was to have everything in one place focusing more on the webgl stuff but at the end it cost on being able to look through on the code &#8211; maybe having one object instead of two would have helped this.</p>
+<p>One last thing is that I personally dont like writing code that I dont understand 100%, so here and there I could have used more explanation, like the usage parameter in gl.bufferData which I had to look up.</p>
+<p>Sorry for picking on so many things, its meant to be constructive, I like this tutorial by the way!</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6781">
+				<div id="div-comment-6781" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/00dc102bfb41b2c8a7856927981e16ad?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">And1</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=370&amp;cpage=2#comment-6781">March 31, 2012 at 1:31 pm</a></div>
+
+		<p>pravin mali:<br />
+he could have used 8 vertices but then how do you achieve to have one solid color for each side instead of an interpolated one?<br />
+he used 36 vertex indexes not 23 as I see it, but how can you do this with just 8 ? I dont see it. If you do a triangle strip for each 6 faces you can get it down to 24, if you use one big triangle strip you can lower it to 16 but you shouldn&#8217;t do that because of texturing and light issues.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6782">
+				<div id="div-comment-6782" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/16df8a63c7ec094742ea4d437b19c5b6?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Sharma</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=370&amp;cpage=2#comment-6782">June 29, 2012 at 4:29 am</a></div>
+
+		<p>How does WebGL figure out which array is to be indexed into when you say gl.drawElements giving cubeVertexIndexBuffer?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6783">
+				<div id="div-comment-6783" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/e0e1d72808f3f8073b4e7064e4506bed?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Bismita Sahu</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=370&amp;cpage=2#comment-6783">August 1, 2012 at 2:23 pm</a></div>
+
+		<p>how should i decide where in the co ordinate system i should draw the cube.suppose i want to draw the cube connecting two points like (-5,5,1) and (5,5,1).the cube need not rotate.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="pingback even thread-even depth-1" id="comment-6784">
+				<div id="div-comment-6784" class="comment-body">
+				<div class="comment-author vcard">
+				<cite class="fn"><a href='http://www.kenzan8000.org/blog/?p=288' rel='external nofollow' class='url'>ガラパゴスブログ &raquo; Blog Archive &raquo; WebGLレッスン5 – テクスチャの導入</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=370&amp;cpage=2#comment-6784">August 4, 2012 at 3:10 am</a></div>
+
+		<p>[...] 以下の文章は、WebGL Lesson 5 – introducing texturesの日本語訳です。  WebGLのチュートリアルシリーズ第五回へようこそ。このチュートリアルは、第六回NeHeさんのOpenGLチュートリアルの基礎になります。チュートリアルは、分離したファイルから画像を読み込むといったものです。これは、複雑なオブジェクトを描画せずに、リアルな3D空間を表現するのにお手軽な手法です。ダンジョンゲームで岩が落下するところを想像してみてください。おそらく、ひとつひとつの岩をダンジョンの壁と別のオブジェクトとしてモデリングしたくはないでしょう。よって、壁全体はひとつのオブジェクトとして扱い、岩の画像を用意して壁を補うでしょう。  レッスンの内容をWebGLをサポートするブラウザで動かした様子です。    WebGLをサポートするブラウザ環境であれば、リンクをクリックして、WebGLの現行版をチェックしてみてください。もし持っていなければ、リンクから導入方法がわかります。  より詳しい原理を下記します。  注意点：レッスンは、プログラミングの知識を持っており、3Dグラフィックスの経験がないひとを対象にしています。できる限り早く個人の3D Webページを持てるよう、深く理解していただけると幸いです。すでに前回のチュートリアルをご覧になられていたら、この記事を読む前に読んでいただきたいです。なぜなら、このチュートリアルでは、レッスン4と新しいコードとの違いしか説明していないからです。  このチュートリアルには、バグや誤りがあるかもしれません。なにか誤りがあれば、コメントや訂正をできる限り早く教えていただきたいです。  例で紹介しているコードを手に入れるには、２つのやり方があります。表示されているものを読むようなまさにソースを見るやり方。Githubを使って、リンクのリポジトリからcloneしてくる(他のレッスンも)方法もあります。どちらかのやり方でコードを手に入れて、お気に入りのテキストエディタに読み込んで読んでみてください。  テクスチャがどのように機能しているか理解するには、3Dオブジェクト上で色の点がセットされる特有の仕組みを知ることです。レッスン２で説明したように、色がどのようにフラグメントシェーダによって指定されるかを覚えていたら、画像を読み込んで、画像をフラグメントシェーダに送るには何が必要かわかりますか。フラグメントシェーダは、フラグメントを利用して画像のどの部分を取得するのか知る必要がありましたね。  テクスチャを読み込むコードを見ていきましょう。ページ下部にあるWebGLStartのJavaScriptの実行結果を見てください。 [...]</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6785">
+				<div id="div-comment-6785" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/de021c90c02be38370e938c3c5e351ca?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">erilem</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=370&amp;cpage=2#comment-6785">August 5, 2012 at 9:56 pm</a></div>
+
+		<p>I wonder why gl.bindBuffer should be called prior to calling gl.drawElements. (Sorry I have to say that I haven&#8217;t actually tried to remove that call and see what the result is.)</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="pingback even thread-even depth-1" id="comment-6786">
+				<div id="div-comment-6786" class="comment-body">
+				<div class="comment-author vcard">
+				<cite class="fn"><a href='http://weeraphan.com/?p=277' rel='external nofollow' class='url'>WebGL Lessons &laquo; WebGL+Culture</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=370&amp;cpage=2#comment-6786">August 24, 2012 at 4:00 am</a></div>
+
+		<p>[...] Lesson 4: Some Real 3D Objects builds on lesson 3, bringing us into the third dimension fully by replacing the triangle with a pyramid and the square with a cube. [...]</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6787">
+				<div id="div-comment-6787" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/f1ff20b1fd19e2d9604c589f2f412dc0?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Dima</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=370&amp;cpage=2#comment-6787">September 14, 2012 at 9:53 pm</a></div>
+
+		<p>Good tutorial.</p>
+<p>// Left face<br />
+      -1.0, -1.0, -1.0,<br />
+      -1.0, -1.0,  1.0,<br />
+      -1.0,  1.0,  1.0,<br />
+      -1.0,  1.0, -1.0,<br />
+    ];<br />
+Remove last comma after last number.</p>
+<p>I would suggest to use more red remarks, it helps. I didn&#8217;t change new Float32Array(colors) to unpackedColors at first. And spend some time to find out why my cube didn&#8217;t print.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6788">
+				<div id="div-comment-6788" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/fabb0ed0864ded4b50a8212be4234aab?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">frnkschwns</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=370&amp;cpage=2#comment-6788">October 4, 2012 at 10:54 am</a></div>
+
+		<p>hey,</p>
+<p>thanks for this great tutorial!</p>
+<p>btw, you forgot a semicolon after the declaration of cubeVertexIndices.</p>
+<p>cheers <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6789">
+				<div id="div-comment-6789" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/8419c15bbfd824a1b0906ae9a14369ca?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">LanfeustXIII</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=370&amp;cpage=2#comment-6789">November 21, 2012 at 8:31 am</a></div>
+
+		<p>Hello,</p>
+<p>I have difficulties to understand what contains cubeVertexIndexBuffer, could ou give me some explanation please ?</p>
+<p>Thanks <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':)' class='wp-smiley' /> </p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6790">
+				<div id="div-comment-6790" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/d72f93cc66dbb3af2e1049e3ef7df5b6?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Pehat</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=370&amp;cpage=2#comment-6790">December 12, 2012 at 12:33 pm</a></div>
+
+		<p>Hello,</p>
+<p>great tutorial! But when I read it, I see something like that: <a href="http://imageshack.us/photo/my-images/141/nonamede.png/" rel="nofollow">http://imageshack.us/photo/my-images/141/nonamede.png/</a> Gray navigation bar gives me no chance to read some lines of code <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_sad.gif' alt=':(' class='wp-smiley' />  Fix it if you can, please.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6791">
+				<div id="div-comment-6791" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/6a0d1afde488296e0fa30c7a30b6485d?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Allen</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=370&amp;cpage=2#comment-6791">February 16, 2013 at 2:44 am</a></div>
+
+		<p>To get rid of the sidebar, open the Chrome Developer Tools by right-clicking the sidebar and selecting &#8220;Inspect Element.&#8221;  Then, under the Element tab in the Developer Tools look to the right you see element.style {}.  Write &#8220;display: none;&#8221; in there, and viola, right side-panel gone.  <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6792">
+				<div id="div-comment-6792" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/6a0d1afde488296e0fa30c7a30b6485d?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Allen</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=370&amp;cpage=2#comment-6792">February 16, 2013 at 2:48 am</a></div>
+
+		<p>@Giles, you need to add in the css a selector for the pre tags that contain your code:</p>
+<p>word-wrap: break-word;</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6793">
+				<div id="div-comment-6793" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/33a31978cb26bc9dba463893ae4c8a16?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Potomac</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=370&amp;cpage=2#comment-6793">February 19, 2013 at 5:36 am</a></div>
+
+		<p>Great lessons! Thank you for taking the time and sharing as you learn! Really &#8211; thank you.</p>
+<p>I have one constructive criticism though, which may help out others as well; instead of labeling cubeVertexIndexBuffer as cubeVertexIndexBuffer, maybe cubeIndexBuffer or cubeVertexAndColorIndexBuffer or cubeVertexColorTextureIndexBuffer.</p>
+<p>This removes ambiguity and better indicates what the IndexBuffer is doing &#8211; it&#8217;s tying together the VertexBufferArray and ColorBufferArray (here in Lesson 4).</p>
+<p>You did mention this in the paragraph following the IndexBuffer code above, but my left-hemisphere-brain argued with my right-hemisphere-brain for a while !  <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_wink.gif' alt=';-)' class='wp-smiley' /> </p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6794">
+				<div id="div-comment-6794" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/087c78701c7a727d73c8a9a01448b05c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Debbie</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=370&amp;cpage=2#comment-6794">April 4, 2013 at 4:33 pm</a></div>
+
+		<p>Can you tell me how do I get a bottom in the pyramid ..? I thought to create 2 triangles and connect them but I do not know how to connect the points of indexbuffer..</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-64817">
+				<div id="div-comment-64817" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/d06be8445016bf1fe648612daa6cf47f?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">virtual stranger</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=370&amp;cpage=2#comment-64817">July 7, 2013 at 10:39 am</a></div>
+
+		<p>@Debbie</p>
+<p>to get a bottom to the pyramid we need to recognize that this is a square pyramid and not a tetrahedron. that means it has a square for the base (fifth side) and not just another triangle.</p>
+<p>so&#8230; we have to add not one but two triangles to complete the pyramid:</p>
+<p>                pyramidVertexPositionBuffer = gl.createBuffer();<br />
+                gl.bindBuffer(gl.ARRAY_BUFFER, pyramidVertexPositionBuffer);<br />
+                var vertices =<br />
+                    [<br />
+                     0.0,  1.0, 0.0,<br />
+                    -1.0, -1.0, 1.0,<br />
+                     1.0, -1.0, 1.0,</p>
+<p>                     0.0,  1.0, 0.0,<br />
+                     1.0, -1.0, 1.0,<br />
+                     1.0, -1.0,-1.0,</p>
+<p>                     0.0,  1.0, 0.0,<br />
+                     1.0, -1.0,-1.0,<br />
+                    -1.0, -1.0,-1.0,</p>
+<p>                     0.0,  1.0, 0.0,<br />
+                    -1.0, -1.0,-1.0,<br />
+                    -1.0, -1.0, 1.0,</p>
+<p>                     1.0, -1.0, 1.0, // square bottom, triangle 1<br />
+                     1.0, -1.0,-1.0,<br />
+                    -1.0, -1.0,-1.0,</p>
+<p>                     1.0, -1.0, 1.0, // square bottom, triangle 2<br />
+                    -1.0, -1.0,-1.0,<br />
+                    -1.0, -1.0, 1.0<br />
+                    ];<br />
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);<br />
+                pyramidVertexPositionBuffer.itemSize =  3;<br />
+                pyramidVertexPositionBuffer.numItems = 18;</p>
+<p>and we have to appropriately expand the color vector and color our new vertices to match the other sides:</p>
+<p>                pyramidVertexColorBuffer = gl.createBuffer();<br />
+                gl.bindBuffer(gl.ARRAY_BUFFER, pyramidVertexColorBuffer);<br />
+                var colors =<br />
+                    [<br />
+                     1.0,  0.0, 0.0, 1.0,<br />
+                     0.0,  1.0, 0.0, 1.0,<br />
+                     0.0,  0.0, 1.0, 1.0,</p>
+<p>                     1.0,  0.0, 0.0, 1.0,<br />
+                     0.0,  0.0, 1.0, 1.0,<br />
+                     0.0,  1.0, 0.0, 1.0,</p>
+<p>                     1.0,  0.0, 0.0, 1.0,<br />
+                     0.0,  1.0, 0.0, 1.0,<br />
+                     0.0,  0.0, 1.0, 1.0,</p>
+<p>                     1.0,  0.0, 0.0, 1.0,<br />
+                     0.0,  0.0, 1.0, 1.0,<br />
+                     0.0,  1.0, 0.0, 1.0,</p>
+<p>                     0.0,  0.0, 1.0, 1.0, // 2: blue<br />
+                     0.0,  1.0, 0.0, 1.0, // 3: green<br />
+                     0.0,  0.0, 1.0, 1.0, // 4: blue</p>
+<p>                     0.0,  0.0, 1.0, 1.0, // 2: blue<br />
+                     0.0,  0.0, 1.0, 1.0, // 4: blue<br />
+                     0.0,  1.0, 0.0, 1.0  // 1: green<br />
+                    ];<br />
+                gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);<br />
+                pyramidVertexColorBuffer.itemSize = 4;<br />
+                pyramidVertexColorBuffer.numItems = 18;</p>
+<p>one last touch, we can&#8217;t really see the bottom unless we rotate only around the x-axis to give ourselves a good view of the new bottom:</p>
+<p>                mat4.identity(mvMatrix);<br />
+                mat4.translate(mvMatrix, [-1.5, 0.0, -7.0]);<br />
+                mvPushMatrix();<br />
+                mat4.rotate(mvMatrix, degToRad(rPyramid), [1, 0, 0]);</p>
+<p>et voila!</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-86849">
+				<div id="div-comment-86849" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/c0eaaf45cde17c84dc5869f05bdad044?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://echofromfuture.com' rel='external nofollow' class='url'>kevin</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=370&amp;cpage=2#comment-86849">August 6, 2013 at 7:18 pm</a></div>
+
+		<p>this is great tutorial.<br />
+I make some changes and make the cube circle around the pyramid.<br />
+try the link</p>
+<p><a href="http://echofromfuture.com/webglsamples.html" rel="nofollow">http://echofromfuture.com/webglsamples.html</a></p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-117124">
+				<div id="div-comment-117124" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/a608b5faae48a37ae53ca7092c5c4d45?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Gabrielle</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=370&amp;cpage=2#comment-117124">September 8, 2013 at 2:44 am</a></div>
+
+		<p>Cool one. I&#8217;ve added two triangles to the pyramid to close it at the bottom.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+	</ol>
+
+	<div class="navigation">
+		<div class="alignleft"><a href="http://learningwebgl.com/blog/?p=370&#038;cpage=1#comments" >&laquo; Older Comments</a></div>
+		<div class="alignright"></div>
+	</div>
+ 
+
+
+<div id="respond">
+
+<h3>Leave a Reply</h3>
+
+<div class="cancel-comment-reply">
+	<small><a rel="nofollow" id="cancel-comment-reply-link" href="/blog/?p=370#respond" style="display:none;">Click here to cancel reply.</a></small>
+</div>
+
+
+<form action="http://learningwebgl.com/blog/wp-comments-post.php" method="post" id="commentform">
+
+
+<p><input type="text" name="author" id="author" value="" size="22" tabindex="1" aria-required='true' />
+<label for="author"><small>Name (required)</small></label></p>
+
+<p><input type="text" name="email" id="email" value="" size="22" tabindex="2" aria-required='true' />
+<label for="email"><small>Mail (will not be published) (required)</small></label></p>
+
+<p><input type="text" name="url" id="url" value="" size="22" tabindex="3" />
+<label for="url"><small>Website</small></label></p>
+
+
+<!--<p><small><strong>XHTML:</strong> You can use these tags: <code>&lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;strike&gt; &lt;strong&gt; </code></small></p>-->
+
+<p><textarea name="comment" id="comment" cols="100%" rows="10" tabindex="4"></textarea></p>
+
+<p><input name="submit" type="submit" id="submit" tabindex="5" value="Submit Comment" />
+<input type='hidden' name='comment_post_ID' value='370' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p>
+
+</form>
+
+</div>
+
+				
+							
+							</div>
+			</div>
+        <div class="span-8 last">
+    <div id="subscriptions">
+        <a href="http://learningwebgl.com/blog/?feed=rss2"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/rss.png" alt="Subscribe to RSS Feed" title="Subscribe to RSS Feed" /></a>		
+		<a href="https://twitter.com/learningwebgl" title="Follow Learning WebGL on Twitter"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/twitter.png" title="Follow Learning WebGL on Twitter" alt="Follow Learning WebGL on Twitter"  /></a>    </div>
+	<div id="sidebar">
+        <ul>
+            <li id="search">
+				 
+<div class="searchlayout">
+    <form method="get" id="searchform" action="http://learningwebgl.com/blog/"> 
+        <input type="text" value="Search" 
+            name="s" id="s"  onblur="if (this.value == '')  {this.value = 'Search';}"  
+            onfocus="if (this.value == 'Search') {this.value = '';}" />
+        <input type="image" src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/search.gif" style="border:0; vertical-align: top;" /> 
+    </form>
+</div>			</li>
+        </ul>
+            			<div class="addthis_toolbox">   
+    			    <div class="custom_images">
+    			            <a class="addthis_button_twitter"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/twitter.png" width="32" height="32" alt="Twitter" /></a>
+    			            <a class="addthis_button_delicious"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/delicious.png" width="32" height="32" alt="Delicious" /></a>
+    			            <a class="addthis_button_facebook"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/facebook.png" width="32" height="32" alt="Facebook" /></a>
+    			            <a class="addthis_button_digg"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/digg.png" width="32" height="32" alt="Digg" /></a>
+    			            <a class="addthis_button_stumbleupon"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/stumbleupon.png" width="32" height="32" alt="Stumbleupon" /></a>
+    			            <a class="addthis_button_favorites"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/favorites.png" width="32" height="32" alt="Favorites" /></a>
+    			            <a class="addthis_button_more"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/more.png" width="32" height="32" alt="More" /></a>
+    			    </div>
+    			    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js?pub=xa-4a65e1d93cd75e94"></script>
+    			</div>
+    					        
+		<ul>
+		  <li id="text-3" class="widget widget_text"><h2 class="widgettitle">Our Sponsors</h2>			<div class="textwidget">    <div style="margin-left: 10px; margin-top: 20px; width: 170px">
+    <a href="http://web.chemdoodle.com/" target="_blank"><img src="/ads/chemdoodle.gif" ></a>
+    <p>
+    Open-source <b>HTML5</b> solutions for the physical and life sciences.
+    <a style="font-decoration: underline; color: #880000;" href="http://web.chemdoodle.com/">Read more...</a>
+    </div>
+
+<iframe src="http://cdn.oreillystatic.com/widgets/author/217.html" height="400px" width="200px" scrolling="no" frameborder="0"></iframe>
+    <hr/>
+
+    <div style="margin-left: 10px; margin-top: 20px; width: 170px;">
+    <a href="http://www.pythonanywhere.com/"><img src="/ads/pythonanywhere.gif"></a>
+
+    <p>
+    <a href="http://www.pythonanywhere.com">A Python online IDE and web hosting environment</a>. 
+    <a style="font-decoration: underline; color: #880000;" href="http://www.pythonanywhere.com/">Read more...</a>
+    <br/>
+    <br/>
+    Interested in advertising on Learning WebGL? <a style="font-decoration: underline; color: #880000;" href="/cdn-cgi/l/email-protection#bbcfcbdac9d2c8d2fbdcd6dad2d795d8d4d6">Drop me a line.</a>
+    </div></div>
+		</li>		<li id="recent-posts-3" class="widget widget_recent_entries">		<h2 class="widgettitle">Recent Posts</h2>		<ul>
+				<li><a href="http://learningwebgl.com/blog/?p=6635" title="2014: The Year in Review">2014: The Year in Review </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6617" title="WebGL around the net, 11 December 2014">WebGL around the net, 11 December 2014 </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6613" title="Crowdfunding Update">Crowdfunding Update </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6599" title="WebGL around the net, 4 December 2014">WebGL around the net, 4 December 2014 </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6585" title="WebGL around the net, 25 November 2014">WebGL around the net, 25 November 2014 </a></li>
+				</ul>
+		</li>		<li id="recent-comments-3" class="widget widget_recent_comments">			<h2 class="widgettitle">Recent Comments</h2>			<ul id="recentcomments"><li class="recentcomments"><a href='http://www.pcprogramming.com' rel='external nofollow' class='url'>John Davis</a> on <a href="http://learningwebgl.com/blog/?p=6585&#038;cpage=1#comment-3652744">WebGL around the net, 25 November 2014</a></li><li class="recentcomments"><a href='http://www.pcprogramming.com' rel='external nofollow' class='url'>John Davis</a> on <a href="http://learningwebgl.com/blog/?p=6575&#038;cpage=1#comment-3618905">WebGL around the net, 20 November 2014</a></li><li class="recentcomments">jinit on <a href="http://learningwebgl.com/blog/?page_id=2&#038;cpage=1#comment-3313484">About</a></li><li class="recentcomments">Dethraid on <a href="http://learningwebgl.com/blog/?p=507&#038;cpage=3#comment-2792181">WebGL Lesson 5 – introducing textures</a></li><li class="recentcomments">Man on <a href="http://learningwebgl.com/blog/?p=6443&#038;cpage=1#comment-2572225">WebGL around the net, 7 July 2014</a></li></ul>
+		</li><li id="linkcat-2" class="widget widget_links"><h2 class="widgettitle">Blogroll</h2>
+	<ul class='xoxo blogroll'>
+<li><a href="http://blog.tojicode.com/" title="Brandon Jones&#8217; Blog" target="_blank">Brandon Jones</a></li>
+<li><a href="http://www.gilesthomas.com/" title="Giles Thomas&#8217; Personal Blog" target="_blank">Giles Thomas</a></li>
+<li><a href="http://games.greggman.com/game/" title="Gregg Tavares&#8217; Blog" target="_blank">Gregg Tavares</a></li>
+<li><a href="http://www.learnopengles.com/" title="Learn OpenGL ES" target="_blank">Learn OpenGL ES</a></li>
+<li><a href="http://learningthreejs.com/" title="Learning Three.js Blog" target="_blank">Learning Three.js</a></li>
+<li><a href="http://nehe.gamedev.net/" title="NeHe OpenGL Tutorials" target="_blank">NeHe OpenGL</a></li>
+<li><a href="http://www.paulbrunt.co.uk/" title="Paul Brunt&#8217;s Blog" target="_blank">Paul Brunt</a></li>
+<li><a href="http://pl4n3.blogspot.com/" title="PL4N3S WORLD Blog" target="_blank">PL4N3S WORLD</a></li>
+<li><a href="http://www.rozengain.com/blog/" title="Rozengain" target="_blank">Rozengain</a></li>
+<li><a href="http://www.tonyparisi.com/" title="Tony Parisi&#8217;s Personal Blog" target="_blank">Tony Parisi</a></li>
+<li><a href="http://www.webgl.com/" title="WebGL Demos and Links" target="_blank">WebGL.com</a></li>
+
+	</ul>
+</li>
+<li id="archives-3" class="widget widget_archive"><h2 class="widgettitle">Archives</h2>		<ul>
+			<li><a href='http://learningwebgl.com/blog/?m=201501' title='January 2015'>January 2015</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201412' title='December 2014'>December 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201411' title='November 2014'>November 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201410' title='October 2014'>October 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201409' title='September 2014'>September 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201408' title='August 2014'>August 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201407' title='July 2014'>July 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201406' title='June 2014'>June 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201405' title='May 2014'>May 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201404' title='April 2014'>April 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201403' title='March 2014'>March 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201402' title='February 2014'>February 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201401' title='January 2014'>January 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201312' title='December 2013'>December 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201311' title='November 2013'>November 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201310' title='October 2013'>October 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201309' title='September 2013'>September 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201308' title='August 2013'>August 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201307' title='July 2013'>July 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201306' title='June 2013'>June 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201305' title='May 2013'>May 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201304' title='April 2013'>April 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201303' title='March 2013'>March 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201212' title='December 2012'>December 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201211' title='November 2012'>November 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201210' title='October 2012'>October 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201209' title='September 2012'>September 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201208' title='August 2012'>August 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201207' title='July 2012'>July 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201206' title='June 2012'>June 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201205' title='May 2012'>May 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201204' title='April 2012'>April 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201203' title='March 2012'>March 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201202' title='February 2012'>February 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201112' title='December 2011'>December 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201111' title='November 2011'>November 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201110' title='October 2011'>October 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201109' title='September 2011'>September 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201108' title='August 2011'>August 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201107' title='July 2011'>July 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201106' title='June 2011'>June 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201105' title='May 2011'>May 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201104' title='April 2011'>April 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201103' title='March 2011'>March 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201102' title='February 2011'>February 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201101' title='January 2011'>January 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201012' title='December 2010'>December 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201011' title='November 2010'>November 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201010' title='October 2010'>October 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201009' title='September 2010'>September 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201008' title='August 2010'>August 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201007' title='July 2010'>July 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201006' title='June 2010'>June 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201005' title='May 2010'>May 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201004' title='April 2010'>April 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201003' title='March 2010'>March 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201002' title='February 2010'>February 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201001' title='January 2010'>January 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200912' title='December 2009'>December 2009</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200911' title='November 2009'>November 2009</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200910' title='October 2009'>October 2009</a></li>
+		</ul>
+</li><li id="meta-3" class="widget widget_meta"><h2 class="widgettitle">Meta</h2>			<ul>
+						<li><a href="http://learningwebgl.com/blog/wp-login.php">Log in</a></li>
+			<li><a href="http://learningwebgl.com/blog/?feed=rss2" title="Syndicate this site using RSS 2.0">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://learningwebgl.com/blog/?feed=comments-rss2" title="The latest comments to all posts in RSS">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://wordpress.org/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.org</a></li>
+						</ul>
+</li>		</ul>
+	</div>
+</div>
+
+		</div><!--/container-->
+			<div id="footer">
+				Copyright &copy; 2013 <a href="http://learningwebgl.com/blog"><strong>Learning WebGL</strong></a> -  3D Programming for the Web <br />
+                <div class="footer-credits">
+                    Powered by <a href="http://wordpress.org/">WordPress</a> | <a href="http://flexithemes.com/themes/modern-style/">Modern Style</a> theme by <a href="http://flexithemes.com/">FlexiThemes</a>
+                </div>
+			</div><!--/footer-->
+            
+	</div><!--/wrapper-->
+	
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-2240015-5");
+pageTracker._trackPageview();
+} catch(err) {}</script>    
+<script type="text/javascript">
+/* <![CDATA[ */
+(function(){try{var s,a,i,j,r,c,l=document.getElementsByTagName("a"),t=document.createElement("textarea");for(i=0;l.length-i;i++){try{a=l[i].getAttribute("href");if(a&&a.indexOf("/cdn-cgi/l/email-protection") > -1  && (a.length > 28)){s='';j=27+ 1 + a.indexOf("/cdn-cgi/l/email-protection");if (a.length > j) {r=parseInt(a.substr(j,2),16);for(j+=2;a.length>j&&a.substr(j,1)!='X';j+=2){c=parseInt(a.substr(j,2),16)^r;s+=String.fromCharCode(c);}j+=1;s+=a.substr(j,a.length-j);}t.innerHTML=s.replace(/</g,"&lt;").replace(/>/g,"&gt;");l[i].setAttribute("href","mailto:"+t.value);}}catch(e){}}}catch(e){}})();
+/* ]]> */
+</script>
+</body>
+</html>
+
+
