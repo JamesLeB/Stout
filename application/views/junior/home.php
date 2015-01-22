@@ -13,7 +13,7 @@
 				});
 			});
 			$('#tabs').tabs();
-			$('#tabs').tabs({active:1});
+			$('#tabs').tabs({active:4});
 		}); // END doc ready function
 	</script>
 	<style>
@@ -80,11 +80,13 @@
 					<li><a href='#tab2'>Bill Medicaid</a></li>
 					<li><a href='#tab3'>Load 277</a></li>
 					<li><a href='#tab4'>Tables</a></li>
+					<li><a href='#tab5'>LoadClaims</a></li>
 				</ul>
 				<div id='tab1'><?php echo $todo ?></div>
 				<div id='tab2'><?php echo $billMedicaid ?></div>
 				<div id='tab3'><?php echo $load277 ?></div>
 				<div id='tab4'><?php echo $dbtables ?></div>
+				<div id='tab5'><?php echo $loadClaims ?></div>
 			</div>
 		</div>
 		<!-- Footer -->

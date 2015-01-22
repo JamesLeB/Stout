@@ -19,9 +19,13 @@ class Stout extends CI_Controller {
 		}
 		elseif($user == 'junior')
 		{
-			$d['load277'] = $this->load->view('junior/load277','',true);
-			$d['todo'] = $this->load->view('junior/todo','',true);
+			$d['load277']      = $this->load->view('junior/load277','',true);
+			$d['todo']         = $this->load->view('junior/todo','',true);
 			$d['billMedicaid'] = $this->load->view('junior/billMedicaid','',true);
+			$d['loadClaims']   = $this->load->view('junior/loadClaims','',true);
+			$d['dbtables']     = $this->load->view('junior/dbtables','',true);
+
+			$this->load->view('junior/home',$d);
 
 /*
 # Move this code to c/slides/worker getBatch function
@@ -52,8 +56,6 @@ $dd['batchData'] = $html;
 $d['billMedicaid'] = $this->load->view('junior/batchView',$dd,true);
 */
 
-			$d['dbtables'] = $this->load->view('junior/dbtables','',true);
-			$this->load->view('junior/home',$d);
 		}
 		elseif($user == 'john')
 		{
