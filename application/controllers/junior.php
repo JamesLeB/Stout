@@ -2,6 +2,36 @@
 
 class Junior extends CI_Controller {
 
+	public function getNewClaims()
+	{
+		$list = scandir('files/edi/sentClaims');
+		echo json_encode($list);
+	}
+	public function getProcessedClaims()
+	{
+		$list = scandir('files/edi/processedClaims');
+		echo json_encode($list);
+	}
+	public function processClaim()
+	{
+		$file = $_POST['file'];
+		$new1 = "files/edi/sentClaims/$file";
+		$new2 = "files/edi/processedClaims/$file";
+		$f = file_get_contents($new1);
+		file_put_contents($new2,$f);
+		unlink($new1);
+		echo "$file copied";
+	}
+	public function resetClaim()
+	{
+		$file = $_POST['file'];
+		$new1 = "files/edi/sentClaims/$file";
+		$new2 = "files/edi/processedClaims/$file";
+		$f = file_get_contents($new2);
+		file_put_contents($new1,$f);
+		unlink($new2);
+		echo "$file copied";
+	}
 	public function loadBatch()
 	{
 		$file = $_POST['file'];
