@@ -47,7 +47,7 @@
 		});
 		$('#trader').html(mylist);
 	});
-	if(1)
+	if(0)
 	{
 		$.post('index.php?/trader/getCoinList','',function(data){
 			var obj = $.parseJSON(data)
