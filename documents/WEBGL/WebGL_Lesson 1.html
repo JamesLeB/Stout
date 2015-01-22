@@ -1,0 +1,1159 @@
+    <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" dir="ltr" lang="en-US">
+
+<head profile="http://gmpg.org/xfn/11">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+
+<title>  WebGL Lesson 1 &#8211; A triangle and a square | Learning WebGL</title>
+<script type="text/javascript">
+//<![CDATA[
+try{if (!window.CloudFlare) {var CloudFlare=[{verbose:0,p:0,byc:0,owlid:"cf",bag2:1,mirage2:0,oracle:0,paths:{cloudflare:"/cdn-cgi/nexp/dok3v=1613a3a185/"},atok:"2c1b6781e0cb3014c3b88e10d5e2d90a",petok:"8605aba9733cfe74dbee874b2578a269d4acae72-1421936455-1800",zone:"learningwebgl.com",rocket:"0",apps:{}}];CloudFlare.push({"apps":{"ape":"e92f192b062d28eb42f6ae114ec50374"}});!function(a,b){a=document.createElement("script"),b=document.getElementsByTagName("script")[0],a.async=!0,a.src="//ajax.cloudflare.com/cdn-cgi/nexp/dok3v=919620257c/cloudflare.min.js",b.parentNode.insertBefore(a,b)}()}}catch(e){};
+//]]>
+</script>
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/screen.css" type="text/css" media="screen, projection" />
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/print.css" type="text/css" media="print" />
+<!--[if IE]><link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/css/ie.css" type="text/css" media="screen, projection"><![endif]-->
+<!--[if IE 6]>
+	<script src="http://learningwebgl.com/blog/wp-content/themes/modern-style/js/pngfix.js"></script>
+<![endif]--> 
+<link rel="stylesheet" href="http://learningwebgl.com/blog/wp-content/themes/modern-style/style.css" type="text/css" media="screen" />
+<link rel="alternate" type="application/rss+xml" title="Learning WebGL RSS Feed" href="http://learningwebgl.com/blog/?feed=rss2" />
+<link rel="alternate" type="application/atom+xml" title="Learning WebGL Atom Feed" href="http://learningwebgl.com/blog/?feed=atom" />
+<link rel="pingback" href="http://learningwebgl.com/blog/xmlrpc.php" />
+
+<link rel="alternate" type="application/rss+xml" title="Learning WebGL &raquo; WebGL Lesson 1 &#8211; A triangle and a square Comments Feed" href="http://learningwebgl.com/blog/?feed=rss2&amp;p=28" />
+<link rel="EditURI" type="application/rsd+xml" title="RSD" href="http://learningwebgl.com/blog/xmlrpc.php?rsd" />
+<link rel="wlwmanifest" type="application/wlwmanifest+xml" href="http://learningwebgl.com/blog/wp-includes/wlwmanifest.xml" /> 
+<link rel='index' title='Learning WebGL' href='http://learningwebgl.com/blog' />
+<link rel='start' title='Hello, world!' href='http://learningwebgl.com/blog/?p=5' />
+<link rel='prev' title='WebGL in Chrome' href='http://learningwebgl.com/blog/?p=43' />
+<link rel='next' title='WebGL around the net, 12 Oct 2009' href='http://learningwebgl.com/blog/?p=112' />
+<meta name="generator" content="WordPress 2.9.2" />
+<link rel='canonical' href='http://learningwebgl.com/blog/?p=28' />
+	<style type="text/css">.recentcomments a{display:inline !important;padding:0 !important;margin:0 !important;}</style>
+
+</head>
+<body>
+	<div id="wrapper">
+		<div id="container" class="container">  
+                        
+			<div class="span-16">
+                <div id="header">
+                    						<h1><a href="http://learningwebgl.com/blog">Learning WebGL</a></h1>
+						<h2>3D Programming for the Web</h2>
+										</div>
+                
+                <div class="navcontainer">
+					<ul id="nav">
+						<li ><a href="http://learningwebgl.com/blog/">Home</a></li>
+						<li class="page_item page-item-1217"><a href="http://learningwebgl.com/blog/?page_id=1217" title="The Lessons">The Lessons</a></li>
+<li class="page_item page-item-2438"><a href="http://learningwebgl.com/blog/?page_id=2438" title="WebGL Jobs">WebGL Jobs</a></li>
+<li class="page_item page-item-988"><a href="http://learningwebgl.com/blog/?page_id=988" title="The WebGL Cookbook">The WebGL Cookbook</a></li>
+<li class="page_item page-item-2"><a href="http://learningwebgl.com/blog/?page_id=2" title="About">About</a></li>
+		
+					</ul>
+				</div>
+            		<div id="content">	
+                	
+						
+												<div class="post-28 post hentry category-uncategorized clearfix" id="post-28">
+							<h2 class="title">WebGL Lesson 1 &#8211; A triangle and a square</h2>
+							<div class="postdate">
+                                <span>October 13th, 2009</span> 
+                                <span><a href="http://learningwebgl.com/blog/?p=28#comments" title="Comment on WebGL Lesson 1 &#8211; A triangle and a square">288 Comments</a></span>                             </div>
+			
+							<div class="entry">
+                                								<p><span style="float: left; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=11">&lt;&lt; Lesson 0</a></span><span style="float: right; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=134">Lesson 2 &gt;&gt;</a></span><br/><br />
+Welcome to my first WebGL tutorial!  This first lesson is based on <a href="http://nehe.gamedev.net/data/lessons/lesson.asp?lesson=02">number 2</a> in the NeHe OpenGL tutorials, which are a popular way of learning 3D graphics for game development.  It shows you how to draw a triangle and a square in a web page.  Maybe that&#8217;s not terribly exciting in itself, but it&#8217;s a great introduction to the foundations of WebGL; if you understand how this works, the rest should be pretty simple&#8230;</p>
+<p>Here&#8217;s what the lesson looks like when run on a browser that supports WebGL:<br />
+<img src="/lessons/lesson01/static.png" alt="A static picture of this lesson's results" /></p>
+<p><a href="/lessons/lesson01/index.html">Click here and you&#8217;ll see the live WebGL version</a>, if you&#8217;ve got a browser that supports it; <a href="http://learningwebgl.com/blog/?p=11">here&#8217;s how to get one</a> if you don&#8217;t.</p>
+<p>More on how it all works below&#8230;</p>
+<p><span id="more-28"></span></p>
+<p>A quick warning: These lessons are targeted at people with a reasonable amount of programming knowledge, but no real experience in 3D graphics; the aim is to get you up and running, with a good understanding of what&#8217;s going on in the code, so that you can start producing your own 3D Web pages as quickly as possible. I&#8217;m writing these as I learn WebGL myself, so there may well be (and probably are) errors; <a href="http://learningwebgl.com/blog/?page_id=2">use at your own risk</a>.  However, I&#8217;m fixing bugs and correcting misconceptions as I hear about them, so if you see anything broken then please let me know in the comments.</p>
+<p>There are two ways you can get the code for this example; just &#8220;View Source&#8221; while you&#8217;re looking at the live version, or if you use GitHub, you can clone it (and future lessons) from <a href="http://github.com/gpjt/webgl-lessons">the repository there</a>.  Either way, once you have the code, load it up in your favourite text editor and take a look.  It&#8217;s pretty daunting at first glance, even if you&#8217;ve got a nodding acquaintance with, say, OpenGL.  Right at the start we&#8217;re defining a couple of shaders, which are generally regarded as relatively advanced&#8230; but don&#8217;t despair, it&#8217;s actually much simpler than it looks.</p>
+<p>Like many programs, this WebGL page starts off by defining a bunch of lower-level functions which are used by the high-level code at the bottom.  In order to explain it, I&#8217;ll start at the bottom and work my way up, so if you&#8217;re following through in the code, jump down to the bottom.</p>
+<p>You&#8217;ll see the following HTML code:</p>
+<pre>&lt;body onload="webGLStart();"&gt;
+  &lt;a href="http://learningwebgl.com/blog/?p=28"&gt;&amp;lt;&amp;lt; Back to Lesson 1&lt;/a&gt;&lt;br /&gt;
+
+  &lt;canvas id="lesson01-canvas" style="border: none;" width="500" height="500"&gt;&lt;/canvas&gt;
+
+  &lt;br/&gt;
+  &lt;a href="http://learningwebgl.com/blog/?p=28"&gt;&amp;lt;&amp;lt; Back to Lesson 1&lt;/a&gt;&lt;br /&gt;
+&lt;/body&gt;</pre>
+<p>This is the complete body of the page — everything else is in JavaScript (though if you got the code using &#8220;View source&#8221; you&#8217;ll see some extra junk needed by my website analytics, which you can ignore). Obviously we could put more normal HTML inside the <code>&lt;body&gt;</code> tags and build our WebGL image into a normal web page, but for this simple demo we&#8217;ve just got the links back to this blog post, and the <code>&lt;canvas&gt;</code> tag, which is where the 3D graphics live.   Canvases are new for HTML5 — they&#8217;re how it supports new kinds of JavaScript-drawn elements in web pages, both 2D and (through WebGL) 3D.  We don&#8217;t specify anything more than the simple layout properties of the canvas in its tag, and instead leave all of the WebGL setup code to a JavaScript function called <code>webGLStart</code>, which you can see is called once the page is loaded.</p>
+<p>Let&#8217;s scroll up to that function now and take a look at it:</p>
+<pre>  function webGLStart() {
+    var canvas = document.getElementById("lesson01-canvas");
+    initGL(canvas);
+    initShaders();
+    initBuffers();
+
+    gl.clearColor(0.0, 0.0, 0.0, 1.0);
+    gl.enable(gl.DEPTH_TEST);
+
+    drawScene();
+  }
+</pre>
+<p>It calls functions to initialise WebGL and the shaders that I mentioned earlier, passing into the former the canvas element on which we want to draw our 3D stuff, and then it initialises some buffers using <code>initBuffers</code>; buffers are things that hold the details of the the triangle and the square that we&#8217;re going to be drawing &mdash; we&#8217;ll talk more about those in a moment.  Next, it does some basic WebGL setup, saying that when we clear the canvas we should make it black, and that we should do depth testing (so that things drawn behind other things should be hidden by the things in front of them).  These steps are implemented by calls to methods on a <code>gl</code> object &mdash; we&#8217;ll see how that&#8217;s initialised later.  Finally, it calls the function <code>drawScene</code>; this (as you&#8217;d expect from the name) draws the triangle and the square, using the buffers.</p>
+<p>We&#8217;ll come back to <code>initGL</code> and <code>initShaders</code> later on, as they&#8217;re important in understanding how the page works, but first, let&#8217;s take a look at <code>initBuffers</code> and <code>drawScene</code>.</p>
+<p><code>initBuffers</code> first; taking it step by step:</p>
+<pre>
+  var triangleVertexPositionBuffer;
+  var squareVertexPositionBuffer;
+</pre>
+<p>We declare two global variables to hold the buffers.  (In any real-world WebGL page you wouldn&#8217;t have a separate global variable for each object in the scene, but we&#8217;re using them here to keep things simple, as we&#8217;re just getting started.)</p>
+<p>Next:</p>
+<pre>
+  function initBuffers() {
+    triangleVertexPositionBuffer = gl.createBuffer();
+</pre>
+<p>We create a buffer for the triangle&#8217;s vertex positions.  Vertices (don&#8217;t you just love irregular plurals?) are the points in 3D space that define the shapes we&#8217;re drawing.  For our triangle, we will have three of them (which we&#8217;ll set up in a minute).  This buffer is actually a bit of memory on the graphics card; by putting the vertex positions on the card once in our initialisation code and then, when we come to draw the scene, essentially just telling WebGL to &#8220;draw those things I told you about earlier&#8221;, we can make our code really efficient, especially once we start animating the scene and want to draw the object tens of times every second to make it move.  Of course, when it&#8217;s just three vertex positions as in this case, there&#8217;s not too much cost to pushing them up to the graphics card &mdash; but when you&#8217;re dealing with large models with tens of thousands of vertices, it can be a real advantage to do things this way.  Next:</p>
+<pre>
+    gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexPositionBuffer);
+</pre>
+<p>This line tells WebGL that any following operations that act on buffers should use the one we specify.  There&#8217;s always this concept of a &#8220;current array buffer&#8221;, and functions act on that rather than letting you specify which array buffer you want to work with.  Odd, but I&#8217;m sure there a good performance reasons behind it&#8230;</p>
+<pre>
+    var vertices = [
+         0.0,  1.0,  0.0,
+        -1.0, -1.0,  0.0,
+         1.0, -1.0,  0.0
+    ];
+</pre>
+<p>Next, we define our vertex positions as a JavaScript list.  You can see that they&#8217;re at the points of an isosceles triangle with its centre at (0, 0, 0).</p>
+<pre>
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+</pre>
+<p>Now, we create a <code>Float32Array</code> object based on our JavaScript list, and tell WebGL to use it to fill the current buffer, which is of course our <code>triangleVertexPositionBuffer</code>.  We&#8217;ll talk more about <code>Float32Array</code>s in a future lesson, but for now all you need to know is that they&#8217;re a way of turning a JavaScript list into something we can pass over to WebGL for filling its buffers.</p>
+<pre>
+    triangleVertexPositionBuffer.itemSize = 3;
+    triangleVertexPositionBuffer.numItems = 3;
+</pre>
+<p>The last thing we do with the buffer is to set two new properties on it.  These are not something that&#8217;s built into WebGL, but they will be very useful later on.  One nice thing (some would say, bad thing) about JavaScript is that an object doesn&#8217;t have to explicitly support a particular property for you to set it on it.  So although the buffer object didn&#8217;t previously have <code>itemSize</code> and <code>numItems</code> properties, now it does.  We&#8217;re using them to say that this 9-element buffer actually represents three separate vertex positions (<code>numItems</code>), each of which is made up of three numbers (<code>itemSize</code>).</p>
+<p>Now we&#8217;ve completely set up the buffer for the triangle, so it&#8217;s on to the square:</p>
+<pre>
+    squareVertexPositionBuffer = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexPositionBuffer);
+    vertices = [
+         1.0,  1.0,  0.0,
+        -1.0,  1.0,  0.0,
+         1.0, -1.0,  0.0,
+        -1.0, -1.0,  0.0
+    ];
+    gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
+    squareVertexPositionBuffer.itemSize = 3;
+    squareVertexPositionBuffer.numItems = 4;
+  }
+</pre>
+<p>All of that should be pretty obvious &mdash; the square has four vertex positions rather than 3, and so the array is bigger and the <code>numItems</code> is different.</p>
+<p>OK, so that was what we needed to do to push our two objects&#8217; vertex positions up to the graphics card.  Now let&#8217;s look at <code>drawScene</code>, which is where we use those buffers to actually draw the image we&#8217;re seeing.  Taking it step-by-step:</p>
+<pre>
+  function drawScene() {
+    gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
+</pre>
+<p><span id="viewport-code">The first step is to tell WebGL a little bit about the size of the canvas using the <code>viewport</code> function; we&#8217;ll come back to why that&#8217;s important in a (much!) later lesson; for now, you just need to know that the function needs calling with the size of the canvas before you start drawing.</span>  Next, we clear the canvas in preparation for drawing on it:</p>
+<pre>
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+</pre>
+<p>&#8230;and then:</p>
+<pre>
+    mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
+</pre>
+<p>Here we&#8217;re setting up the perspective with which we want to view the scene.  By default, WebGL will draw things that are close by the same size as things that are far away (a style of 3D known as <i>orthographic projection</i>).  In order to make things that are further away look smaller, we need to tell it a little about the perspective we&#8217;re using.  For this scene, we&#8217;re saying that our (vertical) <a href="http://en.wikipedia.org/wiki/Field_of_view">field of view</a> is 45&deg;, we&#8217;re telling it about the width-to-height ratio of our canvas, and saying that we don&#8217;t want to see things that are closer than 0.1 units to our viewpoint, and that we don&#8217;t want to see things that are further away than 100 units.</p>
+<p>As you can see, this perspective stuff is using a function from a module called <code>mat4</code>, and involves an intriguingly-named variable called <code>pMatrix</code>.  More about these later; hopefully for now it is clear how to use them without needing to know the details.</p>
+<p>Now that we have our perspective set up, we can move on to drawing some stuff:</p>
+<pre>    mat4.identity(mvMatrix);</pre>
+<p>The first step is to &#8220;move&#8221; to the centre of the 3D scene.  In OpenGL, when you&#8217;re drawing a scene, you tell it to draw each thing you draw at a &#8220;current&#8221; position with a &#8220;current&#8221; rotation — so, for example, you say &#8220;move 20 units forward, rotate 32 degrees, then draw the robot&#8221;, the last bit being some complex set of &#8220;move this much, rotate a bit, draw that&#8221; instructions in itself.  This is useful because you can encapsulate the &#8220;draw the robot&#8221; code in one function, and then easily move said robot around just by changing the move/rotate stuff you do before calling that function.</p>
+<p>The current position and current rotation are both held in a matrix; as you probably learned at school, matrices can represent translations (moves from place to place), rotations, and other geometrical transformations.  For reasons I won&#8217;t go into right now, you can use a single 4&#215;4 matrix (not 3&#215;3) to represent any number of transformations in 3D space; you start with the <em>identity matrix</em> — that is, the matrix that represents a transformation that does nothing at all — then multiply it by the matrix that represents your first transformation, then by the one that represents your second transformation, and so on.   The combined matrix represents all of your transformations in one.  The matrix we use to represent this current move/rotate state is called the <em>model-view matrix</em>, and by now you have probably worked out that the variable <code>mvMatrix</code> holds our model-view matrix, and the <code>mat4.identity</code> function that we just called sets it to the identity matrix so that we&#8217;re ready to start multiplying translations and rotations into it.  Or, in other words, it&#8217;s moved us to an origin point from which we can move to start drawing our 3D world.</p>
+<p>Sharp-eyed readers will have noticed that at the start of this discussion of matrices I said &#8220;in OpenGL&#8221;, not &#8220;in WebGL&#8221;.  This is because WebGL doesn&#8217;t have this stuff built in to the graphics library.  Instead, we use a third-party matrix library &mdash; <a href="http://blog.tojicode.com/">Brandon Jones</a>&#8217;s excellent <a href="http://code.google.com/p/glmatrix/">glMatrix</a> &mdash; plus some nifty WebGL tricks to get the same effect.  More about that niftiness later.</p>
+<p>Right, let&#8217;s move on to the code that draws the triangle on the left-hand side of our canvas.</p>
+<pre>    mat4.translate(mvMatrix, [-1.5, 0.0, -7.0]);</pre>
+<p>Having moved to the centre of our 3D space with by setting <code>mvMatrix</code> to the identity matrix, we start the triangle  by moving 1.5 units to the left (that is, in the negative sense along the X axis), and seven units into the scene (that is, away from the viewer; the negative sense along the Z axis).  (<code>mat4.translate</code>, as you might guess, means &#8220;multiply the given matrix by a translation matrix with the following parameters&#8221;.)</p>
+<p>The next step is to actually start drawing something!</p>
+<pre id="triangle-vertex-positions">
+    gl.bindBuffer(gl.ARRAY_BUFFER, triangleVertexPositionBuffer);
+    gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, triangleVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+</pre>
+<p>So, you remember that in order to use one of our buffers, we call <code>gl.bindBuffer</code> to specify a current buffer, and then call the code that operates on it.  Here we&#8217;re selecting our <code>triangleVertexPositionBuffer</code>, then telling WebGL that the values in it should be used for vertex positions.  I&#8217;ll explain a little more about how that works later; for now, you can see that we&#8217;re using the <code>itemSize</code> property we set on the buffer to tell WebGL that each item in the buffer is three numbers long.</p>
+<p>Next, we have:</p>
+<pre>
+    setMatrixUniforms();
+</pre>
+<p>This tells WebGL to take account of our current model-view matrix (and also the projection matrix, about which more later).   This is required because all of this matrix stuff isn&#8217;t built in to WebGL.  The way to look at it is that you can do all of the moving around by changing the <code>mvMatrix</code> variable you want, but this all happens in JavaScript&#8217;s private space.  <code>setMatrixUniforms</code>, a function that&#8217;s defined further up in this file, moves it over to the graphics card.</p>
+<p>Once this is done, WebGL has an array of numbers that it knows should be treated as vertex positions, and it knows about our matrices.   The next step tells it what to do with them:</p>
+<pre>
+    gl.drawArrays(gl.TRIANGLES, 0, triangleVertexPositionBuffer.numItems);
+</pre>
+<p>Or, put another way, &#8220;draw the array of vertices I gave you earlier as triangles, starting with item 0 in the array and going up to the <code>numItems</code>th element&#8221;.</p>
+<p>Once this is done, WebGL will have drawn our triangle.   Next step, draw the square:</p>
+<pre>
+    mat4.translate(mvMatrix, [3.0, 0.0, 0.0]);
+</pre>
+<p>We start by moving our model-view matrix three units to the right.  Remember, we&#8217;re currently already 1.5 to the left and 7 away from the screen, so this leaves us 1.5 to the right and 7 away.  Next:</p>
+<pre>
+    gl.bindBuffer(gl.ARRAY_BUFFER, squareVertexPositionBuffer);
+    gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, squareVertexPositionBuffer.itemSize, gl.FLOAT, false, 0, 0);
+</pre>
+<p>So, we tell WebGL to use our square&#8217;s buffer for its vertex positions&#8230;</p>
+<pre>
+    setMatrixUniforms();
+</pre>
+<p>&#8230;we push over the model-view and projection matrices again (so that we take account of that last <code>mvTranslate</code>), which means that we can finally:</p>
+<pre>
+    gl.drawArrays(gl.TRIANGLE_STRIP, 0, squareVertexPositionBuffer.numItems);
+</pre>
+<p>Draw the points.  What, you may ask, is a triangle strip?  Well, it&#8217;s a strip of triangles <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' />   More usefully, it&#8217;s a strip of triangles where the first three vertices you give specify the first triangle, then the last two of those vertices plus the next one specify the next triangle, and so on.  In this case, it&#8217;s a quick-and-dirty way of specifying a square.  In more complex cases, it can be a really useful way of specifying a complex surface in terms of the triangles that approximate it.</p>
+<p>Anyway, once that&#8217;s done, we&#8217;ve finished our <code>drawScene</code> function.</p>
+<pre>
+  }
+</pre>
+<p>If you&#8217;ve got this far, you&#8217;re definitely ready to start experimenting.   Copy the code to a local file, either from <a href="http://github.com/gpjt/webgl-lessons">GitHub</a> or directly from the live version; if you do the latter, you need <a href="/lessons/lesson01/index.html"><code>index.html</code></a> and <a href="/lessons/lesson01/glMatrix-0.9.5.min.js"><code>glMatrix-0.9.5.min.js</code></a>.  Run it up locally to make sure it works, then try changing some of the vertex positions above; in particular, the scene right now is pretty flat; try changing the Z values for the square to 2, or -3, and see it get larger or smaller as it moves back and forward.  Or try changing just one or two of them, and watch it distort in perspective.  Go crazy, and don&#8217;t mind me.  I&#8217;ll wait.</p>
+<p>&#8230;</p>
+<p>Right, now that you&#8217;re back, let&#8217;s take a look at the support functions that made all of the code we just went over possible. As I said before, if you&#8217;re happy to ignore the details and just copy and paste the support functions that come above <code>initBuffers</code> in the page, you can probably get away with it and build interesting WebGL pages (albeit in black and white &mdash; colour&#8217;s the <a href="http://learningwebgl.com/blog/?p=134">next lesson</a>).  But none of the details are difficult to understand, and by understanding how this stuff works you&#8217;re likely to write better WebGL code later on.</p>
+<p>Still with me?  Thanks <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' />   Let&#8217;s get the most boring of the functions out of the way first; the first one called by <code>webGLStart</code>, which is <code>initGL</code>.  It&#8217;s near the top of the web page, and here&#8217;s a copy for reference:</p>
+<pre>
+  var gl;
+  function initGL(canvas) {
+    try {
+      gl = canvas.getContext("experimental-webgl");
+      gl.viewportWidth = canvas.width;
+      gl.viewportHeight = canvas.height;
+    } catch(e) {
+    }
+    if (!gl) {
+      alert("Could not initialise WebGL, sorry <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_sad.gif' alt=':-(' class='wp-smiley' /> ");
+    }
+  }
+</pre>
+<p>This is very simple.  As you may have noticed, the <code>initBuffers</code> and <code>drawScene</code> functions frequently referred to an object called <code>gl</code>, which clearly referred to some kind of core WebGL &#8220;thing&#8221;.  This function gets that &#8220;thing&#8221;, which is called a WebGL context, and does it by asking the canvas it is given for the context, using a standard context name.  (As you can probably guess, at some point the context name will change from &#8220;experimental-webgl&#8221; to &#8220;webgl&#8221;; I&#8217;ll update this lesson and blog about it when that happens.  <a href="http://learningwebgl.com/blog/?feed=rss2">Subscribe to the RSS feed</a> if you want to know about that &#8212; and, indeed, if you want at-least-weekly WebGL news.)  Once we&#8217;ve got the context, we again use JavaScript&#8217;s willingness to allow us to set any property we like on any object to store on it the width and height of the canvas to which it relates; this is so that we can use it in <a href="#viewport-code">the code that sets up the viewport and the perspective</a> at the start of <code>drawScene</code>.  Once that&#8217;s done, our GL context is set up.</p>
+<p>After calling <code>initGL</code>, <code>webGLStart</code> called <code>initShaders</code>. This, of course, initialises the shaders (duh <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_wink.gif' alt=';-)' class='wp-smiley' /> .  We&#8217;ll come back to that one later, because first we should take a look at our model-view matrix, and the projection matrix I also mentioned earlier.  Here&#8217;s the code:</p>
+<pre>
+  var mvMatrix = mat4.create();
+  var pMatrix = mat4.create();
+</pre>
+<p>So, we define a variable called <code>mvMatrix</code> to hold the model-view matrix and one called <code>pMatrix</code> for the projection matrix, and then set them to empty (all-zero) matrices to start off with.  It&#8217;s worth saying a bit more about the projection matrix here.  As you will remember, we applied the glMatrix function <code>mat4.perspective</code> to this variable to set up our perspective, right at the start of <code>drawScene</code>.  This was because WebGL does not directly support perspective, just like it doesn&#8217;t directly support a model-view matrix.  But just like the process of moving things around and rotating them that is encapsulated in the model-view matrix, the process of making things that are far away look proportionally smaller than things close up is the kind of thing that matrices are really good at representing.  And, as you&#8217;ve doubtless guessed by now, the projection matrix is the one that does just that.  The <code>mat4.perspective</code> function, with its aspect ratio and field-of-view, populated the matrix with the values that gave use the kind of perspective we wanted.</p>
+<p>Right, now we&#8217;ve been through everything apart from the <code>setMatrixUniforms</code> function, which, as I said earlier, moves the model-view and projection matrices up from JavaScript to WebGL, and the scary shader-related stuff.  They&#8217;re inter-related, so let&#8217;s start with some background.</p>
+<p>Now, what is a shader, you may ask?  Well, at some point in the  history  of 3D graphics they may well have been what they sound like they might be —  bits of code that tell the system how to shade, or colour, parts of a scene before it is drawn.  However, over time they have grown in scope,  to the extent that they can now be better defined as bits of code that can do absolutely anything they want to bits of the scene before it&#8217;s drawn.  And this is actually pretty useful, because (a) they run on the graphics card, so they do what they do really quickly and (b) the kind of transformations they can do can be really convenient even in simple examples like this.</p>
+<p>The  reason that we&#8217;re introducing shaders in what is meant to be a simple WebGL example (they&#8217;re at least &#8220;intermediate&#8221; in OpenGL tutorials) is that we use them to get the WebGL system, hopefully running on the graphics card, to apply our model-view matrix and our projection matrix to our scene without us having to move around every point and every vertex in (relatively) slow JavaScript.   This is incredibly useful, and worth the extra overhead.</p>
+<p>So, here&#8217;s how they are set up.  As you will remember, <code>webGLStart</code> called <code>initShaders</code>, so let&#8217;s go through that step-by-step:</p>
+<pre>
+  var shaderProgram;
+  function initShaders() {
+    var fragmentShader = getShader(gl, "shader-fs");
+    var vertexShader = getShader(gl, "shader-vs");
+
+    shaderProgram = gl.createProgram();
+    gl.attachShader(shaderProgram, vertexShader);
+    gl.attachShader(shaderProgram, fragmentShader);
+    gl.linkProgram(shaderProgram);
+
+    if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS)) {
+      alert("Could not initialise shaders");
+    }
+
+    gl.useProgram(shaderProgram);
+</pre>
+<p>As you can see, it uses a function called <code>getShader</code> to  get two things,  a &#8220;fragment shader&#8221; and a &#8220;vertex shader&#8221;, and then attaches them both to a WebGL thing called a &#8220;program&#8221;.  A program is a bit of code that lives on the WebGL side of the system; you can look at it as a way of specifying something that can run on the graphics card.  As you would expect, you can associate with it a number of shaders, each of which you can see as a snippet of code within that program; specifically, each program can hold one fragment and one vertex shader.  We&#8217;ll look at them shortly.</p>
+<pre>
+    shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
+    gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
+</pre>
+<p>Once the function has set up the program and attached the shaders, it gets a reference to an &#8220;attribute&#8221;, which it stores in a new field on the program object called <code>vertexPositionAttribute</code>.   Once again we&#8217;re taking advantage of JavaScript&#8217;s willingness to set any field on any object; program objects don&#8217;t have a <code>vertexPositionAttribute</code> field by default, but it&#8217;s convenient for us to keep the two values together, so we just make the attribute a new field of the program.</p>
+<p>So, what&#8217;s the <code>vertexPositionAttribute</code> for?  As you may remember, we used it in <code>drawScene</code>; if you look now back at <a href="#triangle-vertex-positions">the code that set the triangle&#8217;s vertex positions from the appropriate buffer</a>, you&#8217;ll see that the stuff we did associated the buffer with that attribute.  You&#8217;ll see what that means in a moment; for now, let&#8217;s just note that we also use <code>gl.enableVertexAttribArray</code> to tell WebGL that we will want to provide values for the attribute using an array.</p>
+<pre>
+    shaderProgram.pMatrixUniform = gl.getUniformLocation(shaderProgram, "uPMatrix");
+    shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
+  }
+</pre>
+<p>The last thing <code>initShaders</code> does is get two more values from the program, the locations of two things called uniform variables.  We&#8217;ll encounter them soon; for now, you should just note that like the attribute, we store them on the program object for convenience.</p>
+<p>Now, let&#8217;s take a look at <code>getShader</code>:</p>
+<pre>
+  function getShader(gl, id) {
+      var shaderScript = document.getElementById(id);
+      if (!shaderScript) {
+          return null;
+      }
+
+      var str = "";
+      var k = shaderScript.firstChild;
+      while (k) {
+          if (k.nodeType == 3)
+              str += k.textContent;
+          k = k.nextSibling;
+      }
+
+      var shader;
+      if (shaderScript.type == "x-shader/x-fragment") {
+          shader = gl.createShader(gl.FRAGMENT_SHADER);
+      } else if (shaderScript.type == "x-shader/x-vertex") {
+          shader = gl.createShader(gl.VERTEX_SHADER);
+      } else {
+          return null;
+      }
+
+      gl.shaderSource(shader, str);
+      gl.compileShader(shader);
+
+      if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+          alert(gl.getShaderInfoLog(shader));
+          return null;
+      }
+
+      return shader;
+  }
+</pre>
+<p>This is another one of those functions that is much simpler than it looks.  All we&#8217;re doing here is looking for an element in our HTML page that has an ID that matches a parameter passed in, pulling out its contents, creating either a fragment or a vertex shader based on its type (more about the difference between those in a future lesson) and then passing it off to WebGL to be compiled into a form that can run on the graphics card.  The code then handles any errors, and it&#8217;s done!  Of course, we could just define shaders as strings within our JavaScript code and not mess around with extracting them from the HTML &mdash; but by doing it this way, we make them much easier to read, because they are defined as scripts in the web page, just as if they were JavaScript themselves.</p>
+<p>Having seen this, we should take a look at the shaders&#8217; code: </p>
+<pre>
+&lt;script id="shader-fs" type="x-shader/x-fragment"&gt;
+  precision mediump float;
+
+  void main(void) {
+    gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+  }
+&lt;/script&gt;
+
+&lt;script id="shader-vs" type="x-shader/x-vertex"&gt;
+  attribute vec3 aVertexPosition;
+
+  uniform mat4 uMVMatrix;
+  uniform mat4 uPMatrix;
+
+  void main(void) {
+    gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+  }
+&lt;/script&gt;
+</pre>
+<p>The first thing to remember about these is that they are <strong>not</strong> written in JavaScript, even though the ancestry of the language is clearly similar.  In fact, they&#8217;re written in a special shader language &#8212; called GLSL &#8212; that owes a lot to C (as, of course, does JavaScript). </p>
+<p>The first of the two, the fragment shader, does pretty much nothing; it has a bit of obligatory boilerplate code to tell the graphics card how precise we want it to be with floating-point numbers (medium precision is good because it&#8217;s required to be supported by all WebGL devices &#8212; <code>highp</code> for high precision doesn&#8217;t work on all mobile devices), then simply specifies that everything that is drawn will be drawn in white.  (How to do stuff in colour is the subject of the <a href="http://learningwebgl.com/blog/?p=134">next lesson</a>.)</p>
+<p>The second shader is a little more interesting.   It&#8217;s a vertex shader — which, you&#8217;ll remember, means that it&#8217;s a bit of graphics-card code that can do pretty much anything it wants with a vertex.  Associated with it, it has two uniform variables called <code>uMVMatrix</code> and <code>uPMatrix</code>.  Uniform variables are useful because they can be accessed from outside the shader &mdash; indeed, from outside its containing program, as you can probably remember from when we extracted their location in <code>initShaders</code>, and from the code we&#8217;ll look at next, where (as I&#8217;m sure you&#8217;ve realised) we set them to the values of the model-view and the projection matrices.  You might want to think of the shader&#8217;s program as an object (in the object-oriented sense) and the uniform variables as fields. </p>
+<p>Now, the shader is called for every vertex, and the vertex is passed in to the shader code as <code>aVertexPosition</code>, thanks to the use of the <code>vertexPositionAttribute</code> in the <code>drawScene</code>, when we associated the attribute with the buffer.  The tiny bit of code in the shader&#8217;s <code>main</code> routine just multiplies the vertex&#8217;s position by the model-view and the projection matrices, and pushes out the result as the final position of the vertex.</p>
+<p>So, <code>webGLStart</code> called <code>initShaders</code>, which used <code>getShader</code> to load the fragment and the vertex shaders from scripts in the web page, so that they could be compiled and passed over to WebGL and used later when rendering our 3D scene.</p>
+<p>After all that, the only remaining unexplained code is <code>setMatrixUniforms</code>, which is easy to understand once you know everything above <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> </p>
+<pre>
+  function setMatrixUniforms() {
+    gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
+    gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
+  }
+</pre>
+<p>So, using the references to the uniforms that represent our projection matrix and our model-view matrix that we got back in <code>initShaders</code>, we send WebGL the values from our JavaScript-style matrices.</p>
+<p>Phew!  That was quite a lot for a first lesson, but hopefully now you (and I) understand all of the groundwork we&#8217;re going to need to start building something more interesting — colourful, moving, properly three-dimensional WebGL models.  To find out more, <a href="http://learningwebgl.com/blog/?p=134">read on for lesson 2</a>.</p>
+<p><span style="float: left; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=11">&lt;&lt; Lesson 0</a></span><span style="float: right; padding: 0px 20px 0px 0px;"><a href="http://learningwebgl.com/blog/?p=134">Lesson 2 &gt;&gt;</a></span><br/></p>
+<p><em>Acknowledgments: obviously I&#8217;m deeply in debt to <a href="http://nehe.gamedev.net/">NeHe</a> for his <a href="http://nehe.gamedev.net/data/lessons/lesson.asp?lesson=02">OpenGL tutorial</a> for the script for this lesson, but I&#8217;d also like to thank <a href="http://bjartr.blogspot.com/">Benjamin DeLillo</a> and <a href="http://blog.vlad1.com/">Vladimir Vukićević</a> for their WebGL sample code, which I&#8217;ve investigated, analysed, probably completely misunderstood, and eventually munged together into the code on which I based this post <img src='http://learningwebgl.com/blog/wp-includes/images/smilies/icon_smile.gif' alt=':-)' class='wp-smiley' /> .  Thanks also to Brandon Jones for <a href="http://code.google.com/p/glmatrix/">glMatrix</a>.  Finally, thanks to James Coglan, who wrote the general-purpose <a href="http://sylvester.jcoglan.com/">Sylvester matrix library</a>; the first versions of this lesson used it instead of the much more WebGL-centric glMatrix, so the current version would never have existed without it.</em></p>
+															</div>
+							<div class="postmeta">Posted in <a href="http://learningwebgl.com/blog/?cat=1" title="View all posts in Uncategorized" rel="category">Uncategorized</a> |  </div>
+						
+							<div class="navigation clearfix">
+								<div class="alignleft">&laquo; <a href="http://learningwebgl.com/blog/?p=43" rel="prev">WebGL in Chrome</a></div>
+								<div class="alignright"><a href="http://learningwebgl.com/blog/?p=112" rel="next">WebGL around the net, 12 Oct 2009</a> &raquo;</div>
+							</div>
+							
+															You can <a href="#respond">leave a response</a>, or <a href="http://learningwebgl.com/blog/wp-trackback.php?p=28" rel="trackback">trackback</a> from your own site.
+	
+													</div><!--/post-28-->
+						
+				
+<!-- You can start editing here. -->
+
+	<h3 id="comments">288 Responses to &#8220;WebGL Lesson 1 &#8211; A triangle and a square&#8221;</h3>
+
+	<ol class="commentlist">
+			<li class="comment even thread-even depth-1" id="comment-6361">
+				<div id="div-comment-6361" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/2872c4aad0f3cfdb6421c36527fb868c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">giles</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-6361">November 13, 2012 at 7:31 pm</a></div>
+
+		<p>Sure, no problem!</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6362">
+				<div id="div-comment-6362" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/f59b59064567522116544b3b36857091?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">jay</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-6362">November 19, 2012 at 6:10 pm</a></div>
+
+		<p>Your formatting in IE10 is off. The bar on the right overlaps your code samples (they&#8217;re not wrapping).</p>
+<p>Other than that, good tutorial.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="pingback even thread-even depth-1" id="comment-6363">
+				<div id="div-comment-6363" class="comment-body">
+				<div class="comment-author vcard">
+				<cite class="fn"><a href='http://universal-code.de/2012/12/01/programmier-crashkurs-fur-journalisten/' rel='external nofollow' class='url'>Programmier-Crashkurs für Journalisten - UNIVERSALCODE</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-6363">November 30, 2012 at 11:11 pm</a></div>
+
+		<p>[...] <a href="http://learningwebgl.com/blog/?p=28" rel="nofollow">http://learningwebgl.com/blog/?p=28</a> [...]</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6364">
+				<div id="div-comment-6364" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/54b1846d1f515690725c81ba270641bb?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Mahmoud Aslan</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-6364">December 8, 2012 at 4:08 pm</a></div>
+
+		<p>why did you declaire the mvMatrix and pMatrix uniform ?<br />
+I understand that there are 3 types of variables:<br />
+1-Uniform: sent to both vertex shaders and fragment shaders<br />
+2-attribute: values that are applied to individual vertices and  are only available to the vertex shader<br />
+3-varying: declaired in vertex shader and shared with the fragment shader.</p>
+<p>so why would i need to send the mvMatrix and pMatrix to the fragment shader, shouldn&#8217;t it be attribute because the vertex shader only will need it ?</p>
+<p>btw, Great one, thanks!</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6365">
+				<div id="div-comment-6365" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/a42bd3c01b322c4b25af45035a269614?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">George Valkov</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-6365">December 21, 2012 at 8:22 pm</a></div>
+
+		<p>There is bug inside a 3rd party lib: glMatrix-0.9.5.min.js<br />
+In function: mat4.perspective(), the conversion from deg to rad shoud be:<br />
+a*Math.PI/180, instead of a*Math.PI/360.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6366">
+				<div id="div-comment-6366" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/60da349d065c101796758571efb117ca?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Tony Weston</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-6366">December 30, 2012 at 12:34 pm</a></div>
+
+		<p>Thanks&#8230;..   this shows everything I need to know, though Im struggling to take it all in and understand it. :-/  hopefully it&#8217;ll get easier as time goes on.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6367">
+				<div id="div-comment-6367" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/60da349d065c101796758571efb117ca?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Tony Weston</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-6367">December 30, 2012 at 12:36 pm</a></div>
+
+		<p>Could you do a lesson 0, which only has a triangle, and doesn&#8217;t use gl-matrix-min.js&#8230;.. just to get a grounding, and understand what is webgl, and what is glmatrix&#8230; thanks</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6368">
+				<div id="div-comment-6368" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/3028b017699784aed81670ee1436040e?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Rado</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-6368">January 1, 2013 at 12:52 pm</a></div>
+
+		<p>There seems to be breaking changes in the glMatrix parameter order, which require the following changes in this lesson&#8217;s code:</p>
+<p>In the mat4.perspective call the pMatrix should now be the first argument, as follows:</p>
+<p>mat4.perspective(pMatrix, 45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0);</p>
+<p>And in the two mat4.translate calls, the mvMatrix should be passed as both first and second argument, as follows:</p>
+<p>mat4.translate(mvMatrix, mvMatrix, [ ... ]);</p>
+<p>Not sure if this is the most correct way to go, but at least it works for me.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="pingback even thread-even depth-1" id="comment-6369">
+				<div id="div-comment-6369" class="comment-body">
+				<div class="comment-author vcard">
+				<cite class="fn"><a href='http://blog.helixwebsites.co.uk/2013/01/from-vrml-to-webgl-a-look-at-3d-on-the-internet/' rel='external nofollow' class='url'>From VRML to WebGL, a look at 3D on the Internet | Helix Websites Blog</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-6369">January 21, 2013 at 4:32 pm</a></div>
+
+		<p>[...] scenes for webpages, we know that designers like to get “stuck in” without having to initialize a shader program to retrieve a vertex and fragment shader . Thankfully a good number of developers have already begun producing tools and JavaScript [...]</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6370">
+				<div id="div-comment-6370" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/ab29868a843711c5f47ef05715359697?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://wiki.gnewsense.org/KristieFr' rel='external nofollow' class='url'>toilet suites</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-6370">January 31, 2013 at 11:50 am</a></div>
+
+		<p>Appreciat&#1077; this post. Will try it out.</p>
+<p>my &omega;ebsite: <a href="http://wiki.gnewsense.org/KristieFr" rel="nofollow">toilet suites</a></p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6371">
+				<div id="div-comment-6371" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/05c6aec750b7e0f182f2fd7b8a73c93b?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://maxw3st.us' rel='external nofollow' class='url'>maxw3st</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-6371">February 2, 2013 at 11:12 pm</a></div>
+
+		<p>Will be going through all your lessons. The demos look great, and I’d like to learn this. It looks like a fantastic way to create objects to use in 3D CSS animations.</p>
+<p>One observation at the outset: it would be nice if you could move the right column over about 2-3ems so it&#8217;s not covering the right side of your main text area.</p>
+<p>I went to the live demo page for this lesson and saved that html. I can follow along in my text editor now, but having it in your lesson body text would be nice.</p>
+<p>Love the way you jump right past the initial 179 lines of code that comes before the body of the html doc \;~)</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6372">
+				<div id="div-comment-6372" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/05c6aec750b7e0f182f2fd7b8a73c93b?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://maxw3st.us' rel='external nofollow' class='url'>maxw3st</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-6372">February 2, 2013 at 11:35 pm</a></div>
+
+		<p>I was getting just a big, black square until I followed Rado&#8217;s suggestions above. That works. Now I can see the white triangle and square.</p>
+<p>Thank you Rado.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6373">
+				<div id="div-comment-6373" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/da0e20d682667ed94345f778a3431d4c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Thor</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-6373">February 25, 2013 at 4:46 pm</a></div>
+
+		<p>Hey!!!!<br />
+Oooooooooooooooooo, this was THE tutorial I was waiting for. I tried NeHe&#8217;s OpenGL tutorial somewhere around 1995 or so&#8230;but I never learned any C (Okay, C can be learned in one weekend, the ESCENCE of C &#8211; &#8220;capital C&#8221; as I mean &#8211; that is different)<br />
+I understand this!!!!!!!<br />
+Thanks to the tutorial!!!!!!!!!!!<br />
+Everything works out as laid out in the lessons!!!<br />
+Thor</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6374">
+				<div id="div-comment-6374" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/78983584dd9d798f1e86e2026f87e404?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">roman21</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-6374">February 26, 2013 at 11:01 pm</a></div>
+
+		<p>Having the same issue as Rado but his changes dont help, I am having problems with all the tutorials where either I get the big black square or nothing at all&#8230;anyone else had this issue and found a fix?</p>
+<p>Thanks</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6375">
+				<div id="div-comment-6375" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/634676806b8e032b5db201f3fbe450dd?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">h66</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-6375">March 24, 2013 at 8:15 pm</a></div>
+
+		<p>Rado comment help me to get this example working with the last version of glmatrix. Thanks !</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6376">
+				<div id="div-comment-6376" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/b35ba99f574b2d95b4bf2dcdae1c8082?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://www.jspreddy.info' rel='external nofollow' class='url'>jspreddy</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-6376">March 27, 2013 at 8:53 am</a></div>
+
+		<p>Hey,</p>
+<p>Awesome tutorials.<br />
+but the code part is not legible, some times it goes under the right side bar.<br />
+Will be very happy if you fix this, may be put a scroll bar on the code blocks? or increase the width of the code blocks.<br />
+Also can you make the code blocks with dark background and light text, it would make it easy to read the tutorials.</p>
+<p>I always do the following before I begin reading the tutorials.<br />
+-chrome developer options : find pre tags, apply dark background and make text light.<br />
+-delete the right side column<br />
+-make the width of the tutorial container bigger.</p>
+<p>Thank you.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6377">
+				<div id="div-comment-6377" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/70134af9ca7148115fa4c9e5d9bedf42?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://www.gustavo.x10.mx' rel='external nofollow' class='url'>Gustavo</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-6377">March 30, 2013 at 8:49 pm</a></div>
+
+		<p>Hi all,</p>
+<p>I&#8217;m trying to follow this fantastic tutorial, but I have a curious problem. If I execute the code directly from the site, I see the triangle and the square. If I copy the code to my computer with the old glmatrix (0.9.5), no figures, and if I apply the changes proposed in previous comments by Rado with the current glMatrix (2.2.0), no figures either. Could please someone tell me where is the problem?</p>
+<p>Using alert(), I can see it stop working at:</p>
+<p>mat4.perspective(pMatrix, 45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0);</p>
+<p>Any idea?</p>
+<p>Thanks</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-6378">
+				<div id="div-comment-6378" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/70134af9ca7148115fa4c9e5d9bedf42?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://www.gustavo.x10.mx' rel='external nofollow' class='url'>Gustavo</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-6378">March 30, 2013 at 9:01 pm</a></div>
+
+		<p>Sorry, too tired to see my own errors. It works perfectly applying the changes of the last glMatrix (2.2.0) version. Thanks Rado!</p>
+<p>mat4.perspective(pMatrix, 45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0);</p>
+<p>mat4.translate(mvMatrix, mvMatrix, [-1.5, 0.0, -7.0]);</p>
+<p>mat4.translate(mvMatrix, mvMatrix, [3.0, 0.0, 0.0]);</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-6379">
+				<div id="div-comment-6379" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/6c2a09277d764ae08ca6e0aac3098e8c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">d0m.</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-6379">April 2, 2013 at 2:37 pm</a></div>
+
+		<p>Hi<br />
+I think there may be a problem with the WebGl servers cos it all worked fine on my computer {Ubutu 12.4LTS &amp; Firefox} but since Xmas even Chrom won&#8217;t accept files on my Computer!<br />
+Have fun.<br />
+d0m.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-16506">
+				<div id="div-comment-16506" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/77a0d3bb681769348ddce5d34f7e30d0?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Naoufel</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-16506">April 19, 2013 at 7:49 am</a></div>
+
+		<p>Hi,<br />
+This example doesn&#8217;t work with the new Glmatrix 2.2.0.<br />
+Any help please ?</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment byuser comment-author-tony even thread-even depth-1" id="comment-16644">
+				<div id="div-comment-16644" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/9c3230ffe922ab23139fabc39ba25150?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://www.tonyparisi.com' rel='external nofollow' class='url'>tony</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-16644">April 19, 2013 at 9:50 am</a></div>
+
+		<p>As mentioned a week or so ago, I will be revising the examples to work with glMatrix 2.0&#8230; please stay tuned.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-24878">
+				<div id="div-comment-24878" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/ecc5432bb79113d5c75bd8d311426f6e?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Crystal</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-24878">April 30, 2013 at 10:44 am</a></div>
+
+		<p>Hi,</p>
+<p>I copied the source code to my server. Only a big black square shows on the webpage. However, it shows good if I directly go from the link.</p>
+<p>Any idea?</p>
+<p>Thanks</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-30881">
+				<div id="div-comment-30881" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/c8007b303aaa5f9ab990d9c08bf2a97a?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Esteban</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-30881">May 11, 2013 at 5:50 pm</a></div>
+
+		<p>hey, the code for the lessons is showing incorrectly in my browsers (The latest versions of both chrome and firefox for linux). The code is partially obscured by the menu on the right.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="pingback odd alt thread-odd thread-alt depth-1" id="comment-40696">
+				<div id="div-comment-40696" class="comment-body">
+				<div class="comment-author vcard">
+				<cite class="fn"><a href='http://rowboatweb.com/archives/218' rel='external nofollow' class='url'>Three.js To The Rescue! | Rowboat Web</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-40696">May 25, 2013 at 7:58 pm</a></div>
+
+		<p>[...] I intend to do at this point, is reproduce each lesson at Learning WebGL using three.js. First up will be rendering the triangle and a square. The gist above renders a [...]</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-42145">
+				<div id="div-comment-42145" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/6c2a09277d764ae08ca6e0aac3098e8c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">d0m</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-42145">May 28, 2013 at 2:44 am</a></div>
+
+		<p>Hi</p>
+<p>Re; Back Square !!</p>
+<p>I&#8217;ve found something that suggests that Browsers are now locked off from viewing files on your Comp, cos of viruses. It seems you need a server on your Comp.<br />
+Info at <a href="https://github.com/mrdoob/three.js/wiki/How-to-run-things-locally" rel="nofollow">https://github.com/mrdoob/three.js/wiki/How-to-run-things-locally</a> .<br />
+Have fun.<br />
+d0m.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-45512">
+				<div id="div-comment-45512" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/bdf7c3eaed86f76a5bf2c02bcbda9c0d?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">SunF</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-45512">June 2, 2013 at 5:33 pm</a></div>
+
+		<p>Thank you for your lessons!</p>
+<p>A quick question:<br />
+Is &#8220;setMatrixUniforms();&#8221; necessary to be set twice in &#8220;drawScene()&#8221;? The matrix uniforms are already setup when drawing the triangle. Do we need to set it again when drawing the square?<br />
+Thank you very much!</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment byuser comment-author-tony even thread-even depth-1" id="comment-46345">
+				<div id="div-comment-46345" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/9c3230ffe922ab23139fabc39ba25150?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://www.tonyparisi.com' rel='external nofollow' class='url'>tony</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-46345">June 4, 2013 at 8:53 am</a></div>
+
+		<p>@SunF I believe the second one is redundant. We are revising the examples right now, upgrading to the new glMatrix. I will take a look at this issue</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-47320">
+				<div id="div-comment-47320" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/5d4e22cd0841dc6a0e02dd8516cf49c5?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Ricardo</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-47320">June 5, 2013 at 9:49 pm</a></div>
+
+		<p>Why this code is so different than the OpenGL version? I know that WebGL is a subset of OpenGL, but it would be very useful to see some code showing the equivalent and different parts.</p>
+<p>Thanks for your tutorials.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-50442">
+				<div id="div-comment-50442" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/0ac36683fbece9987d3e5765877fef20?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">wayne</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-50442">June 10, 2013 at 11:38 pm</a></div>
+
+		<p>If I want to use Brandon&#8217;s matrix which JS I have to attach. He has like a lot. I tried to attach all .js from src folder and does not work.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment byuser comment-author-tony odd alt thread-odd thread-alt depth-1" id="comment-50832">
+				<div id="div-comment-50832" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/9c3230ffe922ab23139fabc39ba25150?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://www.tonyparisi.com' rel='external nofollow' class='url'>tony</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-50832">June 11, 2013 at 12:42 pm</a></div>
+
+		<p>This uses glMatrix 1.0 at the moment. We are in the middle of converting the lessons to use the latest (2.0) Stay tuned!</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-52152">
+				<div id="div-comment-52152" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/be499eddedbe30ab62cde4c717cc2c14?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Michael</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-52152">June 13, 2013 at 5:37 pm</a></div>
+
+		<p>Awesome site, while moving to glMatrix 2.0 please also get rid of extra long var names, e.g. &#8220;triangleVertexPositionBuffer&#8221; because it&#8217;s an abuse of mnemonic name usage.</p>
+<p>I&#8217;d use like: trPosBufId for a triangle, or sqPosBufId for a square, which is just as easy to understand. Words like &#8220;position&#8221; and &#8220;buffer&#8221; are so common (in programming and GL in particular) that using &#8220;pos&#8221; and &#8220;buf&#8221; instead &#8211; is the obvious way to go.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-57155">
+				<div id="div-comment-57155" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/b985a980d4f8098956676b9a09c46603?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Krzysztof Antoszek</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-57155">June 21, 2013 at 1:47 pm</a></div>
+
+		<p>You should write why you specify vertices in the square vertices array in such a weird order. I know that you explained it in the drawing paragraph, but imho it should be explained in the definition (or at least mention it will be explained further)</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-68200">
+				<div id="div-comment-68200" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/ab59455a302e036bed7851577975069b?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">ffuxaq</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-68200">July 13, 2013 at 11:33 am</a></div>
+
+		<p>the code is OK!<br />
+Now with glmatrix 2.1 you have to change these lines:</p>
+<p>mat4.perspective(pMatrix,45*Math.PI/180, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0); // because degrees are in rad now</p>
+<p>and</p>
+<p>mat4.translate(mvMatrix,mvMatrix,[-1.5,0.0,-7.0]);</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-73666">
+				<div id="div-comment-73666" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/241fa4a7d249501f84ad0a6e4b9c2ae4?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://www.danielcassidy.me.uk/' rel='external nofollow' class='url'>Daniel Cassidy</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-73666">July 21, 2013 at 7:41 am</a></div>
+
+		<p>In getShader():</p>
+<p>var str = &#8220;&#8221;;<br />
+var k = shaderScript.firstChild;<br />
+while (k) {<br />
+    if (k.nodeType == 3)<br />
+        str += k.textContent;<br />
+    k = k.nextSibling;<br />
+}</p>
+<p>The loop here is redundant. You could just do:</p>
+<p>var str = shaderScript.textContent;</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-90894">
+				<div id="div-comment-90894" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/6c2a09277d764ae08ca6e0aac3098e8c?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Dominic Innocent</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-90894">August 11, 2013 at 9:46 am</a></div>
+
+		<p>Hi<br />
+* &#8220;Please note !!!!&#8221;<br />
+To be able to open any WebGl apps you may save or create on your computer with a browser; you will first need to download glMatrix-0.9.5.min.js from <a href="http://code.google.com/p/glmatrix/downloads/detail?name=glMatrix-0.9.5.min.js&#038;can=2&#038;q=" rel="nofollow">http://code.google.com/p/glmatrix/downloads/detail?name=glMatrix-0.9.5.min.js&#038;can=2&#038;q=</a><br />
+&amp; save it as glMatrix-0.9.5.min.js in the same folder where you have saved your WebGl apps. If you don&#8217;t the “canvas” will open blank!<br />
+Have fun.<br />
+d0m.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-93695">
+				<div id="div-comment-93695" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/8c0609058bac76d30129167faa54cb0b?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Amit Jayee</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-93695">August 15, 2013 at 12:18 am</a></div>
+
+		<p>When i render the code in Chrome , i can&#8217;t see any triangle or square. All that i see is black screen. However when i run the same thing in IE it displays me a pop saying &#8216;could not initialize WebGL &#8216;</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment even thread-even depth-1" id="comment-112173">
+				<div id="div-comment-112173" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/b52af3d55bbffc8b16890356c374604d?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn">Troy</cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-112173">September 5, 2013 at 8:05 am</a></div>
+
+		<p>Mahmoud:</p>
+<p>No, you don&#8217;t want the matrices to be attributes. They are uniform because you use the same matrices for the entire rendering call. Attributes are per-vertex data such as position, normal, color, texture coordinates.</p>
+<p>The uniforms will be available to the fragment shader, but you don&#8217;t need to declare them if you don&#8217;t use them.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+		<li class="comment odd alt thread-odd thread-alt depth-1" id="comment-152037">
+				<div id="div-comment-152037" class="comment-body">
+				<div class="comment-author vcard">
+		<img alt='' src='http://www.gravatar.com/avatar/ee18cc26bd650af8678618561ee511e8?s=40&amp;d=http%3A%2F%2Fwww.gravatar.com%2Favatar%2Fad516503a11cd5ca435acc9bb6523536%3Fs%3D40&amp;r=G' class='avatar avatar-40 photo' height='40' width='40' />		<cite class="fn"><a href='http://incharts3d.com' rel='external nofollow' class='url'>Maciej Pleśnar</a></cite> <span class="says">says:</span>		</div>
+
+		<div class="comment-meta commentmetadata"><a href="http://learningwebgl.com/blog/?p=28&amp;cpage=6#comment-152037">October 4, 2013 at 6:59 am</a></div>
+
+		<p>We&#8217;ve recently created a javascript webgl lib for 3D charts: <a href="http://incharts3d.com" rel="nofollow">http://incharts3d.com</a>. Check it out &#8211; maybe you&#8217;ll find some inspiration.</p>
+
+		<div class="reply">
+				</div>
+				</div>
+		</li>
+	</ol>
+
+	<div class="navigation">
+		<div class="alignleft"><a href="http://learningwebgl.com/blog/?p=28&#038;cpage=5#comments" >&laquo; Older Comments</a></div>
+		<div class="alignright"></div>
+	</div>
+ 
+
+
+<div id="respond">
+
+<h3>Leave a Reply</h3>
+
+<div class="cancel-comment-reply">
+	<small><a rel="nofollow" id="cancel-comment-reply-link" href="/blog/?p=28#respond" style="display:none;">Click here to cancel reply.</a></small>
+</div>
+
+
+<form action="http://learningwebgl.com/blog/wp-comments-post.php" method="post" id="commentform">
+
+
+<p><input type="text" name="author" id="author" value="" size="22" tabindex="1" aria-required='true' />
+<label for="author"><small>Name (required)</small></label></p>
+
+<p><input type="text" name="email" id="email" value="" size="22" tabindex="2" aria-required='true' />
+<label for="email"><small>Mail (will not be published) (required)</small></label></p>
+
+<p><input type="text" name="url" id="url" value="" size="22" tabindex="3" />
+<label for="url"><small>Website</small></label></p>
+
+
+<!--<p><small><strong>XHTML:</strong> You can use these tags: <code>&lt;a href=&quot;&quot; title=&quot;&quot;&gt; &lt;abbr title=&quot;&quot;&gt; &lt;acronym title=&quot;&quot;&gt; &lt;b&gt; &lt;blockquote cite=&quot;&quot;&gt; &lt;cite&gt; &lt;code&gt; &lt;del datetime=&quot;&quot;&gt; &lt;em&gt; &lt;i&gt; &lt;q cite=&quot;&quot;&gt; &lt;strike&gt; &lt;strong&gt; </code></small></p>-->
+
+<p><textarea name="comment" id="comment" cols="100%" rows="10" tabindex="4"></textarea></p>
+
+<p><input name="submit" type="submit" id="submit" tabindex="5" value="Submit Comment" />
+<input type='hidden' name='comment_post_ID' value='28' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p>
+
+</form>
+
+</div>
+
+				
+							
+							</div>
+			</div>
+        <div class="span-8 last">
+    <div id="subscriptions">
+        <a href="http://learningwebgl.com/blog/?feed=rss2"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/rss.png" alt="Subscribe to RSS Feed" title="Subscribe to RSS Feed" /></a>		
+		<a href="https://twitter.com/learningwebgl" title="Follow Learning WebGL on Twitter"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/twitter.png" title="Follow Learning WebGL on Twitter" alt="Follow Learning WebGL on Twitter"  /></a>    </div>
+	<div id="sidebar">
+        <ul>
+            <li id="search">
+				 
+<div class="searchlayout">
+    <form method="get" id="searchform" action="http://learningwebgl.com/blog/"> 
+        <input type="text" value="Search" 
+            name="s" id="s"  onblur="if (this.value == '')  {this.value = 'Search';}"  
+            onfocus="if (this.value == 'Search') {this.value = '';}" />
+        <input type="image" src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/search.gif" style="border:0; vertical-align: top;" /> 
+    </form>
+</div>			</li>
+        </ul>
+            			<div class="addthis_toolbox">   
+    			    <div class="custom_images">
+    			            <a class="addthis_button_twitter"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/twitter.png" width="32" height="32" alt="Twitter" /></a>
+    			            <a class="addthis_button_delicious"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/delicious.png" width="32" height="32" alt="Delicious" /></a>
+    			            <a class="addthis_button_facebook"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/facebook.png" width="32" height="32" alt="Facebook" /></a>
+    			            <a class="addthis_button_digg"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/digg.png" width="32" height="32" alt="Digg" /></a>
+    			            <a class="addthis_button_stumbleupon"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/stumbleupon.png" width="32" height="32" alt="Stumbleupon" /></a>
+    			            <a class="addthis_button_favorites"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/favorites.png" width="32" height="32" alt="Favorites" /></a>
+    			            <a class="addthis_button_more"><img src="http://learningwebgl.com/blog/wp-content/themes/modern-style/images/socialicons/more.png" width="32" height="32" alt="More" /></a>
+    			    </div>
+    			    <script type="text/javascript" src="http://s7.addthis.com/js/250/addthis_widget.js?pub=xa-4a65e1d93cd75e94"></script>
+    			</div>
+    					        
+		<ul>
+		  <li id="text-3" class="widget widget_text"><h2 class="widgettitle">Our Sponsors</h2>			<div class="textwidget">    <div style="margin-left: 10px; margin-top: 20px; width: 170px">
+    <a href="http://web.chemdoodle.com/" target="_blank"><img src="/ads/chemdoodle.gif" ></a>
+    <p>
+    Open-source <b>HTML5</b> solutions for the physical and life sciences.
+    <a style="font-decoration: underline; color: #880000;" href="http://web.chemdoodle.com/">Read more...</a>
+    </div>
+
+<iframe src="http://cdn.oreillystatic.com/widgets/author/217.html" height="400px" width="200px" scrolling="no" frameborder="0"></iframe>
+    <hr/>
+
+    <div style="margin-left: 10px; margin-top: 20px; width: 170px;">
+    <a href="http://www.pythonanywhere.com/"><img src="/ads/pythonanywhere.gif"></a>
+
+    <p>
+    <a href="http://www.pythonanywhere.com">A Python online IDE and web hosting environment</a>. 
+    <a style="font-decoration: underline; color: #880000;" href="http://www.pythonanywhere.com/">Read more...</a>
+    <br/>
+    <br/>
+    Interested in advertising on Learning WebGL? <a style="font-decoration: underline; color: #880000;" href="/cdn-cgi/l/email-protection#07737766756e746e47606a666e6b2964686a">Drop me a line.</a>
+    </div></div>
+		</li>		<li id="recent-posts-3" class="widget widget_recent_entries">		<h2 class="widgettitle">Recent Posts</h2>		<ul>
+				<li><a href="http://learningwebgl.com/blog/?p=6635" title="2014: The Year in Review">2014: The Year in Review </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6617" title="WebGL around the net, 11 December 2014">WebGL around the net, 11 December 2014 </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6613" title="Crowdfunding Update">Crowdfunding Update </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6599" title="WebGL around the net, 4 December 2014">WebGL around the net, 4 December 2014 </a></li>
+				<li><a href="http://learningwebgl.com/blog/?p=6585" title="WebGL around the net, 25 November 2014">WebGL around the net, 25 November 2014 </a></li>
+				</ul>
+		</li>		<li id="recent-comments-3" class="widget widget_recent_comments">			<h2 class="widgettitle">Recent Comments</h2>			<ul id="recentcomments"><li class="recentcomments"><a href='http://www.pcprogramming.com' rel='external nofollow' class='url'>John Davis</a> on <a href="http://learningwebgl.com/blog/?p=6585&#038;cpage=1#comment-3652744">WebGL around the net, 25 November 2014</a></li><li class="recentcomments"><a href='http://www.pcprogramming.com' rel='external nofollow' class='url'>John Davis</a> on <a href="http://learningwebgl.com/blog/?p=6575&#038;cpage=1#comment-3618905">WebGL around the net, 20 November 2014</a></li><li class="recentcomments">jinit on <a href="http://learningwebgl.com/blog/?page_id=2&#038;cpage=1#comment-3313484">About</a></li><li class="recentcomments">Dethraid on <a href="http://learningwebgl.com/blog/?p=507&#038;cpage=3#comment-2792181">WebGL Lesson 5 – introducing textures</a></li><li class="recentcomments">Man on <a href="http://learningwebgl.com/blog/?p=6443&#038;cpage=1#comment-2572225">WebGL around the net, 7 July 2014</a></li></ul>
+		</li><li id="linkcat-2" class="widget widget_links"><h2 class="widgettitle">Blogroll</h2>
+	<ul class='xoxo blogroll'>
+<li><a href="http://blog.tojicode.com/" title="Brandon Jones&#8217; Blog" target="_blank">Brandon Jones</a></li>
+<li><a href="http://www.gilesthomas.com/" title="Giles Thomas&#8217; Personal Blog" target="_blank">Giles Thomas</a></li>
+<li><a href="http://games.greggman.com/game/" title="Gregg Tavares&#8217; Blog" target="_blank">Gregg Tavares</a></li>
+<li><a href="http://www.learnopengles.com/" title="Learn OpenGL ES" target="_blank">Learn OpenGL ES</a></li>
+<li><a href="http://learningthreejs.com/" title="Learning Three.js Blog" target="_blank">Learning Three.js</a></li>
+<li><a href="http://nehe.gamedev.net/" title="NeHe OpenGL Tutorials" target="_blank">NeHe OpenGL</a></li>
+<li><a href="http://www.paulbrunt.co.uk/" title="Paul Brunt&#8217;s Blog" target="_blank">Paul Brunt</a></li>
+<li><a href="http://pl4n3.blogspot.com/" title="PL4N3S WORLD Blog" target="_blank">PL4N3S WORLD</a></li>
+<li><a href="http://www.rozengain.com/blog/" title="Rozengain" target="_blank">Rozengain</a></li>
+<li><a href="http://www.tonyparisi.com/" title="Tony Parisi&#8217;s Personal Blog" target="_blank">Tony Parisi</a></li>
+<li><a href="http://www.webgl.com/" title="WebGL Demos and Links" target="_blank">WebGL.com</a></li>
+
+	</ul>
+</li>
+<li id="archives-3" class="widget widget_archive"><h2 class="widgettitle">Archives</h2>		<ul>
+			<li><a href='http://learningwebgl.com/blog/?m=201501' title='January 2015'>January 2015</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201412' title='December 2014'>December 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201411' title='November 2014'>November 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201410' title='October 2014'>October 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201409' title='September 2014'>September 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201408' title='August 2014'>August 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201407' title='July 2014'>July 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201406' title='June 2014'>June 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201405' title='May 2014'>May 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201404' title='April 2014'>April 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201403' title='March 2014'>March 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201402' title='February 2014'>February 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201401' title='January 2014'>January 2014</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201312' title='December 2013'>December 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201311' title='November 2013'>November 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201310' title='October 2013'>October 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201309' title='September 2013'>September 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201308' title='August 2013'>August 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201307' title='July 2013'>July 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201306' title='June 2013'>June 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201305' title='May 2013'>May 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201304' title='April 2013'>April 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201303' title='March 2013'>March 2013</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201212' title='December 2012'>December 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201211' title='November 2012'>November 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201210' title='October 2012'>October 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201209' title='September 2012'>September 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201208' title='August 2012'>August 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201207' title='July 2012'>July 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201206' title='June 2012'>June 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201205' title='May 2012'>May 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201204' title='April 2012'>April 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201203' title='March 2012'>March 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201202' title='February 2012'>February 2012</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201112' title='December 2011'>December 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201111' title='November 2011'>November 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201110' title='October 2011'>October 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201109' title='September 2011'>September 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201108' title='August 2011'>August 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201107' title='July 2011'>July 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201106' title='June 2011'>June 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201105' title='May 2011'>May 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201104' title='April 2011'>April 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201103' title='March 2011'>March 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201102' title='February 2011'>February 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201101' title='January 2011'>January 2011</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201012' title='December 2010'>December 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201011' title='November 2010'>November 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201010' title='October 2010'>October 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201009' title='September 2010'>September 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201008' title='August 2010'>August 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201007' title='July 2010'>July 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201006' title='June 2010'>June 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201005' title='May 2010'>May 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201004' title='April 2010'>April 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201003' title='March 2010'>March 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201002' title='February 2010'>February 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=201001' title='January 2010'>January 2010</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200912' title='December 2009'>December 2009</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200911' title='November 2009'>November 2009</a></li>
+	<li><a href='http://learningwebgl.com/blog/?m=200910' title='October 2009'>October 2009</a></li>
+		</ul>
+</li><li id="meta-3" class="widget widget_meta"><h2 class="widgettitle">Meta</h2>			<ul>
+						<li><a href="http://learningwebgl.com/blog/wp-login.php">Log in</a></li>
+			<li><a href="http://learningwebgl.com/blog/?feed=rss2" title="Syndicate this site using RSS 2.0">Entries <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://learningwebgl.com/blog/?feed=comments-rss2" title="The latest comments to all posts in RSS">Comments <abbr title="Really Simple Syndication">RSS</abbr></a></li>
+			<li><a href="http://wordpress.org/" title="Powered by WordPress, state-of-the-art semantic personal publishing platform.">WordPress.org</a></li>
+						</ul>
+</li>		</ul>
+	</div>
+</div>
+
+		</div><!--/container-->
+			<div id="footer">
+				Copyright &copy; 2013 <a href="http://learningwebgl.com/blog"><strong>Learning WebGL</strong></a> -  3D Programming for the Web <br />
+                <div class="footer-credits">
+                    Powered by <a href="http://wordpress.org/">WordPress</a> | <a href="http://flexithemes.com/themes/modern-style/">Modern Style</a> theme by <a href="http://flexithemes.com/">FlexiThemes</a>
+                </div>
+			</div><!--/footer-->
+            
+	</div><!--/wrapper-->
+	
+<script type="text/javascript">
+var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+</script>
+<script type="text/javascript">
+try {
+var pageTracker = _gat._getTracker("UA-2240015-5");
+pageTracker._trackPageview();
+} catch(err) {}</script>    
+<script type="text/javascript">
+/* <![CDATA[ */
+(function(){try{var s,a,i,j,r,c,l=document.getElementsByTagName("a"),t=document.createElement("textarea");for(i=0;l.length-i;i++){try{a=l[i].getAttribute("href");if(a&&a.indexOf("/cdn-cgi/l/email-protection") > -1  && (a.length > 28)){s='';j=27+ 1 + a.indexOf("/cdn-cgi/l/email-protection");if (a.length > j) {r=parseInt(a.substr(j,2),16);for(j+=2;a.length>j&&a.substr(j,1)!='X';j+=2){c=parseInt(a.substr(j,2),16)^r;s+=String.fromCharCode(c);}j+=1;s+=a.substr(j,a.length-j);}t.innerHTML=s.replace(/</g,"&lt;").replace(/>/g,"&gt;");l[i].setAttribute("href","mailto:"+t.value);}}catch(e){}}}catch(e){}})();
+/* ]]> */
+</script>
+</body>
+</html>
+
+
