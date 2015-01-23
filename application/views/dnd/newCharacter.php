@@ -20,12 +20,14 @@
 		";
 	}
 	$html = "
-		<div id='characterSheet'>
-			<div id='characterRoles'>$rolesHtml<button id='rollabilities'>Roll</button></div>
-			<div id='characterAbilities'>
+		<div id='newCharacterSheet'>
+			<div id='newCharacterRoles'>$rolesHtml<button id='rollabilities'>Roll</button></div>
+			<div id='newCharacterAbilities'>
 				<div>Abilities</div>
 				<div>$abilitesHtml</div>
 			</div>
+			<div id='box1'>$form</div>
+			<div id='box2'>$table</div>
 		</div>
 	";
 	$style = "
@@ -37,28 +39,28 @@
 	echo $script;
 ?>
 		<style>
-			#characterSheet
+			#box1 { left : 300px; top : 130px; }
+			#box2 { left : 300px; top : 500px; }
+			#newCharacterSheet
 			{
 				border : 10px ridge blue;
 				padding : 10px;
 				background : lightblue;
 				position : relative;
-				height : 500px;
+				height : 1000px;
 			}
-			#characterSheet > div
+			#newCharacterSheet > div
 			{
-				box-shadow : 3px 3px 3px black;
-				border-radius : 20px;
 				position : absolute;
 			}
-			#characterSheet .attribSlot{
+			#newCharacterSheet .attribSlot{
 				height : 50px;
 				width  : 50px;
 				padding : 0px;
 				border : 1px gray inset;
 				backgroud : lightgray;
 			}
-			#characterSheet .attribTile{
+			#newCharacterSheet .attribTile{
 				border : none;
 				height : 52px;
 				width  : 52px;
@@ -69,7 +71,7 @@
 				left : -1px;
 				z-index : 1;
 			}
-			#characterSheet .attribTile > div{
+			#newCharacterSheet .attribTile > div{
 				border : none;
 				color : white;
 				font-size : 120%;
@@ -77,7 +79,9 @@
 				margin-top  : 13px;
 				margin-left : 11px;
 			}
-			#characterRoles{
+			#newCharacterRoles{
+				box-shadow : 3px 3px 3px black;
+				border-radius : 20px;
 				height : 85px;
 				padding-left : 15px;
 				padding-top : 10px;
@@ -85,22 +89,24 @@
 				background-image : url('lib/images/wood1.jpg');
 				left : 300px;
 			}
-			#characterRoles .attribSlot{
+			#newCharacterRoles .attribSlot{
 				margin : 10px;
 				float : left;
 			}
-			#characterAbilities{
+			#newCharacterAbilities{
+				box-shadow : 3px 3px 3px black;
+				border-radius : 20px;
 				border : 1px solid black;
 				width : 250px;
 				background-image : url('lib/images/wood1.jpg');
 			}
-			#characterAbilities > div:nth-child(1){
+			#newCharacterAbilities > div:nth-child(1){
 				font-family: 'rocksalt';
 				text-align : center;
 				font-weight : bold;
 				font-size : 120%;
 			}
-			#characterAbilities > div:nth-child(2) > div > div:nth-child(1){
+			#newCharacterAbilities > div:nth-child(2) > div > div:nth-child(1){
 				width : 30px;
 				text-align : right;
 				float : right;
@@ -109,10 +115,10 @@
 				margin-right : 30px;
 				font-size : 120%;
 			}
-			#characterAbilities > div:nth-child(2) > div > div:nth-child(2){
+			#newCharacterAbilities > div:nth-child(2) > div > div:nth-child(2){
 				float : right;
 			}
-			#characterAbilities > div:nth-child(2) > div > div:nth-child(3){
+			#newCharacterAbilities > div:nth-child(2) > div > div:nth-child(3){
 				font-family: 'PermanentMarker';
 				font-size : 120%;
 				height : 53px;

@@ -26,36 +26,6 @@ class Stout extends CI_Controller {
 			$d['dbtables']     = $this->load->view('junior/dbtables','',true);
 
 			$this->load->view('junior/home',$d);
-
-/*
-# Move this code to c/slides/worker getBatch function
-$batch = 'B0068';
-$dd['batch'] = $batch;
-$a = file_get_contents("files/edi/SENT/$batch.x12");
-$claimList = $this->openInstitutionalBatch($a);
-$html = "";
-foreach($claimList as $claim)
-{
-	$keys = array_keys($claim);
-	foreach($keys as $key)
-	{
-		#$html .= "$key ";
-	}
-	$html .= $claim['first']." "; ;
-	$html .= $claim['last']." "; ;
-	$html .= $claim['medicaid']." "; ;
-	$html .= $claim['birth']." "; ;
-	$html .= $claim['sex']." "; ;
-	$html .= $claim['chart']." "; ;
-	$html .= $claim['claimId']." "; ;
-	$html .= $claim['amount']." "; ;
-	$html .= $claim['serviceDate']." "; ;
-	$html .= "<br/>";
-}
-$dd['batchData'] = $html;
-$d['billMedicaid'] = $this->load->view('junior/batchView',$dd,true);
-*/
-
 		}
 		elseif($user == 'john')
 		{
@@ -69,8 +39,10 @@ $d['billMedicaid'] = $this->load->view('junior/batchView',$dd,true);
 		elseif($user == 'james1')
 		{
 			# Load Character
-			$d['charSheet'] = $this->load->view('classes/jform','',true);
-			$data['jCharacter'] = $this->load->view('classes/jCharacter',$d,true);
+			$d['table'] = $this->load->view('dnd/characterTable','',true);
+			$d['form']  = $this->load->view('dnd/newCharacterForm','',true);
+
+			$data['newCharacter'] = $this->load->view('dnd/newCharacter',$d,true);
 
 			# Load coins
 			#$coins['list'] = array();
@@ -78,8 +50,8 @@ $d['billMedicaid'] = $this->load->view('junior/batchView',$dd,true);
 			$data['coins'] = $this->load->view('trader','',true);
 
 			# Load character Sheet
-			$data['characterSheet'] = $this->load->view('classes/characterSheet','',true);
-			#$data['characterSheet'] = $this->load->view('classes/charSheet','',true);
+
+			$data['characterSheet'] = $this->load->view('classes/charSheet','',true);
 
 			# Load database controls
 			$data['database'] = $this->load->view('classes/localdb','',true);

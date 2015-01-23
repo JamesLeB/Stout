@@ -93,6 +93,8 @@
 				race: charRace,
 				class: charClass
 			};
+alert('go');
+/*
 			$.post(target+func,parm,function(data){
 				if(data == 1)
 				{
@@ -108,6 +110,7 @@
 			});
 			$('#newCharacterForm > div:nth-child(1) > div:nth-child(1) > input').val('');
 			$('#newCharacterForm > div:nth-child(5)').html('&nbsp');
+*/
 // This is an ugly dependency..  the load character Table function is in the jCharacter view script
 			loadCharacterTable();
 		}else{
