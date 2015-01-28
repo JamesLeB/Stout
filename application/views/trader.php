@@ -1,3 +1,4 @@
+<button id='getCoins'>Get</button>
 <button id='sortCoins'>Sort</button>
 <div id='trader'></div>
 <style>
@@ -47,8 +48,7 @@
 		});
 		$('#trader').html(mylist);
 	});
-	if(0)
-	{
+	$('#getCoins').click(function(){
 		$.post('index.php?/trader/getCoinList','',function(data){
 			var obj = $.parseJSON(data)
 			var html = '';
@@ -82,7 +82,7 @@
 				});
 			});
 		});
-	}
+	});
 /*
 */
 </script>
