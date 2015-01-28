@@ -229,7 +229,7 @@ class Junior extends CI_Controller {
 					$local_file = "files/edi/$data";
 					$remote_file = "Batches/$data";
 					if(ftp_get($conn,$local_file,$remote_file,FTP_BINARY)){
-						//ftp_delete($conn,$remote_file);
+						ftp_delete($conn,$remote_file);
 						$json = 'Success :)';
 					}else{
 						$json = 'ERROR!';

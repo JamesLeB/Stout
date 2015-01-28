@@ -254,6 +254,7 @@ class Worker extends CI_Controller {
 		$m[] = 'EDI Object Output';
 		$m[] = '-----------------';
 		$m[] = $message;
+		$m[] = '-----------------';
 		$m[] = 'Create X12 file';
 		$m[] = $this->create837D($obj,$fileName);
 		$m[] = '-----------------';
