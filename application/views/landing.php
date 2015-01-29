@@ -15,6 +15,21 @@
 			});
 			$('#tabs').tabs({active:3});
 		});
+		function switchScreen(data)
+		{
+			$('#screen2').html(data);
+			$('#screen1').zIndex(2);
+			$('#screen1').fadeTo(500,.8);
+			$('#screen2').zIndex(3);
+			$('#screen2').fadeTo(500,1);
+		}
+		function switchBack()
+		{
+			$('.screen').fadeTo(500,0,function(){
+				$('.screen').zIndex(-1);
+				$('#screen2').html('');
+			});
+		}
 	</script>
 	<style>
 		@font-face{
@@ -24,6 +39,10 @@
 		@font-face{
 			font-family: 'PermanentMarker';
 			src : url('lib/fonts/PermanentMarker.ttf')
+		}
+		body
+		{
+			background : gray;
 		}
 		#wrapper{
 			border : 1px solid green;
@@ -44,20 +63,23 @@
 		#logout img{
 			height : 40px;
 		}
-		#screen{
+		.screen
+		{
 			position : fixed;
 			margin : 0px;
 			top : 0;
 			left : 0;
 			width : 100%;
 			height : 100%;
+			opacity : 0;
 			z-index : -1;
-			background : gray;
 		}
+		#screen1 { background : gray; }
 	</style>
 </head>
 <body>
-	<div id='screen'></div>
+	<div id='screen1' class='screen'></div>
+	<div id='screen2' class='screen'></div>
 	<div id='wrapper'>
 		<!-- HEADER --!>
 		<div>
