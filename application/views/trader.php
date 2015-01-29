@@ -1,5 +1,6 @@
 <button id='getCoins'>Get</button>
 <button id='sortCoins'>Sort</button>
+<button id='switch'>switch</button>
 <div id='trader'></div>
 <style>
 	/* background-image : url('lib/images/wood1.jpg'); */
@@ -28,6 +29,11 @@
 	.pair > div:nth-child(4) { width : 150px; }
 </style>
 <script>
+	$('#switch').click(function(){
+		$.post('index.php?/trader/getCoinDetail','',function(data){
+			switchScreen(data);
+		});
+	});
 	$('#sortCoins').click(function(){
 		var mylist = $('.pair');
 		mylist.detach();
