@@ -34,16 +34,7 @@
 		mylist.sort(function(a,b){
 			var aa = $(a).children(':nth-child(4)').html();
 			var bb = $(b).children(':nth-child(4)').html();
-/*
-			if( aa < bb )
-			{
-				return 1;
-			}
-			else
-			{
-				return -1;
-			}
-*/
+			/* if( aa < bb ) { return 1; } else { return -1; } */
 			return bb - aa;
 		});
 		$('#trader').html(mylist);
@@ -83,8 +74,4 @@
 			});
 		});
 	});
-/*
-*/
 </script>
-<?php
-?>
