@@ -6,6 +6,7 @@
 	/* background-image : url('lib/images/wood1.jpg'); */
 	#trader
 	{
+		margin-top : 15px;
 		background : lightgreen;
 		border : 2px solid black;
 		height : 600px;
