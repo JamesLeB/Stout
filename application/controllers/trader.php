@@ -17,8 +17,12 @@ class Trader extends CI_Controller {
 	}
 	public function getCoinList()
 	{ 
-		$list = $this->exchangeModel->getCoinList();
+		$d['list'] = $this->exchangeModel->getCoinList();
+		$h = $this->load->view('trader/coinList',$d,true);
+		echo $h;
+/*
 		echo json_encode($list);
+*/
 	}
 	public function getCoinSlope()
 	{
