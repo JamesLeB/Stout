@@ -4,14 +4,6 @@
 <div id='trader'></div>
 <style>
 	/* background-image : url('lib/images/wood1.jpg'); */
-	#trader
-	{
-		margin-top : 15px;
-		background : lightgreen;
-		border : 2px solid black;
-		height : 600px;
-		overflow : auto;
-	}
 	.pair
 	{
 		background-image : url('lib/images/slate1.jpg');
@@ -48,6 +40,8 @@
 	});
 	$('#getCoins').click(function(){
 		$.post('index.php?/trader/getCoinList','',function(data){
+			$('#trader').html(data);
+/*
 			var obj = $.parseJSON(data)
 			var html = '';
 			obj.forEach(function(a){
@@ -79,6 +73,7 @@
 					$(element).append(ht);
 				});
 			});
+*/
 		});
 	});
 </script>
