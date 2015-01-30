@@ -8,36 +8,6 @@ class Stout extends CI_Controller {
 		$user = $_SESSION['user'];
 		if($user == 'james')
 		{
-			$slide = array();
-			$slide[] = array('Worker',     $this->load->view('slides/worker','',true));
-			$slide[] = array('Trader',     $this->load->view('slides/trader','',true));
-			$slide[] = array('Stage',      $this->load->view('slides/stage','',true));
-			$slide[] = array('Grapher',    $this->load->view('grapher','',true));
-			$slides['slides'] = $slide;
-			$data['slideTray'] = $this->load->view('slideTray',$slides,true);
-			$this->load->view('home',$data);
-		}
-		elseif($user == 'junior')
-		{
-			$d['load277']      = $this->load->view('junior/load277','',true);
-			$d['todo']         = $this->load->view('junior/todo','',true);
-			$d['billMedicaid'] = $this->load->view('junior/billMedicaid','',true);
-			$d['loadClaims']   = $this->load->view('junior/loadClaims','',true);
-			$d['dbtables']     = $this->load->view('junior/dbtables','',true);
-
-			$this->load->view('junior/home',$d);
-		}
-		elseif($user == 'john')
-		{
-			$d['user'] = $user;
-			$claimList['headings'] = array('Id','Last','First','Date','Amount','Status');
-			$this->load->model('denialmangement');
-			$claimList['rows'] = $this->denialmangement->getClaimList();
-			$d['claims'] = $claimList;
-			$this->load->view('claims',$d);
-		}
-		elseif($user == 'james1')
-		{
 			# Load Character
 			$d['table'] = $this->load->view('dnd/characterTable','',true);
 			$d['form']  = $this->load->view('dnd/newCharacterForm','',true);
@@ -50,7 +20,6 @@ class Stout extends CI_Controller {
 			$data['coins'] = $this->load->view('trader','',true);
 
 			# Load character Sheet
-
 			$data['characterSheet'] = $this->load->view('classes/charSheet','',true);
 
 			# Load database controls
@@ -72,210 +41,35 @@ class Stout extends CI_Controller {
 			# Load Laning page
 			$this->load->view('landing',$data);
 		}
-/*
-		$development['market']    = $this->load->view('bit/bitMarket','',true);
-		$development['buy']       = $this->load->view('bit/bitBuy','',true);
-		$development['inventory'] = $this->load->view('bit/bitInventory','',true);
-		$development['sales']     = $this->load->view('bit/bitSales','',true);
-		$reports['report1'] = 'First Report';
-		$reports['report2'] = 'Second Report';
-		$reports['report3'] = 'Third Report';
-		$reports['report4'] = 'Forth Report';
-		$form['block1'] = $this->load->view('dnd/newCharFormBlock1','',true);
-		$form['block2'] = $this->load->view('dnd/newCharFormBlock2','',true);
-		$slide[] = array('WebGL',      $this->load->view('webgl','',true));
-		$slide[] = array('Reports',    $this->load->view('reports',$reports,true));
-		$slide[] = array('exchange',   $this->load->view('exchange','',true));
-		$slide[] = array('development',$this->load->view('development',$development,true));
-		$slide[] = array('production', $this->load->view('production','',true));
-		$slide[] = array('Expense',    $this->load->view('slides/expense','',true));
-		$slide[] = array('Accounts',   $this->load->view('slides/accounts','',true));
-		$slide[] = array('Ledger',     $this->load->view('slides/ledger','',true));
-		$slide[] = array('Characters', $this->load->view('dnd/character',$form,true));
-*/
-	}
-
-private function openInstitutionalBatch($batch) # returns a array of claims
-{
-	$m = array();
-	$m[] = "I am Groot";
-	$segments = preg_split('/~/',$batch);
-	try
-	{
-		$seg = array_shift($segments);
-		if(preg_match('/^ISA\*/',$seg)) { } else { throw new exception(":( $seg"); }
-
-		$seg = array_shift($segments);
-		if(preg_match('/^GS\*/',$seg)) { } else { throw new exception("$seg"); }
-
-		$seg = array_shift($segments);
-		if(preg_match('/^ST\*/',$seg)) { } else { throw new exception("$seg"); }
-
-		$seg = array_shift($segments);
-		if(preg_match('/^BHT\*/',$seg)) { } else { throw new exception("$seg"); }
-
-		$seg = array_shift($segments);
-		if(preg_match('/^NM1\*/',$seg)) { } else { throw new exception("$seg"); }
-
-		$seg = array_shift($segments);
-		if(preg_match('/^PER\*/',$seg)) { } else { throw new exception("$seg"); }
-
-		$seg = array_shift($segments);
-		if(preg_match('/^NM1\*/',$seg)) { } else { throw new exception("$seg"); }
-
-		$seg = array_shift($segments);
-		if(preg_match('/^HL\*/',$seg)) { } else { throw new exception("$seg"); }
-
-		$seg = array_shift($segments);
-		if(preg_match('/^NM1\*/',$seg)) { } else { throw new exception("$seg"); }
-
-		$seg = array_shift($segments);
-		if(preg_match('/^N3\*/',$seg)) { } else { throw new exception("$seg"); }
-	
-		$seg = array_shift($segments);
-		if(preg_match('/^N4\*/',$seg)) { } else { throw new exception("$seg"); }
-
-		$seg = array_shift($segments);
-		if(preg_match('/^REF\*/',$seg)) { } else { throw new exception("$seg"); }
-
-		$claims = array();
-		while(preg_match('/^HL\*[0-9]+\*1\*22/',$segments[0]))
+		elseif($user == 'junior')
 		{
-			$claim = array();
+			$d['load277']      = $this->load->view('junior/load277','',true);
+			$d['todo']         = $this->load->view('junior/todo','',true);
+			$d['billMedicaid'] = $this->load->view('junior/billMedicaid','',true);
+			$d['loadClaims']   = $this->load->view('junior/loadClaims','',true);
+			$d['dbtables']     = $this->load->view('junior/dbtables','',true);
 
-			$seg = array_shift($segments);
-			if(preg_match('/^HL\*[0-9]+\*1\*22/',$seg)) { } else { throw new exception("$seg"); }
-
-			$seg = array_shift($segments);
-			if(preg_match('/^SBR\*/',$seg)) { } else { throw new exception("$seg"); }
-
-			$seg = array_shift($segments);
-			if(preg_match('/^NM1\*/',$seg))
-			{
-				$temp = preg_split('/\*/',$seg);
-				$claim['first']    = $temp[4];
-				$claim['last']     = $temp[3];
-				$claim['medicaid'] = $temp[9];
-			}
-			else
-			{
-				throw new exception("$seg");
-			}
-
-			$seg = array_shift($segments);
-			if(preg_match('/^DMG\*/',$seg))
-			{
-				$temp = preg_split('/\*/',$seg);
-				$claim['birth'] = $temp[2];
-				$claim['sex']   = $temp[3];
-			}
-			else
-			{
-				throw new exception("$seg");
-			}
-
-			$seg = array_shift($segments);
-			if(preg_match('/^NM1\*/',$seg)) { } else { throw new exception("$seg"); }
-
-			$seg = array_shift($segments);
-			if(preg_match('/^CLM\*/',$seg))
-			{
-				$temp = preg_split('/\*/',$seg);
-				$trak = preg_split('/-/',$temp[1]);
-				$claim['chart']   = $trak[0];
-				$claim['claimId'] = $trak[1];
-				$claim['amount']  = $temp[2];
-			}
-			else
-			{
-				throw new exception("$seg");
-			}
-
-			$seg = array_shift($segments);
-			if(preg_match('/^DTP\*/',$seg))
-			{
-				$temp = preg_split('/\*/',$seg);
-				$trak = preg_split('/-/',$temp[3]);
-				$claim['serviceDate'] = $trak[0];
-			}
-			else
-			{
-				throw new exception("$seg");
-			}
-
-			$seg = array_shift($segments);
-			if(preg_match('/^CL1\*/',$seg)) { } else { throw new exception("$seg"); }
-
-			$seg = array_shift($segments);
-			if(preg_match('/^HI\*BK/',$seg)) { } else { throw new exception("$seg"); }
-
-			$seg = array_shift($segments);
-			if(preg_match('/^HI\*BE/',$seg)) { } else { throw new exception("$seg"); }
-
-			$seg = array_shift($segments);
-			if(preg_match('/^NM1\*/',$seg)) { } else { throw new exception("$seg"); }
-
-			$lines = array();
-			while(preg_match('/^LX\*[0-9]+/',$segments[0]))
-			{
-				$line = array();
-
-				$seg = array_shift($segments);
-				if(preg_match('/^LX\*[0-9]+/',$seg)) { } else { throw new exception("$seg"); }
-
-				$seg = array_shift($segments);
-				if(preg_match('/^SV2\*/',$seg))
-				{
-					$temp = preg_split('/\*/',$seg);
-					$trak = preg_split('/:/',$temp[2]);
-					$line['adacode'] = $trak[1];
-					$line['amount']  = $temp[3];
-				}
-				else
-				{
-					throw new exception("$seg");
-				}
-
-				$seg = array_shift($segments);
-				if(preg_match('/^DTP\*472/',$seg))
-				{
-					$temp = preg_split('/\*/',$seg);
-					$trak = preg_split('/-/',$temp[3]);
-					$line['date'] = $trak[0];
-				}
-				else
-				{
-					throw new exception("$seg");
-				}
-
-				$lines[] = $line;
-
-			}
-
-			$claim['lines'] = $lines;
-			$claims[] = $claim;
-
+			$this->load->view('junior/home',$d);
 		}
-
-		$seg = array_shift($segments);
-		if(preg_match('/^SE\*/',$seg)) { } else { throw new exception("$seg"); }
-
-		$seg = array_shift($segments);
-		if(preg_match('/^GE\*/',$seg)) { } else { throw new exception("$seg"); }
-
-		$seg = array_shift($segments);
-		if(preg_match('/^IEA\*/',$seg)) { } else { throw new exception("$seg"); }
-
-		$m[] = "All good :)";
+		elseif($user == 'john')
+		{
+			$d['user'] = $user;
+			$claimList['headings'] = array('Id','Last','First','Date','Amount','Status');
+			$this->load->model('denialmangement');
+			$claimList['rows'] = $this->denialmangement->getClaimList();
+			$d['claims'] = $claimList;
+			$this->load->view('claims',$d);
+		}
+		elseif($user == 'jamesold')
+		{
+			$slide = array();
+			$slide[] = array('Worker',     $this->load->view('slides/worker','',true));
+			$slide[] = array('Trader',     $this->load->view('slides/trader','',true));
+			$slide[] = array('Stage',      $this->load->view('slides/stage','',true));
+			$slide[] = array('Grapher',    $this->load->view('grapher','',true));
+			$slides['slides'] = $slide;
+			$data['slideTray'] = $this->load->view('slideTray',$slides,true);
+			$this->load->view('home',$data);
+		}
 	}
-	catch(exception $e)
-	{
-		$error = $e->getMessage();
-		$m[] = "ERROR!! $error";
-		return implode('<br/>',$m);
-	}
-	#foreach($segments as $seg) { $m[] = $seg; }
-	return $claims;
-}
-
 }
