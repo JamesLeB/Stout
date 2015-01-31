@@ -1,5 +1,9 @@
+<?php
+	$groot = $_POST['groot'];
+?>
 <div id='detailCoinView'>
 	<button id='switchBack'>Close</button>
+	<div> <?php echo $groot ?> </div>
 </div>
 <style>
 	#detailCoinView
