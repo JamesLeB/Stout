@@ -1,26 +1,8 @@
 <button id='getCoins'>Get</button>
+<button id='getSlope'>GetSlope</button>
 <button id='sortCoins'>Sort</button>
 <button id='switch'>switch</button>
 <div id='trader'></div>
-<style>
-	/* background-image : url('lib/images/wood1.jpg'); */
-	.pair
-	{
-		background-image : url('lib/images/slate1.jpg');
-		border : 1px solid gray;
-		margin  : 20px;
-		padding : 10px;
-		border-radius : 20px;
-		box-shadow : 2px 2px 2px black;
-		color : white;
-		height : 20px;
-	}
-	.pair > div { float: left; }
-	.pair > div:nth-child(1) { width : 150px; margin-left : 10px;}
-	.pair > div:nth-child(2) { width : 150px; }
-	.pair > div:nth-child(3) { width : 150px; }
-	.pair > div:nth-child(4) { width : 150px; }
-</style>
 <script>
 	$('#switch').click(function(){
 		$.post('index.php?/trader/getCoinDetail','',function(data){
@@ -37,6 +19,13 @@
 			return bb - aa;
 		});
 		$('#trader').html(mylist);
+	});
+	$('#getSlope').click(function(){
+		$('#debug').html('ya me');
+		var pairs = $('.pair');
+		pairs.each(function(index,element){
+			$(element).children(':nth-child(2)').children(':nth-child(1)').html('yy');
+		});
 	});
 	$('#getCoins').click(function(){
 		$.post('index.php?/trader/getCoinList','',function(data){
