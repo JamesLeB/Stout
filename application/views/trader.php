@@ -5,7 +5,8 @@
 <div id='trader'></div>
 <script>
 	$('#switch').click(function(){
-		$.post('index.php?/trader/getCoinDetail','',function(data){
+		var p = {groot: 'I am a groot'};
+		$.post('index.php?/trader/getCoinDetail',p,function(data){
 			switchScreen(data);
 		});
 	});
