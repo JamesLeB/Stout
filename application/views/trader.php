@@ -4,6 +4,9 @@
 <button id='switch'>switch</button>
 <div id='trader'></div>
 <script>
+	$.post('index.php?/trader/getTrader','',function(data){
+		$('#trader').html(data);
+	});
 	$('#switch').click(function(){
 		var p = {groot: 'I am a groot'};
 		$.post('index.php?/trader/getCoinDetail',p,function(data){

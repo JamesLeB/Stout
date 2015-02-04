@@ -10,6 +10,10 @@ class Trader extends CI_Controller {
 		$this->load->model('Exchange');
 		$this->exchangeModel = $this->Exchange;
 	}
+	public function getTrader()
+	{
+		echo "loading trader";
+	}
 	public function getCoinDetail()
 	{
 		$h = $this->load->view('trader/coinDetail','',true);
