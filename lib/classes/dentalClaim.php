@@ -114,7 +114,8 @@ class dentalClaim{
 			'sex'     => $this->patientSex,
 			'claimid' => $this->claimId,
 			'date'    => $this->serviceDate,
-			'amount'  => $this->claimAmount
+			'amount'  => $this->claimAmount,
+			'tcn'     => $this->tcn
 		);
 	}
 
