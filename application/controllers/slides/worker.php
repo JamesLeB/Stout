@@ -105,6 +105,7 @@ class Worker extends CI_Controller {
 						$claimId          = $claimData{'claimid'};
 						$claimServiceDate = $claimData{'date'};
 						$claimAmount      = $claimData{'amount'};
+						$tcn              = $claimData{'tcn'};
 	
 						$batchCount++;
 						$batchAmount += $claimAmount;
@@ -115,9 +116,20 @@ class Worker extends CI_Controller {
 						$x12[] = "NM1*IL*1*$last*$first****MI*$subscriberId";
 						$x12[] = "DMG*D8*$birthdate*$sex";
 						$x12[] = "NM1*PR*2*NYSDOH*****PI*141797357";
-						$x12[] = "CLM*$claimId*$claimAmount***79:A:1**A*Y*Y";
-						$x12[] = "DTP*434*RD8*$claimServiceDate-$claimServiceDate";
-						$x12[] = "CL1*1*7*30";
+						if($tcn)
+						{
+							$x12[] = "CLM*$claimId*$claimAmount***79:A:7**A*Y*Y";
+						}
+						else
+						{
+							$x12[] = "CLM*$claimId*$claimAmount***79:A:1**A*Y*Y";
+						}
+												$x12[] = "DTP*434*RD8*$claimServiceDate-$claimServiceDate";
+												$x12[] = "CL1*1*7*30";
+						if($tcn)
+						{
+							$x12[] = "REF*F8*$tcn";
+						}
 						$x12[] = "HI*BK:52100";
 						$x12[] = "HI*BE:24:::1428";
 						$x12[] = "NM1*71*1*DESTENO*COSMO****XX*1518920727";
