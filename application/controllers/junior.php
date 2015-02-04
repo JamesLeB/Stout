@@ -252,13 +252,16 @@ class Junior extends CI_Controller {
 				elseif($task == 'saveLog')
 				{
 					# Move file from local disk to ftp server
-					$logdata = preg_replace('/<br\/>/',"\r\n",$data[1]);
-					$local_file = "files/edi/log_$data[0]";
-					file_put_contents($local_file,$logdata);
+					$logdata1 = preg_replace('/<br\/>/',"\r\n",$data[1]);
+					$logdata2 = preg_replace('/<br\/>/',"\n",$data[1]);
+					$local_file1 = "files/edi/logs/w_$data[0]";
+					$local_file2 = "files/edi/logs/l_$data[0]";
+					file_put_contents($local_file1,$logdata1);
+					file_put_contents($local_file2,$logdata2);
 					$json = "im here";
 					$remote_file = "Logs/$data[0]";
-					if(ftp_put($conn,$remote_file,$local_file,FTP_BINARY)){
-						unlink($local_file);
+					if(ftp_put($conn,$remote_file,$local_file1,FTP_BINARY)){
+						unlink($local_file1);
 						$json = 'it worked';
 					}else{
 						$json = 'DOHHH';
