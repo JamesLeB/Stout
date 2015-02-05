@@ -12,7 +12,10 @@ class Trader extends CI_Controller {
 	}
 	public function getTrader()
 	{
-		echo "loading trader";
+		require_once('lib/classes/trader/coinTrader.php');
+		$o = new coinTrader();
+		$a = $o->test();
+		echo "loading trader: $a";
 	}
 	public function getCoinDetail()
 	{
