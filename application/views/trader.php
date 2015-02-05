@@ -3,6 +3,14 @@
 <button id='sortCoins'>Sort</button>
 <button id='switch'>switch</button>
 <div id='trader'></div>
+<style>
+	#trader
+	{
+		border : 1px solid black;
+		margin : 20px;
+		padding : 10px;
+	}
+</style>
 <script>
 	$.post('index.php?/trader/getTrader','',function(data){
 		$('#trader').html(data);
