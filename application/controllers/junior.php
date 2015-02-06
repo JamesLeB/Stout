@@ -5,12 +5,22 @@ class Junior extends CI_Controller {
 	public function getNewClaims()
 	{
 		$list = scandir('files/edi/sentClaims');
-		echo json_encode($list);
+		$out = array();
+		foreach($list as $item)
+		{
+			if(!preg_match('/^\./',$item)){ $out[] = $item; }
+		}
+		echo json_encode($out);
 	}
 	public function getProcessedClaims()
 	{
 		$list = scandir('files/edi/processedClaims');
-		echo json_encode($list);
+		$out = array();
+		foreach($list as $item)
+		{
+			if(!preg_match('/^\./',$item)){ $out[] = $item; }
+		}
+		echo json_encode($out);
 	}
 	public function processClaim()
 	{
