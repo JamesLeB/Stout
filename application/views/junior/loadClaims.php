@@ -23,7 +23,7 @@
 		position : absolute;
 	}
 	#loadClaims > div:nth-child(1) { }
-	#loadClaims > div:nth-child(2) { left: 500px; width: 800px; height: 600px;}
+	#loadClaims > div:nth-child(2) { left: 450px; width: 1000px; height: 600px;}
 	#loadClaims > div:nth-child(2) > div:nth-child(1) { margin : 10px; }
 	#loadClaims > div:nth-child(3) { top: 330px;}
 	.claimFile { margin : 10px; margin-left : 20px;}
