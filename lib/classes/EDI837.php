@@ -15,10 +15,11 @@ class EDI837{
 		return "Testing EDI837";
 	}
 	public function loadEDI837D($file){
+		$isDentalBatch = 1;
 
 		$m = array();
 
-		$m[] = "Converting: $file";
+		$m[] = "Loading: $file";
 		$x12 = file_get_contents($this->filepath.$file);
 		$segments = preg_split('/~/',$x12);
 		$ediObj = new EDI837D();
@@ -40,6 +41,11 @@ if(1){
 			if(preg_match('/^GS\*/',$seg)){
 				$temp = preg_split('/\*/',$seg);
 				$ediObj->setFormat($temp[8]);
+				if($temp[8] != '005010X224A2')
+				{
+					$isDentalBatch = 0;
+					throw new exception("Not dental batch!!");
+				}
 			}else{throw new exception("error loading GS<br/>---<br/>$seg<br/>---");}
 		
 			#LOAD ST 
@@ -101,7 +107,7 @@ if(1){
 }
 
 		$m = implode("<br/>",$m);
-		return array('message'=>$m,'ediObj'=>$ediObj);
+		return array('message'=>$m,'ediObj'=>$ediObj, 'batch'=>$isDentalBatch);
 	} # END function loadEDI837D
 	private function loadProvider(&$segments){
 		$provider = new billingProvider();
@@ -265,7 +271,7 @@ if(1){
 		if(preg_match('/^N3\*/',$seg)){
 			$temp = preg_split('/\*/',$seg);
 			$claim->setPayerStreet1($temp[1]);
-			$claim->setPayerStreet2($temp[2]);
+			if(isset($temp[2])){$claim->setPayerStreet2($temp[2]);}
 		}else{throw new exception("error loading N3<br/>---<br/>$seg<br/>---");}
 
 		#LOAD N4
@@ -285,11 +291,11 @@ if(1){
 		}else{throw new exception("erroc loading REF<br/>---<br/>$seg<br/>---");}
 
 		#LOAD REF
-		$seg = array_shift($segments);
-		if(preg_match('/^REF\*G2\*/',$seg)){
+		if(preg_match('/^REF\*G2\*/',$segments[0])){
+			$seg = array_shift($segments);
 			$temp = preg_split('/\*/',$seg);
 			$claim->setBillingProvider2ndId($temp[2]);
-		}else{throw new exception("erroc loading REF<br/>---<br/>$seg<br/>---");}
+		}#else{throw new exception("erroc loading REF<br/>---<br/>$seg<br/>---");}
 
 		#LOAD REF
 		if(preg_match('/^HL\*[0-9]+\*[0-9]+\*23\*/',$segments[0])){
@@ -378,11 +384,11 @@ if(1){
 		}else{throw new exception("error loading PRV<br/>---<br/>$seg<br/>---");}
 
 		#LOAD REF
-		$seg = array_shift($segments);
-		if(preg_match('/^REF\*G2\*/',$seg)){
+		if(preg_match('/^REF\*G2\*/',$segments[0])){
+			$seg = array_shift($segments);
 			$temp = preg_split('/\*/',$seg);
 			$claim->setProviderId2($temp[2]);
-		}else{throw new exception("erroc loading REF<br/>---<br/>$seg<br/>---");}
+		}#else{throw new exception("erroc loading REF<br/>---<br/>$seg<br/>---");}
 
 		#LOAD NM1
 		$seg = array_shift($segments);
@@ -414,6 +420,16 @@ if(1){
 			$temp = preg_split('/\*/',$seg);
 			$claim->setFacilityId2($temp[2]);
 		}else{throw new exception("erroc loading REF<br/>---<br/>$seg<br/>---");}
+
+		if(preg_match('/^SBR\*/',$segments[0])){ $seg = array_shift($segments); }
+		if(preg_match('/^OI\*/',$segments[0])){ $seg = array_shift($segments); }
+		if(preg_match('/^NM1\*/',$segments[0])){ $seg = array_shift($segments); }
+		if(preg_match('/^N3\*/',$segments[0])){ $seg = array_shift($segments); }
+		if(preg_match('/^N4\*/',$segments[0])){ $seg = array_shift($segments); }
+		if(preg_match('/^NM1\*/',$segments[0])){ $seg = array_shift($segments); }
+		if(preg_match('/^N3\*/',$segments[0])){ $seg = array_shift($segments); }
+		if(preg_match('/^N4\*/',$segments[0])){ $seg = array_shift($segments); }
+		if(preg_match('/^REF\*/',$segments[0])){ $seg = array_shift($segments); }
 
 		while(preg_match('/^LX\*/',$segments[0])){
 			$service = $this->loadService($segments);
