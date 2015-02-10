@@ -5,6 +5,11 @@ class EDI837{
 
 	function __construct(){
 		$this->filepath = 'files/edi/';
+		require_once('lib/classes/EDI837D.php');
+		require_once('lib/classes/billingProvider.php');
+		require_once('lib/classes/dentalClaim.php');
+		require_once('lib/classes/patient.php');
+		require_once('lib/classes/service.php');
 	}
 	public function test(){
 		return "Testing EDI837";
@@ -14,7 +19,6 @@ class EDI837{
 		$m = array();
 
 		$m[] = "Converting: $file";
-		#$file = 'a.txt';
 		$x12 = file_get_contents($this->filepath.$file);
 		$segments = preg_split('/~/',$x12);
 		$ediObj = new EDI837D();
@@ -160,7 +164,7 @@ if(1){
 		if(preg_match('/^REF\*0B\*/',$seg)){
 			$temp = preg_split('/\*/',$seg);
 			$provider->setBillingProviderLicense($temp[2]);
-		}else{throw new exception("erroc loading REF<br/>---<br/>$seg<br/>---");}
+		}else{throw new exception("error loading REF<br/>---<br/>$seg<br/>---");}
 	
 		#LOAD REF
 		$seg = array_shift($segments);
