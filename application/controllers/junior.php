@@ -27,10 +27,35 @@ class Junior extends CI_Controller {
 		$file = $_POST['file'];
 		$new1 = "files/edi/sentClaims/$file";
 		$new2 = "files/edi/processedClaims/$file";
+		$new3 = "files/edi/intClaims/$file";
 		$f = file_get_contents($new1);
-		file_put_contents($new2,$f);
-		unlink($new1);
-		echo "$file copied";
+
+$m = array();
+$m[] = "reading file";
+$line = preg_split('/~/',$f);
+foreach($line as $item)
+{
+	//$m[] = $item;
+}
+
+require_once('lib/classes/EDI837.php');
+$obj = new EDI837();
+$t = $obj->loadEDI837D('sentClaims/'.$file);
+$message = $t['message'];
+$status  = $t['batch'];
+$batch = $t['ediObj'];
+
+		//file_put_contents($new2,$f);
+		//unlink($new1);
+if($status == 0)
+{
+	file_put_contents($new3,$f);
+	unlink($new1);
+}
+$m[] = "Message: $message";
+$m[] = "status: $status";
+$m[] = "batch: $batch";
+		echo implode("<br/>",$m);
 	}
 	public function resetClaim()
 	{
