@@ -76,7 +76,7 @@
 				<input type='submit' />
 			</div>
 			<div>
-				<?php echo $_SESSION['mess']; ?>
+				<?php #echo $_SESSION['mess']; ?>
 			</div>
 		</div>
 	</form>
