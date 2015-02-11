@@ -22,6 +22,7 @@ class EDI837{
 		$m[] = "Loading: $file";
 		$x12 = file_get_contents($this->filepath.$file);
 		$segments = preg_split('/~/',$x12);
+		$startSize = sizeof($segments);
 		$ediObj = new EDI837D();
 if(1){
 		try{
@@ -101,9 +102,10 @@ if(1){
 			}else{throw new exception("error loading IEA<br/>---<br/>$seg<br/>---");}
 
 		}catch(exception $e){
+			$size = $startSize - sizeof($segments);
 			$error = $e->getMessage();
-			$m[] = "Error: $error";
-			$isDentalBatch = 99;
+			$m[] = "Error at $size: $error";
+			if($isDentalBatch == 1){ $isDentalBatch = 99; }
 		}
 }
 
@@ -268,12 +270,12 @@ if(1){
 		}else{throw new exception("error loading NM1<br/>---<br/>$seg<br/>---");}
 
 		#LOAD N3
-		$seg = array_shift($segments);
-		if(preg_match('/^N3\*/',$seg)){
+		if(preg_match('/^N3\*/',$segments[0])){
+			$seg = array_shift($segments);
 			$temp = preg_split('/\*/',$seg);
 			$claim->setPayerStreet1($temp[1]);
 			if(isset($temp[2])){$claim->setPayerStreet2($temp[2]);}
-		}else{throw new exception("error loading N3<br/>---<br/>$seg<br/>---");}
+		}#else{throw new exception("error loading N3<br/>---<br/>$seg<br/>---");}
 
 		#LOAD N4
 		$seg = array_shift($segments);
@@ -318,11 +320,17 @@ if(1){
 		}else{throw new exception("error loading CLM<br/>---<br/>$seg<br/>---");}
 
 		#LOAD DTP
+		if(preg_match('/^DTP\*452\*D8\*/',$segments[0])){ $seg = array_shift($segments); }
+
+		#LOAD DTP
 		$seg = array_shift($segments);
 		if(preg_match('/^DTP\*472\*D8\*/',$seg)){
 			$temp = preg_split('/\*/',$seg);
 			$claim->setServiceDate($temp[3]);
 		}else{throw new exception("error loading DTP<br/>---<br/>$seg<br/>---");}
+
+		#LOAD DN1
+		if(preg_match('/^DN1\*/',$segments[0])){ $seg = array_shift($segments); }
 
 		#LOAD PWK
 		if(preg_match('/^PWK\*/',$segments[0])){
