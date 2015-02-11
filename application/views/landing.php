@@ -107,7 +107,7 @@
 				<div id='tab5'><?php echo $characterSheet ?></div>
 				<div id='tab6'><?php echo $database ?></div>
 				<div id='tab7'><?php echo $map ?></div>
-				<div id='tab8'><?php #echo $webgl ?></div>
+				<div id='tab8'><?php echo $webgl ?></div>
 			</div>
 		</div>
 		<!-- FOOTER --!>

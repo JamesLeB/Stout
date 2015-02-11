@@ -36,7 +36,7 @@ class Stout extends CI_Controller {
 			#$data['trader'] = $this->load->view('slides/trader.php','',true);
 
 			# LOAD WEBGL
-			#$data['webgl'] = $this->load->view('slides/webgl.php','',true);
+			$data['webgl'] = $this->load->view('slides/webgl.php','',true);
 
 			# Load Laning page
 			$this->load->view('landing',$data);
