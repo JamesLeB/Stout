@@ -46,6 +46,9 @@ class Junior extends CI_Controller {
 			file_put_contents($new3,$f);
 			unlink($new1);
 		}
+		elseif($status == 99)
+		{
+		}
 		else
 		{
 			$batchStuff = $batch->getStuff();

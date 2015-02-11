@@ -103,6 +103,7 @@ if(1){
 		}catch(exception $e){
 			$error = $e->getMessage();
 			$m[] = "Error: $error";
+			$isDentalBatch = 99;
 		}
 }
 
