@@ -53,7 +53,8 @@ class Junior extends CI_Controller {
 			$providerList = $batch->getProviders();
 			foreach($providerList as $provider)
 			{
-				$m[] = $provider->getBillingProviderName();
+				$providerName = $provider->getBillingProviderName();
+				$m[] = $providerName;
 				$claimList = $provider->getClaims();
 				foreach($claimList as $claim)
 				{
@@ -79,7 +80,7 @@ class Junior extends CI_Controller {
 						$date    = $serviceData['date'];
 						$tooth   = $serviceData['tooth'];
 						$lineNum = $serviceData['number'];
-						$m[] = "&nbsp$batchNumber,$last, $first, $id, $birth, $sex, $claimid, $tcn, $lineNum, $adacode, $tooth, $amount, $date, $payer";
+						$m[] = "&nbsp$batchNumber,$last, $first, $id, $birth, $sex, $claimid, $tcn, $lineNum, $adacode, $tooth, $amount, $date, $payer, $providerName";
 						$record = array(
 							'batchNum' => $batchNumber,
 							'last'     => $last,
@@ -89,12 +90,13 @@ class Junior extends CI_Controller {
 							'sex'      => $sex,
 							'claimid'  => $claimid,
 							'tcn'      => $tcn,
-							'lineNum'  => $lineNum,
-							'adacode'  => $adacode,
-							'tooth'    => $tooth,
-							'amount'   => $amount,
-							'date'     => $date,
-							'payer'    => $payer
+							'lineNum'      => $lineNum,
+							'adacode'      => $adacode,
+							'tooth'        => $tooth,
+							'amount'       => $amount,
+							'date'         => $date,
+							'payer'        => $payer,
+							'providerName' => $providerName
 						);
 						# Load into DB
 						$this->load->model('Warehouse');

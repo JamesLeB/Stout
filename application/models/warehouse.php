@@ -25,6 +25,7 @@ class Warehouse extends CI_Model{
 		$amount   = $record['amount'];
 		$date     = $record['date'];
 		$payer    = $record['payer'];
+		$providerName = $record['providerName'];
 
 		#check for record in db
 		$parm  = array($claimid,$lineNum);
@@ -35,12 +36,12 @@ class Warehouse extends CI_Model{
 
 		if($haveRecord)
 		{
-			$errorReport = "$batchNum::$last::$first::$id::$birth::$sex::$claimid::$tcn::$lineNum::$adacode::$tooth::$amount::$date::$payer\n";
+			$errorReport = "$batchNum::$last::$first::$id::$birth::$sex::$claimid::$tcn::$lineNum::$adacode::$tooth::$amount::$date::$payer::$providerName\n";
 			file_put_contents('files/edi/dupClaims',$errorReport,FILE_APPEND);
 		}
 		else
 		{
-			$parm = array($batchNum,$last,$first,$id,$birth,$sex,$claimid,$tcn,$lineNum,$adacode,$tooth,$amount,$date,$payer);
+			$parm = array($batchNum,$last,$first,$id,$birth,$sex,$claimid,$tcn,$lineNum,$adacode,$tooth,$amount,$date,$payer,$providerName);
 			$query = "INSERT INTO sentAxiumClaims (
 				batchNum,
 				lastName,
@@ -55,8 +56,9 @@ class Warehouse extends CI_Model{
 				tooth,
 				amount,
 				serviceDate,
-				payerName
-			) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+				payerName,
+				providerName
+			) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			$rs = $this->db->query($query,$parm);
 		}
 		return "loading record now -- message: $message";
