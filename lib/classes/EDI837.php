@@ -2,6 +2,7 @@
 class EDI837{
 
 	private $filepath;
+	private $feedback = 0;
 
 	function __construct(){
 		$this->filepath = 'files/edi/';
@@ -206,6 +207,9 @@ if(1){
 		}#else{throw new exception("error loading N4<br/>---<br/>$seg<br/>---");}
 
 		while(preg_match('/^HL\*[0-9]+\*[0-9]+\*22\*/',$segments[0])){
+$this->feedback++;
+$feedback = $this->feedback;
+file_put_contents('files/edi/feedback',"current: $feedback :: $segments[0]\n");
 			$claim = $this->loadDentalClaim($segments);
 			$provider->addClaim($claim);
 		}
