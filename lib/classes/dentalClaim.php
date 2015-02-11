@@ -118,6 +118,9 @@ class dentalClaim{
 			'tcn'     => $this->tcn
 		);
 	}
+	function getPayer(){
+		return $this->payerName;
+	}
 
 	# SETTERS
 	function setPatientPaid($x){ $this->patientPaid = $x; }

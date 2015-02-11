@@ -45,6 +45,7 @@ class Junior extends CI_Controller {
 		$message = $t['message'];
 		$status  = $t['status'];
 		$batch   = $t['ediObj'];
+
 		
 				//file_put_contents($new2,$f);
 				//unlink($new1);
@@ -55,6 +56,48 @@ class Junior extends CI_Controller {
 		}
 		$m[] = "Message: $message";
 		$m[] = "status: $status";
+		$m[] = "";
+
+$providerList = $batch->getProviders();
+foreach($providerList as $provider)
+{
+	$m[] = $provider->getBillingProviderName();
+	$claimList = $provider->getClaims();
+	foreach($claimList as $claim)
+	{
+		$stuff   = $claim->getStuff();
+
+		$last    = $stuff['last'];
+		$first   = $stuff['first'];
+		$id      = $stuff['id'];
+		$birth   = $stuff['birth'];
+		$sex     = $stuff['sex'];
+		$claimid = $stuff['claimid'];
+		$amount  = $stuff['amount'];
+		$tcn     = $stuff['tcn'];
+
+		$payer = $claim->getPayer();
+
+		$m[] = "";
+		$serviceList = $claim->getServices();
+		foreach($serviceList as $service)
+		{
+			$serviceData = $service->getStuff();
+
+			$adacode = $serviceData['adacode'];
+			$adacode = preg_split('/:/',$adacode);
+			$adacode = $adacode[1];
+			$amount  = $serviceData['amount'];
+			$date    = $serviceData['date'];
+
+			$m[] = "&nbsp$last, $first, $id, $birth, $sex, $claimid, $amount, $tcn, $adacode, $amount, $date, $payer";
+		}
+
+	}
+	$m[] = "\n";
+}
+#$temp = $batch->toText(); $m[] = $temp;
+
 		echo implode("<br/>",$m);
 	}
 	public function resetClaim()
