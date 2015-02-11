@@ -41,9 +41,10 @@ foreach($line as $item)
 require_once('lib/classes/EDI837.php');
 $obj = new EDI837();
 $t = $obj->loadEDI837D('sentClaims/'.$file);
+
 $message = $t['message'];
-$status  = $t['batch'];
-$batch = $t['ediObj'];
+$status  = $t['status'];
+$batch   = $t['ediObj'];
 
 		//file_put_contents($new2,$f);
 		//unlink($new1);

@@ -107,7 +107,7 @@ if(1){
 }
 
 		$m = implode("<br/>",$m);
-		return array('message'=>$m,'ediObj'=>$ediObj, 'batch'=>$isDentalBatch);
+		return array('message'=>$m,'ediObj'=>$ediObj, 'status'=>$isDentalBatch);
 	} # END function loadEDI837D
 	private function loadProvider(&$segments){
 		$provider = new billingProvider();
