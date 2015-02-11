@@ -23,7 +23,8 @@ class service{
 			'number'  => $this->lineNumber,
 			'adacode' => $this->adaCode,
 			'amount'  => $this->lineAmount,
-			'date'    => $this->serviceDate
+			'date'    => $this->serviceDate,
+			'tooth'   => $this->toothNumber
 		);
 	}
 
