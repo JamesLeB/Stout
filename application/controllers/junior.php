@@ -24,6 +24,7 @@ class Junior extends CI_Controller {
 	}
 	public function processClaim()
 	{
+		ini_set('max_execution_time','6000');
 		$file = $_POST['file'];
 		$new1 = "files/edi/sentClaims/$file";
 		$new2 = "files/edi/processedClaims/$file";
