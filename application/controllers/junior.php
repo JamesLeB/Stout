@@ -73,7 +73,7 @@ foreach($providerList as $provider)
 		$birth   = $stuff['birth'];
 		$sex     = $stuff['sex'];
 		$claimid = $stuff['claimid'];
-		$amount  = $stuff['amount'];
+		$claimAmount  = $stuff['amount'];
 		$tcn     = $stuff['tcn'];
 
 		$payer = $claim->getPayer();
@@ -90,7 +90,7 @@ foreach($providerList as $provider)
 			$amount  = $serviceData['amount'];
 			$date    = $serviceData['date'];
 
-			$m[] = "&nbsp$last, $first, $id, $birth, $sex, $claimid, $amount, $tcn, $adacode, $amount, $date, $payer";
+			$m[] = "&nbsp$last, $first, $id, $birth, $sex, $claimid, $tcn, $adacode, $amount, $date, $payer";
 		}
 
 	}
