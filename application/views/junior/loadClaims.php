@@ -40,9 +40,11 @@
 			});
 			$('#loadClaims > div:nth-child(1)').html(list);
 			$('.claimFile').click(function(){
+				$('#loadClaims').css('background','lightyellow');
 				var fileName = $(this).html();
 				var parm = { file: fileName };
 				$.post('index.php?/junior/processClaim',parm,function(data){
+					$('#loadClaims').css('background','lightgreen');
 					$('#loadClaims > div:nth-child(2) div:nth-child(1)').html(data);
 					getClaims();
 				});
