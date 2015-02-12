@@ -8,7 +8,7 @@ class Junior extends CI_Controller {
 		$out = array();
 		foreach($list as $item)
 		{
-			if(!preg_match('/^\./',$item)){ $out[] = $item; }
+			if(preg_match('/.+.txt/',$item)){ $out[] = $item; }
 		}
 		echo json_encode($out);
 	}
@@ -29,92 +29,101 @@ class Junior extends CI_Controller {
 		$new1 = "files/edi/sentClaims/$file";
 		$new2 = "files/edi/processedClaims/$file";
 		$new3 = "files/edi/intClaims/$file";
-		$f = file_get_contents($new1);
 		$m = array();
-		$m[] = "reading file";
-		$line = preg_split('/~/',$f);
-		require_once('lib/classes/EDI837.php');
-		$obj = new EDI837();
-		$t = $obj->loadEDI837D('sentClaims/'.$file);
-		$message = $t['message'];
-		$status  = $t['status'];
-		$batch   = $t['ediObj'];
-		$m[] = "Message: $message";
-		$m[] = "status: $status";
-		$m[] = "";
-		if($status == 0)
+		$m[] = "File: $file";
+		if(file_exists($new2))
 		{
-			file_put_contents($new3,$f);
-			unlink($new1);
-		}
-		elseif($status == 99)
-		{
+			$m[] = "File status: !!We have this file!!";
 		}
 		else
 		{
-			$batchStuff = $batch->getStuff();
-			$batchNumber = $batchStuff['batch'];
-			$batchDate   = $batchStuff['date'];
-			$providerList = $batch->getProviders();
-			foreach($providerList as $provider)
+			$m[] = "File status: New file";
+			$f = file_get_contents($new1);
+			$m[] = "reading file";
+			$line = preg_split('/~/',$f);
+			require_once('lib/classes/EDI837.php');
+			$obj = new EDI837();
+			$t = $obj->loadEDI837D('sentClaims/'.$file);
+			$message = $t['message'];
+			$status  = $t['status'];
+			$batch   = $t['ediObj'];
+			$m[] = "Message: $message";
+			$m[] = "status: $status";
+			$m[] = "";
+			if($status == 0)
 			{
-				$providerName = $provider->getBillingProviderName();
-				$m[] = $providerName;
-				$claimList = $provider->getClaims();
-				foreach($claimList as $claim)
+				file_put_contents($new3,$f);
+				unlink($new1);
+			}
+			elseif($status == 99)
+			{
+			}
+			else
+			{
+				$batchStuff = $batch->getStuff();
+				$batchNumber = $batchStuff['batch'];
+				$batchDate   = $batchStuff['date'];
+				$providerList = $batch->getProviders();
+				foreach($providerList as $provider)
 				{
-					$stuff   = $claim->getStuff();
-					$last    = $stuff['last'];
-					$first   = $stuff['first'];
-					$id      = $stuff['id'];
-					$birth   = $stuff['birth'];
-					$sex     = $stuff['sex'];
-					$claimid = $stuff['claimid'];
-					$claimAmount  = $stuff['amount'];
-					$tcn     = $stuff['tcn'];
-					$payer = $claim->getPayer();
-					$m[] = "";
-					$serviceList = $claim->getServices();
-					foreach($serviceList as $service)
+					$providerName = $provider->getBillingProviderName();
+					$m[] = $providerName;
+					$claimList = $provider->getClaims();
+					foreach($claimList as $claim)
 					{
-						$serviceData = $service->getStuff();
-						$adacode = $serviceData['adacode'];
-						$adacode = preg_split('/:/',$adacode);
-						$adacode = $adacode[1];
-						$amount  = $serviceData['amount'];
-						$date    = $serviceData['date'];
-						$tooth   = $serviceData['tooth'];
-						$lineNum = $serviceData['number'];
-						$m[] = "&nbsp$batchNumber,$batchNumber,$last, $first, $id, $birth, $sex, $claimid, $tcn, $lineNum, $adacode, $tooth, $amount, $date, $payer, $providerName";
-						$record = array(
-							'batchNum'  => $batchNumber,
-							'batchDate' => $batchDate,
-							'last'      => $last,
-							'first'     => $first,
-							'id'        => $id,
-							'birth'     => $birth,
-							'sex'       => $sex,
-							'claimid'   => $claimid,
-							'tcn'       => $tcn,
-							'lineNum'      => $lineNum,
-							'adacode'      => $adacode,
-							'tooth'        => $tooth,
-							'amount'       => $amount,
-							'date'         => $date,
-							'payer'        => $payer,
-							'providerName' => $providerName
-						);
-						# Load into DB
-						$this->load->model('Warehouse');
-						$result = $this->Warehouse->loadRecord($record);
-						$m[] = "loading: $result";
-					} # end service iteration
-				} # end claims iteration
-				$m[] = "\n";
-			} # end providers iteration
-			file_put_contents($new2,$f);
-			unlink($new1);
-		} # end if that checks for correctly loaded 837 object
+						$stuff   = $claim->getStuff();
+						$last    = $stuff['last'];
+						$first   = $stuff['first'];
+						$id      = $stuff['id'];
+						$birth   = $stuff['birth'];
+						$sex     = $stuff['sex'];
+						$claimid = $stuff['claimid'];
+						$claimAmount  = $stuff['amount'];
+						$tcn     = $stuff['tcn'];
+						$payer = $claim->getPayer();
+						$m[] = "";
+						$serviceList = $claim->getServices();
+						foreach($serviceList as $service)
+						{
+							$serviceData = $service->getStuff();
+							$adacode = $serviceData['adacode'];
+							$adacode = preg_split('/:/',$adacode);
+							$adacode = $adacode[1];
+							$amount  = $serviceData['amount'];
+							$date    = $serviceData['date'];
+							$tooth   = $serviceData['tooth'];
+							$lineNum = $serviceData['number'];
+							$m[] = "&nbsp$batchNumber,$batchNumber,$last, $first, $id, $birth, $sex, $claimid, $tcn, $lineNum, $adacode, $tooth, $amount, $date, $payer, $providerName";
+							$record = array(
+								'batchNum'  => $batchNumber,
+								'batchDate' => $batchDate,
+								'last'      => $last,
+								'first'     => $first,
+								'id'        => $id,
+								'birth'     => $birth,
+								'sex'       => $sex,
+								'claimid'   => $claimid,
+								'tcn'       => $tcn,
+								'lineNum'      => $lineNum,
+								'adacode'      => $adacode,
+								'tooth'        => $tooth,
+								'amount'       => $amount,
+								'date'         => $date,
+								'payer'        => $payer,
+								'providerName' => $providerName
+							);
+							# Load into DB
+							$this->load->model('Warehouse');
+							$result = $this->Warehouse->loadRecord($record);
+							$m[] = "loading: $result";
+						} # end service iteration
+					} # end claims iteration
+					$m[] = "\n";
+				} # end providers iteration
+				file_put_contents($new2,$f);
+				unlink($new1);
+			} # end if that checks for correctly loaded 837 object
+		}
 		echo implode("<br/>",$m);
 	}
 	public function resetClaim()
