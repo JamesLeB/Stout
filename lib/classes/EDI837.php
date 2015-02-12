@@ -434,15 +434,17 @@ file_put_contents('files/edi/feedback',"current: $feedback :: $segments[0]\n");
 			$claim->setFacilityId2($temp[2]);
 		}else{throw new exception("erroc loading REF<br/>---<br/>$seg<br/>---");}
 
-		if(preg_match('/^SBR\*/',$segments[0])){ $seg = array_shift($segments); }
-		if(preg_match('/^OI\*/',$segments[0])){ $seg = array_shift($segments); }
-		if(preg_match('/^NM1\*/',$segments[0])){ $seg = array_shift($segments); }
-		if(preg_match('/^N3\*/',$segments[0])){ $seg = array_shift($segments); }
-		if(preg_match('/^N4\*/',$segments[0])){ $seg = array_shift($segments); }
-		if(preg_match('/^NM1\*/',$segments[0])){ $seg = array_shift($segments); }
-		if(preg_match('/^N3\*/',$segments[0])){ $seg = array_shift($segments); }
-		if(preg_match('/^N4\*/',$segments[0])){ $seg = array_shift($segments); }
-		if(preg_match('/^REF\*/',$segments[0])){ $seg = array_shift($segments); }
+		while(preg_match('/^SBR\*/',$segments[0])){
+			$seg = array_shift($segments);
+			if(preg_match('/^OI\*/',$segments[0])){ $seg = array_shift($segments); }
+			if(preg_match('/^NM1\*/',$segments[0])){ $seg = array_shift($segments); }
+			if(preg_match('/^N3\*/',$segments[0])){ $seg = array_shift($segments); }
+			if(preg_match('/^N4\*/',$segments[0])){ $seg = array_shift($segments); }
+			if(preg_match('/^NM1\*/',$segments[0])){ $seg = array_shift($segments); }
+			if(preg_match('/^N3\*/',$segments[0])){ $seg = array_shift($segments); }
+			if(preg_match('/^N4\*/',$segments[0])){ $seg = array_shift($segments); }
+			if(preg_match('/^REF\*/',$segments[0])){ $seg = array_shift($segments); }
+		}
 
 		while(preg_match('/^LX\*/',$segments[0])){
 			$service = $this->loadService($segments);
