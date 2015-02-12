@@ -11,20 +11,21 @@ class Warehouse extends CI_Model{
 	function loadRecord($record)
 	{
 
-		$batchNum = $record['batchNum'];
-		$last     = $record['last'];
-		$first    = $record['first'];
-		$id       = $record['id'];
-		$birth    = $record['birth'];
-		$sex      = $record['sex'];
-		$claimid  = $record['claimid'];
-		$tcn      = $record['tcn'];
-		$lineNum  = $record['lineNum'];
-		$adacode  = $record['adacode'];
-		$tooth    = $record['tooth'];
-		$amount   = $record['amount'];
-		$date     = $record['date'];
-		$payer    = $record['payer'];
+		$batchNum  = $record['batchNum'];
+		$batchDate = $record['batchDate'];
+		$last      = $record['last'];
+		$first     = $record['first'];
+		$id        = $record['id'];
+		$birth     = $record['birth'];
+		$sex       = $record['sex'];
+		$claimid   = $record['claimid'];
+		$tcn       = $record['tcn'];
+		$lineNum   = $record['lineNum'];
+		$adacode   = $record['adacode'];
+		$tooth     = $record['tooth'];
+		$amount    = $record['amount'];
+		$date      = $record['date'];
+		$payer     = $record['payer'];
 		$providerName = $record['providerName'];
 
 		#check for record in db
@@ -36,14 +37,15 @@ class Warehouse extends CI_Model{
 
 		if($haveRecord)
 		{
-			$errorReport = "$batchNum::$last::$first::$id::$birth::$sex::$claimid::$tcn::$lineNum::$adacode::$tooth::$amount::$date::$payer::$providerName\n";
+			$errorReport = "$batchNum::$batchDate::$last::$first::$id::$birth::$sex::$claimid::$tcn::$lineNum::$adacode::$tooth::$amount::$date::$payer::$providerName\n";
 			file_put_contents('files/edi/dupClaims',$errorReport,FILE_APPEND);
 		}
 		else
 		{
-			$parm = array($batchNum,$last,$first,$id,$birth,$sex,$claimid,$tcn,$lineNum,$adacode,$tooth,$amount,$date,$payer,$providerName);
+			$parm = array($batchNum,$batchDate,$last,$first,$id,$birth,$sex,$claimid,$tcn,$lineNum,$adacode,$tooth,$amount,$date,$payer,$providerName);
 			$query = "INSERT INTO sentAxiumClaims (
 				batchNum,
+				batchDate,
 				lastName,
 				firstName,
 				id,
@@ -58,7 +60,7 @@ class Warehouse extends CI_Model{
 				serviceDate,
 				payerName,
 				providerName
-			) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+			) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 			$rs = $this->db->query($query,$parm);
 		}
 		return "loading record now -- message: $message";

@@ -54,6 +54,7 @@ class Junior extends CI_Controller {
 		{
 			$batchStuff = $batch->getStuff();
 			$batchNumber = $batchStuff['batch'];
+			$batchDate   = $batchStuff['date'];
 			$providerList = $batch->getProviders();
 			foreach($providerList as $provider)
 			{
@@ -84,16 +85,17 @@ class Junior extends CI_Controller {
 						$date    = $serviceData['date'];
 						$tooth   = $serviceData['tooth'];
 						$lineNum = $serviceData['number'];
-						$m[] = "&nbsp$batchNumber,$last, $first, $id, $birth, $sex, $claimid, $tcn, $lineNum, $adacode, $tooth, $amount, $date, $payer, $providerName";
+						$m[] = "&nbsp$batchNumber,$batchNumber,$last, $first, $id, $birth, $sex, $claimid, $tcn, $lineNum, $adacode, $tooth, $amount, $date, $payer, $providerName";
 						$record = array(
-							'batchNum' => $batchNumber,
-							'last'     => $last,
-							'first'    => $first,
-							'id'       => $id,
-							'birth'    => $birth,
-							'sex'      => $sex,
-							'claimid'  => $claimid,
-							'tcn'      => $tcn,
+							'batchNum'  => $batchNumber,
+							'batchDate' => $batchDate,
+							'last'      => $last,
+							'first'     => $first,
+							'id'        => $id,
+							'birth'     => $birth,
+							'sex'       => $sex,
+							'claimid'   => $claimid,
+							'tcn'       => $tcn,
 							'lineNum'      => $lineNum,
 							'adacode'      => $adacode,
 							'tooth'        => $tooth,
