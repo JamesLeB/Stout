@@ -159,9 +159,11 @@ if(1){
 		if(preg_match('/^REF\*G5\*/',$segments[0])){
 			$seg = array_shift($segments);
 		}#else{throw new exception("erroc loading REF<br/>---<br/>$seg<br/>---");}
-	
-		#LOAD REF
 
+		# another stange ref
+		if(preg_match('/^REF\*SY\*/',$segments[0])){ $seg = array_shift($segments); }
+
+		#LOAD REF
 		$provider->setBillingProviderTaxId('');
 		if(preg_match('/^REF\*EI\*/',$segments[0])){
 			$seg = array_shift($segments);
@@ -327,11 +329,11 @@ file_put_contents('files/edi/feedback',"current: $feedback :: $segments[0]\n");
 		if(preg_match('/^DTP\*452\*D8\*/',$segments[0])){ $seg = array_shift($segments); }
 
 		#LOAD DTP
-		$seg = array_shift($segments);
-		if(preg_match('/^DTP\*472\*D8\*/',$seg)){
+		if(preg_match('/^DTP\*472\*D8\*/',$segments[0])){
+			$seg = array_shift($segments);
 			$temp = preg_split('/\*/',$seg);
 			$claim->setServiceDate($temp[3]);
-		}else{throw new exception("error loading DTP<br/>---<br/>$seg<br/>---");}
+		}#else{throw new exception("error loading DTP<br/>---<br/>$seg<br/>---");}
 
 		#LOAD DN1
 		if(preg_match('/^DN1\*/',$segments[0])){ $seg = array_shift($segments); }
@@ -372,11 +374,11 @@ file_put_contents('files/edi/feedback',"current: $feedback :: $segments[0]\n");
 		}else{throw new exception("error loading REF<br/>---<br/>$seg<br/>---");}
 
 		#LOAD NTE
-		$seg = array_shift($segments);
-		if(preg_match('/^NTE\*ADD\*/',$seg)){
+		if(preg_match('/^NTE\*ADD\*/',$segments[0])){
+			$seg = array_shift($segments);
 			$temp = preg_split('/\*/',$seg);
 			$claim->setClaimNote($temp[2]);
-		}else{throw new exception("error loading NTE<br/>---<br/>$seg<br/>---");}
+		}#else{throw new exception("error loading NTE<br/>---<br/>$seg<br/>---");}
 
 		#LOAD NM1
 		$seg = array_shift($segments);
@@ -436,6 +438,7 @@ file_put_contents('files/edi/feedback',"current: $feedback :: $segments[0]\n");
 
 		while(preg_match('/^SBR\*/',$segments[0])){
 			$seg = array_shift($segments);
+			if(preg_match('/^AMT\*/',$segments[0])){ $seg = array_shift($segments); }
 			if(preg_match('/^OI\*/',$segments[0])){ $seg = array_shift($segments); }
 			if(preg_match('/^NM1\*/',$segments[0])){ $seg = array_shift($segments); }
 			if(preg_match('/^N3\*/',$segments[0])){ $seg = array_shift($segments); }
@@ -529,11 +532,14 @@ file_put_contents('files/edi/feedback',"current: $feedback :: $segments[0]\n");
 		}
 
 		#LOAD DTP
-		$seg = array_shift($segments);
-		if(preg_match('/^DTP\*472\*D8\*/',$seg)){
+		if(preg_match('/^DTP\*472\*D8\*/',$segments[0])){
+			$seg = array_shift($segments);
 			$temp = preg_split('/\*/',$seg);
 			$service->setServiceDate($temp[3]);
-		}else{throw new exception("error loading DTP<br/>---<br/>$seg<br/>---");}
+		}#else{throw new exception("error loading DTP<br/>---<br/>$seg<br/>---");}
+
+		# Added this while loading all sent files don't know whats up
+		if(preg_match('/^REF\*G3\*/',$segments[0])){ $seg = array_shift($segments); }
 
 		#LOAD REF
 		$seg = array_shift($segments);
@@ -541,6 +547,9 @@ file_put_contents('files/edi/feedback',"current: $feedback :: $segments[0]\n");
 			$temp = preg_split('/\*/',$seg);
 			$service->setLineControl($temp[2]);
 		}else{throw new exception("erroc loading REF<br/>---<br/>$seg<br/>---");}
+
+		# Added this while loading all sent files don't know whats up
+		if(preg_match('/^SVD\*/',$segments[0])){ $seg = array_shift($segments); }
 
 		return $service;
 	}# END function loadService
