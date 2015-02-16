@@ -1,16 +1,20 @@
 <script type="text/javascript" src="v/webgl/glMatrix.js"></script>
 <script id="shader-fs" type="x-shader/x-fragment">
     precision mediump float;
+	varying vec4 vColor;
     void main(void) {
-        gl_FragColor = vec4(1.0, 1.0, 1.0, 1.0);
+        gl_FragColor = vColor;
     }
 </script>
 <script id="shader-vs" type="x-shader/x-vertex">
     attribute vec3 aVertexPosition;
+    attribute vec4 aVertexColor;
     uniform mat4 uMVMatrix;
     uniform mat4 uPMatrix;
+	varying vec4 vColor;
     void main(void) {
         gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
+		vColor = aVertexColor;
     }
 </script>
 <script type="text/javascript">
@@ -63,6 +67,8 @@
         gl.useProgram(shaderProgram);
         shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
         gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
+        shaderProgram.vertexColorAttribute = gl.getAttribLocation(shaderProgram, "aVertexColor");
+        gl.enableVertexAttribArray(shaderProgram.vertexColorAttribute);
         shaderProgram.pMatrixUniform  = gl.getUniformLocation(shaderProgram, "uPMatrix");
         shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
     }
@@ -72,10 +78,11 @@
         gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
         gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
     }
-    var groot;
+    var grootPos;
+    var grootCol;
     function initBuffers() {
-        groot = gl.createBuffer();
-        gl.bindBuffer(gl.ARRAY_BUFFER, groot);
+        grootPos = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, grootPos);
         vertices = [
              1.0,  1.0,  0.0,
             -1.0,  1.0,  0.0,
@@ -83,8 +90,18 @@
             -1.0, -1.0,  0.0
         ];
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
-        groot.itemSize = 3;
-        groot.numItems = 4;
+        grootPos.itemSize = 3;
+        grootPos.numItems = 4;
+
+        grootCol = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, grootCol);
+        colors = [];
+		for (var i=0; i<4; i++){
+			colors = colors.concat([0.0,0.4,0.0,0.9]);
+		}
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
+        grootCol.itemSize = 4;
+        grootCol.numItems = 4;
     }
     function drawScene() {
         gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
@@ -92,10 +109,12 @@
         mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
         mat4.identity(mvMatrix);
         mat4.translate(mvMatrix, [0.0, 0.0, -6.0]);
-        gl.bindBuffer(gl.ARRAY_BUFFER, groot);
-        gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, groot.itemSize, gl.FLOAT, false, 0, 0);
+        gl.bindBuffer(gl.ARRAY_BUFFER, grootPos);
+        gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, grootPos.itemSize, gl.FLOAT, false, 0, 0);
+        gl.bindBuffer(gl.ARRAY_BUFFER, grootCol);
+        gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, grootCol.itemSize, gl.FLOAT, false, 0, 0);
         setMatrixUniforms();
-        gl.drawArrays(gl.TRIANGLE_STRIP, 0, groot.numItems);
+        gl.drawArrays(gl.TRIANGLE_STRIP, 0, grootPos.numItems);
     }
     function webGLStart() {
         var canvas = document.getElementById("canvas");
