@@ -9,28 +9,28 @@ class Stout extends CI_Controller {
 		if($user == 'james')
 		{
 			# Load Character
-			$d['table'] = $this->load->view('dnd/characterTable','',true);
-			$d['form']  = $this->load->view('dnd/newCharacterForm','',true);
+			$d['table'] = '';#$this->load->view('dnd/characterTable','',true);
+			$d['form']  = '';#$this->load->view('dnd/newCharacterForm','',true);
 
-			$data['newCharacter'] = $this->load->view('dnd/newCharacter',$d,true);
+			$data['newCharacter'] = '';#$this->load->view('dnd/newCharacter',$d,true);
 
 			# Load coins
 			#$coins['list'] = array();
 			#$coins['list'] = $this->getBterCoinList();
-			$data['coins'] = $this->load->view('trader','',true);
+			$data['coins'] = '';#$this->load->view('trader','',true);
 
 			# Load character Sheet
-			$data['characterSheet'] = $this->load->view('classes/charSheet','',true);
+			$data['characterSheet'] = '';#$this->load->view('classes/charSheet','',true);
 
 			# Load database controls
-			$data['database'] = $this->load->view('classes/localdb','',true);
+			$data['database'] = '';#$this->load->view('classes/localdb','',true);
 
 			# Load Map
-			$data['map'] = $this->load->view('classes/map','',true);
+			$data['map'] = '';#$this->load->view('classes/map','',true);
 
 			# Load Spash
 			#$data['splash'] = $this->load->view('slides/splash','',true);
-			$data['splash'] = $this->load->view('slides/lampSetup','',true);
+			$data['splash'] = '';#$this->load->view('slides/lampSetup','',true);
 
 			# LOAD TRADER
 			#$data['trader'] = $this->load->view('slides/trader.php','',true);
