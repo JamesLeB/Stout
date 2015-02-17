@@ -95,63 +95,128 @@
 	{
 		return degrees * Math.PI / 180;
 	}
+
     var grootPos;
     var grootCol;
-    function initBuffers() {
+    var grootIndex;
+
+    function initBuffers()
+	{
         grootPos = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, grootPos);
         vertices = [
-             1.0,  1.0,  0.0,
-            -1.0,  1.0,  0.0,
-             1.0, -1.0,  0.0,
-            -1.0, -1.0,  0.0
+			//Front face
+            -1.0, -1.0,  1.0,
+             1.0, -1.0,  1.0,
+             1.0,  1.0,  1.0,
+            -1.0,  1.0,  1.0,
+
+			//Back face
+            -1.0, -1.0, -1.0,
+            -1.0,  1.0, -1.0,
+             1.0,  1.0, -1.0,
+             1.0, -1.0, -1.0,
+
+			//Top face
+            -1.0,  1.0, -1.0,
+            -1.0,  1.0,  1.0,
+             1.0,  1.0,  1.0,
+             1.0,  1.0, -1.0,
+
+			//Bottom face
+            -1.0, -1.0, -1.0,
+             1.0, -1.0, -1.0,
+             1.0, -1.0,  1.0,
+            -1.0, -1.0,  1.0,
+
+			//Right face
+             1.0, -1.0, -1.0,
+             1.0,  1.0, -1.0,
+             1.0,  1.0,  1.0,
+             1.0, -1.0,  1.0,
+
+			//Left face
+            -1.0, -1.0, -1.0,
+            -1.0, -1.0,  1.0,
+            -1.0,  1.0,  1.0,
+            -1.0,  1.0, -1.0,
         ];
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
         grootPos.itemSize = 3;
-        grootPos.numItems = 4;
+        grootPos.numItems = 24;
 
         grootCol = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, grootCol);
-var c1 = [0.0, 0.4, 0.9, 1.0];
-var c2 = [0.0, 0.8, 0.9, 1.0];
+
+		var c1 = [1.0, 0.0, 0.0, 1.0];
+		var c2 = [0.0, 1.0, 0.0, 1.0];
+		var c3 = [0.0, 0.0, 1.0, 1.0];
+		var c4 = [1.0, 1.0, 0.0, 1.0];
+		var c5 = [1.0, 0.0, 1.0, 1.0];
+		var c6 = [0.0, 1.0, 1.0, 1.0];
+
+
         colors = [];
-		colors = colors.concat(c1);
-		colors = colors.concat(c2);
-		colors = colors.concat(c2);
-		colors = colors.concat(c1);
-/*
-        colors = [
-             0.0, 0.90, 1.0, 1.0,
-             0.0, 0.80, 1.0, 1.0,
-             0.0, 0.80, 1.0, 1.0,
-             0.0, 0.90, 1.0, 1.0
-		];
-        colors = [];
-		for (var i=0; i<4; i++){
-			colors = colors.concat([0.0,0.4,0.0,0.9]);
+		colors.push(c1);
+		colors.push(c2);
+		colors.push(c3);
+		colors.push(c4);
+		colors.push(c5);
+		colors.push(c6);
+
+		var unpackedColors = [];
+		for (var i in colors)
+		{
+			var color = colors[i];
+			for(var j=0; j < 4; j++)
+			{
+				unpackedColors = unpackedColors.concat(color);
+			}
 		}
-*/
-        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(colors), gl.STATIC_DRAW);
+
+        gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(unpackedColors), gl.STATIC_DRAW);
         grootCol.itemSize = 4;
-        grootCol.numItems = 4;
+        grootCol.numItems = 24;
+
+        grootIndex = gl.createBuffer();
+        gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, grootIndex);
+        indexes = [
+			 0,  1,  2,    0,  2,  3,  // Front
+			 4,  5,  6,    4,  6,  7,  // Back
+			 8,  9, 10,    8, 10, 11,  // Top
+			12, 13, 14,   12, 14, 15,  // Bottom
+			16, 17, 18,   16, 18, 19,  // Right
+			20, 21, 22,   20, 22, 23,  // Left
+        ];
+        gl.bufferData(gl.ELEMENT_ARRAY_BUFFER, new Uint16Array(indexes), gl.STATIC_DRAW);
+        grootIndex.itemSize = 1;
+        grootIndex.numItems = 36;
     }
-	var rSquare = 0;
-    function drawScene() {
+	var rCube = 0;
+    function drawScene()
+	{
         gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
+
         mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
         mat4.identity(mvMatrix);
         mat4.translate(mvMatrix, [0.0, 0.0, -6.0]);
+
 		mvPushMatrix();
-		mat4.rotate(mvMatrix, degToRad(rSquare), [0, 1, 0]);
-		mat4.rotate(mvMatrix, degToRad(rSquare), [1, 0, 0]);
-		mat4.rotate(mvMatrix, degToRad(rSquare), [0, 0, 1]);
+
+		mat4.rotate(mvMatrix, degToRad(rCube), [1, 1, 1]);
+
         gl.bindBuffer(gl.ARRAY_BUFFER, grootPos);
         gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, grootPos.itemSize, gl.FLOAT, false, 0, 0);
+
         gl.bindBuffer(gl.ARRAY_BUFFER, grootCol);
         gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, grootCol.itemSize, gl.FLOAT, false, 0, 0);
+
+		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, grootIndex);
         setMatrixUniforms();
-        gl.drawArrays(gl.TRIANGLE_STRIP, 0, grootPos.numItems);
+
+        gl.drawElements(gl.TRIANGLES, grootIndex.numItems, gl.UNSIGNED_SHORT, 0);
+
 		mvPopMatrix();
     }
 	var lastTime = 0;
@@ -160,7 +225,7 @@ var c2 = [0.0, 0.8, 0.9, 1.0];
 		var timeNow = new Date().getTime();
 		if(lastTime != 0){
 			var elapsed = timeNow - lastTime;
-			rSquare += (75 * elapsed) / 1000;
+			rCube += (75 * elapsed) / 1000;
 		}
 		lastTime = timeNow;
 	}
