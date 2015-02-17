@@ -112,13 +112,20 @@
 
         grootCol = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, grootCol);
-        colors = [
-             0.0, 0.99, 1.0, 1.0,
-             0.0, 0.80, 1.0, 1.0,
-             0.0, 0.80, 1.0, 1.0,
-             0.0, 0.99, 1.0, 1.0
-		];
+var c1 = [0.0, 0.4, 0.9, 1.0];
+var c2 = [0.0, 0.8, 0.9, 1.0];
+        colors = [];
+		colors = colors.concat(c1);
+		colors = colors.concat(c2);
+		colors = colors.concat(c2);
+		colors = colors.concat(c1);
 /*
+        colors = [
+             0.0, 0.90, 1.0, 1.0,
+             0.0, 0.80, 1.0, 1.0,
+             0.0, 0.80, 1.0, 1.0,
+             0.0, 0.90, 1.0, 1.0
+		];
         colors = [];
 		for (var i=0; i<4; i++){
 			colors = colors.concat([0.0,0.4,0.0,0.9]);
@@ -164,7 +171,7 @@
 		animate();
 	}
     function webGLStart() {
-        var canvas = document.getElementById("canvas");
+        var canvas = document.getElementById("mainViewer");
         initGL(canvas);
         initShaders();
         initBuffers();
@@ -176,4 +183,10 @@
 		webGLStart();
 	});
 </script>
- <canvas id="canvas" width="500" height="400"></canvas>
+<canvas id="mainViewer" width="500" height="400"></canvas>
+<style>
+	#mainViewer
+	{
+		border : 5px ridge yellow;
+	}
+</style>
