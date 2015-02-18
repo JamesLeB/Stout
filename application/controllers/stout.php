@@ -48,6 +48,7 @@ class Stout extends CI_Controller {
 			$d['billMedicaid'] = $this->load->view('junior/billMedicaid','',true);
 			$d['loadClaims']   = $this->load->view('junior/loadClaims','',true);
 			$d['dbtables']     = $this->load->view('junior/dbtables','',true);
+			$d['emdeonBridge'] = $this->load->view('junior/emdeonBridge','',true);
 
 			$this->load->view('junior/home',$d);
 		}
