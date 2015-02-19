@@ -8,6 +8,14 @@ class Warehouse extends CI_Model{
 		parent::__construct();
 		$this->db = $this->load->database('dw',true);
 	}
+	function test($batch,$file)
+	{
+		$parm  = array($file,$batch);
+		$query = "UPDATE sentAxiumClaims set fileName = ? where batchNum = ?";
+		$rs = $this->db->query($query,$parm);
+
+		return "batch: $batch !! file: $file !! result: $rs";
+	}
 	function loadRecord($record)
 	{
 
