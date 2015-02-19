@@ -16,6 +16,14 @@ class Warehouse extends CI_Model{
 
 		return "batch: $batch !! file: $file !! result: $rs";
 	}
+	function setEmdeonRef($ref,$file)
+	{
+		$parm  = array($ref,$file);
+		$query = "UPDATE sentAxiumClaims set emdeonAck = ? where fileName = ?";
+		$rs = $this->db->query($query,$parm);
+
+		return "$rs";
+	}
 	function loadRecord($record)
 	{
 
