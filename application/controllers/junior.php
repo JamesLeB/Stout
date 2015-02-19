@@ -134,7 +134,7 @@ class Junior extends CI_Controller {
 		$f = file_get_contents($new2);
 		file_put_contents($new1,$f);
 		unlink($new2);
-		echo "$file copied";
+		echo "<br/>Moved $file";
 	}
 	public function loadBatch()
 	{
