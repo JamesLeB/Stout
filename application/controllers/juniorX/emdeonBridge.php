@@ -4,9 +4,216 @@ class EmdeonBridge extends CI_Controller {
 
 	public function test()
 	{
-		echo "hello from test";
+		$o = $this->getFTP('getList','');
+		echo "hello from test<br/>";
+		echo $o[0];
+	}
+	public function getNewList()
+	{
+		$o = $this->getFTP('getList','axiumBridge');
+		echo $o[1];
+	}
+	public function getOldList()
+	{
+		$o = $this->getFTP('getList','axiumBridge\done');
+		echo $o[1];
+	}
+	public function readFile()
+	{
+		$file = $_POST['file'];
+		$o = $this->getFTP('getFile',"axiumBridge\\$file");
+		$doc = $o[1];
+		$lines = preg_split('/\n/',$doc);
+		$result = "Start";
+		$processed = array();
+
+$stop = "YES";
+while(sizeof($lines) > 0)
+{
+	if(preg_match('/^From/',$lines[0]))
+	{
+		$proc = $this->readAck($lines,$processed);
+		$result .= "<br/>".$proc[0];
+	}
+	else if(preg_match('/^\.*$/',$lines[0]))
+	{
+		$line = array_shift($lines); $processed[] = $line;
+	}
+	else
+	{
+		$result .= "Still have data to process";
+		$stop = "NO";
+		break;
+	}
+}
+if($stop == "YES")
+{
+	$o = $this->getFTP('putFile',array($file,$doc));
+	$result .= "<br/>Done moving file";
+}
+
+		$processed[] = "-------------------------------------------------------";
+		foreach($lines as $line)
+		{
+			$processed[] = $line;
+		}
+		$processed[] = "-------------------------------------------------------";
+		echo implode('<br/>',$processed)."<br/>RESULT: $result";
 	}
 
+	private function readAck(&$lines,&$processed)
+	{
+		$message = '';
+		try
+		{
+			$Reference = 'default';
+			$fileName = 'default';
+			if(preg_match('/^From:  Emdeon Business Services/',$lines[0]))
+			{
+				$line = array_shift($lines); $processed[] = $line;
+			}else{ throw new exception('something went wrong e1'); }
+
+			if(preg_match('/^To:/',$lines[0]))
+			{
+				$line = array_shift($lines); $processed[] = $line;
+			}else{ throw new exception('something went wrong e2'); }
+
+			if(preg_match('/^Subject:  Acknowledgement of receipt/',$lines[0]))
+			{
+				$line = array_shift($lines); $processed[] = $line;
+			}else{ throw new exception('something went wrong e3'); }
+
+			if(preg_match('/^Reference:  /',$lines[0]))
+			{
+				$line = array_shift($lines); $processed[] = $line;
+				$d = preg_split('/  /',$line);
+				$Reference = $d[1];
+			}else{ throw new exception('something went wrong e4'); }
+
+			if(preg_match('/^Date:  /',$lines[0]))
+			{
+				$line = array_shift($lines); $processed[] = $line;
+			}else{ throw new exception('something went wrong e5'); }
+
+			if(preg_match('/^Size:  /',$lines[0]))
+			{
+				$line = array_shift($lines); $processed[] = $line;
+			}else{ throw new exception('something went wrong e6'); }
+
+			$line = array_shift($lines); $processed[] = $line;
+
+			if(preg_match('/^Your file (.+) was received for processing by Emdeon/',$lines[0],$match))
+			{
+				$line = array_shift($lines); $processed[] = $line;
+				$fileName = $match[1];
+			}else{ throw new exception('something went wrong e7'); }
+
+			$line = array_shift($lines); $processed[] = $line;
+
+			if(preg_match('/^This file has been assigned tracking number .+\.  P/',$lines[0],$match))
+			{
+				$line = array_shift($lines); $processed[] = $line;
+			}else{ throw new exception('something went wrong e8'); }
+
+			if(preg_match('/^tracking number for your communications with Customer S/',$lines[0],$match))
+			{
+				$line = array_shift($lines); $processed[] = $line;
+			}else{ throw new exception('something went wrong e9'); }
+
+			if(preg_match('/^\s/',$lines[0],$match))
+			{
+				$line = array_shift($lines); $processed[] = $line;
+			}else{ throw new exception('something went wrong e10'); }
+
+			$this->load->model('Warehouse');
+			$r = $this->Warehouse->setEmdeonRef($Reference,$fileName);
+
+			$message = "
+				SUCESS :)<br/>
+				Ref: $Reference<br/>
+				File: $fileName<br/>
+				R: $r
+			";
+		}
+		catch(exception $e)
+		{
+			$error = $e->getMessage();
+			$message =  "error reading ack file: $error";
+		}
+		return array($message);
+	}
+	private function getFTP($task,$file){
+		$m = array();
+		$json = '';
+		$c = file_get_contents('files/config/juniorFTPpass');
+		$c = preg_split('/\s/',$c);
+		$ftp_server    = $c[0];
+		$ftp_user_name = $c[1];
+		$ftp_user_pass = $c[2];
+		set_error_handler(function(){});
+		$conn = ftp_connect($ftp_server);
+		if($conn){
+			$m[] = "Connection Success";
+			$login = ftp_login($conn,$ftp_user_name,$ftp_user_pass);
+			if($login){
+				$m[] = "Login Success";
+				if($task == 'getFile')
+				{
+					# Get file from FTP server
+					$local_file = 'files/edi/z';
+					if(ftp_get($conn,$local_file,$file,FTP_BINARY)){
+						$m[] = "File retrieved";
+					}else{
+						$m[] = "Failed to retrieve file";
+					}
+					$json = file_get_contents($local_file);
+					unlink($local_file);
+				}
+				elseif($task == 'putFile')
+				{
+					$text = $file[1];
+					$local_file = 'files/edi/z';
+					file_put_contents($local_file,$text);
+					# Put file on FTP server
+					$remote_file = 'axiumBridge\done\\'.$file[0];
+					if(ftp_put($conn,$remote_file,$local_file,FTP_BINARY)){
+						$m[] = "File Uploaded";
+					}else{
+						$m[] = "Failed to Upload file";
+					}
+					$remote_file = 'axiumBridge\\'.$file[0];
+					ftp_delete($conn,$remote_file);
+					unlink($local_file);
+				}
+				elseif($task == 'getList')
+				{
+					# Get list of files
+					$fileList = ftp_nlist($conn,$file);
+					if($fileList){
+						$m[] = "YES list";
+						$json = json_encode($fileList);
+					}else{
+						$m[] = "NO list";
+					}
+				}
+				elseif($task == 'deleteFile')
+				{
+				}
+				# Close FTP connection
+				if(ftp_close($conn)){
+					$m[] = "Connection Closed";
+				}else{
+					$m[] = "Connection Failed to Close";
+				}
+			}else{
+				$m[] = "Login Failed";
+			}
+		}else{
+			$m[] = "Connection Failed";
+		}
+		restore_error_handler();
+		$m = implode('<br/>',$m); return array($m,$json);
+	}
 /*
 	public function getNewClaims()
 	{
@@ -257,140 +464,6 @@ class EmdeonBridge extends CI_Controller {
 	public function getFtpBatchList(){
 		$a = $this->getFTP('getFtpBatchList','');
 		echo "$a[1]";
-	}
-	private function getFTP($task,$data){
-		$m = array();
-		$json = 'json here';
-		$c = file_get_contents('files/config/juniorFTPpass');
-		$c = preg_split('/\s/',$c);
-		$ftp_server    = $c[0];
-		$ftp_user_name = $c[1];
-		$ftp_user_pass = $c[2];
-		set_error_handler(function(){});
-		$conn = ftp_connect($ftp_server);
-		if($conn){
-			$m[] = "Connection Success";
-			$login = ftp_login($conn,$ftp_user_name,$ftp_user_pass);
-			if($login){
-				$m[] = "Login Success";
-				if($task == 'testGet'){
-					# Get file from FTP server
-					$local_file = 'files/zork';
-					$remote_file = 'README.txt';
-					if(ftp_get($conn,$local_file,$remote_file,FTP_BINARY)){
-						$m[] = "File retrieved";
-					}else{
-						$m[] = "Failed to retrieve file";
-					}
-				}elseif($task == 'testPut'){
-					# Put file on FTP server
-					$local_file = 'files/york';
-					$remote_file = 'test.txt';
-					if(ftp_put($conn,$remote_file,$local_file,FTP_BINARY)){
-						$m[] = "File Uploaded";
-					}else{
-						$m[] = "Failed to Upload file";
-					}
-				}elseif($task == 'getFtpBatchList'){
-					# Get list of files
-					$fileList = ftp_nlist($conn,'Batches');
-					if($fileList){
-						$m[] = "YES list";
-						foreach($fileList as $f){
-							$m[] = "$f";
-						}
-						$json = json_encode($fileList);
-					}else{
-						$m[] = "NO list";
-					}
-				}
-				elseif($task == 'getFtpX12List')
-				{
-					# Get list of files
-					$fileList = ftp_nlist($conn,'x12');
-					if($fileList){
-						$m[] = "YES list";
-						foreach($fileList as $f){
-							$m[] = "$f";
-						}
-						$json = json_encode($fileList);
-					}else{
-						$m[] = "NO list";
-					}
-				}
-				elseif($task == 'get277List')
-				{
-					# Get list of files
-					#$fileList = ftp_nlist($conn,'x277');
-					$fileList = array('a');
-					if($fileList){
-						$m[] = "YES list";
-						foreach($fileList as $f){
-							$m[] = "$f";
-						}
-						$json = json_encode($fileList);
-					}else{
-						$m[] = "NO list";
-					}
-				}
-				elseif($task == 'moveFile')
-				{
-					# Move file from ftp server to local disk
-					$local_file = "files/edi/$data";
-					$remote_file = "Batches/$data";
-					if(ftp_get($conn,$local_file,$remote_file,FTP_BINARY)){
-						ftp_delete($conn,$remote_file);
-						$json = 'Success :)';
-					}else{
-						$json = 'ERROR!';
-					}
-					#$d = ftp_nlist($conn,'x12');
-				}
-				elseif($task == 'moveFileBack')
-				{
-					# Move file from local disk to ftp server
-					$local_file = "files/edi/$data";
-					$remote_file = "x12/$data";
-					if(ftp_put($conn,$remote_file,$local_file,FTP_BINARY)){
-						unlink($local_file);
-						$json = 'Success :)';
-					}else{
-						$json = 'ERROR!';
-					}
-					#$d = ftp_nlist($conn,'x12');
-				}
-				elseif($task == 'saveLog')
-				{
-					# Move file from local disk to ftp server
-					$logdata1 = preg_replace('/<br\/>/',"\r\n",$data[1]);
-					$logdata2 = preg_replace('/<br\/>/',"\n",$data[1]);
-					$local_file1 = "files/edi/logs/w_$data[0]";
-					$local_file2 = "files/edi/logs/l_$data[0]";
-					file_put_contents($local_file1,$logdata1);
-					file_put_contents($local_file2,$logdata2);
-					$json = "im here";
-					$remote_file = "Logs/$data[0]";
-					if(ftp_put($conn,$remote_file,$local_file1,FTP_BINARY)){
-						unlink($local_file1);
-						$json = 'it worked';
-					}else{
-						$json = 'DOHHH';
-					}
-				}
-				# Close FTP connection
-				if(ftp_close($conn)){
-					$m[] = "Connection Closed";
-				}else{
-					$m[] = "Connection Failed to Close";
-				}
-			}else{
-				$m[] = "Login Failed";
-			}
-		}else{
-			$m[] = "Connection Failed";
-		}
-		restore_error_handler();
-		$m = implode('<br/>',$m); return array($m,$json);
 	}
 */
 }
