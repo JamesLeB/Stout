@@ -33,11 +33,19 @@ while(sizeof($lines) > 0)
 	if(preg_match('/^From/',$lines[0]))
 	{
 		$proc = $this->readAck($lines,$processed);
-		$result .= "<br/>".$proc[0];
+		$result .= "<br/>ReadAck<br/>".$proc[0];
 	}
 	else if(preg_match('/^\.*$/',$lines[0]))
 	{
 		$line = array_shift($lines); $processed[] = $line;
+	}
+	else if(preg_match('/^1/',$lines[0]))
+	{
+		$processed = array();
+		$proc = $this->readClaimStatus($lines,$processed);
+		$result = "<br/>ReadClaimStatus<br/>".$proc[0];
+		$stop = "NO";
+		break;
 	}
 	else
 	{
@@ -53,14 +61,52 @@ if($stop == "YES")
 }
 
 		$processed[] = "-------------------------------------------------------";
+		$processed[] = "Result: $result";
+		$processed[] = "-------------------------------------------------------";
 		foreach($lines as $line)
 		{
 			$processed[] = $line;
 		}
 		$processed[] = "-------------------------------------------------------";
-		echo implode('<br/>',$processed)."<br/>RESULT: $result";
+		echo implode('<br/>',$processed);
 	}
 
+	private function readClaimStatus(&$lines,&$processed)
+	{
+		try
+		{
+			$a = 'default';
+			$b = 'default';
+			if(preg_match('/^1\s*$/',$lines[0]))
+			{
+				$line = array_shift($lines); $processed[] = $line;
+			}else{ throw new exception('Something went wrong e1'); }
+
+			if(preg_match('/^x/',$lines[0]))
+			{
+				$line = array_shift($lines); $processed[] = $line;
+			}else{ throw new exception('Something went wrong e2'); }
+
+			$line = array_shift($lines); $processed[] = $line;
+
+/*
+			$this->load->model('Warehouse');
+			$r = $this->Warehouse->setEmdeonRef($Reference,$fileName);
+*/
+
+			$message = "
+				SUCESS :)<br/>
+				A: $a<br/>
+				B: $b<br/>
+			";
+		}
+		catch(exception $e)
+		{
+			$error = $e->getMessage();
+			$message =  "error reading ack file: $error";
+		}
+		return array($message);
+	}
 	private function readAck(&$lines,&$processed)
 	{
 		$message = '';
