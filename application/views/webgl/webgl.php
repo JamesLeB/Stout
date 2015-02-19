@@ -110,31 +110,26 @@
              1.0, -1.0,  1.0,
              1.0,  1.0,  1.0,
             -1.0,  1.0,  1.0,
-
 			//Back face
             -1.0, -1.0, -1.0,
             -1.0,  1.0, -1.0,
              1.0,  1.0, -1.0,
              1.0, -1.0, -1.0,
-
 			//Top face
             -1.0,  1.0, -1.0,
             -1.0,  1.0,  1.0,
              1.0,  1.0,  1.0,
              1.0,  1.0, -1.0,
-
 			//Bottom face
             -1.0, -1.0, -1.0,
              1.0, -1.0, -1.0,
              1.0, -1.0,  1.0,
             -1.0, -1.0,  1.0,
-
 			//Right face
              1.0, -1.0, -1.0,
              1.0,  1.0, -1.0,
              1.0,  1.0,  1.0,
              1.0, -1.0,  1.0,
-
 			//Left face
             -1.0, -1.0, -1.0,
             -1.0, -1.0,  1.0,
@@ -148,13 +143,12 @@
         grootCol = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, grootCol);
 
-		var c1 = [1.0, 0.0, 0.0, 1.0];
-		var c2 = [0.0, 1.0, 0.0, 1.0];
-		var c3 = [0.0, 0.0, 1.0, 1.0];
-		var c4 = [1.0, 1.0, 0.0, 1.0];
-		var c5 = [1.0, 0.0, 1.0, 1.0];
-		var c6 = [0.0, 1.0, 1.0, 1.0];
-
+		var c1 = [0.0, 0.7, 0.9, 1.0];
+		var c2 = [0.0, 0.7, 0.9, 1.0];
+		var c3 = [0.0, 0.0, 0.9, 1.0];
+		var c4 = [0.0, 0.0, 0.9, 1.0];
+		var c5 = [0.0, 0.3, 0.9, 1.0];
+		var c6 = [0.0, 0.3, 0.9, 1.0];
 
         colors = [];
 		colors.push(c1);
@@ -173,7 +167,6 @@
 				unpackedColors = unpackedColors.concat(color);
 			}
 		}
-
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(unpackedColors), gl.STATIC_DRAW);
         grootCol.itemSize = 4;
         grootCol.numItems = 24;
@@ -193,6 +186,10 @@
         grootIndex.numItems = 36;
     }
 	var rCube = 0;
+	var xCubeRot = 0;
+	var yCubeRot = 0;
+	var zCubeRot = 0;
+	var zCubeZoom = 0;
     function drawScene()
 	{
         gl.viewport(0, 0, gl.viewportWidth, gl.viewportHeight);
@@ -200,11 +197,14 @@
 
         mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
         mat4.identity(mvMatrix);
-        mat4.translate(mvMatrix, [0.0, 0.0, -6.0]);
+		var zAdjustment = (-1 * zCubeZoom / 10) - 6;
+        mat4.translate(mvMatrix, [0.0, 0.0, zAdjustment]);
 
 		mvPushMatrix();
 
-		mat4.rotate(mvMatrix, degToRad(rCube), [1, 1, 1]);
+		mat4.rotate(mvMatrix, degToRad(xCubeRot), [0, 1, 0]);
+		mat4.rotate(mvMatrix, degToRad(yCubeRot), [1, 0, 0]);
+		mat4.rotate(mvMatrix, degToRad(zCubeRot), [0, 0, 1]);
 
         gl.bindBuffer(gl.ARRAY_BUFFER, grootPos);
         gl.vertexAttribPointer(shaderProgram.vertexPositionAttribute, grootPos.itemSize, gl.FLOAT, false, 0, 0);
@@ -233,7 +233,7 @@
 	{
 		requestAnimFrame(tick);
 		drawScene();
-		animate();
+		//animate();
 	}
     function webGLStart() {
         var canvas = document.getElementById("mainViewer");
@@ -246,12 +246,142 @@
     }
 	$(document).ready(function(){
 		webGLStart();
+		$('#slider1').slider({
+			slide: function(event, ui){
+				var val1 = ui.value;
+				xCubeRot = Math.round(val1 * 360 * .01);
+				$('#viewerControls > div:nth-child(2) > div:nth-child(1) > div:nth-child(2)').html(xCubeRot);
+			}
+		});
+		$('#slider2').slider({
+			slide: function(event, ui){
+				var val1 = ui.value;
+				yCubeRot = Math.round(val1 * 360 * .01);
+				$('#viewerControls > div:nth-child(2) > div:nth-child(2) > div:nth-child(2)').html(yCubeRot);
+			}
+		});
+		$('#slider3').slider({
+			slide: function(event, ui){
+				var val1 = ui.value;
+				zCubeRot = Math.round(val1 * 360 * .01);
+				$('#viewerControls > div:nth-child(2) > div:nth-child(3) > div:nth-child(2)').html(zCubeRot);
+			}
+		});
+		$('#slider4').slider({
+			slide: function(event, ui){
+				var val1 = ui.value;
+				zCubeZoom = val1;
+				$('#viewerControls > div:nth-child(2) > div:nth-child(1) > div:nth-child(4)').html(zCubeZoom);
+			}
+		});
+		$('#slider5').slider({});
+		$('#slider6').slider({});
 	});
 </script>
 <canvas id="mainViewer" width="500" height="400"></canvas>
+<div id='viewerControls'>
+	<div>
+		<div>
+			<div id='slider1' class='slider'></div>
+			<div id='slider4' class='slider'></div>
+		</div>
+		<div>
+			<div id='slider2' class='slider'></div>
+			<div id='slider5' class='slider'></div>
+		</div>
+		<div>
+			<div id='slider3' class='slider'></div>
+			<div id='slider6' class='slider'></div>
+		</div>
+	</div>
+	<div>
+		<div>
+			<div>X Rot</div>
+			<div>0</div>
+			<div>Zoom</div>
+			<div>0</div>
+		</div>
+		<div>
+			<div>Y Rot</div>
+			<div>0</div>
+		</div>
+		<div>
+			<div>Z Rot</div>
+			<div>0</div>
+		</div>
+	</div>
+</div>
 <style>
 	#mainViewer
 	{
-		border : 5px ridge yellow;
+		border: 5px ridge yellow;
+	}
+	#viewerControls
+	{
+		border: 5px ridge blue;
+		float: right;
+		height: 300px;
+		width:  500px;
+		background: lightBlue;
+	}
+	#viewerControls > div:nth-child(1) 
+	{
+		margin-left: 40px;
+		margin-top: 20px;
+	}
+	#viewerControls > div:nth-child(1) > div
+	{
+		height: 40px;
+	}
+	#viewerControls > div:nth-child(1) > div > div
+	{
+		width: 180px;
+		float: left;
+	}
+	#viewerControls > div:nth-child(1) > div > div:nth-child(2)
+	{
+		margin-left: 40px;
+	}
+	#viewerControls > div:nth-child(2)
+	{
+		border: 1px solid black;
+		padding: 10px;
+		border-radius: 10px;
+		box-shadow: 1px 1px 1px 1px;
+		width: 400px;
+		margin-left: auto;
+		margin-right: auto;
+	}
+	#viewerControls > div:nth-child(2) > div
+	{
+		height: 35px;
+	}
+	#viewerControls > div:nth-child(2) > div:nth-child(1)
+	{
+		margin-top: 15px;
+	}
+	#viewerControls > div:nth-child(2) > div > div
+	{
+		float: left;
+	}
+	#viewerControls > div:nth-child(2) > div > div:nth-child(1)
+	{
+		width: 80px;
+		margin-left: 20px;
+	}
+	#viewerControls > div:nth-child(2) > div > div:nth-child(2)
+	{
+		width: 30px;
+		text-align: right;
+	}
+	#viewerControls > div:nth-child(2) > div > div:nth-child(3)
+	{
+		width: 80px;
+		margin-left: 30px;
+	}
+	#viewerControls > div:nth-child(2) > div > div:nth-child(4)
+	{
+		width: 30px;
+		text-align: right;
 	}
 </style>
