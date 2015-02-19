@@ -366,22 +366,22 @@
 	}
 	#viewerControls > div:nth-child(2) > div > div:nth-child(1)
 	{
-		width: 80px;
+		width: 60px;
 		margin-left: 20px;
 	}
 	#viewerControls > div:nth-child(2) > div > div:nth-child(2)
 	{
-		width: 30px;
+		width: 40px;
 		text-align: right;
 	}
 	#viewerControls > div:nth-child(2) > div > div:nth-child(3)
 	{
-		width: 80px;
-		margin-left: 30px;
+		width: 60px;
+		margin-left: 50px;
 	}
 	#viewerControls > div:nth-child(2) > div > div:nth-child(4)
 	{
-		width: 30px;
+		width: 40px;
 		text-align: right;
 	}
 </style>
