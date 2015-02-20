@@ -121,6 +121,7 @@ class Junior extends CI_Controller {
 					} # end claims iteration
 					$m[] = "\n";
 				} # end providers iteration
+		# Move File
 				file_put_contents($new2,$f);
 				unlink($new1);
 			} # end if that checks for correctly loaded 837 object

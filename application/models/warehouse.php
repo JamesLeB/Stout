@@ -46,7 +46,8 @@ class Warehouse extends CI_Model{
 		$providerName = $record['providerName'];
 		$batchYear  = 2000 + substr($batchDate,0,2);
 		$batchMonth = substr($batchDate,2,2);
-		$fileName = $record['fileName'];
+		$batchYM    = "{$batchYear}_{$batchMonth}";
+		$fileName   = $record['fileName'];
 
 		#check for record in db
 		$parm  = array($claimid,$lineNum);
@@ -81,6 +82,7 @@ class Warehouse extends CI_Model{
 			$providerName,
 			$batchYear,
 			$batchMonth,
+			$batchYM,
 			$fileName
 		);
 		$query = "INSERT INTO sentAxiumClaims (
@@ -103,8 +105,9 @@ class Warehouse extends CI_Model{
 			providerName,
 			batchYear,
 			batchMonth,
+			batchYM,
 			fileName
-		) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
 		$rs = $this->db->query($query,$parm);
 		return "loading record now -- message: $message";
 	}
