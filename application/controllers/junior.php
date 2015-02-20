@@ -110,7 +110,8 @@ class Junior extends CI_Controller {
 								'amount'       => $amount,
 								'date'         => $date,
 								'payer'        => $payer,
-								'providerName' => $providerName
+								'providerName' => $providerName,
+								'fileName'     => $file
 							);
 							# Load into DB
 							$this->load->model('Warehouse');
