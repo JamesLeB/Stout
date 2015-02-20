@@ -24,7 +24,7 @@ class EmdeonBridge extends CI_Controller {
 		$o = $this->getFTP('getFile',"axiumBridge\\$file");
 		$doc = $o[1];
 		$lines = preg_split('/\n/',$doc);
-		$result = "Start";
+		$result = "Start reading emdeon file<br/>";
 		$processed = array();
 
 $stop = "YES";
@@ -41,9 +41,9 @@ while(sizeof($lines) > 0)
 	}
 	else if(preg_match('/^1/',$lines[0]))
 	{
-		$processed = array();
+		//$processed = array();
 		$proc = $this->readClaimStatus($lines,$processed);
-		$result = "<br/>ReadClaimStatus<br/>".$proc[0];
+		$result .= "ReadClaimStatus<br/>".$proc[0];
 		$stop = "NO";
 		break;
 	}
@@ -61,7 +61,7 @@ if($stop == "YES")
 }
 
 		$processed[] = "-------------------------------------------------------";
-		$processed[] = "Result: $result";
+		$processed[] = "$result";
 		$processed[] = "-------------------------------------------------------";
 		foreach($lines as $line)
 		{
@@ -178,7 +178,7 @@ if($stop == "YES")
 				SUCESS :)<br/>
 				Ref: $Reference<br/>
 				File: $fileName<br/>
-				R: $r
+				R: $r<br/><br/>
 			";
 		}
 		catch(exception $e)
