@@ -35,6 +35,7 @@ class Warehouse extends CI_Model{
 		$birth     = $record['birth'];
 		$sex       = $record['sex'];
 		$claimid   = $record['claimid'];
+		$duplicate = 0;
 		$tcn       = $record['tcn'];
 		$lineNum   = $record['lineNum'];
 		$adacode   = $record['adacode'];
@@ -43,6 +44,9 @@ class Warehouse extends CI_Model{
 		$date      = $record['date'];
 		$payer     = $record['payer'];
 		$providerName = $record['providerName'];
+		$batchYear  = 2000 + substr($batchDate,0,2);
+		$batchMonth = substr($batchDate,2,2);
+		$fileName = $record['fileName'];
 
 		#check for record in db
 		$parm  = array($claimid,$lineNum);
@@ -53,32 +57,55 @@ class Warehouse extends CI_Model{
 
 		if($haveRecord)
 		{
-			$errorReport = "$batchNum::$batchDate::$last::$first::$id::$birth::$sex::$claimid::$tcn::$lineNum::$adacode::$tooth::$amount::$date::$payer::$providerName\n";
-			file_put_contents('files/edi/dupClaims',$errorReport,FILE_APPEND);
+			//$errorReport = "$batchNum::$batchDate::$last::$first::$id::$birth::$sex::$claimid::$tcn::$lineNum::$adacode::$tooth::$amount::$date::$payer::$providerName\n";
+			//file_put_contents('files/edi/dupClaims',$errorReport,FILE_APPEND);
+			$duplicate = 1;
 		}
-		else
-		{
-			$parm = array($batchNum,$batchDate,$last,$first,$id,$birth,$sex,$claimid,$tcn,$lineNum,$adacode,$tooth,$amount,$date,$payer,$providerName);
-			$query = "INSERT INTO sentAxiumClaims (
-				batchNum,
-				batchDate,
-				lastName,
-				firstName,
-				id,
-				birth,
-				sex,
-				claimid,
-				tcn,
-				lineNum,
-				adacode,
-				tooth,
-				amount,
-				serviceDate,
-				payerName,
-				providerName
-			) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
-			$rs = $this->db->query($query,$parm);
-		}
+		$parm = array(
+			$batchNum,
+			$batchDate,
+			$last,
+			$first,
+			$id,
+			$birth,
+			$sex,
+			$claimid,
+			$duplicate,
+			$tcn,
+			$lineNum,
+			$adacode,
+			$tooth,
+			$amount,
+			$date,
+			$payer,
+			$providerName,
+			$batchYear,
+			$batchMonth,
+			$fileName
+		);
+		$query = "INSERT INTO sentAxiumClaims (
+			batchNum,
+			batchDate,
+			lastName,
+			firstName,
+			id,
+			birth,
+			sex,
+			claimid,
+			duplicate,
+			tcn,
+			lineNum,
+			adacode,
+			tooth,
+			amount,
+			serviceDate,
+			payerName,
+			providerName,
+			batchYear,
+			batchMonth,
+			fileName
+		) values (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)";
+		$rs = $this->db->query($query,$parm);
 		return "loading record now -- message: $message";
 	}
 }
