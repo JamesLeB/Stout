@@ -93,7 +93,7 @@ class Junior extends CI_Controller {
 							$date    = $serviceData['date'];
 							$tooth   = $serviceData['tooth'];
 							$lineNum = $serviceData['number'];
-							$m[] = "&nbsp$batchNumber,$batchNumber,$last, $first, $id, $birth, $sex, $claimid, $tcn, $lineNum, $adacode, $tooth, $amount, $date, $payer, $providerName";
+							$m[] = "&nbsp$batchNumber,$last, $first, $id, $birth, $sex, $claimid, $tcn, $lineNum, $adacode, $tooth, $amount, $date, $payer, $providerName";
 							$record = array(
 								'batchNum'  => $batchNumber,
 								'batchDate' => $batchDate,
