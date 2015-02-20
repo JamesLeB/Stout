@@ -13,7 +13,7 @@
 				});
 			});
 			$('#tabs').tabs();
-			$('#tabs').tabs({active:5});
+			$('#tabs').tabs({active:4});
 		}); // END doc ready function
 		function switchScreen(data)
 		{
