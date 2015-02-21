@@ -2,25 +2,34 @@
 <script type="text/javascript" src="v/webgl/webgl-utils.js"></script>
 
 <script id="shader-fs" type="x-shader/x-fragment">
+
     precision mediump float;
+
 	varying vec4 vColor;
+
     void main(void)
 	{
         gl_FragColor = vColor;
     }
+
 </script>
 
 <script id="shader-vs" type="x-shader/x-vertex">
+
     attribute vec3 aVertexPosition;
     attribute vec4 aVertexColor;
+
     uniform mat4 uMVMatrix;
     uniform mat4 uPMatrix;
+
 	varying vec4 vColor;
+
     void main(void)
 	{
         gl_Position = uPMatrix * uMVMatrix * vec4(aVertexPosition, 1.0);
 		vColor = aVertexColor;
     }
+
 </script>
 
 <script type="text/javascript">
@@ -71,36 +80,50 @@
         }
         return shader;
     }
+
     var shaderProgram;
+
     function initShaders()
 	{
         var fragmentShader = getShader(gl, "shader-fs");
         var vertexShader = getShader(gl, "shader-vs");
+
         shaderProgram = gl.createProgram();
+
         gl.attachShader(shaderProgram, vertexShader);
         gl.attachShader(shaderProgram, fragmentShader);
         gl.linkProgram(shaderProgram);
+
         if (!gl.getProgramParameter(shaderProgram, gl.LINK_STATUS))
 		{
             alert("Could not initialise shaders");
         }
+
         gl.useProgram(shaderProgram);
+
         shaderProgram.vertexPositionAttribute = gl.getAttribLocation(shaderProgram, "aVertexPosition");
         gl.enableVertexAttribArray(shaderProgram.vertexPositionAttribute);
+
         shaderProgram.vertexColorAttribute = gl.getAttribLocation(shaderProgram, "aVertexColor");
         gl.enableVertexAttribArray(shaderProgram.vertexColorAttribute);
+
         shaderProgram.pMatrixUniform  = gl.getUniformLocation(shaderProgram, "uPMatrix");
+
         shaderProgram.mvMatrixUniform = gl.getUniformLocation(shaderProgram, "uMVMatrix");
     }
+
     var mvMatrix = mat4.create();
 	var mvMatrixStack = [];
+
     var pMatrix  = mat4.create();
+
 	function mvPushMatrix()
 	{
 		var copy = mat4.create();
 		mat4.set(mvMatrix, copy);
 		mvMatrixStack.push(copy);
 	}
+
 	function mvPopMatrix()
 	{
 		if(mvMatrixStack.length == 0)
@@ -109,11 +132,13 @@
 		}
 		mvMatrix = mvMatrixStack.pop();
 	}
+
     function setMatrixUniforms()
 	{
         gl.uniformMatrix4fv(shaderProgram.pMatrixUniform, false, pMatrix);
         gl.uniformMatrix4fv(shaderProgram.mvMatrixUniform, false, mvMatrix);
     }
+
 	function degToRad(degrees)
 	{
 		return degrees * Math.PI / 180;
@@ -159,6 +184,7 @@
             -1.0,  1.0,  1.0,
             -1.0,  1.0, -1.0,
         ];
+
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(vertices), gl.STATIC_DRAW);
         grootPos.itemSize = 3;
         grootPos.numItems = 24;
@@ -190,6 +216,7 @@
 				unpackedColors = unpackedColors.concat(color);
 			}
 		}
+
         gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(unpackedColors), gl.STATIC_DRAW);
         grootCol.itemSize = 4;
         grootCol.numItems = 24;
@@ -244,7 +271,9 @@
 
 		mvPopMatrix();
     }
+
 	var lastTime = 0;
+
 	function animate()
 	{
 		var timeNow = new Date().getTime();
@@ -255,12 +284,14 @@
 		}
 		lastTime = timeNow;
 	}
+
 	function tick()
 	{
 		requestAnimFrame(tick);
 		drawScene();
 		//animate();
 	}
+
     function webGLStart()
 	{
         var canvas = document.getElementById("mainViewer");
@@ -271,6 +302,7 @@
         gl.enable(gl.DEPTH_TEST);
 		tick();
     }
+
 	$(document).ready(function()
 	{
 		webGLStart();
