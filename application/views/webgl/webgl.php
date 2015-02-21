@@ -251,7 +251,9 @@
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
         mat4.perspective(45, gl.viewportWidth / gl.viewportHeight, 0.1, 100.0, pMatrix);
+
         mat4.identity(mvMatrix);
+
 		var zAdjustment = (-1 * zCubeZoom / 10) - 6;
         mat4.translate(mvMatrix, [0.0, 0.0, zAdjustment]);
 
@@ -268,6 +270,7 @@
         gl.vertexAttribPointer(shaderProgram.vertexColorAttribute, grootCol.itemSize, gl.FLOAT, false, 0, 0);
 
 		gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, grootIndex);
+
         setMatrixUniforms();
 
         gl.drawElements(gl.TRIANGLES, grootIndex.numItems, gl.UNSIGNED_SHORT, 0);
