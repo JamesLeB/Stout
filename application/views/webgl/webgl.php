@@ -33,7 +33,9 @@
 </script>
 
 <script type="text/javascript">
+
     var gl;
+
     function initGL(canvas)
 	{
         try
@@ -50,6 +52,7 @@
             alert("Could not initialise WebGL, sorry :-(");
         }
     }
+
     function getShader(gl, id)
 	{
         var shaderScript = document.getElementById(id);
