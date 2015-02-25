@@ -32,43 +32,40 @@
 <script>
 	function getEmdeonFiles()
 	{
-		$.post('index.php?/juniorX/emdeonBridge/test','',function(data){
-/*
+		$.post('index.php?/juniorX/emdeonBridge/getNewList','',function(data){
 			var obj = $.parseJSON(data);
 			var list = '';
 			obj.forEach(function(o){
 				list += '<div class=\'emdeonFile\'>'+o+'</div>';
 			});
 			$('#emdeonBridge > div:nth-child(1)').html(list);
-*/
-			$('#emdeonBridge > div:nth-child(1)').html(data);
-/*
 			$('.emdeonFile').click(function(){
 				switchScreen('');
 				var fileName = $(this).html();
 				var parm = { file: fileName };
-				$.post('index.php?/junior/processClaim',parm,function(data){
+				$.post('index.php?/juniorX/emdeonBridge/readFile',parm,function(data){
 					switchBack();
 					$('#emdeonBridge > div:nth-child(2) div:nth-child(1)').html(data);
 					getEmdeonFiles();
 				});
 			});
+/*
+*/
 			$('.emdeonFile').mouseenter(function(){
 				$(this).css({background:'yellow'});
 			});
 			$('.emdeonFile').mouseleave(function(){
 				$(this).css({background:'white'});
 			});
-*/
 		});
-/*
-		$.post('index.php?/junior/getProcessedClaims','',function(data){
+		$.post('index.php?/juniorX/emdeonBridge/getOldList','',function(data){
 			var obj = $.parseJSON(data);
 			var list = '';
 			obj.forEach(function(o){
 				list += '<div class=\'processedEmdeonFile\'>'+o+'</div>';
 			});
 			$('#emdeonBridge > div:nth-child(3)').html(list);
+/*
 			$('.processedEmdeonFile').click(function(){
 				var fileName = $(this).html();
 				var parm = { file: fileName };
@@ -77,6 +74,7 @@
 					getEmdeonFiles();
 				});
 			});
+*/
 			$('.processedEmdeonFile').mouseenter(function(){
 				$(this).css({background:'yellow'});
 			});
@@ -84,7 +82,6 @@
 				$(this).css({background:'white'});
 			});
 		});
-*/
 	}
 	getEmdeonFiles();
 	$('#emdeonBridge > div:nth-child(2) > div:nth-child(1)').html('Welcome');

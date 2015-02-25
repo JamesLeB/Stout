@@ -7,4 +7,5 @@ lib/graphs/data
 sandbox/kara/put
 sandbox/kara/get
 sandbox/coins/logs
+sandbox/coinbase/secret
 bter.json

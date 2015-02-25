@@ -93,7 +93,7 @@ class Junior extends CI_Controller {
 							$date    = $serviceData['date'];
 							$tooth   = $serviceData['tooth'];
 							$lineNum = $serviceData['number'];
-							$m[] = "&nbsp$batchNumber,$batchNumber,$last, $first, $id, $birth, $sex, $claimid, $tcn, $lineNum, $adacode, $tooth, $amount, $date, $payer, $providerName";
+							$m[] = "&nbsp$batchNumber,$last, $first, $id, $birth, $sex, $claimid, $tcn, $lineNum, $adacode, $tooth, $amount, $date, $payer, $providerName";
 							$record = array(
 								'batchNum'  => $batchNumber,
 								'batchDate' => $batchDate,
@@ -110,7 +110,8 @@ class Junior extends CI_Controller {
 								'amount'       => $amount,
 								'date'         => $date,
 								'payer'        => $payer,
-								'providerName' => $providerName
+								'providerName' => $providerName,
+								'fileName'     => $file
 							);
 							# Load into DB
 							$this->load->model('Warehouse');
@@ -120,6 +121,7 @@ class Junior extends CI_Controller {
 					} # end claims iteration
 					$m[] = "\n";
 				} # end providers iteration
+		# Move File
 				file_put_contents($new2,$f);
 				unlink($new1);
 			} # end if that checks for correctly loaded 837 object
@@ -134,7 +136,7 @@ class Junior extends CI_Controller {
 		$f = file_get_contents($new2);
 		file_put_contents($new1,$f);
 		unlink($new2);
-		echo "$file copied";
+		echo "<br/>Moved $file";
 	}
 	public function loadBatch()
 	{
