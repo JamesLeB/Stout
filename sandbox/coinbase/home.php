@@ -12,7 +12,9 @@
 			var obj = $.parseJSON(data);
 			$('#exchange > div:nth-child(1)').html(obj[0]);
 			$('#exchange > div:nth-child(2)').html(obj[1]);
-			$('#exchange > div:nth-child(5)').html(obj[2]);
+			$('#exchange > div:nth-child(3)').html(obj[2]);
+			$('#exchange > div:nth-child(4)').html(obj[3]);
+			$('#exchange > div:nth-child(5)').html(obj[4]);
 		});
 	});
 </script>
@@ -35,6 +37,16 @@
 	{
 		border: 1px solid black;
 		margin: 10px;
+	}
+	table
+	{
+		border: 1px blue solid;
+		margin: 10px;
+	}
+	table td
+	{
+		border: 1px black dashed;
+		padding: 5px;
 	}
 </style>
 </head>
