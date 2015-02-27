@@ -54,7 +54,7 @@
 	<div id='clock'>0</div>
 	<div id='exchange'>
 		<div>Market</div>
-		<div>Balances</div>
+		<div>Accounts</div>
 		<div>Trades</div>
 		<div>OrderBook</div>
 		<div>Orders</div>
