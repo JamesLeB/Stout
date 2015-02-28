@@ -27,7 +27,7 @@ class trader
 		$curl = curl_close();
 		return $market;
 	}
-	public function getAccounts()
+	public function getAccounts($type)
 	{
 		$url = '/accounts';
 		$curl = curl_init();
@@ -68,19 +68,126 @@ class trader
 			}
 		}
 
-		$myAccounts = array();
-		$myAccounts[] = "-----------------";
-		$myAccounts[] = "Account Report";
-		$myAccounts[] = "-------";
-		$myAccounts[] = "USD Balance: $usdBalance";
-		$myAccounts[] = "USD Hold: $usdHold";
-		$myAccounts[] = "USD Available: $usdAvailable";
-		$myAccounts[] = "-------";
-		$myAccounts[] = "BTC Balance: $btcBalance";
-		$myAccounts[] = "BTC Hold: $btcHold";
-		$myAccounts[] = "BTC Available: $btcAvailable";
-		$myAccounts[] = "-------";
-		return implode('<br/>',$myAccounts);
+		switch($type)
+		{
+			case 'usda':
+				return $usdAvailable;
+				break;
+			case 'btca':
+				return $btcAvailable;
+				break;
+			default:
+				$myAccounts = array();
+				$myAccounts[] = "-----------------";
+				$myAccounts[] = "Account Report";
+				$myAccounts[] = "-------";
+				$myAccounts[] = "USD Balance: $usdBalance";
+				$myAccounts[] = "USD Hold: $usdHold";
+				$myAccounts[] = "USD Available: $usdAvailable";
+				$myAccounts[] = "-------";
+				$myAccounts[] = "BTC Balance: $btcBalance";
+				$myAccounts[] = "BTC Hold: $btcHold";
+				$myAccounts[] = "BTC Available: $btcAvailable";
+				$myAccounts[] = "-------";
+				return implode('<br/>',$myAccounts);
+		}
+	}
+	public function getOrderBook($quest)
+	{
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0');
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($curl, CURLOPT_URL, $this->path.'/products/BTC-USD/book');
+		$book = curl_exec($curl);
+		$curl = curl_close();
+		$obj = json_decode($book,true);
+		$bidPrice = $obj['bids'][0][0];
+		$bidSize  = $obj['bids'][0][1];
+		$askPrice = $obj['asks'][0][0];
+		$askSize  = $obj['asks'][0][1];
+		$spread   = $askPrice - $bidPrice;
+		$rtn = 'default';
+		switch($quest)
+		{
+			case 'bid':
+				$rtn = $bidPrice;
+				break;
+			case 'ask':
+				$rtn = $askPrice;
+				break;
+			default:
+				$h = '****************<br/>';
+				$h .= "Bid Price: $bidPrice<br/>";
+				$h .= "Bid Size: $bidSize<br/>";
+				$h .= "Ask Price: $askPrice<br/>";
+				$h .= "Ask Size: $askSize<br/>";
+				$h .= "Spread: $spread<br/>";
+				$h .= '****************';
+				$rtn = "$book<br/>$h";
+		}
+		return $rtn;
+	}
+	public function placeOrder($quest)
+	{
+		$rtn = "Placing $quest";
+		switch($quest)
+		{
+			case 'bid':
+				$cost    = $this->getAccounts('usda');
+				$price   = $this->getOrderBook('bid');
+				$size    = round($cost / $price,8);
+				$side    = "buy";# buy or sell
+				$product = "BTC-USD";
+
+				$rtn = "";
+				$rtn .= "size: $size<br/>";
+				$rtn .= "price: $price<br/>";
+				$rtn .= "side: $side<br/>";
+				$rtn .= "cost: $cost<br/>";
+				$rtn .= "product_id: $product<br/>";
+
+				break;
+
+			case 'ask':
+				$price   = $this->getOrderBook('ask');
+				$size    = $this->getAccounts('btca');
+				$sale    = $price * $size;
+				$side    = "sell";# buy or sell
+				$product = "BTC-USD";
+
+				$rtn = "";
+				$rtn .= "size: $size<br/>";
+				$rtn .= "price: $price<br/>";
+				$rtn .= "side: $side<br/>";
+				$rtn .= "sale: $sale<br/>";
+				$rtn .= "product_id: $product<br/>";
+				$rtn .= "*******************<br/>";
+				$rtn .= $this->sendOrder('');
+
+				break;
+		}
+		return $rtn;
+	}
+	private function sendOrder($order)
+	{
+/*
+		$url = '/orders';
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_URL, $this->path.$url);
+		curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0');
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+
+		$body = json_encode($body);
+		$signatureArray = $this->getSignatureArray($url,$body);
+
+		curl_setopt($curl, CURLOPT_HTTPHEADER,$signatureArray);
+
+		$accounts = curl_exec($curl);
+		$curl = curl_close();
+		$obj = json_decode($accounts,true);
+*/
+		return "made it";
+
 	}
 	public function getTrades()
 	{
