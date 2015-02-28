@@ -7,6 +7,7 @@ class trader
 
 	public function __construct()
 	{
+		require_once('database.php');
 		$this->kara = "I love my wife";
 		$this->path = 'https://api.exchange.coinbase.com';
 
@@ -75,6 +76,9 @@ class trader
 				break;
 			case 'btca':
 				return $btcAvailable;
+				break;
+			case 'available':
+				return array($usdAvailable,$btcAvailable);
 				break;
 			default:
 				$myAccounts = array();
@@ -149,8 +153,9 @@ class trader
 				break;
 
 			case 'ask':
+				$balance = $this->getAccounts('available');
 				$price   = $this->getOrderBook('ask');
-				$size    = $this->getAccounts('btca');
+				$size    = $balance[1];
 				$sale    = $price * $size;
 				$side    = "sell";# buy or sell
 				$product = "BTC-USD";
@@ -168,7 +173,15 @@ $order['price'] = $price;
 $order['side'] = $side;
 $order['product_id'] = $product;
 
-$rtn .= "Log order in DB";
+$state = array();
+$state['time'] = time();
+$state['USD'] = round($balance[0],8);
+$state['BTC'] = round($balance[1],8);
+
+$db = new database();
+$rs = $db->saveOrder($order,$state);
+
+$rtn .= "Log order in DB $rs";
 
 /*
 				$order = json_encode($order);
