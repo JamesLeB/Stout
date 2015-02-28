@@ -33,7 +33,7 @@ switch($action)
 		$status = "PLACE ASK";
 		$market    = '';
 		#$accounts  = 'getting USD available';
-		$accounts  = "BTC Available: ".$trader->getAccounts('btca');
+		$accounts  = "BTC Available: ".$trader->getAccounts('');
 		$trades    = '';
 		$orderBook = $trader->getOrderBook('');
 		$orders    = $trader->placeOrder('ask');

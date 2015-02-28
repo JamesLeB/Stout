@@ -36,7 +36,7 @@ class trader
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
 
 		$body = ''; #$body = json_encode($body);
-		$signatureArray = $this->getSignatureArray($url,$body);
+		$signatureArray = $this->getSignatureArray($url,$body,'GET');
 
 		curl_setopt($curl, CURLOPT_HTTPHEADER,$signatureArray);
 
@@ -162,31 +162,44 @@ class trader
 				$rtn .= "sale: $sale<br/>";
 				$rtn .= "product_id: $product<br/>";
 				$rtn .= "*******************<br/>";
-				$rtn .= $this->sendOrder('');
+$order = array();
+$order['size']  = round($size,8);
+$order['price'] = $price;
+$order['side'] = $side;
+$order['product_id'] = $product;
+
+$rtn .= "Log order in DB";
+
+/*
+				$order = json_encode($order);
+				$rtn .= $this->sendOrder($order);
+*/
 
 				break;
 		}
 		return $rtn;
 	}
-	private function sendOrder($order)
+	private function sendOrder($body)
 	{
-/*
 		$url = '/orders';
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_URL, $this->path.$url);
 		curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0');
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
 
-		$body = json_encode($body);
-		$signatureArray = $this->getSignatureArray($url,$body);
+		#$body = json_encode($body);
+		#$body = '';
+		$signatureArray = $this->getSignatureArray($url,$body,'POST');
+$signatureArray[] = "Content-Type: application/json";
+$length = strlen($body);
+$signatureArray[] = "Content-Length: $length";
 
 		curl_setopt($curl, CURLOPT_HTTPHEADER,$signatureArray);
 
-		$accounts = curl_exec($curl);
+		$order = curl_exec($curl);
 		$curl = curl_close();
-		$obj = json_decode($accounts,true);
-*/
-		return "made it";
+		return $order."<br/>".$body;
 
 	}
 	public function getTrades()
@@ -222,14 +235,14 @@ class trader
 		return $this->array2table($a);
 	}
 	# Utility functions
-	private function getSignatureArray($url,$body)
+	private function getSignatureArray($url,$body,$method)
 	{
 		# Create Signature
 		$key        = $this->config[1];
 		$passphrase = $this->config[2];
 		$secret     = $this->config[0];
 		$timestamp = time();
-		$method = 'GET';
+		#$method = 'GET';
 		$what = $timestamp.$method.$url.$body;
 		$signature = base64_encode(hash_hmac("sha256",$what, base64_decode($secret), true));
 
