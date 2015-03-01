@@ -121,10 +121,10 @@ class trader
 		switch($quest)
 		{
 			case 'bid':
-				$rtn = $bidPrice;
+				$rtn = array($bidPrice,$spread);
 				break;
 			case 'ask':
-				$rtn = $askPrice;
+				$rtn = array($askPrice,$spread);
 				break;
 			default:
 				$h = '****************<br/>';
@@ -144,56 +144,88 @@ class trader
 		switch($quest)
 		{
 			case 'bid':
-				$cost    = $this->getAccounts('usda');
+
+				$balance = $this->getAccounts('available');
 				$price   = $this->getOrderBook('bid');
-				$size    = round($cost / $price,8);
+				$bidPrice = $price[0] + .01;
+				$size    = round(($balance[0] - .01) / $bidPrice,8);
 				$side    = "buy";# buy or sell
 				$product = "BTC-USD";
+				$cost    = $size * $bidPrice;
 
 				$rtn = "";
+
+				if($balance[0] <= .02){$rtn = 'no usd spend'; break; }
+				if($price[1] <= .03){$rtn = 'no spread'; break; }
+
 				$rtn .= "size: $size<br/>";
-				$rtn .= "price: $price<br/>";
+				$rtn .= "price: $bidPrice<br/>";
 				$rtn .= "side: $side<br/>";
 				$rtn .= "cost: $cost<br/>";
 				$rtn .= "product_id: $product<br/>";
-
-				break;
-
-			case 'ask':
-				$balance = $this->getAccounts('available');
-				$price   = $this->getOrderBook('ask');
-				$size    = $balance[1];
-				$sale    = $price * $size;
-				$side    = "sell";# buy or sell
-				$product = "BTC-USD";
-
-				$rtn = "";
-				$rtn .= "size: $size<br/>";
-				$rtn .= "price: $price<br/>";
-				$rtn .= "side: $side<br/>";
-				$rtn .= "sale: $sale<br/>";
-				$rtn .= "product_id: $product<br/>";
-				$rtn .= "*******************<br/>";
+				$rtn .= "spread: $price[1]<br/>";
 
 				$order = array();
 				$order['size']  = round($size,8);
-				$order['price'] = $price;
+				$order['price'] = $bidPrice;
 				$order['side'] = $side;
 				$order['product_id'] = $product;
 				
 				$state = array();
 				$state['USD'] = round($balance[0],8);
 				$state['BTC'] = round($balance[1],8);
+				$state['spread'] = round($price[1],8);
 
 				$db = new database();
 				$rs = $db->saveOrder($order,$state);
 
 				$rtn .= "Log order in DB<br/>$rs";
 
-/*
 				$order = json_encode($order);
 				$rtn .= $this->sendOrder($order);
-*/
+
+				break;
+
+			case 'ask':
+
+				$balance = $this->getAccounts('available');
+				$price   = $this->getOrderBook('ask');
+				$askPrice = $price[0]-.01;
+				$size    = $balance[1];
+				$sale    = ($askPrice) * $size;
+				$side    = "sell";# buy or sell
+				$product = "BTC-USD";
+				
+				$rtn = "";
+
+				if($size <= 0){$rtn = 'no btc to sell'; break; }
+
+				$rtn .= "size: $size<br/>";
+				$rtn .= "price: $askPrice<br/>";
+				$rtn .= "side: $side<br/>";
+				$rtn .= "sale: $sale<br/>";
+				$rtn .= "product_id: $product<br/>";
+				$rtn .= "spread: hmm<br/>";
+				$rtn .= "*******************<br/>";
+
+				$order = array();
+				$order['size']  = round($size,8);
+				$order['price'] = $askPrice;
+				$order['side'] = $side;
+				$order['product_id'] = $product;
+				
+				$state = array();
+				$state['USD'] = round($balance[0],8);
+				$state['BTC'] = round($balance[1],8);
+				$state['spread'] = round($price[1],8);
+
+				$db = new database();
+				$rs = $db->saveOrder($order,$state);
+
+				$rtn .= "Log order in DB<br/>$rs";
+
+				$order = json_encode($order);
+				$rtn .= $this->sendOrder($order);
 
 				break;
 		}
@@ -211,9 +243,9 @@ class trader
 		#$body = json_encode($body);
 		#$body = '';
 		$signatureArray = $this->getSignatureArray($url,$body,'POST');
-$signatureArray[] = "Content-Type: application/json";
-$length = strlen($body);
-$signatureArray[] = "Content-Length: $length";
+		$signatureArray[] = "Content-Type: application/json";
+		$length = strlen($body);
+		$signatureArray[] = "Content-Length: $length";
 
 		curl_setopt($curl, CURLOPT_HTTPHEADER,$signatureArray);
 
