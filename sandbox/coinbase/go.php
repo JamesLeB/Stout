@@ -41,7 +41,7 @@ switch($action)
 		#$trades    = $trader->getTrades();#"Trades";
 		break;
 	case 'DB':
-		$orders = $trader->testDB();
+		//$orders = $trader->testDB();
 		break;
 }
 
