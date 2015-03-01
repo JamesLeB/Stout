@@ -90,6 +90,9 @@
 			<button>ASK</button>
 			<button>DB</button>
 		</div>
+		<div>
+			<button>STATUS</button>
+		</div>
 		<div id='status'>Start</div>
 	</div>
 	<div id='exchange'>

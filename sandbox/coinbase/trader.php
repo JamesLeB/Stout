@@ -126,6 +126,9 @@ class trader
 			case 'ask':
 				$rtn = array($askPrice,$spread);
 				break;
+			case 'book':
+				$rtn = array($bidPrice,$spread,$askPrice);
+				break;
 			default:
 				$h = '****************<br/>';
 				$h .= "Bid Price: $bidPrice<br/>";
@@ -140,7 +143,9 @@ class trader
 	}
 	public function placeOrder($quest)
 	{
-		$rtn = "Placing $quest";
+		$rtn = "default return";
+		$log = "log status";
+		$responce = "Coinbase responce";
 		switch($quest)
 		{
 			case 'bid':
@@ -153,17 +158,14 @@ class trader
 				$product = "BTC-USD";
 				$cost    = $size * $bidPrice;
 
-				$rtn = "";
-
 				if($balance[0] <= .02){$rtn = 'no usd spend'; break; }
 				if($price[1] <= .03){$rtn = 'no spread'; break; }
 
-				$rtn .= "size: $size<br/>";
-				$rtn .= "price: $bidPrice<br/>";
-				$rtn .= "side: $side<br/>";
-				$rtn .= "cost: $cost<br/>";
-				$rtn .= "product_id: $product<br/>";
-				$rtn .= "spread: $price[1]<br/>";
+				$rtn = "BID ";
+				$rtn .= "size: $size ";
+				$rtn .= "price: $bidPrice ";
+				$rtn .= "cost: $cost ";
+				$rtn .= "spread: $price[1] ";
 
 				$order = array();
 				$order['size']  = round($size,8);
@@ -177,12 +179,11 @@ class trader
 				$state['spread'] = round($price[1],8);
 
 				$db = new database();
-				$rs = $db->saveOrder($order,$state);
-
-				$rtn .= "Log order in DB<br/>$rs";
+				$rs = $this->db->saveOrder($order,$state);
+				$log = "Order Saved";
 
 				$order = json_encode($order);
-				$rtn .= $this->sendOrder($order);
+				$responce = $this->sendOrder($order);
 
 				break;
 
@@ -196,17 +197,13 @@ class trader
 				$side    = "sell";# buy or sell
 				$product = "BTC-USD";
 				
-				$rtn = "";
-
 				if($size <= 0){$rtn = 'no btc to sell'; break; }
 
-				$rtn .= "size: $size<br/>";
-				$rtn .= "price: $askPrice<br/>";
-				$rtn .= "side: $side<br/>";
-				$rtn .= "sale: $sale<br/>";
-				$rtn .= "product_id: $product<br/>";
-				$rtn .= "spread: hmm<br/>";
-				$rtn .= "*******************<br/>";
+				$rtn = "ASK ";
+				$rtn .= "size: $size ";
+				$rtn .= "price: $askPrice ";
+				$rtn .= "sale: $sale ";
+				$rtn .= "spread: $price[1] ";
 
 				$order = array();
 				$order['size']  = round($size,8);
@@ -221,15 +218,14 @@ class trader
 
 				$db = new database();
 				$rs = $db->saveOrder($order,$state);
-
-				$rtn .= "Log order in DB<br/>$rs";
+				$log = 'Order Saved';
 
 				$order = json_encode($order);
-				$rtn .= $this->sendOrder($order);
+				$responce = $this->sendOrder($order);
 
 				break;
 		}
-		return $rtn;
+		return array($rtn,$log,$responce);
 	}
 	private function sendOrder($body)
 	{
@@ -239,20 +235,14 @@ class trader
 		curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0');
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
 		curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
-
-		#$body = json_encode($body);
-		#$body = '';
 		$signatureArray = $this->getSignatureArray($url,$body,'POST');
 		$signatureArray[] = "Content-Type: application/json";
 		$length = strlen($body);
 		$signatureArray[] = "Content-Length: $length";
-
 		curl_setopt($curl, CURLOPT_HTTPHEADER,$signatureArray);
-
 		$order = curl_exec($curl);
 		$curl = curl_close();
-		return $order."<br/>".$body;
-
+		return $order;
 	}
 	public function getTrades()
 	{
