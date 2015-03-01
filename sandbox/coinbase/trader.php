@@ -4,15 +4,22 @@ class trader
 	private $kara;
 	private $path;
 	private $config;
+	private $db;
 
 	public function __construct()
 	{
 		require_once('database.php');
+		$this->db = new database();
 		$this->kara = "I love my wife";
 		$this->path = 'https://api.exchange.coinbase.com';
 
 		$config = file_get_contents('secret');
 		$this->config = preg_split('/\s/',$config);
+	}
+	public function testDB()
+	{
+		$rs = $this->db->createTable();
+		return $rs;
 	}
 	public function test()
 	{
@@ -167,21 +174,21 @@ class trader
 				$rtn .= "sale: $sale<br/>";
 				$rtn .= "product_id: $product<br/>";
 				$rtn .= "*******************<br/>";
-$order = array();
-$order['size']  = round($size,8);
-$order['price'] = $price;
-$order['side'] = $side;
-$order['product_id'] = $product;
 
-$state = array();
-$state['time'] = time();
-$state['USD'] = round($balance[0],8);
-$state['BTC'] = round($balance[1],8);
+				$order = array();
+				$order['size']  = round($size,8);
+				$order['price'] = $price;
+				$order['side'] = $side;
+				$order['product_id'] = $product;
+				
+				$state = array();
+				$state['USD'] = round($balance[0],8);
+				$state['BTC'] = round($balance[1],8);
 
-$db = new database();
-$rs = $db->saveOrder($order,$state);
+				$db = new database();
+				$rs = $db->saveOrder($order,$state);
 
-$rtn .= "Log order in DB $rs";
+				$rtn .= "Log order in DB<br/>$rs";
 
 /*
 				$order = json_encode($order);
