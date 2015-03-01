@@ -40,6 +40,9 @@ switch($action)
 		#$market    = $trader->getMarket();#"Market";
 		#$trades    = $trader->getTrades();#"Trades";
 		break;
+	case 'DB':
+		$orders = $trader->testDB();
+		break;
 }
 
 echo json_encode(array(
