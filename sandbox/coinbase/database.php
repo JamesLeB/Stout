@@ -26,15 +26,16 @@ class database
 		$a = json_encode($order);
 		$b = json_encode($state);
 
-		$query = "INSERT INTO orders (type,size,price,product,usd,btc) values (?,?,?,?,?,?)";
+		$query = "INSERT INTO orders (type,size,price,product,usd,btc,spread) values (?,?,?,?,?,?,?)";
 		$stmt = mysqli_prepare($this->link_,$query);
-		$stmt->bind_param('sddsdd',$type,$size,$price,$product,$usd,$btc);
+		$stmt->bind_param('sddsddd',$type,$size,$price,$product,$usd,$btc,$spread);
 		$type    = $order['side'];
 		$size    = $order['size'];
 		$price   = $order['price'];
 		$product = $order['product_id'];
 		$usd     = $state['USD'];
 		$btc     = $state['BTC'];
+		$spread  = $state['spread'];
 		$stmt->execute();
 
 		return "saving order<br/>$a<br/>$b";
@@ -49,7 +50,8 @@ class database
 			type varchar(4),
 			product varchar(16),
 			usd float,
-			btc float
+			btc float,
+			spread float
 		)";
 		$stmt = mysqli_prepare($this->link_,$query);
 		$stmt->execute();
