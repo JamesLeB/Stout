@@ -27,6 +27,9 @@ switch($action)
 		$askPrice = $book[2];
 		$market = "USD: $usd BTC: $btc";
 		$accounts = "BID: $bidPrice SPREAD: $spread ASK: $askPrice";
+		$trades = $trader->getOpenOrders();
+		$orderBook = $trader->getLastBid();
+		$orders = 'groot';
 		break;
 	case 'ONE':
 		$status = "Do one";

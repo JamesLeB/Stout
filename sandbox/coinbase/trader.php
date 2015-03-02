@@ -25,6 +25,41 @@ class trader
 	{
 		return $this->kara;
 	}
+	public function getOpenOrders()
+	{
+		$url = '/orders';
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_URL, $this->path.$url);
+		curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0');
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+
+		$body = ''; #$body = json_encode($body);
+		$signatureArray = $this->getSignatureArray($url,$body,'GET');
+
+		curl_setopt($curl, CURLOPT_HTTPHEADER,$signatureArray);
+
+		$openOrders = curl_exec($curl);
+		$curl = curl_close();
+		$obj = json_decode($openOrders,true);
+
+		$a = $obj;
+		$keys = array_keys($a[0]);
+		
+		$b = '';
+		$c = array();
+		$c[] = array('key','value');
+		foreach($keys as $key)
+		{
+			$c = array($key,$a[0][$key]);
+		}
+		$t = $this->array2table($c);
+		return $openOrders."<br/>*************<br/>".$t;
+	}
+	public function getLastBid()
+	{
+		$rs = $this->db->getLastBid();
+		return $rs;
+	}
 	public function getMarket()
 	{
 		$curl = curl_init();

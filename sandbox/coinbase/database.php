@@ -21,6 +21,10 @@ class database
 	{
 		return $this->kara;
 	}
+	public function getLastBid()
+	{
+		return "getting last bid in database";
+	}
 	public function saveOrder($order,$state)
 	{
 		$a = json_encode($order);
