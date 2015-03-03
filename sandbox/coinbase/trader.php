@@ -39,20 +39,24 @@ class trader
 		curl_setopt($curl, CURLOPT_HTTPHEADER,$signatureArray);
 
 		$openOrders = curl_exec($curl);
-		$curl = curl_close();
+		#$curl = curl_close();
 		$obj = json_decode($openOrders,true);
 
-		$a = $obj;
-		$keys = array_keys($a[0]);
-		
-		$b = '';
-		$c = array();
-		$c[] = array('key','value');
-		foreach($keys as $key)
+		$t = 'nothing';
+		if(sizeof($obj))
 		{
-			$c = array($key,$a[0][$key]);
+			$a = $obj;
+			$keys = array_keys($a[0]);
+		
+			$b = '';
+			$c = array();
+			$c[] = array('key','value');
+			foreach($keys as $key)
+			{
+				$c = array($key,$a[0][$key]);
+			}
+			$t = $this->array2table($c);
 		}
-		$t = $this->array2table($c);
 		return $openOrders."<br/>*************<br/>".$t;
 	}
 	public function getLastBid()
@@ -67,7 +71,7 @@ class trader
 		curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0');
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
 		$market = curl_exec($curl);
-		$curl = curl_close();
+		#$curl = curl_close();
 		return $market;
 	}
 	public function getAccounts($type)
@@ -84,7 +88,6 @@ class trader
 		curl_setopt($curl, CURLOPT_HTTPHEADER,$signatureArray);
 
 		$accounts = curl_exec($curl);
-		$curl = curl_close();
 		$obj = json_decode($accounts,true);
 
 		$usdBalance = 0;
@@ -145,7 +148,7 @@ class trader
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
 		curl_setopt($curl, CURLOPT_URL, $this->path.'/products/BTC-USD/book');
 		$book = curl_exec($curl);
-		$curl = curl_close();
+		#$curl = curl_close();
 		$obj = json_decode($book,true);
 		$bidPrice = $obj['bids'][0][0];
 		$bidSize  = $obj['bids'][0][1];
@@ -276,7 +279,7 @@ class trader
 		$signatureArray[] = "Content-Length: $length";
 		curl_setopt($curl, CURLOPT_HTTPHEADER,$signatureArray);
 		$order = curl_exec($curl);
-		$curl = curl_close();
+		#$curl = curl_close();
 		return $order;
 	}
 	public function getTrades()
@@ -288,7 +291,7 @@ class trader
 		curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0');
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
 		$trades = curl_exec($curl);
-		$curl = curl_close();
+		#$curl = curl_close();
 		$obj = json_decode($trades,true);
 
 		$a = array();
