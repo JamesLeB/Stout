@@ -1,106 +1,81 @@
 <html>
 <head>
-<script src='jquery-1.11.1.js'></script>
-<script>
-	$(document).ready(function(){
-		var eTime = 0;
-		setInterval(function(){
-			eTime++;
-			$('#clock').html(eTime);
-		},500);
-/*
-		$.post('go.php','',function(data){
-		});
-*/
-		$('#controls button').click(function(){
-			var buttonName = $(this).html();
-			parm = { action: buttonName };
-			$.post('go.php',parm,function(data){
-				var obj = $.parseJSON(data);
-				$('#status').html(obj[0]);
-				$('#exchange > div:nth-child(1)').html(obj[1]);
-				$('#exchange > div:nth-child(2)').html(obj[2]);
-				$('#exchange > div:nth-child(3)').html(obj[3]);
-				$('#exchange > div:nth-child(4)').html(obj[4]);
-				$('#exchange > div:nth-child(5)').html(obj[5]);
-			});
-		});
-	});
-</script>
-<style>
-	#controls
-	{
-		border: 1px solid red;
-		height: 50px;
-	}
-	#controls > div
-	{
-		border: 1px solid blue;
-		margin: 5px;
-		float: left;
-	}
-	#controls button
-	{
-		float: left;
-		margin: 5px;
-	}
-	#status
-	{
-		height: 30px;
-		width: 300px;
-		background: lightgreen;
-	}
-	#clock
-	{
-		border: 1px blue ridge;
-		width: 50px;
-		background: lightblue;
-		text-align: center;
-		height: 25px;
-		padding-top: 5px;
-	}
-	#exchange
-	{
-		border: 5px ridge yellow;
-		background: lightgreen;
-	}
-	#exchange > div
-	{
-		border: 1px solid black;
-		margin: 10px;
-	}
-	table
-	{
-		border: 1px blue solid;
-		margin: 10px;
-	}
-	table td
-	{
-		border: 1px black dashed;
-		padding: 5px;
-	}
-</style>
+	<link rel='stylesheet' type='text/css' href='style.css' />
 </head>
 <body>
-	<div id='controls'>
-		<div id='clock'>0</div>
-		<div>
-			<button>ONE</button>
-			<button>BID</button>
-			<button>ASK</button>
-			<button>DB</button>
-		</div>
-		<div>
-			<button>STATUS</button>
-		</div>
-		<div id='status'>Start</div>
-	</div>
 	<div id='exchange'>
-		<div>Market</div>
-		<div>Accounts</div>
-		<div>Trades</div>
-		<div>OrderBook</div>
-		<div>Orders</div>
+		<div>Controls
+			<div>mode</div>
+			<div>
+				<button>A</button>
+				<button>B</button>
+				<button>C</button>
+			</div>
+		</div>
+		<div>accounts
+			<div>USD
+				<div>Amount</div>
+			</div>
+			<div>BTC
+				<div>Amount</div>
+				<div>Cost</div>
+				<div>Net</div>
+			</div>
+		</div>
+		<div>trader
+			Auto <input type='radio' name='traderMode' value='auto' checked>
+			Fixed<input type='radio' name='traderMode' value='fixed'>
+			<div>Bid
+				<div>Amount</div>
+				<button>+</button>
+				<button>-</button>
+				<button>Bid</button>
+			</div>
+			<div>Ask
+				<div>Amount</div>
+				<button>+</button>
+				<button>-</button>
+			</div>
+			<div>Size
+				<div>Amount</div>
+				<button>+</button>
+				<button>-</button>
+				<button>Ask</button>
+			</div>
+		</div>
+		<div>orders
+			<div>Bids
+				<div>Open
+					<div>Size</div>
+					<div>Price</div>
+					<div>Depth</div>
+					<div>Spread</div>
+					<button>Cancel</button>
+				</div>
+				<div>Closed</div>
+			</div>
+			<div>Asks
+				<div>Open
+					<div>Size</div>
+					<div>Price</div>
+					<div>Depth</div>
+					<div>Spread</div>
+					<button>Cancel</button>
+				</div>
+				<div>Closed</div>
+			</div>
+		</div>
+		<div>book
+			<div>Bid</div>
+			<div>Spread</div>
+			<div>Ask</div>
+			<div>Bids</div>
+			<div>Asks</div>
+		</div>
+		<div>trades
+			<div>Buys</div>
+			<div>Sells</div>
+		</div>
 	</div>
 </body>
 </html>
