@@ -4,7 +4,8 @@
 </head>
 <body>
 	<div id='exchange'>
-		<div>Controls
+		<div>
+			<div>Controls</div>
 			<div>mode</div>
 			<div>
 				<button>A</button>
@@ -12,67 +13,96 @@
 				<button>C</button>
 			</div>
 		</div>
-		<div>accounts
-			<div>USD
+		<div>
+			<div>Accounts</div>
+			<div>
+				<div>USD</div>
 				<div>Amount</div>
 			</div>
-			<div>BTC
+			<div>
+				<div>BTC</div>
 				<div>Amount</div>
 				<div>Cost</div>
 				<div>Net</div>
 			</div>
 		</div>
-		<div>trader
-			Auto <input type='radio' name='traderMode' value='auto' checked>
-			Fixed<input type='radio' name='traderMode' value='fixed'>
-			<div>Bid
-				<div>Amount</div>
-				<button>+</button>
-				<button>-</button>
-				<button>Bid</button>
+		<div>
+			<div>Trader</div>
+			<div>
+				Auto <input type='radio' name='traderMode' value='auto' checked>
+				Fixed<input type='radio' name='traderMode' value='fixed'>
 			</div>
-			<div>Ask
+			<div>
+				<div>Bid</div>
 				<div>Amount</div>
-				<button>+</button>
-				<button>-</button>
+				<div>
+					<button>+</button>
+					<button>-</button>
+					<button>Bid</button>
+				</div>
 			</div>
-			<div>Size
+			<div>
+				<div>Ask</div>
 				<div>Amount</div>
-				<button>+</button>
-				<button>-</button>
-				<button>Ask</button>
+				<div>
+					<button>+</button>
+					<button>-</button>
+					<button>Ask</button>
+				</div>
+			</div>
+			<div>
+				<div>Size</div>
+				<div>Amount</div>
+				<div>
+					<button>+</button>
+					<button>-</button>
+				</div>
 			</div>
 		</div>
 		<div>orders
-			<div>Bids
-				<div>Open
-					<div>Size</div>
-					<div>Price</div>
-					<div>Depth</div>
-					<div>Spread</div>
-					<button>Cancel</button>
+			<div>
+				<div>Bids</div>
+				<div>
+					<div>Open</div>
+					<div>
+						<div>Size</div>
+						<div>Price</div>
+						<div>Depth</div>
+						<div>Spread</div>
+						<div><button>Cancel</button></div>
+					</div>
 				</div>
-				<div>Closed</div>
+				<div>
+					<div>Closed</div>
+				</div>
 			</div>
-			<div>Asks
-				<div>Open
-					<div>Size</div>
-					<div>Price</div>
-					<div>Depth</div>
-					<div>Spread</div>
-					<button>Cancel</button>
+			<div>
+				<div>Asks</div>
+				<div>
+					<div>Open</div>
+					<div>
+						<div>Size</div>
+						<div>Price</div>
+						<div>Depth</div>
+						<div>Spread</div>
+						<div><button>Cancel</button></div>
+					</div>
 				</div>
-				<div>Closed</div>
+				<div>
+					<div>Closed</div>
+				</div>
 			</div>
 		</div>
-		<div>book
+		<div>
+			<div>Book</div>
 			<div>Bid</div>
 			<div>Spread</div>
 			<div>Ask</div>
 			<div>Bids</div>
 			<div>Asks</div>
 		</div>
-		<div>trades
+		<div>
+			<div>Trades</div>
 			<div>Buys</div>
 			<div>Sells</div>
 		</div>

@@ -6,7 +6,7 @@ body
 {
 	background: black;
 	border: 5px ridge gray;
-	width: 500px;
+	width: 600px;
 	margin-right: auto;
 	margin-left: auto;
 	box-shadow: 3px 3px 3px black;
@@ -17,4 +17,14 @@ body
 	border: dotted white 1px;
 	margin: 5px;
 	padding: 5px;
+}
+#exchange > div:nth-child(1)
+{
+	height: 40px;
+}
+#exchange > div:nth-child(1) > div
+{
+	float: left;
+	width: 150px;
+	border: 1px solid yellow;
 }
