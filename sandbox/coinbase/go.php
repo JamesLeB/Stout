@@ -29,7 +29,7 @@ switch($action)
 		$accounts = "BID: $bidPrice SPREAD: $spread ASK: $askPrice";
 		$trades = $trader->getOpenOrders();
 		$orderBook = $trader->getLastBid();
-		$orders = 'groot';
+		$orders = 'need to get orders';
 		break;
 	case 'ONE':
 		$status = "Do one";
