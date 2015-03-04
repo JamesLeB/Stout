@@ -2,15 +2,25 @@ body
 {
 	background: lightgray;
 }
-#status
+#clock
 {
 	background: lightblue;
 	width: 80px;
 	border: ridge 5px blue;
 	float: left;
-	height: 40px;
+	height: 30px;
 	padding-top: 10px;
-	padding-left: 10px;
+	text-align: center;
+}
+#status
+{
+	background: lightgreen;
+	width: 200px;
+	border: ridge 5px green;
+	float: right;
+	height: 30px;
+	padding-top: 10px;
+	text-align: center;
 }
 #exchange
 {

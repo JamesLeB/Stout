@@ -1,9 +1,12 @@
 <html>
 <head>
 	<link rel='stylesheet' type='text/css' href='style.css' />
+	<script src='jquery-1.11.1.js'></script>
+	<script src='script.js'></script>
 </head>
 <body>
-	<div id=status>Clock</div>
+	<div id='clock'></div>
+	<div id='status'></div>
 	<div id='exchange'>
 		<div>
 			<div>Accounts</div>
