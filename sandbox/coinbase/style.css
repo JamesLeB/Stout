@@ -2,6 +2,16 @@ body
 {
 	background: lightgray;
 }
+#status
+{
+	background: lightblue;
+	width: 80px;
+	border: ridge 5px blue;
+	float: left;
+	height: 40px;
+	padding-top: 10px;
+	padding-left: 10px;
+}
 #exchange
 {
 	background: black;

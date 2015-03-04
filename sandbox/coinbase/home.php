@@ -3,6 +3,7 @@
 	<link rel='stylesheet' type='text/css' href='style.css' />
 </head>
 <body>
+	<div id=status>Clock</div>
 	<div id='exchange'>
 		<div>
 			<div>Accounts</div>
