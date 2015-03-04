@@ -12,24 +12,86 @@ body
 	box-shadow: 3px 3px 3px black;
 	color: white;
 }
-#exchange div
+#exchange > div
 {
 	border: dotted white 1px;
 	margin: 5px;
 	padding: 5px;
 }
-#exchange > div:nth-child(1)
+#exchange > div:nth-child(1) > div:nth-child(1)
 {
-	height: 40px;
+	height: 30px;
 }
-#exchange > div:nth-child(1) > div
+#exchange > div:nth-child(1) > div:nth-child(2)
+{
+	height: 30px;
+}
+#exchange > div:nth-child(1) > div:nth-child(2) > div
 {
 	float: left;
-	width: 150px;
 }
-#exchange > div:nth-child(2) > div:nth-child(2)
+#exchange > div:nth-child(1) > div:nth-child(2) > div:nth-child(1)
+{
+	width: 40px;
+}
+#exchange > div:nth-child(1) > div:nth-child(2) > div:nth-child(2)
+{
+	width: 200px;
+}
+#exchange > div:nth-child(1) > div:nth-child(2) > div:nth-child(3)
+{
+	width: 200px;
+}
+#exchange > div:nth-child(1) > div:nth-child(2) > div:nth-child(4) > button
+{
+	margin-right: 10px;
+}
+#exchange > div:nth-child(1) > div:nth-child(3)
 {
 	height: 40px;
+}
+#exchange > div:nth-child(1) > div:nth-child(3) > div
+{
+	float: left;
+}
+#exchange > div:nth-child(1) > div:nth-child(3) > div:nth-child(1)
+{
+	width: 40px;
+}
+#exchange > div:nth-child(1) > div:nth-child(3) > div:nth-child(2)
+{
+	width: 200px;
+}
+#exchange > div:nth-child(1) > div:nth-child(3) > div:nth-child(3)
+{
+	width: 200px;
+}
+#exchange > div:nth-child(1) > div:nth-child(3) > div:nth-child(4)
+{
+	width: 200px;
+}
+#exchange > div:nth-child(2) > div:nth-child(1)
+{
+	height: 40px;
+}
+#exchange > div:nth-child(2) > div:nth-child(1) > div
+{
+	float:left;
+}
+#exchange > div:nth-child(2) > div:nth-child(1) > div:nth-child(1)
+{
+	width: 100px;
+}
+#exchange > div:nth-child(2) > div:nth-child(1) > div:nth-child(2)
+{
+	width: 400px;
+}
+
+
+/* ---------------------- */
+#exchange > div:nth-child(2) > div:nth-child(2)
+{
+	height: 35px;
 }
 #exchange > div:nth-child(2) > div:nth-child(2) > div
 {
@@ -41,8 +103,39 @@ body
 }
 #exchange > div:nth-child(2) > div:nth-child(2) > div:nth-child(2)
 {
-	width: 200px;
+	width: 150px;
 }
+#exchange > div:nth-child(2) > div:nth-child(2) > div:nth-child(3)
+{
+	width: 150px;
+}
+#exchange > div:nth-child(2) > div:nth-child(2) > div:nth-child(3) > button
+{
+	margin-left: 10px;
+}
+
+
+/* ---------------------- */
+#exchange > div:nth-child(2) > div:nth-child(2) > div:nth-child(4)
+{
+	width: 40px;
+}
+#exchange > div:nth-child(2) > div:nth-child(2) > div:nth-child(5)
+{
+	width: 150px;
+}
+#exchange > div:nth-child(2) > div:nth-child(2) > div:nth-child(6)
+{
+	width: 150px;
+}
+#exchange > div:nth-child(2) > div:nth-child(2) > div:nth-child(6) > button
+{
+	margin-left: 10px;
+}
+/* ---------------------- */
+
+
+/* ---------------------- */
 #exchange > div:nth-child(2) > div:nth-child(3)
 {
 	height: 40px;
@@ -57,120 +150,50 @@ body
 }
 #exchange > div:nth-child(2) > div:nth-child(3) > div:nth-child(2)
 {
-	width: 200px;
+	width: 150px;
 }
 #exchange > div:nth-child(2) > div:nth-child(3) > div:nth-child(3)
 {
 	width: 200px;
 }
-#exchange > div:nth-child(2) > div:nth-child(3) > div:nth-child(4)
+#exchange > div:nth-child(2) > div:nth-child(3) > div:nth-child(3) > button
 {
-	width: 200px;
+	margin-left: 10px;
 }
+/* ---------------------- */
+
 #exchange > div:nth-child(3) > div:nth-child(1)
 {
-	height: 40px;
-}
-#exchange > div:nth-child(3) > div:nth-child(1) > div
-{
-	float:left;
-}
-#exchange > div:nth-child(3) > div:nth-child(1) > div:nth-child(1)
-{
-	width: 100px;
-}
-#exchange > div:nth-child(3) > div:nth-child(1) > div:nth-child(2)
-{
-	width: 400px;
-}
-
-
-/* ---------------------- */
-#exchange > div:nth-child(3) > div:nth-child(2)
-{
-	height: 40px;
-}
-#exchange > div:nth-child(3) > div:nth-child(2) > div
-{
-	float: left;
+	height: 35;
 }
 #exchange > div:nth-child(3) > div:nth-child(2) > div:nth-child(1)
 {
-	width: 40px;
-}
-#exchange > div:nth-child(3) > div:nth-child(2) > div:nth-child(2)
-{
-	width: 200px;
-}
-#exchange > div:nth-child(3) > div:nth-child(2) > div:nth-child(3)
-{
-	width: 200px;
-}
-#exchange > div:nth-child(3) > div:nth-child(2) > div:nth-child(3) > button
-{
-	margin-left: 10px;
-}
-/* ---------------------- */
-
-
-/* ---------------------- */
-#exchange > div:nth-child(3) > div:nth-child(3)
-{
-	height: 40px;
-}
-#exchange > div:nth-child(3) > div:nth-child(3) > div
-{
-	float: left;
+	height: 30;
 }
 #exchange > div:nth-child(3) > div:nth-child(3) > div:nth-child(1)
 {
-	width: 40px;
+	height: 30;
 }
-#exchange > div:nth-child(3) > div:nth-child(3) > div:nth-child(2)
+#exchange > div:nth-child(4) > div:nth-child(1)
 {
-	width: 200px;
+	height: 35px;
 }
-#exchange > div:nth-child(3) > div:nth-child(3) > div:nth-child(3)
-{
-	width: 200px;
-}
-#exchange > div:nth-child(3) > div:nth-child(3) > div:nth-child(3) > button
-{
-	margin-left: 10px;
-}
-/* ---------------------- */
-
-
-/* ---------------------- */
-#exchange > div:nth-child(3) > div:nth-child(4)
+#exchange > div:nth-child(4) > div:nth-child(2)
 {
 	height: 40px;
 }
-#exchange > div:nth-child(3) > div:nth-child(4) > div
+#exchange > div:nth-child(4) > div:nth-child(2) > div
 {
 	float: left;
-}
-#exchange > div:nth-child(3) > div:nth-child(4) > div:nth-child(1)
-{
-	width: 40px;
-}
-#exchange > div:nth-child(3) > div:nth-child(4) > div:nth-child(2)
-{
 	width: 200px;
 }
-#exchange > div:nth-child(3) > div:nth-child(4) > div:nth-child(3)
+#exchange > div:nth-child(4) > div:nth-child(3)
 {
-	width: 200px;
+	height: 40px;
 }
-#exchange > div:nth-child(3) > div:nth-child(4) > div:nth-child(3) > button
+#exchange > div:nth-child(4) > div:nth-child(4)
 {
-	margin-left: 10px;
-}
-/* ---------------------- */
-
-#exchange > div:nth-child(5)
-{
-	border: yellow 1px solid;
+	height: 40px;
 }
 
 .openOrder
@@ -183,27 +206,42 @@ body
 }
 .openOrder > div:nth-child(1)
 {
-	border: 1px yellow solid;
 	width: 200px;
 }
 .openOrder > div:nth-child(2)
 {
-	border: 1px yellow solid;
 	width: 100px;
 }
 .openOrder > div:nth-child(3)
 {
-	border: 1px yellow solid;
 	width: 100px;
 }
 .openOrder > div:nth-child(4)
 {
-	border: 1px yellow solid;
 	width: 100px;
 }
 .openOrder > div:nth-child(5)
 {
-	border: 1px yellow solid;
 	width: 100px;
 }
 
+.lot
+{
+	height: 40px;
+}
+.lot > div
+{
+	float: left;
+}
+.lot > div:nth-child(1)
+{
+	width: 100px;
+}
+.lot > div:nth-child(2)
+{
+	width: 200px;
+}
+.lot > div:nth-child(3)
+{
+	width: 200px;
+}

@@ -5,19 +5,16 @@
 <body>
 	<div id='exchange'>
 		<div>
-			<div>Controls</div>
-			<div>mode</div>
-			<div>
-				<button>A</button>
-				<button>B</button>
-				<button>C</button>
-			</div>
-		</div>
-		<div>
 			<div>Accounts</div>
 			<div>
 				<div>USD</div>
 				<div>Amount</div>
+				<div>mode</div>
+				<div>
+					<button>A</button>
+					<button>B</button>
+					<button>C</button>
+				</div>
 			</div>
 			<div>
 				<div>BTC</div>
@@ -42,8 +39,6 @@
 					<button>-</button>
 					<button>Bid</button>
 				</div>
-			</div>
-			<div>
 				<div>Ask</div>
 				<div>Amount</div>
 				<div>
@@ -66,7 +61,6 @@
 			<div>
 				<div>Bids</div>
 				<div>
-					<div>Open</div>
 					<div class='openOrder'>
 						<div>Size</div>
 						<div>Price</div>
@@ -74,15 +68,11 @@
 						<div>Spread</div>
 						<div><button>Cancel</button></div>
 					</div>
-				</div>
-				<div>
-					<div>Closed</div>
 				</div>
 			</div>
 			<div>
 				<div>Asks</div>
 				<div>
-					<div>Open</div>
 					<div class='openOrder'>
 						<div>Size</div>
 						<div>Price</div>
@@ -91,16 +81,15 @@
 						<div><button>Cancel</button></div>
 					</div>
 				</div>
-				<div>
-					<div>Closed</div>
-				</div>
 			</div>
 		</div>
 		<div>
 			<div>Book</div>
-			<div>Bid</div>
-			<div>Spread</div>
-			<div>Ask</div>
+			<div>
+				<div>Bid</div>
+				<div>Spread</div>
+				<div>Ask</div>
+			</div>
 			<div>Bids</div>
 			<div>Asks</div>
 		</div>
@@ -108,6 +97,14 @@
 			<div>Trades</div>
 			<div>Buys</div>
 			<div>Sells</div>
+		</div>
+		<div>
+			<div>Lots</div>
+			<div class='lot'>
+				<div>Lot</div>
+				<div>Amount</div>
+				<div>Price</div>
+			</div>
 		</div>
 	</div>
 </body>
