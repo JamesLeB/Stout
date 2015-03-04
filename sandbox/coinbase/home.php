@@ -27,10 +27,12 @@
 			</div>
 		</div>
 		<div>
-			<div>Trader</div>
 			<div>
-				Auto <input type='radio' name='traderMode' value='auto' checked>
-				Fixed<input type='radio' name='traderMode' value='fixed'>
+				<div>Trader</div>
+				<div>
+					Auto <input type='radio' name='traderMode' value='auto' checked>
+					Fixed<input type='radio' name='traderMode' value='fixed'>
+				</div>
 			</div>
 			<div>
 				<div>Bid</div>
@@ -59,12 +61,13 @@
 				</div>
 			</div>
 		</div>
-		<div>orders
+		<div>
+			<div>Orders</div>
 			<div>
 				<div>Bids</div>
 				<div>
 					<div>Open</div>
-					<div>
+					<div class='openOrder'>
 						<div>Size</div>
 						<div>Price</div>
 						<div>Depth</div>
@@ -80,7 +83,7 @@
 				<div>Asks</div>
 				<div>
 					<div>Open</div>
-					<div>
+					<div class='openOrder'>
 						<div>Size</div>
 						<div>Price</div>
 						<div>Depth</div>
