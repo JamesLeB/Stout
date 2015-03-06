@@ -3,7 +3,18 @@ $(document).ready(function(){
 	advanceTime();
 	var bidButton = '#exchange > div:nth-child(2) > div:nth-child(2) > div:nth-child(3) > button:nth-child(3)';
 	$(bidButton).click(function(){
-		$.post('action.php','',function(data){
+		var bid = {
+			type: 'buy',
+			size: trader.size,
+			price: trader.bid,
+			product: 'BTC-USD',
+			usd: trader.usd,
+			btc: trader.btc,
+			spread: trader.spread, 
+		};
+		var jstring = JSON.stringify(bid);
+		var p = {func: 'newBid', json: jstring};
+		$.post('action.php',p,function(data){
 			var lot = { lot: data, amount: trader.size, price: trader.bid };
 			currentLots.push(lot);
 		});
@@ -13,7 +24,7 @@ $(document).ready(function(){
 var test = 0;
 var status = "Normal";
 var eTime = 0;
-var trader = {bid: 1, ask: 2, size: .1};
+var trader = {size: .1};
 
 var currentLots = [];
 var lot2 = { lot: 2, amount: 100, price: 230.21 };
@@ -58,10 +69,13 @@ function advanceTime()
 			$(openLots).html(lots);
 
 			$(usdAmount).html(obj.accounts.usdAvailable);
+			trader.usd = obj.accounts.usdAvailable;
 			$(btcAmount).html(obj.accounts.btcAvailable);
+			trader.btc = obj.accounts.btcAvailable;
 
 			$(bookBid).html(obj.book.bidPrice);
 			$(bookSpread).html(obj.book.spread);
+			trader.spread = obj.book.spread;
 			$(bookAsk).html(obj.book.askPrice);
 
 			trader.bid = obj.book.bidPrice*1 + .01;

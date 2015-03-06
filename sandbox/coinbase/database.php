@@ -19,43 +19,39 @@ class database
 	}
 	public function test()
 	{
-		$query = "CREATE TABLE orders (
-			id int primary key not null auto_increment,
-			time timestamp,
-			size float,
-			price float,
-			type varchar(4),
-			product varchar(16),
-			usd float,
-			btc float,
-			spread float
-		)";
-		#$stmt = mysqli_prepare($this->link_,$query);
-		#$stmt->execute();
 		return "Creating lot table";
 	}
 	public function getLastBid()
 	{
 		return "getting last bid in database";
 	}
-	public function saveOrder($order,$state)
+	public function saveOrder($order)
 	{
-		$a = json_encode($order);
-		$b = json_encode($state);
-
-		$query = "INSERT INTO orders (type,size,price,product,usd,btc,spread) values (?,?,?,?,?,?,?)";
+		$nextIndex = 1;
+		$query = "SELECT max(id) from orders";
 		$stmt = mysqli_prepare($this->link_,$query);
-		$stmt->bind_param('sddsddd',$type,$size,$price,$product,$usd,$btc,$spread);
+		$stmt->execute();
+		$stmt->bind_result($col1);
+		while($stmt->fetch())
+		{
+			$nextIndex = $col1 + 1;
+		}
+		
+		$query = "INSERT INTO orders (id,type,size,price,product,usd,btc,spread,status) values (?,?,?,?,?,?,?,?,?)";
+		$stmt = mysqli_prepare($this->link_,$query);
+		$stmt->bind_param('isddsddds',$index,$type,$size,$price,$product,$usd,$btc,$spread,$status);
+		$index   = $nextIndex;
 		$type    = $order['side'];
 		$size    = $order['size'];
 		$price   = $order['price'];
 		$product = $order['product_id'];
-		$usd     = $state['USD'];
-		$btc     = $state['BTC'];
-		$spread  = $state['spread'];
+		$usd     = $order['USD'];
+		$btc     = $order['BTC'];
+		$spread  = $order['spread'];
+		$status  = 'NEW';
 		$stmt->execute();
 
-		return "saving order<br/>$a<br/>$b";
+		return "saving order $nextIndex";
 	}
 	public function createTable()
 	{
@@ -68,7 +64,8 @@ class database
 			product varchar(16),
 			usd float,
 			btc float,
-			spread float
+			spread float,
+			status varchar(16)
 		)";
 		$stmt = mysqli_prepare($this->link_,$query);
 		$stmt->execute();
