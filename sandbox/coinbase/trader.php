@@ -1,7 +1,6 @@
 <?php
 class trader
 {
-	private $kara;
 	private $path;
 	private $config;
 	private $db;
@@ -10,7 +9,6 @@ class trader
 	{
 		require_once('database.php');
 		$this->db = new database();
-		$this->kara = "I love my wife";
 		$this->path = 'https://api.exchange.coinbase.com';
 
 		$config = file_get_contents('secret');
@@ -74,7 +72,7 @@ class trader
 		#$curl = curl_close();
 		return $market;
 	}
-	public function getAccounts($type)
+	public function getAccounts()
 	{
 		$url = '/accounts';
 		$curl = curl_init();
@@ -90,56 +88,24 @@ class trader
 		$accounts = curl_exec($curl);
 		$obj = json_decode($accounts,true);
 
-		$usdBalance = 0;
-		$usdHold = 0;
-		$usdAvailable = 0;
-
-		$btcBalance = 0;
-		$btcHold = 0;
-		$btcAvailable = 0;
+		$accounts = array();
 
 		foreach($obj as $account)
 		{
 			if($account['currency'] == 'USD')
 			{
-				$usdBalance   = $account['balance'];
-				$usdHold      = $account['hold'];
-				$usdAvailable = $account['available'];
+				$accounts['usdBalance']   = $account['balance'];
+				$accounts['usdHold']      = $account['hold'];
+				$accounts['usdAvailable'] = $account['available'];
 			}
 			if($account['currency'] == 'BTC')
 			{
-				$btcBalance   = $account['balance'];
-				$btcHold      = $account['hold'];
-				$btcAvailable = $account['available'];
+				$accounts['btcBalance']   = $account['balance'];
+				$accounts['btcHold']      = $account['hold'];
+				$accounts['btcAvailable'] = $account['available'];
 			}
 		}
-
-		switch($type)
-		{
-			case 'usda':
-				return $usdAvailable;
-				break;
-			case 'btca':
-				return $btcAvailable;
-				break;
-			case 'available':
-				return array($usdAvailable,$btcAvailable);
-				break;
-			default:
-				$myAccounts = array();
-				$myAccounts[] = "-----------------";
-				$myAccounts[] = "Account Report";
-				$myAccounts[] = "-------";
-				$myAccounts[] = "USD Balance: $usdBalance";
-				$myAccounts[] = "USD Hold: $usdHold";
-				$myAccounts[] = "USD Available: $usdAvailable";
-				$myAccounts[] = "-------";
-				$myAccounts[] = "BTC Balance: $btcBalance";
-				$myAccounts[] = "BTC Hold: $btcHold";
-				$myAccounts[] = "BTC Available: $btcAvailable";
-				$myAccounts[] = "-------";
-				return implode('<br/>',$myAccounts);
-		}
+		return $accounts;
 	}
 	public function getOrderBook($quest)
 	{
