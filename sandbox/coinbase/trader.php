@@ -107,43 +107,22 @@ class trader
 		}
 		return $accounts;
 	}
-	public function getOrderBook($quest)
+	public function getOrderBook()
 	{
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0');
 		curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
 		curl_setopt($curl, CURLOPT_URL, $this->path.'/products/BTC-USD/book');
 		$book = curl_exec($curl);
-		#$curl = curl_close();
 		$obj = json_decode($book,true);
-		$bidPrice = $obj['bids'][0][0];
-		$bidSize  = $obj['bids'][0][1];
-		$askPrice = $obj['asks'][0][0];
-		$askSize  = $obj['asks'][0][1];
-		$spread   = $askPrice - $bidPrice;
-		$rtn = 'default';
-		switch($quest)
-		{
-			case 'bid':
-				$rtn = array($bidPrice,$spread);
-				break;
-			case 'ask':
-				$rtn = array($askPrice,$spread);
-				break;
-			case 'book':
-				$rtn = array($bidPrice,$spread,$askPrice);
-				break;
-			default:
-				$h = '****************<br/>';
-				$h .= "Bid Price: $bidPrice<br/>";
-				$h .= "Bid Size: $bidSize<br/>";
-				$h .= "Ask Price: $askPrice<br/>";
-				$h .= "Ask Size: $askSize<br/>";
-				$h .= "Spread: $spread<br/>";
-				$h .= '****************';
-				$rtn = "$book<br/>$h";
-		}
-		return $rtn;
+		$orderBook = array();
+		$orderBook['bidPrice'] = $obj['bids'][0][0];
+		$orderBook['bidSize']  = $obj['bids'][0][1];
+		$orderBook['askPrice'] = $obj['asks'][0][0];
+		$orderBook['askSize']  = $obj['asks'][0][1];
+		$orderBook['spread']   = $obj['asks'][0][0] - $obj['bids'][0][0];
+
+		return $orderBook;
 	}
 	public function placeOrder($quest)
 	{

@@ -1,11 +1,17 @@
 $(document).ready(function(){
 	setInterval(function(){ advanceTime(); },3000);
 	advanceTime();
+	var bidButton = '#exchange > div:nth-child(2) > div:nth-child(2) > div:nth-child(3) > button:nth-child(3)';
+	$(bidButton).click(function(){
+		lots = "creating new lot";
+	});
 });
 
 var test = 0;
 var status = "Normal";
 var eTime = 0;
+var trader = {bid: 1, ask: 2, size: .1};
+var lots = "open lots";
 
 function advanceTime()
 {
@@ -34,16 +40,26 @@ function advanceTime()
 			var traderAsk  = '#exchange > div:nth-child(2) > div:nth-child(2) > div:nth-child(5)';
 			var traderSize = '#exchange > div:nth-child(2) > div:nth-child(3) > div:nth-child(2)';
 
+			var openBids = '#exchange > div:nth-child(3)';
+			$(openBids).css('border','solid 1px yellow');
+
+			var openLots = '#exchange > div:nth-child(6) > div:nth-child(2)';
+			$(openLots).css('border','solid 1px yellow');
+			//$(openLots).html(lots);
+
 			$(usdAmount).html(obj.accounts.usdAvailable);
 			$(btcAmount).html(obj.accounts.btcAvailable);
 
-			$(bookBid).css('border','1px solid yellow');
-			$(bookSpread).css('border','1px solid yellow');
-			$(bookAsk).css('border','1px solid yellow');
+			$(bookBid).html(obj.book.bidPrice);
+			$(bookSpread).html(obj.book.spread);
+			$(bookAsk).html(obj.book.askPrice);
 
-			$(traderBid).css('border','1px solid yellow');
-			$(traderAsk).css('border','1px solid yellow');
-			$(traderSize).css('border','1px solid yellow');
+			trader.bid = obj.book.bidPrice*1 + .01;
+			trader.ask = obj.book.askPrice - .01;
+
+			$(traderBid).html(trader.bid);
+			$(traderAsk).html(trader.ask);
+			$(traderSize).html(trader.size);
 		});
 	}
 }
