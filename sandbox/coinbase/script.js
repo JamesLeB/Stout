@@ -17,6 +17,7 @@ $(document).ready(function(){
 		$.post('action.php',p,function(data){
 			//var lot = { lot: data, amount: trader.size, price: trader.bid };
 			//currentLots.push(lot);
+			$('#debug').html(data);
 		});
 	});
 });
