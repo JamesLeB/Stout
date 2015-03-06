@@ -17,6 +17,10 @@ function newBid($json)
 		'spread'     => $obj['spread'] 
 	);
 	$ms = $db->saveOrder($order);
+
+	require_once('trader.php');
+	$ms .= "<br/>sending order to coinbase";
+
 	return $ms;
 }
 $rtn = 'default';

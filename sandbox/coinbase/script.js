@@ -79,7 +79,9 @@ function advanceTime()
 			trader.spread = obj.book.spread;
 			$(bookAsk).html(obj.book.askPrice);
 
-			trader.bid = obj.book.bidPrice*1 + .01;
+			//trader.bid = obj.book.bidPrice*1 + .01;
+		trader.bid = obj.book.bidPrice*1 - 100;
+
 			trader.ask = obj.book.askPrice - .01;
 
 			$(traderBid).html(trader.bid);
