@@ -5,8 +5,6 @@
 function newBid($json)
 {
 	$obj = json_decode($json,true);
-	require_once('database.php');
-	$db = new database();
 	$order = array(
 		'side'       => 'buy',
 		'size'       => $obj['size'],
@@ -16,10 +14,11 @@ function newBid($json)
 		'BTC'        => $obj['btc'],
 		'spread'     => $obj['spread'] 
 	);
-	$ms = $db->saveOrder($order);
 
+	$ms = 'New Bid';
 	require_once('trader.php');
-	$ms .= "<br/>sending order to coinbase";
+	$trader = new trader();
+	$ms .= "<br/>".$trader->placeOrder('bid',$order);
 
 	return $ms;
 }

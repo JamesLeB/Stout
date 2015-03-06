@@ -124,54 +124,28 @@ class trader
 
 		return $orderBook;
 	}
-	public function placeOrder($quest)
+	public function placeOrder($quest,$order)
 	{
-		$rtn = "default return";
-		$log = "log status";
-		$responce = "Coinbase responce";
+		$ms = 'placing order';
+		$ms .= '<br/>'.$this->db->saveOrder($order);
 		switch($quest)
 		{
 			case 'bid':
 
-				$balance = $this->getAccounts('available');
-				$price   = $this->getOrderBook('bid');
-				$bidPrice = $price[0] + .01;
-				$size    = round(($balance[0] - .01) / $bidPrice,8);
-				$side    = "buy";# buy or sell
-				$product = "BTC-USD";
-				$cost    = $size * $bidPrice;
+				$a = array();
+				$a['size']  = $order['size'];
+				$a['price'] = $order['price'];
+				$a['side']  = $order['side'];
+				$a['product_id'] = $order['product_id'];
 
-				if($balance[0] <= .02){$rtn = 'no usd spend'; break; }
-				if($price[1] <= .03){$rtn = 'no spread'; break; }
-
-				$rtn = "BID ";
-				$rtn .= "size: $size ";
-				$rtn .= "price: $bidPrice ";
-				$rtn .= "cost: $cost ";
-				$rtn .= "spread: $price[1] ";
-
-				$order = array();
-				$order['size']  = round($size,8);
-				$order['price'] = $bidPrice;
-				$order['side'] = $side;
-				$order['product_id'] = $product;
-				
-				$state = array();
-				$state['USD'] = round($balance[0],8);
-				$state['BTC'] = round($balance[1],8);
-				$state['spread'] = round($price[1],8);
-
-				$db = new database();
-				$rs = $this->db->saveOrder($order,$state);
-				$log = "Order Saved";
-
-				$order = json_encode($order);
-				$responce = $this->sendOrder($order);
+				$json = json_encode($a);
+				$ms .= '<br/>'.$json;#$this->sendOrder($json);
 
 				break;
 
 			case 'ask':
 
+/*
 				$balance = $this->getAccounts('available');
 				$price   = $this->getOrderBook('ask');
 				$askPrice = $price[0]-.01;
@@ -205,10 +179,13 @@ class trader
 
 				$order = json_encode($order);
 				$responce = $this->sendOrder($order);
+*/
 
 				break;
 		}
-		return array($rtn,$log,$responce);
+		return $ms;
+/*
+*/
 	}
 	private function sendOrder($body)
 	{
