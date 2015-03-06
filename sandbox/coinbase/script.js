@@ -3,8 +3,10 @@ $(document).ready(function(){
 	advanceTime();
 	var bidButton = '#exchange > div:nth-child(2) > div:nth-child(2) > div:nth-child(3) > button:nth-child(3)';
 	$(bidButton).click(function(){
-		var lot = { lot: 1, amount: trader.size, price: trader.bid };
-		currentLots.push(lot);
+		$.post('action.php','',function(data){
+			var lot = { lot: data, amount: trader.size, price: trader.bid };
+			currentLots.push(lot);
+		});
 	});
 });
 

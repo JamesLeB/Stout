@@ -19,7 +19,20 @@ class database
 	}
 	public function test()
 	{
-		return $this->kara;
+		$query = "CREATE TABLE orders (
+			id int primary key not null auto_increment,
+			time timestamp,
+			size float,
+			price float,
+			type varchar(4),
+			product varchar(16),
+			usd float,
+			btc float,
+			spread float
+		)";
+		#$stmt = mysqli_prepare($this->link_,$query);
+		#$stmt->execute();
+		return "Creating lot table";
 	}
 	public function getLastBid()
 	{
