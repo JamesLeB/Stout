@@ -7,6 +7,7 @@
 <body>
 	<div id='clock'></div>
 	<div id='status'></div>
+	<div id='debug'>Debug</div>
 	<div id='exchange'>
 		<div>
 			<div>Accounts</div>
