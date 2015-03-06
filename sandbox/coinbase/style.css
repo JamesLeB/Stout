@@ -249,10 +249,12 @@ body
 .lot
 {
 	height: 40px;
+	color: green;
 }
 .lot > div
 {
 	float: left;
+	border: 1px dotted grey;
 }
 .lot > div:nth-child(1)
 {

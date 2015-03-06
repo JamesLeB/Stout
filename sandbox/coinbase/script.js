@@ -3,7 +3,8 @@ $(document).ready(function(){
 	advanceTime();
 	var bidButton = '#exchange > div:nth-child(2) > div:nth-child(2) > div:nth-child(3) > button:nth-child(3)';
 	$(bidButton).click(function(){
-		lots = "creating new lot";
+		var lot = { lot: 1, amount: trader.size, price: trader.bid };
+		currentLots.push(lot);
 	});
 });
 
@@ -11,7 +12,11 @@ var test = 0;
 var status = "Normal";
 var eTime = 0;
 var trader = {bid: 1, ask: 2, size: .1};
-var lots = "open lots";
+
+var currentLots = [];
+var lot2 = { lot: 2, amount: 100, price: 230.21 };
+//currentLots.push(lot2);
+
 
 function advanceTime()
 {
@@ -44,8 +49,11 @@ function advanceTime()
 			$(openBids).css('border','solid 1px yellow');
 
 			var openLots = '#exchange > div:nth-child(6) > div:nth-child(2)';
-			$(openLots).css('border','solid 1px yellow');
-			//$(openLots).html(lots);
+			var lots = '';
+			currentLots.forEach(function(lot){
+				lots += "<div class='lot'><div>"+lot.lot+"</div><div>"+lot.amount+"</div><div>"+lot.price+"</div></div>";
+			});
+			$(openLots).html(lots);
 
 			$(usdAmount).html(obj.accounts.usdAvailable);
 			$(btcAmount).html(obj.accounts.btcAvailable);

@@ -104,10 +104,12 @@
 		</div>
 		<div>
 			<div>Lots</div>
-			<div class='lot'>
-				<div>Lot</div>
-				<div>Amount</div>
-				<div>Price</div>
+			<div>
+				<div class='lot'>
+					<div>Lot</div>
+					<div>Amount</div>
+					<div>Price</div>
+				</div>
 			</div>
 		</div>
 	</div>
