@@ -14,7 +14,7 @@ class trader
 		$config = file_get_contents('secret');
 		$this->config = preg_split('/\s/',$config);
 	}
-	public function testDB()
+	public function createTable()
 	{
 		$rs = $this->db->createTable();
 		return $rs;

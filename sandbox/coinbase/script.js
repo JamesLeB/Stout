@@ -14,6 +14,7 @@ $(document).ready(function(){
 		};
 		var jstring = JSON.stringify(bid);
 		var p = {func: 'newBid', json: jstring};
+		//var p = {func: 'createTable', json: jstring};
 		$.post('action.php',p,function(data){
 			//var lot = { lot: data, amount: trader.size, price: trader.bid };
 			//currentLots.push(lot);

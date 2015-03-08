@@ -22,6 +22,12 @@ function newBid($json)
 
 	return $ms;
 }
+function createTable()
+{
+	require_once('trader.php');
+	$trader = new trader();
+	return $trader->createTable();
+}
 $rtn = 'default';
 $func = $_POST['func'];
 $json = $_POST['json'];
@@ -29,6 +35,9 @@ switch($func)
 {
 	case 'newBid':
 		$rtn = newBid($json);
+		break;
+	case 'createTable':
+		$rtn = createTable();
 		break;
 }
 
