@@ -37,8 +37,10 @@ class trader
 		curl_setopt($curl, CURLOPT_HTTPHEADER,$signatureArray);
 
 		$openOrders = curl_exec($curl);
-		#$curl = curl_close();
-		$obj = json_decode($openOrders,true);
+
+		return $openOrders;
+
+/*
 
 		$t = 'nothing';
 		if(sizeof($obj))
@@ -56,6 +58,7 @@ class trader
 			$t = $this->array2table($c);
 		}
 		return $openOrders."<br/>*************<br/>".$t;
+*/
 	}
 	public function getLastBid()
 	{
@@ -123,6 +126,25 @@ class trader
 		$orderBook['spread']   = $obj['asks'][0][0] - $obj['bids'][0][0];
 
 		return $orderBook;
+	}
+	public function cancelOrder($id)
+	{
+
+		$url = "/orders/$id";
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_URL, $this->path.$url);
+		curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0');
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+
+		$body = ''; #$body = json_encode($body);
+		$signatureArray = $this->getSignatureArray($url,$body,'DELETE');
+
+		curl_setopt($curl, CURLOPT_HTTPHEADER,$signatureArray);
+
+		$cancel = curl_exec($curl);
+
+		return "here we are in trader canceling order ##$id##<br/>$cancel<br/>$url";
 	}
 	public function placeOrder($quest,$order)
 	{

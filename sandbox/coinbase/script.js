@@ -48,7 +48,7 @@ $(document).ready(function(){
 
 var test = 0;
 var status = "Normal";
-var mode   = "Hold";
+var mode   = "Normal";
 var eTime = 0;
 var trader = {size: .1};
 
@@ -56,7 +56,15 @@ var currentLots = [];
 var lot2 = { lot: 2, amount: 100, price: 230.21 };
 //currentLots.push(lot2);
 
-
+function cancelBid(a)
+{
+	var obj = { bidId: a };
+	var jstring = JSON.stringify(obj);
+	var p = {func: 'cancelBid', json: jstring};
+	$.post('action.php',p,function(data){
+		$('#debug').html(data);
+	});
+}
 function advanceTime()
 {
 	eTime++;
@@ -67,6 +75,7 @@ function advanceTime()
 	{
 		test++;
 		status = 'Request';
+		mode   = "Hold";
 		$('#status').css('background','gray');
 		$('#status').html(status + " " + test);
 		$.post('time.php','',function(data){
@@ -86,8 +95,24 @@ function advanceTime()
 			var traderAsk  = '#exchange > div:nth-child(2) > div:nth-child(2) > div:nth-child(5)';
 			var traderSize = '#exchange > div:nth-child(2) > div:nth-child(3) > div:nth-child(2)';
 
-			var openBids = '#exchange > div:nth-child(3)';
+			var openBids = '#exchange > div:nth-child(3) > div:nth-child(2) > div:nth-child(2)';
 			$(openBids).css('border','solid 1px red');
+			//currentBids = [1,2,3];
+			currentBids = $.parseJSON(obj.orders);
+			//$('#status').html(obj.status);
+			currentBidList = '';
+			currentBids.forEach(function(currentBid){
+				currentBidList += "<div class='openOrder'>";
+				currentBidList += "<div>" + currentBid.size + "</div>";
+				currentBidList += "<div>" + currentBid.price + "</div>";
+				currentBidList += "<div>" + 0 + "</div>";
+				currentBidList += "<div>" + 0 + "</div>";
+				var bidId = currentBid.id;
+				currentBidList += '<div><button onclick="cancelBid(\''+bidId+'\');">Cancel</button></div>';
+				currentBidList += "</div>";
+			});
+			$(openBids).html(currentBidList);
+			//$(openBids).html(obj.orders);
 
 			var openLots = '#exchange > div:nth-child(6) > div:nth-child(2)';
 			var lots = '';

@@ -25,6 +25,12 @@ function createTable()
 	$trader = new trader();
 	return $trader->createTable();
 }
+function cancelBid($id)
+{
+	require_once('trader.php');
+	$trader = new trader();
+	return $trader->cancelOrder($id);
+}
 
 $rtn = 'default';
 $func = $_POST['func'];
@@ -37,6 +43,10 @@ switch($func)
 		break;
 	case 'createTable':
 		$rtn = createTable();
+		break;
+	case 'cancelBid':
+		$obj = json_decode($json,true);
+		$rtn = cancelBid($obj['bidId']);
 		break;
 }
 
