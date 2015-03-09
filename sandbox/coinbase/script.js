@@ -21,10 +21,23 @@ $(document).ready(function(){
 			$('#debug').html(data);
 		});
 	});
+	var buttonA = '#exchange > div:nth-child(1) > div:nth-child(2) > div:nth-child(4) > button:nth-child(1)';
+	$(buttonA).click(function(){
+		if(mode == 'Hold')
+		{
+			mode = 'Normal';
+		}
+		else
+		{
+			mode = 'Hold';
+		}
+		$('#debug').html('Mode set to: '+mode);
+	});
 });
 
 var test = 0;
 var status = "Normal";
+var mode   = "Hold";
 var eTime = 0;
 var trader = {size: .1};
 
@@ -37,7 +50,9 @@ function advanceTime()
 {
 	eTime++;
 	$('#clock').html(eTime);
-	if(status == 'Normal')
+	$('#status').html(status + " " + test);
+	$('#exchange > div:nth-child(1) > div:nth-child(2) > div:nth-child(3)').html(mode);
+	if(status == 'Normal' && mode == 'Normal')
 	{
 		test++;
 		status = 'Request';
