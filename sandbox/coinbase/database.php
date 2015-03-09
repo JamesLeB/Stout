@@ -71,7 +71,10 @@ class database
 			type varchar(4),
 			product varchar(16),
 			status varchar(16),
-			serverId varchar(64)
+			serverId varchar(64),
+			cost float,
+			profit float,
+			usd float
 		)";
 		$stmt = mysqli_prepare($this->link_,$query);
 		$stmt->execute();
