@@ -21,6 +21,16 @@ class database
 	{
 		return "Creating lot table";
 	}
+	public function updateBidStatus($id,$newStatus)
+	{
+		$query = "UPDATE orders set status = ? where serverId = ?";
+		$stmt = mysqli_prepare($this->link_,$query);
+		$stmt->bind_param('ss',$status,$serverId);
+		$status = $newStatus;
+		$serverId = $id;
+		$stmt->execute();
+		return "in update bid status $id::$newStatus";
+	}
 	public function getLastBid()
 	{
 		return "getting last bid in database";
@@ -70,7 +80,7 @@ class database
 	public function getOpenBids()
 	{
 		$a = array();
-		$query = "SELECT serverId from orders";
+		$query = "SELECT serverId from orders WHERE status = 'NEW'";
 		$stmt = mysqli_prepare($this->link_,$query);
 		$stmt->execute();
 		$stmt->bind_result($serverId);

@@ -31,6 +31,10 @@ class trader
 		{
 			$status = json_decode($this->getOrderStatus($b),true);
 			$r .= '<br/>'.$b."::".$status['status']."_".$status['done_reason'];
+			if($status['status'] == 'done' && $status['done_reason'] == 'canceled')
+			{
+				$this->db->updateBidStatus($b,'canceled');
+			}
 		}
 		return "Open Orders".$r;
 	}
