@@ -8,13 +8,9 @@ $(document).ready(function(){
 			size: trader.size,
 			price: trader.bid,
 			product: 'BTC-USD',
-			usd: trader.usd,
-			btc: trader.btc,
-			spread: trader.spread, 
 		};
 		var jstring = JSON.stringify(bid);
 		var p = {func: 'newBid', json: jstring};
-		//var p = {func: 'createTable', json: jstring};
 		$.post('action.php',p,function(data){
 			//var lot = { lot: data, amount: trader.size, price: trader.bid };
 			//currentLots.push(lot);
@@ -32,6 +28,16 @@ $(document).ready(function(){
 			mode = 'Hold';
 		}
 		$('#debug').html('Mode set to: '+mode);
+		advanceTime();
+	});
+	var buttonC = '#exchange > div:nth-child(1) > div:nth-child(2) > div:nth-child(4) > button:nth-child(3)';
+	$(buttonC).click(function(){
+		var obj = {};
+		var jstring = JSON.stringify(obj);
+		var p = {func: 'createTable', json: jstring};
+		$.post('action.php',p,function(data){
+			$('#debug').html(data);
+		});
 	});
 });
 

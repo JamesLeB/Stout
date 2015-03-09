@@ -10,9 +10,6 @@ function newBid($json)
 		'size'       => $obj['size'],
 		'price'      => $obj['price'],
 		'product_id' => $obj['product'],
-		'USD'        => $obj['usd'],
-		'BTC'        => $obj['btc'],
-		'spread'     => $obj['spread'] 
 	);
 
 	$ms = 'New Bid';
@@ -28,9 +25,11 @@ function createTable()
 	$trader = new trader();
 	return $trader->createTable();
 }
+
 $rtn = 'default';
 $func = $_POST['func'];
 $json = $_POST['json'];
+
 switch($func)
 {
 	case 'newBid':

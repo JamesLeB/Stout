@@ -37,17 +37,14 @@ class database
 			$nextIndex = $col1 + 1;
 		}
 		
-		$query = "INSERT INTO orders (id,type,size,price,product,usd,btc,spread,status) values (?,?,?,?,?,?,?,?,?)";
+		$query = "INSERT INTO orders (id,type,size,price,product,status) values (?,?,?,?,?,?)";
 		$stmt = mysqli_prepare($this->link_,$query);
-		$stmt->bind_param('isddsddds',$index,$type,$size,$price,$product,$usd,$btc,$spread,$status);
+		$stmt->bind_param('isddss',$index,$type,$size,$price,$product,$status);
 		$index   = $nextIndex;
 		$type    = $order['side'];
 		$size    = $order['size'];
 		$price   = $order['price'];
 		$product = $order['product_id'];
-		$usd     = $order['USD'];
-		$btc     = $order['BTC'];
-		$spread  = $order['spread'];
 		$status  = 'NEW';
 		$stmt->execute();
 
@@ -62,9 +59,6 @@ class database
 			price float,
 			type varchar(4),
 			product varchar(16),
-			usd float,
-			btc float,
-			spread float,
 			status varchar(16)
 		)";
 		$stmt = mysqli_prepare($this->link_,$query);
