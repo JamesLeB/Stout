@@ -11,11 +11,16 @@ $(document).ready(function(){
 		};
 		var jstring = JSON.stringify(bid);
 		var p = {func: 'newBid', json: jstring};
-		$.post('action.php',p,function(data){
-			//var lot = { lot: data, amount: trader.size, price: trader.bid };
-			//currentLots.push(lot);
-			$('#debug').html(data);
-		});
+		var funding = trader.usd - (trader.size * trader.bid);
+		$('#debug').html('Placing Bid ' + funding);
+		if( funding > 0 )
+		{
+			$.post('action.php',p,function(data){
+				//var lot = { lot: data, amount: trader.size, price: trader.bid };
+				//currentLots.push(lot);
+				$('#debug').append('<br/>' + data);
+			});
+		}
 	});
 	var buttonA = '#exchange > div:nth-child(1) > div:nth-child(2) > div:nth-child(4) > button:nth-child(1)';
 	$(buttonA).click(function(){
@@ -82,7 +87,7 @@ function advanceTime()
 			var traderSize = '#exchange > div:nth-child(2) > div:nth-child(3) > div:nth-child(2)';
 
 			var openBids = '#exchange > div:nth-child(3)';
-			$(openBids).css('border','solid 1px yellow');
+			$(openBids).css('border','solid 1px red');
 
 			var openLots = '#exchange > div:nth-child(6) > div:nth-child(2)';
 			var lots = '';
