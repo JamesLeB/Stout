@@ -12,14 +12,18 @@ $(document).ready(function(){
 		var jstring = JSON.stringify(bid);
 		var p = {func: 'newBid', json: jstring};
 		var funding = trader.usd - (trader.size * trader.bid);
-		$('#debug').html('Placing Bid ' + funding);
+		$('#debug').html('Placing Bid: ');
 		if( funding > 0 )
 		{
 			$.post('action.php',p,function(data){
-				$('#debug').append('<br/>' + data);
+				$('#debug').append(data);
 				mode = 'Normal';
 				advanceTime();
 			});
+		}
+		else
+		{
+			$('#debug').append('not enough USD');
 		}
 	});
 	var buttonA = '#exchange > div:nth-child(1) > div:nth-child(2) > div:nth-child(4) > button:nth-child(1)';

@@ -37,18 +37,19 @@ class database
 			$nextIndex = $col1 + 1;
 		}
 		
-		$query = "INSERT INTO orders (id,type,size,price,product,status) values (?,?,?,?,?,?)";
+		$query = "INSERT INTO orders (id,type,size,price,product,status,serverId) values (?,?,?,?,?,?,?)";
 		$stmt = mysqli_prepare($this->link_,$query);
-		$stmt->bind_param('isddss',$index,$type,$size,$price,$product,$status);
-		$index   = $nextIndex;
-		$type    = $order['side'];
-		$size    = $order['size'];
-		$price   = $order['price'];
-		$product = $order['product_id'];
-		$status  = 'NEW';
+		$stmt->bind_param('isddsss',$index,$type,$size,$price,$product,$status,$serverId);
+		$index    = $nextIndex;
+		$type     = $order['side'];
+		$size     = $order['size'];
+		$price    = $order['price'];
+		$product  = $order['product_id'];
+		$status   = 'NEW';
+		$serverId = $order['serverId'];
 		$stmt->execute();
 
-		return "saving order $nextIndex";
+		return 1;
 	}
 	public function createTable()
 	{
@@ -59,7 +60,8 @@ class database
 			price float,
 			type varchar(4),
 			product varchar(16),
-			status varchar(16)
+			status varchar(16),
+			serverId varchar(64)
 		)";
 		$stmt = mysqli_prepare($this->link_,$query);
 		$stmt->execute();

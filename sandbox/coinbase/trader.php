@@ -129,7 +129,6 @@ class trader
 	}
 	public function cancelOrder($id)
 	{
-
 		$url = "/orders/$id";
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_URL, $this->path.$url);
@@ -144,11 +143,11 @@ class trader
 
 		$cancel = curl_exec($curl);
 
-		return "here we are in trader canceling order ##$id##<br/>$cancel<br/>$url";
+		return "Canceling Order: $cancel";
 	}
 	public function placeOrder($quest,$order)
 	{
-		$ms = 'placing order';
+		$ms = 0;
 		switch($quest)
 		{
 			case 'bid':
@@ -161,8 +160,10 @@ class trader
 
 				$json = json_encode($a);
 				$newOrder = $this->sendOrder($json);
-				$ms .= '<br/>Place Order'.$json.'<br/>'.$newOrder;
-				$ms .= '<br/>Save Order'.$this->db->saveOrder($order);
+				$newOrder = json_decode($newOrder,true);
+				$order['serverId'] = $newOrder['id'];
+				$this->db->saveOrder($order);
+				$ms = $newOrder['id'];
 
 				break;
 

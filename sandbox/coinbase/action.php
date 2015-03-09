@@ -11,12 +11,9 @@ function newBid($json)
 		'price'      => $obj['price'],
 		'product_id' => $obj['product'],
 	);
-
 	require_once('trader.php');
 	$trader = new trader();
-	$ms = "<br/>".$trader->placeOrder('bid',$order);
-
-	return $ms;
+	return $trader->placeOrder('bid',$order);
 }
 function createTable()
 {
