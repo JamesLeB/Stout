@@ -4,7 +4,10 @@
 	$accounts = $trader->getAccounts();
 	$book     = $trader->getOrderBook();
 	$orders   = $trader->getOpenOrders();
-	$openBids = $trader->checkOpenBids();
+
+	$k = $accounts['usdBalance'];
+	$openBids = $trader->checkOpenBids($k);
+
 	echo json_encode(array(
 		'status' => 'running',
 		'accounts' => $accounts,

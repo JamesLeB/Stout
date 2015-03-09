@@ -106,7 +106,7 @@ function advanceTime()
 	{
 		test++;
 		status = 'Request';
-		mode   = "Hold";
+		//mode   = "Hold";
 		$('#status').css('background','gray');
 		$('#status').html(status + " " + test);
 		$.post('time.php','',function(data){

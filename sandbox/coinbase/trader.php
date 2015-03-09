@@ -23,7 +23,7 @@ class trader
 	{
 		return $this->kara;
 	}
-	public function checkOpenBids()
+	public function checkOpenBids($usd)
 	{
 		$a = $this->db->getOpenBids();
 		$r = "";
@@ -33,11 +33,11 @@ class trader
 			$r .= '<br/>'.$b."::".$status['status']."_".$status['done_reason'];
 			if($status['status'] == 'done' && $status['done_reason'] == 'canceled')
 			{
-				$this->db->updateBidStatus($b,'canceled');
+				$this->db->updateBidStatus($b,'canceled',$usd);
 			}
 			if($status['status'] == 'done' && $status['done_reason'] == 'filled')
 			{
-				$this->db->updateBidStatus($b,'filled');
+				$this->db->updateBidStatus($b,'filled',$usd);
 			}
 		}
 		return "Open Orders".$r;

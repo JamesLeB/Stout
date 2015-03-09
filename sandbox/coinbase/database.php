@@ -21,12 +21,13 @@ class database
 	{
 		return "Creating lot table";
 	}
-	public function updateBidStatus($id,$newStatus)
+	public function updateBidStatus($id,$newStatus,$usd)
 	{
-		$query = "UPDATE orders set status = ? where serverId = ?";
+		$query = "UPDATE orders set status = ?, usd = ? where serverId = ?";
 		$stmt = mysqli_prepare($this->link_,$query);
-		$stmt->bind_param('ss',$status,$serverId);
+		$stmt->bind_param('sds',$status,$nusd,$serverId);
 		$status = $newStatus;
+		$nusd = $usd;
 		$serverId = $id;
 		$stmt->execute();
 		return "in update bid status $id::$newStatus";
