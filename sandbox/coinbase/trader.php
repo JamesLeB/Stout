@@ -139,7 +139,7 @@ class trader
 				$a['product_id'] = $order['product_id'];
 
 				$json = json_encode($a);
-				$ms .= '<br/>'.$json;#$this->sendOrder($json);
+				$ms .= '<br/>'.$json.'<br/>'.$this->sendOrder($json);
 
 				break;
 
@@ -201,7 +201,6 @@ class trader
 		$signatureArray[] = "Content-Length: $length";
 		curl_setopt($curl, CURLOPT_HTTPHEADER,$signatureArray);
 		$order = curl_exec($curl);
-		#$curl = curl_close();
 		return $order;
 	}
 	public function getTrades()
