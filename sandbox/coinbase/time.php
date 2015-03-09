@@ -4,10 +4,12 @@
 	$accounts = $trader->getAccounts();
 	$book     = $trader->getOrderBook();
 	$orders   = $trader->getOpenOrders();
+	$openBids = $trader->checkOpenBids();
 	echo json_encode(array(
 		'status' => 'running',
 		'accounts' => $accounts,
 		'book' => $book,
-		'orders' => $orders
+		'orders' => $orders,
+		'openBids' => $openBids
 	));
 ?>

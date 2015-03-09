@@ -23,6 +23,34 @@ class trader
 	{
 		return $this->kara;
 	}
+	public function checkOpenBids()
+	{
+		$a = $this->db->getOpenBids();
+		$r = "";
+		foreach($a as $b)
+		{
+			$status = json_decode($this->getOrderStatus($b),true);
+			$r .= '<br/>'.$b."::".$status['status']."_".$status['done_reason'];
+		}
+		return "Open Orders".$r;
+	}
+	public function getOrderStatus($id)
+	{
+		$url = '/orders/'.$id;
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_URL, $this->path.$url);
+		curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0');
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+
+		$body = ''; #$body = json_encode($body);
+		$signatureArray = $this->getSignatureArray($url,$body,'GET');
+
+		curl_setopt($curl, CURLOPT_HTTPHEADER,$signatureArray);
+
+		$openOrders = curl_exec($curl);
+
+		return $openOrders;
+	}
 	public function getOpenOrders()
 	{
 		$url = '/orders';

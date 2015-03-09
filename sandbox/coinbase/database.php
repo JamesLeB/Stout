@@ -67,5 +67,18 @@ class database
 		$stmt->execute();
 		return "Creating table script";
 	}
+	public function getOpenBids()
+	{
+		$a = array();
+		$query = "SELECT serverId from orders";
+		$stmt = mysqli_prepare($this->link_,$query);
+		$stmt->execute();
+		$stmt->bind_result($serverId);
+		while($stmt->fetch())
+		{
+			$a[] = $serverId;
+		}
+		return $a;
+	}
 }
 ?>

@@ -102,10 +102,7 @@ function advanceTime()
 			var traderSize = '#exchange > div:nth-child(2) > div:nth-child(3) > div:nth-child(2)';
 
 			var openBids = '#exchange > div:nth-child(3) > div:nth-child(2) > div:nth-child(2)';
-			$(openBids).css('border','solid 1px red');
-			//currentBids = [1,2,3];
 			currentBids = $.parseJSON(obj.orders);
-			//$('#status').html(obj.status);
 			currentBidList = '';
 			currentBids.forEach(function(currentBid){
 				currentBidList += "<div class='openOrder'>";
@@ -118,7 +115,8 @@ function advanceTime()
 				currentBidList += "</div>";
 			});
 			$(openBids).html(currentBidList);
-			//$(openBids).html(obj.orders);
+
+$('#debug').html(obj.openBids);
 
 			var openLots = '#exchange > div:nth-child(6) > div:nth-child(2)';
 			var lots = '';
