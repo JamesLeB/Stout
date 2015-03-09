@@ -26,6 +26,31 @@ $(document).ready(function(){
 			$('#debug').append('not enough USD');
 		}
 	});
+	var askButton = '#exchange > div:nth-child(2) > div:nth-child(2) > div:nth-child(6) > button:nth-child(3)';
+	$(askButton).click(function(){
+		var ask = {
+			type: 'sell',
+			size: trader.size,
+			price: trader.ask,
+			product: 'BTC-USD',
+		};
+		var jstring = JSON.stringify(ask);
+		var p = {func: 'newAsk', json: jstring};
+		var funding = trader.btc - trader.size;
+		$('#debug').html('Placing Ask: ');
+		if( funding >= 0 )
+		{
+			$.post('action.php',p,function(data){
+				$('#debug').append(data);
+				mode = 'Normal';
+				advanceTime();
+			});
+		}
+		else
+		{
+			$('#debug').append('not enough BTC');
+		}
+	});
 	var buttonA = '#exchange > div:nth-child(1) > div:nth-child(2) > div:nth-child(4) > button:nth-child(1)';
 	$(buttonA).click(function(){
 		if(mode == 'Hold')
@@ -54,17 +79,17 @@ var test = 0;
 var status = "Normal";
 var mode   = "Normal";
 var eTime = 0;
-var trader = {size: .1};
+var trader = {size: .01};
 
 var currentLots = [];
 var lot2 = { lot: 2, amount: 100, price: 230.21 };
 //currentLots.push(lot2);
 
-function cancelBid(a)
+function cancelOrder(a)
 {
 	var obj = { bidId: a };
 	var jstring = JSON.stringify(obj);
-	var p = {func: 'cancelBid', json: jstring};
+	var p = {func: 'cancelOrder', json: jstring};
 	$.post('action.php',p,function(data){
 		$('#debug').html(data);
 		mode = 'Normal';
@@ -102,21 +127,33 @@ function advanceTime()
 			var traderSize = '#exchange > div:nth-child(2) > div:nth-child(3) > div:nth-child(2)';
 
 			var openBids = '#exchange > div:nth-child(3) > div:nth-child(2) > div:nth-child(2)';
-			currentBids = $.parseJSON(obj.orders);
+			var openAsks = '#exchange > div:nth-child(3) > div:nth-child(3) > div:nth-child(2)';
+			currentOrders = $.parseJSON(obj.orders);
 			currentBidList = '';
-			currentBids.forEach(function(currentBid){
-				currentBidList += "<div class='openOrder'>";
-				currentBidList += "<div>" + currentBid.size + "</div>";
-				currentBidList += "<div>" + currentBid.price + "</div>";
-				currentBidList += "<div>" + 0 + "</div>";
-				currentBidList += "<div>" + 0 + "</div>";
-				var bidId = currentBid.id;
-				currentBidList += '<div><button onclick="cancelBid(\''+bidId+'\');">Cancel</button></div>';
-				currentBidList += "</div>";
+			currentAskList = '';
+			currentOrders.forEach(function(currentOrder){
+				var cList = '';
+				cList += "<div class='openOrder'>";
+				cList += "<div>" + currentOrder.size + "</div>";
+				cList += "<div>" + currentOrder.price + "</div>";
+				cList += "<div>" + currentOrder.side + "</div>";
+				cList += "<div>" + 0 + "</div>";
+				var orderId = currentOrder.id;
+				cList += '<div><button onclick="cancelOrder(\''+orderId+'\');">Cancel</button></div>';
+				cList += "</div>";
+				if(currentOrder.side == 'buy')
+				{
+					currentBidList += cList;
+				}
+				else if (currentOrder.side == 'sell')
+				{
+					currentAskList += cList;
+				}
 			});
 			$(openBids).html(currentBidList);
+			$(openAsks).html(currentAskList);
 
-$('#debug').html(obj.openBids);
+			$('#debug').html(obj.openBids);
 
 			var openLots = '#exchange > div:nth-child(6) > div:nth-child(2)';
 			var lots = '';
@@ -135,10 +172,11 @@ $('#debug').html(obj.openBids);
 			trader.spread = obj.book.spread;
 			$(bookAsk).html(obj.book.askPrice);
 
-			//trader.bid = obj.book.bidPrice*1 + .01;
-		trader.bid = obj.book.bidPrice*1 - 100;
+			trader.bid = obj.book.bidPrice*1 + .01;
+			//trader.bid = obj.book.bidPrice*1 - 100;
 
-			trader.ask = obj.book.askPrice - .01;
+			trader.ask = obj.book.askPrice*1 - .01;
+			//trader.ask = obj.book.askPrice*1 + 100;
 
 			$(traderBid).html(trader.bid);
 			$(traderAsk).html(trader.ask);

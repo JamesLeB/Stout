@@ -35,6 +35,10 @@ class trader
 			{
 				$this->db->updateBidStatus($b,'canceled');
 			}
+			if($status['status'] == 'done' && $status['done_reason'] == 'filled')
+			{
+				$this->db->updateBidStatus($b,'filled');
+			}
 		}
 		return "Open Orders".$r;
 	}
@@ -177,71 +181,23 @@ class trader
 
 		return "Canceling Order: $cancel";
 	}
-	public function placeOrder($quest,$order)
+	public function placeOrder($order)
 	{
 		$ms = 0;
-		switch($quest)
-		{
-			case 'bid':
+		$a = array();
+		$a['size']  = $order['size'];
+		$a['price'] = $order['price'];
+		$a['side']  = $order['side'];
+		$a['product_id'] = $order['product_id'];
 
-				$a = array();
-				$a['size']  = $order['size'];
-				$a['price'] = $order['price'];
-				$a['side']  = $order['side'];
-				$a['product_id'] = $order['product_id'];
+		$json = json_encode($a);
+		$newOrder = $this->sendOrder($json);
+		$newOrder = json_decode($newOrder,true);
+		$order['serverId'] = $newOrder['id'];
+		$this->db->saveOrder($order);
+		$ms = $newOrder['id'];
 
-				$json = json_encode($a);
-				$newOrder = $this->sendOrder($json);
-				$newOrder = json_decode($newOrder,true);
-				$order['serverId'] = $newOrder['id'];
-				$this->db->saveOrder($order);
-				$ms = $newOrder['id'];
-
-				break;
-
-			case 'ask':
-
-/*
-				$balance = $this->getAccounts('available');
-				$price   = $this->getOrderBook('ask');
-				$askPrice = $price[0]-.01;
-				$size    = $balance[1];
-				$sale    = ($askPrice) * $size;
-				$side    = "sell";# buy or sell
-				$product = "BTC-USD";
-				
-				if($size <= 0){$rtn = 'no btc to sell'; break; }
-
-				$rtn = "ASK ";
-				$rtn .= "size: $size ";
-				$rtn .= "price: $askPrice ";
-				$rtn .= "sale: $sale ";
-				$rtn .= "spread: $price[1] ";
-
-				$order = array();
-				$order['size']  = round($size,8);
-				$order['price'] = $askPrice;
-				$order['side'] = $side;
-				$order['product_id'] = $product;
-				
-				$state = array();
-				$state['USD'] = round($balance[0],8);
-				$state['BTC'] = round($balance[1],8);
-				$state['spread'] = round($price[1],8);
-
-				$db = new database();
-				$rs = $db->saveOrder($order,$state);
-				$log = 'Order Saved';
-
-				$order = json_encode($order);
-				$responce = $this->sendOrder($order);
-*/
-
-				break;
-		}
 		return $ms;
-/*
-*/
 	}
 	private function sendOrder($body)
 	{

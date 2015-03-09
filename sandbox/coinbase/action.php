@@ -13,7 +13,20 @@ function newBid($json)
 	);
 	require_once('trader.php');
 	$trader = new trader();
-	return $trader->placeOrder('bid',$order);
+	return $trader->placeOrder($order);
+}
+function newAsk($json)
+{
+	$obj = json_decode($json,true);
+	$order = array(
+		'side'       => 'sell',
+		'size'       => $obj['size'],
+		'price'      => $obj['price'],
+		'product_id' => $obj['product'],
+	);
+	require_once('trader.php');
+	$trader = new trader();
+	return $trader->placeOrder($order);
 }
 function createTable()
 {
@@ -21,7 +34,7 @@ function createTable()
 	$trader = new trader();
 	return $trader->createTable();
 }
-function cancelBid($id)
+function cancelOrder($id)
 {
 	require_once('trader.php');
 	$trader = new trader();
@@ -37,12 +50,15 @@ switch($func)
 	case 'newBid':
 		$rtn = newBid($json);
 		break;
+	case 'newAsk':
+		$rtn = newAsk($json);
+		break;
 	case 'createTable':
 		$rtn = createTable();
 		break;
-	case 'cancelBid':
+	case 'cancelOrder':
 		$obj = json_decode($json,true);
-		$rtn = cancelBid($obj['bidId']);
+		$rtn = cancelOrder($obj['bidId']);
 		break;
 }
 
