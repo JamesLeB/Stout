@@ -16,9 +16,9 @@ $(document).ready(function(){
 		if( funding > 0 )
 		{
 			$.post('action.php',p,function(data){
-				//var lot = { lot: data, amount: trader.size, price: trader.bid };
-				//currentLots.push(lot);
 				$('#debug').append('<br/>' + data);
+				mode = 'Normal';
+				advanceTime();
 			});
 		}
 	});
@@ -63,6 +63,8 @@ function cancelBid(a)
 	var p = {func: 'cancelBid', json: jstring};
 	$.post('action.php',p,function(data){
 		$('#debug').html(data);
+		mode = 'Normal';
+		advanceTime();
 	});
 }
 function advanceTime()

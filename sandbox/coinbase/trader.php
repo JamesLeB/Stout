@@ -149,7 +149,6 @@ class trader
 	public function placeOrder($quest,$order)
 	{
 		$ms = 'placing order';
-		$ms .= '<br/>'.$this->db->saveOrder($order);
 		switch($quest)
 		{
 			case 'bid':
@@ -161,7 +160,9 @@ class trader
 				$a['product_id'] = $order['product_id'];
 
 				$json = json_encode($a);
-				$ms .= '<br/>'.$json.'<br/>'.$this->sendOrder($json);
+				$newOrder = $this->sendOrder($json);
+				$ms .= '<br/>Place Order'.$json.'<br/>'.$newOrder;
+				$ms .= '<br/>Save Order'.$this->db->saveOrder($order);
 
 				break;
 

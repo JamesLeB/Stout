@@ -12,10 +12,9 @@ function newBid($json)
 		'product_id' => $obj['product'],
 	);
 
-	$ms = 'New Bid';
 	require_once('trader.php');
 	$trader = new trader();
-	$ms .= "<br/>".$trader->placeOrder('bid',$order);
+	$ms = "<br/>".$trader->placeOrder('bid',$order);
 
 	return $ms;
 }
