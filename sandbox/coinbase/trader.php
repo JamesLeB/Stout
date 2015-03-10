@@ -23,9 +23,27 @@ class trader
 	{
 		return $this->kara;
 	}
+/*
 	public function runOrderTable()
 	{
 		return $this->db->runOrderTable();
+	}
+*/
+	public function updateOrderProfit($id,$profit)
+	{
+		$this->db->updateOrderProfit($id,$profit);
+	}
+	public function updateOrderSold($id,$sold)
+	{
+		$this->db->updateOrderSold($id,$sold);
+	}
+	public function updateOrderCost($id,$cost)
+	{
+		$this->db->updateOrderCost($id,$cost);
+	}
+	public function updateOrderStatus($b,$status)
+	{
+		$this->db->updateOrderStatus($b,$status);
 	}
 	public function checkOpenBids($usd)
 	{

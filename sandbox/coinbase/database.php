@@ -35,7 +35,7 @@ class database
 		"
 			SELECT id,size,price,type,status,serverId,cost,sold
 			FROM orders
-			WHERE status = 'filled'
+			WHERE status = 'filled' or status = 'NEW'
 		";
 		$stmt = mysqli_prepare($this->link_,$query);
 		$stmt->execute();
@@ -51,13 +51,14 @@ class database
 				'type'     => $type,
 				'status'   => $status,
 				'serverId' => $serverId,
-				'cost'     => $cost,
-				'sold'     => $sold
+				'cost'     => round($cost,2),
+				'sold'     => round($sold,2)
 			);
 			$orders[] = $line;
 		}
 		return $orders;
 	}
+/*
 	public function runOrderTable()
 	{
 		$html = '';
@@ -107,27 +108,34 @@ foreach($sellOrders as $order)
 		$html .= '</table>';
 		return $html;
 	}
-	private function updateOrderCost($id,$cost)
+*/
+	public function updateOrderCost($id,$cost)
 	{
 		$query = "UPDATE orders set cost = ? where id = ?";
 		$stmt = mysqli_prepare($this->link_,$query);
 		$stmt->bind_param('di',$cost,$id);
 		$stmt->execute();
 	}
-	private function updateOrderSold($id,$sold)
+	public function updateOrderProfit($id,$profit)
+	{
+		$query = "UPDATE orders set profit = ? where id = ?";
+		$stmt = mysqli_prepare($this->link_,$query);
+		$stmt->bind_param('di',$profit,$id);
+		$stmt->execute();
+	}
+	public function updateOrderSold($id,$sold)
 	{
 		$query = "UPDATE orders set sold = ? where id = ?";
 		$stmt = mysqli_prepare($this->link_,$query);
 		$stmt->bind_param('di',$sold,$id);
 		$stmt->execute();
 	}
-	public function updateBidStatus($id,$newStatus,$usd)
+	public function updateOrderStatus($id,$newStatus)
 	{
-		$query = "UPDATE orders set status = ?, usd = ? where serverId = ?";
+		$query = "UPDATE orders set status = ? where serverId = ?";
 		$stmt = mysqli_prepare($this->link_,$query);
-		$stmt->bind_param('sds',$status,$nusd,$serverId);
+		$stmt->bind_param('ss',$status,$serverId);
 		$status = $newStatus;
-		$nusd = $usd;
 		$serverId = $id;
 		$stmt->execute();
 		return "in update bid status $id::$newStatus";
@@ -175,7 +183,6 @@ foreach($sellOrders as $order)
 			serverId varchar(64),
 			cost float,
 			profit float,
-			usd float,
 			sold float
 		)";
 		$stmt = mysqli_prepare($this->link_,$query);

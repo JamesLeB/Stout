@@ -33,7 +33,7 @@ $(document).ready(function(){
 		{
 			$.post('action.php',p,function(data){
 				$('#debug').append(data);
-				mode = 'Normal';
+				//mode = 'Normal';
 				advanceTime();
 			});
 		}
@@ -58,7 +58,7 @@ $(document).ready(function(){
 		{
 			$.post('action.php',p,function(data){
 				$('#debug').append(data);
-				mode = 'Normal';
+				//mode = 'Normal';
 				advanceTime();
 			});
 		}
@@ -98,6 +98,17 @@ $(document).ready(function(){
 			$('#debug').html(data);
 		});
 	});
+	var bSizeUp = '#exchange > div:nth-child(2) > div:nth-child(3) > div:nth-child(3) > button:nth-child(1)';
+	$(bSizeUp).click(function(){
+		trader.size = trader.size*1 + .01;
+		refreshPage();
+	});
+	var bSizeDown = '#exchange > div:nth-child(2) > div:nth-child(3) > div:nth-child(3) > button:nth-child(2)';
+	$(bSizeDown).click(function(){
+		trader.size = trader.size*1 + .01;
+		refreshPage();
+	});
+	$(bSizeDown).css('background','yellow');
 });
 
 var test = 0;
@@ -105,11 +116,12 @@ var status = "Normal";
 var mode   = "Start";
 var eTime = 0;
 var trader = {
-	size: .08,
+	size: .01,
 	bidAdj: 0,
 	askAdj: 0,
 	usd: 0,
-	btc: 0
+	btc: 0,
+	book: {}
 };
 
 function getOrders()
@@ -131,6 +143,60 @@ function cancelOrder(a)
 		mode = 'Normal';
 		advanceTime();
 	});
+}
+function refreshPage()
+{
+	var usdAmount  = '#exchange > div:nth-child(1) > div:nth-child(2) > div:nth-child(2)';
+	var btcAmount  = '#exchange > div:nth-child(1) > div:nth-child(3) > div:nth-child(2)';
+	var bookBid    = '#exchange > div:nth-child(4) > div:nth-child(2) > div:nth-child(1)';
+	var bookSpread = '#exchange > div:nth-child(4) > div:nth-child(2) > div:nth-child(2)';
+	var bookAsk    = '#exchange > div:nth-child(4) > div:nth-child(2) > div:nth-child(3)';
+	var traderBid  = '#exchange > div:nth-child(2) > div:nth-child(2) > div:nth-child(2)';
+	var traderAsk  = '#exchange > div:nth-child(2) > div:nth-child(2) > div:nth-child(5)';
+	var traderSize = '#exchange > div:nth-child(2) > div:nth-child(3) > div:nth-child(2)';
+	var openBids   = '#exchange > div:nth-child(3) > div:nth-child(2) > div:nth-child(2)';
+	var openAsks   = '#exchange > div:nth-child(3) > div:nth-child(3) > div:nth-child(2)';
+
+	// REFRESH ORDERS
+	var currentBidList = '';
+	var currentAskList = '';
+	trader.orders.forEach(function(order){
+		var cList = '';
+		cList += "<div class='openOrder'>";
+		cList += "<div>" + order.id + "</div>";
+		cList += "<div>" + order.price + "</div>";
+		cList += "<div>" + order.size + "</div>";
+		cList += "<div>" + order.status + "</div>";
+		cList += "<div>" + order.cost + "</div>";
+		cList += "<div>" + order.sold + "</div>";
+		if(order.status == 'NEW')
+		{
+			var orderId = order.serverId;
+			cList += '<div><button onclick="cancelOrder(\''+orderId+'\');">Cancel</button></div>';
+		}
+		cList += "</div>";
+		if(order.type == 'buy')
+		{
+			currentBidList += cList;
+		}
+		else if (order.type == 'sell')
+		{
+			currentAskList += cList;
+		}
+	});
+	$(openBids).html(currentBidList);
+	$(openAsks).html(currentAskList);
+
+	$(traderBid).html(trader.bid);
+	$(traderAsk).html(trader.ask);
+	$(traderSize).html(trader.size);
+
+	$(usdAmount).html(trader.usd);
+	$(btcAmount).html(trader.btc);
+
+	$(bookBid).html(trader.book.bid);
+	$(bookAsk).html(trader.book.ask);
+	$(bookSpread).html(trader.book.spread);
 }
 function advanceTime()
 {
@@ -154,71 +220,13 @@ function advanceTime()
 			var obj = $.parseJSON(data);
 			trader.orders = obj.orders;
 
-			var usdAmount  = '#exchange > div:nth-child(1) > div:nth-child(2) > div:nth-child(2)';
-			var btcAmount  = '#exchange > div:nth-child(1) > div:nth-child(3) > div:nth-child(2)';
-			var bookBid    = '#exchange > div:nth-child(4) > div:nth-child(2) > div:nth-child(1)';
-			var bookSpread = '#exchange > div:nth-child(4) > div:nth-child(2) > div:nth-child(2)';
-			var bookAsk    = '#exchange > div:nth-child(4) > div:nth-child(2) > div:nth-child(3)';
-			var traderBid  = '#exchange > div:nth-child(2) > div:nth-child(2) > div:nth-child(2)';
-			var traderAsk  = '#exchange > div:nth-child(2) > div:nth-child(2) > div:nth-child(5)';
-			var traderSize = '#exchange > div:nth-child(2) > div:nth-child(3) > div:nth-child(2)';
-			var openBids   = '#exchange > div:nth-child(3) > div:nth-child(2) > div:nth-child(2)';
-			var openAsks   = '#exchange > div:nth-child(3) > div:nth-child(3) > div:nth-child(2)';
-
-			// REFRESH ORDERS
-			//currentOrders = $.parseJSON(obj.orders);
-			currentBidList = '';
-			currentAskList = '';
-			trader.orders.forEach(function(order){
-				var cList = '';
-				cList += "<div class='openOrder'>";
-				cList += "<div>" + order.id + "</div>";
-				cList += "<div>" + order.price + "</div>";
-				cList += "<div>" + order.size + "</div>";
-				cList += "<div>" + order.status + "</div>";
-				cList += "<div>" + order.cost + "</div>";
-				cList += "<div>" + order.sold + "</div>";
-				if(order.status == 'NEW')
-				{
-					var orderId = order.serverId;
-					cList += '<div><button onclick="cancelOrder(\''+orderId+'\');">Cancel</button></div>';
-				}
-				cList += "</div>";
-				if(order.type == 'buy')
-				{
-					currentBidList += cList;
-				}
-				else if (order.type == 'sell')
-				{
-					currentAskList += cList;
-				}
-			});
-			$(openBids).html(currentBidList);
-			$(openAsks).html(currentAskList);
-/*
-*/
-			//$('#debug').html(obj.openBids);
-
-
-/*
-	Update page
-*/
-			$(bookBid).html(obj.book.bidPrice);
-			$(bookAsk).html(obj.book.askPrice);
-			$(bookSpread).html(obj.book.spread);
-
 			trader.bid = obj.book.bidPrice*1 + trader.bidAdj;
-			//trader.bid = obj.book.bidPrice*1 - 100;
 			trader.ask = obj.book.askPrice*1 - trader.askAdj;
-			//trader.ask = obj.book.askPrice*1 + 100;
 
-			$(traderBid).html(trader.bid);
-			$(traderAsk).html(trader.ask);
-			$(traderSize).html(trader.size);
-
-			$(usdAmount).html(trader.usd);
-			$(btcAmount).html(trader.btc);
-
+			trader.book.ask    = obj.book.askPrice;
+			trader.book.bid    = obj.book.bidPrice;
+			trader.book.spread = obj.book.spread;
+			refreshPage();
 		});
 	}
 }
