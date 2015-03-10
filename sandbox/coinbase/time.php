@@ -2,11 +2,11 @@
 	require_once('trader.php');
 	$trader = new trader();
 	$accounts = $trader->getAccounts();
-	$book     = $trader->getOrderBook();
-	$orders   = $trader->getOpenOrders();
+	$book     = '';#$trader->getOrderBook();
+	$orders   = '';#$trader->getOpenOrders();
 
-	$k = $accounts['usdBalance'];
-	$openBids = $trader->checkOpenBids($k);
+	#$k = $accounts['usdBalance'];
+	$openBids = '';#$trader->checkOpenBids($k);
 
 	echo json_encode(array(
 		'status' => 'running',
