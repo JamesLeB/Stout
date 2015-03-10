@@ -21,6 +21,69 @@ class database
 	{
 		return "Creating lot table";
 	}
+	public function runOrderTable()
+	{
+		$html = '';
+
+		$orders = array();
+		$buyOrders = array();
+		$sellOrders = array();
+
+		$query = "SELECT id,size,price,type,status,usd,cost from orders";
+		$stmt = mysqli_prepare($this->link_,$query);
+		$stmt->execute();
+		$stmt->bind_result($id,$size,$price,$type,$status,$usd,$cost);
+		while($stmt->fetch())
+		{
+			$line = array(
+				$id,
+				round($size,2),
+				$price,
+				$type,
+				$status,
+				$usd,
+				$cost
+			);
+			$orders[] = $line;
+			if($type=='buy'&&$status=='filled'){ $buyOrders[] = $line; }
+			if($type=='sell'){ $sellOrders[] = $line; }
+		}
+
+foreach($sellOrders as $order)
+{
+	$buy = array_shift($buyOrders);
+	$cost = $buy ? $buy[2] : -1;
+	$this->updateOrderCost($order[0],$cost);
+	$this->updateOrderSold($buy[0],$order[1]);
+}
+
+		$html = '<table>';
+		foreach($sellOrders as $c)
+		{
+			$html .= '<tr>';
+			foreach($c as $d)
+			{
+				$html .= '<td>'.$d.'</td>';
+			}
+			$html .= '</tr>';
+		}
+		$html .= '</table>';
+		return $html;
+	}
+	private function updateOrderCost($id,$cost)
+	{
+		$query = "UPDATE orders set cost = ? where id = ?";
+		$stmt = mysqli_prepare($this->link_,$query);
+		$stmt->bind_param('di',$cost,$id);
+		$stmt->execute();
+	}
+	private function updateOrderSold($id,$sold)
+	{
+		$query = "UPDATE orders set sold = ? where id = ?";
+		$stmt = mysqli_prepare($this->link_,$query);
+		$stmt->bind_param('di',$sold,$id);
+		$stmt->execute();
+	}
 	public function updateBidStatus($id,$newStatus,$usd)
 	{
 		$query = "UPDATE orders set status = ?, usd = ? where serverId = ?";
@@ -75,7 +138,8 @@ class database
 			serverId varchar(64),
 			cost float,
 			profit float,
-			usd float
+			usd float,
+			sold float
 		)";
 		$stmt = mysqli_prepare($this->link_,$query);
 		$stmt->execute();

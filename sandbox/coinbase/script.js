@@ -1,6 +1,7 @@
 $(document).ready(function(){
-	setInterval(function(){ advanceTime(); },3000);
-	advanceTime();
+	//$('#debug').hide();
+	//setInterval(function(){ advanceTime(); },3000);
+	//advanceTime();
 	var bidButton = '#exchange > div:nth-child(2) > div:nth-child(2) > div:nth-child(3) > button:nth-child(3)';
 	$(bidButton).click(function(){
 		var bid = {
@@ -64,6 +65,15 @@ $(document).ready(function(){
 		$('#debug').html('Mode set to: '+mode);
 		advanceTime();
 	});
+	var buttonB = '#exchange > div:nth-child(1) > div:nth-child(2) > div:nth-child(4) > button:nth-child(2)';
+	$(buttonB).click(function(){
+		var obj = {};
+		var jstring = JSON.stringify(obj);
+		var p = {func: 'runOrderTable', json: jstring};
+		$.post('action.php',p,function(data){
+			$('#debug').html(data);
+		});
+	});
 	var buttonC = '#exchange > div:nth-child(1) > div:nth-child(2) > div:nth-child(4) > button:nth-child(3)';
 	$(buttonC).click(function(){
 		var obj = {};
@@ -79,7 +89,7 @@ var test = 0;
 var status = "Normal";
 var mode   = "Normal";
 var eTime = 0;
-var trader = {size: .01};
+var trader = {size: .08};
 
 var currentLots = [];
 var lot2 = { lot: 2, amount: 100, price: 230.21 };
@@ -153,7 +163,7 @@ function advanceTime()
 			$(openBids).html(currentBidList);
 			$(openAsks).html(currentAskList);
 
-			$('#debug').html(obj.openBids);
+			//$('#debug').html(obj.openBids);
 
 			var openLots = '#exchange > div:nth-child(6) > div:nth-child(2)';
 			var lots = '';

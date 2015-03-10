@@ -23,6 +23,10 @@ class trader
 	{
 		return $this->kara;
 	}
+	public function runOrderTable()
+	{
+		return $this->db->runOrderTable();
+	}
 	public function checkOpenBids($usd)
 	{
 		$a = $this->db->getOpenBids();

@@ -40,6 +40,12 @@ function cancelOrder($id)
 	$trader = new trader();
 	return $trader->cancelOrder($id);
 }
+function runOrderTable()
+{
+	require_once('trader.php');
+	$trader = new trader();
+	return $trader->runOrderTable();
+}
 
 $rtn = 'default';
 $func = $_POST['func'];
@@ -59,6 +65,9 @@ switch($func)
 	case 'cancelOrder':
 		$obj = json_decode($json,true);
 		$rtn = cancelOrder($obj['bidId']);
+		break;
+	case 'runOrderTable':
+		$rtn = runOrderTable();
 		break;
 }
 
