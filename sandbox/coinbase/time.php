@@ -3,9 +3,10 @@
 	$trader = new trader();
 	$book     = $trader->getOrderBook();
 	$orders   = $trader->getOrders();
+	$debug = '';
 
-$openBuys  = array();
-$openSells = array();
+	$openBuys  = array();
+	$openSells = array();
 	$zOrders = array();
 	foreach($orders as $order)
 	{
@@ -21,6 +22,7 @@ $openSells = array();
 			if($status['status'] == 'done' && $status['done_reason'] = 'filled')
 			{
 				$trader->updateOrderStatus($order['serverId'],'filled');
+				$debug = "order filled";
 			}
 		}
 		$zOrders[] = $order;
@@ -50,10 +52,10 @@ $openSells = array();
 			}
 		}
 	}
-	
 
 	echo json_encode(array(
 		'book' => $book,
-		'orders' => $zOrders
+		'orders' => $zOrders,
+		'debug' => $debug
 	));
 ?>

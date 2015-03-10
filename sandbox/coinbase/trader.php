@@ -201,7 +201,7 @@ class trader
 		$newOrder = $this->sendOrder($json);
 		$newOrder = json_decode($newOrder,true);
 		$order['serverId'] = $newOrder['id'];
-		$this->db->saveOrder($order);
+		if($order['serverId']){$this->db->saveOrder($order);}
 		$ms = $newOrder['id'];
 
 		return $ms;

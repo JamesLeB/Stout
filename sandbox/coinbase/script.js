@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	// TIME
-	setInterval(function(){ advanceTime(); },3000);
+	//setInterval(function(){ advanceTime(); },3000);
 
 	//$('#debug').hide();
 
@@ -108,7 +108,6 @@ $(document).ready(function(){
 		trader.size = trader.size*1 + .01;
 		refreshPage();
 	});
-	$(bSizeDown).css('background','yellow');
 });
 
 var test = 0;
@@ -219,6 +218,10 @@ function advanceTime()
 
 			var obj = $.parseJSON(data);
 			trader.orders = obj.orders;
+			if(obj.debug != '')
+			{
+				$('#debug').html(obj.debug);
+			}
 
 			trader.bid = obj.book.bidPrice*1 + trader.bidAdj;
 			trader.ask = obj.book.askPrice*1 - trader.askAdj;
