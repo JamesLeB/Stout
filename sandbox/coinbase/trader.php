@@ -129,6 +129,7 @@ class trader
 		curl_setopt($curl, CURLOPT_HTTPHEADER,$signatureArray);
 
 		$accounts = curl_exec($curl);
+/*
 		$obj = json_decode($accounts,true);
 
 		$accounts = array();
@@ -149,6 +150,7 @@ class trader
 			}
 		}
 		return $accounts;
+*/
 	}
 	public function getOrderBook()
 	{
