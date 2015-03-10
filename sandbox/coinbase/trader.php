@@ -79,26 +79,6 @@ class trader
 		$openOrders = curl_exec($curl);
 
 		return $openOrders;
-
-/*
-
-		$t = 'nothing';
-		if(sizeof($obj))
-		{
-			$a = $obj;
-			$keys = array_keys($a[0]);
-		
-			$b = '';
-			$c = array();
-			$c[] = array('key','value');
-			foreach($keys as $key)
-			{
-				$c = array($key,$a[0][$key]);
-			}
-			$t = $this->array2table($c);
-		}
-		return $openOrders."<br/>*************<br/>".$t;
-*/
 	}
 	public function getLastBid()
 	{
@@ -129,7 +109,6 @@ class trader
 		curl_setopt($curl, CURLOPT_HTTPHEADER,$signatureArray);
 
 		$accounts = curl_exec($curl);
-/*
 		$obj = json_decode($accounts,true);
 
 		$accounts = array();
@@ -150,7 +129,6 @@ class trader
 			}
 		}
 		return $accounts;
-*/
 	}
 	public function getOrderBook()
 	{

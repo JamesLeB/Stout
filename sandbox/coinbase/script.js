@@ -1,4 +1,7 @@
 $(document).ready(function(){
+	// TIME
+	setInterval(function(){ advanceTime(); },3000);
+
 	//$('#debug').hide();
 
 	// GET BALANCES FROM Exchange
@@ -8,10 +11,12 @@ $(document).ready(function(){
 		trader.usd = obj[0];
 		trader.btc = obj[1];
 		mode = 'Normal';
+		advanceTime();
 	});
 
-	setInterval(function(){ advanceTime(); },3000);
-	advanceTime();
+	// GET ORDERS FROM DB
+	getOrders();
+
 	var bidButton = '#exchange > div:nth-child(2) > div:nth-child(2) > div:nth-child(3) > button:nth-child(3)';
 	$(bidButton).click(function(){
 		var bid = {
@@ -107,6 +112,13 @@ var trader = {
 	btc: 0
 };
 
+function getOrders()
+{
+	var o = ['a','b','c','d']
+	var a = [o];
+	trader.orders = a;
+	$('#debug').html('getting orders');
+}
 function cancelOrder(a)
 {
 	var obj = { bidId: a };
@@ -149,6 +161,10 @@ function advanceTime()
 			var traderSize = '#exchange > div:nth-child(2) > div:nth-child(3) > div:nth-child(2)';
 			var openBids   = '#exchange > div:nth-child(3) > div:nth-child(2) > div:nth-child(2)';
 			var openAsks   = '#exchange > div:nth-child(3) > div:nth-child(3) > div:nth-child(2)';
+
+			// REFRESH ORDERS
+			$(openBids).html('refreshing bids');
+			$(openAsks).html('refreshing asks');
 /*
 	Process open Orders
 			currentOrders = $.parseJSON(obj.orders);

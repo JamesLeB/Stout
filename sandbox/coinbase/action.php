@@ -47,6 +47,9 @@ function runOrderTable()
 	return $trader->runOrderTable();
 }
 
+require_once('trader.php');
+$trader = new trader();
+
 $rtn = 'default';
 $func = $_POST['func'];
 $json = $_POST['json'];
@@ -70,7 +73,9 @@ switch($func)
 		$rtn = runOrderTable();
 		break;
 	case 'getBalances':
-		$rtn = json_encode(array(3,4));
+		$a = $trader->getAccounts();
+		$b = array($a['usdBalance'],$a['btcBalance']);
+		$rtn = json_encode($b);
 		break;
 }
 
