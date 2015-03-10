@@ -116,8 +116,14 @@ function getOrders()
 {
 	var o = ['a','b','c','d']
 	var a = [o];
-	trader.orders = a;
-	$('#debug').html('getting orders');
+
+	var p = {func: 'getOrders', json: ''};
+	$.post('action.php',p,function(data){
+		var obj = $.parseJSON(data);
+		trader.orders = obj;
+		$('#debug').html('getting orders');
+	});
+
 }
 function cancelOrder(a)
 {
@@ -163,34 +169,32 @@ function advanceTime()
 			var openAsks   = '#exchange > div:nth-child(3) > div:nth-child(3) > div:nth-child(2)';
 
 			// REFRESH ORDERS
-			$(openBids).html('refreshing bids');
-			$(openAsks).html('refreshing asks');
-/*
-	Process open Orders
-			currentOrders = $.parseJSON(obj.orders);
+			//currentOrders = $.parseJSON(obj.orders);
 			currentBidList = '';
 			currentAskList = '';
-			currentOrders.forEach(function(currentOrder){
+			trader.orders.forEach(function(order){
 				var cList = '';
 				cList += "<div class='openOrder'>";
-				cList += "<div>" + currentOrder.size + "</div>";
-				cList += "<div>" + currentOrder.price + "</div>";
-				cList += "<div>" + currentOrder.side + "</div>";
+				cList += "<div>" + order[0] + "</div>";
+				cList += "<div>" + order[1] + "</div>";
+				cList += "<div>" + order[2] + "</div>";
 				cList += "<div>" + 0 + "</div>";
-				var orderId = currentOrder.id;
+				var orderId = order.id;
 				cList += '<div><button onclick="cancelOrder(\''+orderId+'\');">Cancel</button></div>';
 				cList += "</div>";
-				if(currentOrder.side == 'buy')
+				if(order[0] == 'buy')
 				{
 					currentBidList += cList;
 				}
-				else if (currentOrder.side == 'sell')
+				else if (order[0] == 'sell')
 				{
 					currentAskList += cList;
 				}
+				currentBidList += cList;
 			});
 			$(openBids).html(currentBidList);
 			$(openAsks).html(currentAskList);
+/*
 */
 			//$('#debug').html(obj.openBids);
 

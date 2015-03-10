@@ -77,6 +77,14 @@ switch($func)
 		$b = array($a['usdBalance'],$a['btcBalance']);
 		$rtn = json_encode($b);
 		break;
+	case 'getOrders':
+		$order = array('my','first','order');
+		$a = array();
+		$a[] = $order;
+		$order = array('my','second','order');
+		$a[] = $order;
+		$rtn = json_encode($a);
+		break;
 }
 
 echo $rtn;
