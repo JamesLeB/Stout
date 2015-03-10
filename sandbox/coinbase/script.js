@@ -1,7 +1,7 @@
 $(document).ready(function(){
 	//$('#debug').hide();
-	//setInterval(function(){ advanceTime(); },3000);
-	//advanceTime();
+	setInterval(function(){ advanceTime(); },3000);
+	advanceTime();
 	var bidButton = '#exchange > div:nth-child(2) > div:nth-child(2) > div:nth-child(3) > button:nth-child(3)';
 	$(bidButton).click(function(){
 		var bid = {
