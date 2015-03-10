@@ -1,6 +1,6 @@
 $(document).ready(function(){
 	// TIME
-	//setInterval(function(){ advanceTime(); },3000);
+	setInterval(function(){ advanceTime(); },3000);
 
 	//$('#debug').hide();
 
@@ -101,11 +101,13 @@ $(document).ready(function(){
 	var bSizeUp = '#exchange > div:nth-child(2) > div:nth-child(3) > div:nth-child(3) > button:nth-child(1)';
 	$(bSizeUp).click(function(){
 		trader.size = trader.size*1 + .01;
+		trader.size = trader.size.toFixed(2);
 		refreshPage();
 	});
 	var bSizeDown = '#exchange > div:nth-child(2) > div:nth-child(3) > div:nth-child(3) > button:nth-child(2)';
 	$(bSizeDown).click(function(){
-		trader.size = trader.size*1 + .01;
+		trader.size = trader.size*1 - .01;
+		trader.size = trader.size.toFixed(2);
 		refreshPage();
 	});
 });
