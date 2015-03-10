@@ -31,7 +31,12 @@ class database
 		$a[] = $order2;
 */
 
-		$query = "SELECT id,size,price,type,status,serverId,cost,sold from orders";
+		$query =
+		"
+			SELECT id,size,price,type,status,serverId,cost,sold
+			FROM orders
+			WHERE status = 'filled'
+		";
 		$stmt = mysqli_prepare($this->link_,$query);
 		$stmt->execute();
 		$stmt->bind_result($id,$size,$price,$type,$status,$serverId,$cost,$sold);
