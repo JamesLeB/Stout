@@ -3,7 +3,7 @@
 	$trader = new trader();
 	$accounts = '';#$trader->getAccounts();
 	$book     = $trader->getOrderBook();
-	$orders   = '';#$trader->getOpenOrders();
+	$orders   = $trader->getOrders();
 
 	#$k = $accounts['usdBalance'];
 	$openBids = '';#$trader->checkOpenBids($k);

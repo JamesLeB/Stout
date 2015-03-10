@@ -114,16 +114,12 @@ var trader = {
 
 function getOrders()
 {
-	var o = ['a','b','c','d']
-	var a = [o];
-
 	var p = {func: 'getOrders', json: ''};
 	$.post('action.php',p,function(data){
 		var obj = $.parseJSON(data);
 		trader.orders = obj;
 		$('#debug').html('getting orders');
 	});
-
 }
 function cancelOrder(a)
 {
@@ -156,6 +152,7 @@ function advanceTime()
 			$('#status').html(status + " " + test);
 
 			var obj = $.parseJSON(data);
+			trader.orders = obj.orders;
 
 			var usdAmount  = '#exchange > div:nth-child(1) > div:nth-child(2) > div:nth-child(2)';
 			var btcAmount  = '#exchange > div:nth-child(1) > div:nth-child(3) > div:nth-child(2)';
