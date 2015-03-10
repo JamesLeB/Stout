@@ -138,6 +138,8 @@ function advanceTime()
 
 			var openBids = '#exchange > div:nth-child(3) > div:nth-child(2) > div:nth-child(2)';
 			var openAsks = '#exchange > div:nth-child(3) > div:nth-child(3) > div:nth-child(2)';
+/*
+	Process open Orders
 			currentOrders = $.parseJSON(obj.orders);
 			currentBidList = '';
 			currentAskList = '';
@@ -162,7 +164,7 @@ function advanceTime()
 			});
 			$(openBids).html(currentBidList);
 			$(openAsks).html(currentAskList);
-
+*/
 			//$('#debug').html(obj.openBids);
 
 			var openLots = '#exchange > div:nth-child(6) > div:nth-child(2)';
