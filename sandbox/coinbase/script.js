@@ -178,8 +178,11 @@ function advanceTime()
 				cList += "<div>" + order.status + "</div>";
 				cList += "<div>" + order.cost + "</div>";
 				cList += "<div>" + order.sold + "</div>";
-				var orderId = order.id;
-				cList += '<div><button onclick="cancelOrder(\''+orderId+'\');">Cancel</button></div>';
+				if(order.status == 'NEW')
+				{
+					var orderId = order.serverId;
+					cList += '<div><button onclick="cancelOrder(\''+orderId+'\');">Cancel</button></div>';
+				}
 				cList += "</div>";
 				if(order.type == 'buy')
 				{
