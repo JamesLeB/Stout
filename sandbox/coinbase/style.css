@@ -223,24 +223,5 @@ table td
 .openOrder > div
 {
 	float: left;
-}
-.openOrder > div:nth-child(1)
-{
-	width: 200px;
-}
-.openOrder > div:nth-child(2)
-{
-	width: 100px;
-}
-.openOrder > div:nth-child(3)
-{
-	width: 100px;
-}
-.openOrder > div:nth-child(4)
-{
-	width: 100px;
-}
-.openOrder > div:nth-child(5)
-{
 	width: 100px;
 }

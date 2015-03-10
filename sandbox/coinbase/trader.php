@@ -63,8 +63,12 @@ class trader
 
 		return $openOrders;
 	}
-	public function getOpenOrders()
+	public function getOrders()
 	{
+		return $this->db->getOrders();
+
+		/* This is old code I tried to get orders from server but this is too slow
+
 		$url = '/orders';
 		$curl = curl_init();
 		curl_setopt($curl, CURLOPT_URL, $this->path.$url);
@@ -79,6 +83,7 @@ class trader
 		$openOrders = curl_exec($curl);
 
 		return $openOrders;
+		*/
 	}
 	public function getLastBid()
 	{

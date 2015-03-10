@@ -68,25 +68,11 @@
 			<div>
 				<div>Bids</div>
 				<div>
-					<div class='openOrder'>
-						<div>Size</div>
-						<div>Price</div>
-						<div>Depth</div>
-						<div>Spread</div>
-						<div><button>Cancel</button></div>
-					</div>
 				</div>
 			</div>
 			<div>
 				<div>Asks</div>
 				<div>
-					<div class='openOrder'>
-						<div>Size</div>
-						<div>Price</div>
-						<div>Depth</div>
-						<div>Spread</div>
-						<div><button>Cancel</button></div>
-					</div>
 				</div>
 			</div>
 		</div>

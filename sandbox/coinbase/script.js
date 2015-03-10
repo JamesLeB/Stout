@@ -175,22 +175,23 @@ function advanceTime()
 			trader.orders.forEach(function(order){
 				var cList = '';
 				cList += "<div class='openOrder'>";
-				cList += "<div>" + order[0] + "</div>";
-				cList += "<div>" + order[1] + "</div>";
-				cList += "<div>" + order[2] + "</div>";
-				cList += "<div>" + 0 + "</div>";
+				cList += "<div>" + order.id + "</div>";
+				cList += "<div>" + order.price + "</div>";
+				cList += "<div>" + order.size + "</div>";
+				cList += "<div>" + order.status + "</div>";
+				cList += "<div>" + order.cost + "</div>";
+				cList += "<div>" + order.sold + "</div>";
 				var orderId = order.id;
 				cList += '<div><button onclick="cancelOrder(\''+orderId+'\');">Cancel</button></div>';
 				cList += "</div>";
-				if(order[0] == 'buy')
+				if(order.type == 'buy')
 				{
 					currentBidList += cList;
 				}
-				else if (order[0] == 'sell')
+				else if (order.type == 'sell')
 				{
 					currentAskList += cList;
 				}
-				currentBidList += cList;
 			});
 			$(openBids).html(currentBidList);
 			$(openAsks).html(currentAskList);

@@ -21,6 +21,38 @@ class database
 	{
 		return "Creating lot table";
 	}
+	public function getOrders()
+	{
+		$orders = array();
+/*
+		$order1 = array('my','first','buy order');
+		$order2 = array('my','second','sell order');
+		$a[] = $order1;
+		$a[] = $order2;
+*/
+
+		$query = "SELECT id,size,price,type,status,serverId,cost,sold from orders";
+		$stmt = mysqli_prepare($this->link_,$query);
+		$stmt->execute();
+		$stmt->bind_result($id,$size,$price,$type,$status,$serverId,$cost,$sold);
+		while($stmt->fetch())
+		{
+			$cost = $cost ? $cost : '-';
+			$sold = $sold ? $sold : '-';
+			$line = array(
+				'id'       => $id,
+				'size'     => round($size,2),
+				'price'    => round($price,2),
+				'type'     => $type,
+				'status'   => $status,
+				'serverId' => $serverId,
+				'cost'     => $cost,
+				'sold'     => $sold
+			);
+			$orders[] = $line;
+		}
+		return $orders;
+	}
 	public function runOrderTable()
 	{
 		$html = '';

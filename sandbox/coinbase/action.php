@@ -78,11 +78,7 @@ switch($func)
 		$rtn = json_encode($b);
 		break;
 	case 'getOrders':
-		$order = array('my','first','order');
-		$a = array();
-		$a[] = $order;
-		$order = array('my','second','order');
-		$a[] = $order;
+		$a = $trader->getOrders();
 		$rtn = json_encode($a);
 		break;
 }
