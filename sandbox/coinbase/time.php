@@ -17,12 +17,15 @@
 		{
 			$json = $trader->getOrderStatus($order['serverId']);
 			$status = json_decode($json,true);
-			$order['cost'] = '25';
-			$order['status'] = $status['status'].'::'.$status['done_reason'];
-			if($status['status'] == 'done' && $status['done_reason'] = 'filled')
+			//$order['status'] = $status['status'].'::'.$status['done_reason'];
+			if($status['status'] == 'done' && $status['done_reason'] == 'filled')
 			{
 				$trader->updateOrderStatus($order['serverId'],'filled');
 				$debug = "order filled";
+			}
+			else if($status['status'] == 'done' && $status['done_reason'] == 'canceled')
+			{
+				$trader->updateOrderStatus($order['serverId'],'canceled');
 			}
 		}
 		$zOrders[] = $order;
@@ -52,6 +55,8 @@
 			}
 		}
 	}
+/*
+*/
 
 	echo json_encode(array(
 		'book' => $book,
