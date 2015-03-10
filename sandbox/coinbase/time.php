@@ -1,8 +1,8 @@
 <?php
 	require_once('trader.php');
 	$trader = new trader();
-	$accounts = $trader->getAccounts();
-	$book     = '';#$trader->getOrderBook();
+	$accounts = '';#$trader->getAccounts();
+	$book     = $trader->getOrderBook();
 	$orders   = '';#$trader->getOpenOrders();
 
 	#$k = $accounts['usdBalance'];

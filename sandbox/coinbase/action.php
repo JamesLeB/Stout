@@ -69,6 +69,9 @@ switch($func)
 	case 'runOrderTable':
 		$rtn = runOrderTable();
 		break;
+	case 'getBalances':
+		$rtn = json_encode(array(3,4));
+		break;
 }
 
 echo $rtn;

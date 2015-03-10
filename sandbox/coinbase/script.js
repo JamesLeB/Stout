@@ -1,5 +1,15 @@
 $(document).ready(function(){
 	//$('#debug').hide();
+
+	// GET BALANCES FROM Exchange
+	var p = {func: 'getBalances', json: ''};
+	$.post('action.php',p,function(data){
+		var obj = $.parseJSON(data);
+		trader.usd = obj[0];
+		trader.btc = obj[1];
+		mode = 'Normal';
+	});
+
 	setInterval(function(){ advanceTime(); },3000);
 	advanceTime();
 	var bidButton = '#exchange > div:nth-child(2) > div:nth-child(2) > div:nth-child(3) > button:nth-child(3)';
@@ -87,9 +97,15 @@ $(document).ready(function(){
 
 var test = 0;
 var status = "Normal";
-var mode   = "Normal";
+var mode   = "Start";
 var eTime = 0;
-var trader = {size: .08};
+var trader = {
+	size: .08,
+	bidAdj: 0,
+	askAdj: 0,
+	usd: 0,
+	btc: 0
+};
 
 function cancelOrder(a)
 {
@@ -163,23 +179,24 @@ function advanceTime()
 			//$('#debug').html(obj.openBids);
 
 
-			$(usdAmount).html(obj.accounts.usdAvailable);
-			$(btcAmount).html(obj.accounts.btcAvailable);
+/*
+	Update page
+*/
 			$(bookBid).html(obj.book.bidPrice);
 			$(bookAsk).html(obj.book.askPrice);
 			$(bookSpread).html(obj.book.spread);
+
+			trader.bid = obj.book.bidPrice*1 + trader.bidAdj;
+			//trader.bid = obj.book.bidPrice*1 - 100;
+			trader.ask = obj.book.askPrice*1 - trader.askAdj;
+			//trader.ask = obj.book.askPrice*1 + 100;
+
 			$(traderBid).html(trader.bid);
 			$(traderAsk).html(trader.ask);
 			$(traderSize).html(trader.size);
 
-			trader.usd = obj.accounts.usdAvailable;
-			trader.btc = obj.accounts.btcAvailable;
-			trader.spread = obj.book.spread;
-
-			trader.bid = obj.book.bidPrice*1 + .01;
-			//trader.bid = obj.book.bidPrice*1 - 100;
-			trader.ask = obj.book.askPrice*1 - .01;
-			//trader.ask = obj.book.askPrice*1 + 100;
+			$(usdAmount).html(trader.usd);
+			$(btcAmount).html(trader.btc);
 
 		});
 	}
