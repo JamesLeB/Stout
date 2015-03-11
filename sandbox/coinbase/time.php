@@ -11,7 +11,7 @@
 	$zOrders = array();
 	foreach($orders as $order)
 	{
-		if($order['type'] == 'buy'){ $openBuys[] = $order; }
+		if($order['type'] == 'buy') { $openBuys[]  = $order; }
 		if($order['type'] == 'sell'){ $openSells[] = $order; }
 
 		if($order['status'] == 'NEW')
@@ -41,7 +41,7 @@
 		{
 			$buy = array_shift($openBuys);
 			$avail = $buy['size'] - $buy['sold'];
-			if($balance == $avail)
+			if($balance == $avail && $sell['status'] == 'filled')
 			{
 				$cost = $buy['price'];
 				$trader->updateOrderSold($buy['id'],$buy['size']);
