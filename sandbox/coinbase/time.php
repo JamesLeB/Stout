@@ -3,6 +3,7 @@
 	$trader = new trader();
 	$book     = $trader->getOrderBook();
 	$orders   = $trader->getOrders();
+	$accounts  = $trader->getAccounts();
 	$debug = '';
 
 	$openBuys  = array();
@@ -61,6 +62,7 @@
 	echo json_encode(array(
 		'book' => $book,
 		'orders' => $zOrders,
+		'accounts' => $accounts,
 		'debug' => $debug
 	));
 ?>
