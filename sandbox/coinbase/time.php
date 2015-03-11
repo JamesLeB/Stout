@@ -37,7 +37,7 @@
 		$cost = 0;
 		$price = $sell['price'];
 
-		if(1) 
+		if($sell['status'] == 'filled') 
 		{
 			$buy = array_shift($openBuys);
 			$avail = $buy['size'] - $buy['sold'];
