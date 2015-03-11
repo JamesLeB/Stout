@@ -140,15 +140,15 @@ class trader
 		{
 			if($account['currency'] == 'USD')
 			{
-				$accounts['usdBalance']   = $account['balance'];
-				$accounts['usdHold']      = $account['hold'];
-				$accounts['usdAvailable'] = $account['available'];
+				$accounts['usdBalance']   = round($account['balance'],4);
+				$accounts['usdHold']      = round($account['hold'],4);
+				$accounts['usdAvailable'] = round($account['available'],4);
 			}
 			if($account['currency'] == 'BTC')
 			{
-				$accounts['btcBalance']   = $account['balance'];
-				$accounts['btcHold']      = $account['hold'];
-				$accounts['btcAvailable'] = $account['available'];
+				$accounts['btcBalance']   = round($account['balance'],4);
+				$accounts['btcHold']      = round($account['hold'],4);
+				$accounts['btcAvailable'] = round($account['available'],4);
 			}
 		}
 		return $accounts;
@@ -162,11 +162,11 @@ class trader
 		$book = curl_exec($curl);
 		$obj = json_decode($book,true);
 		$orderBook = array();
-		$orderBook['bidPrice'] = $obj['bids'][0][0];
+		$orderBook['bidPrice'] = round($obj['bids'][0][0],2);
 		$orderBook['bidSize']  = $obj['bids'][0][1];
-		$orderBook['askPrice'] = $obj['asks'][0][0];
+		$orderBook['askPrice'] = round($obj['asks'][0][0],2);
 		$orderBook['askSize']  = $obj['asks'][0][1];
-		$orderBook['spread']   = $obj['asks'][0][0] - $obj['bids'][0][0];
+		$orderBook['spread']   = round($obj['asks'][0][0] - $obj['bids'][0][0],2);
 
 		return $orderBook;
 	}
