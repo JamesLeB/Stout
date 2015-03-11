@@ -5,6 +5,7 @@ $(document).ready(function(){
 	//$('#debug').hide();
 
 	// GET BALANCES FROM Exchange
+/*
 	var p = {func: 'getBalances', json: ''};
 	$.post('action.php',p,function(data){
 		var obj = $.parseJSON(data);
@@ -13,35 +14,13 @@ $(document).ready(function(){
 		mode = 'Normal';
 		advanceTime();
 	});
+*/
 
 	// GET ORDERS FROM DB
 	getOrders();
 
 	var bidButton = '#exchange > div:nth-child(2) > div:nth-child(2) > div:nth-child(3) > button:nth-child(3)';
-	$(bidButton).click(function(){
-		var bid = {
-			type: 'buy',
-			size: trader.size,
-			price: trader.bid,
-			product: 'BTC-USD',
-		};
-		var jstring = JSON.stringify(bid);
-		var p = {func: 'newBid', json: jstring};
-		var funding = trader.usd - (trader.size * trader.bid);
-		$('#debug').html('Placing Bid: ');
-		if( funding > 0 )
-		{
-			$.post('action.php',p,function(data){
-				$('#debug').append(data);
-				//mode = 'Normal';
-				advanceTime();
-			});
-		}
-		else
-		{
-			$('#debug').append('not enough USD');
-		}
-	});
+	$(bidButton).click(function(){postBid();});
 	var askButton = '#exchange > div:nth-child(2) > div:nth-child(2) > div:nth-child(6) > button:nth-child(3)';
 	$(askButton).click(function(){postAsk();});
 	var buttonA = '#exchange > div:nth-child(1) > div:nth-child(2) > div:nth-child(4) > button:nth-child(1)';
@@ -55,7 +34,7 @@ $(document).ready(function(){
 			mode = 'Hold';
 		}
 		$('#debug').html('Mode set to: '+mode);
-		advanceTime();
+		//advanceTime();
 	});
 	var buttonB = '#exchange > div:nth-child(1) > div:nth-child(2) > div:nth-child(4) > button:nth-child(2)';
 	$(buttonB).click(function(){
@@ -91,10 +70,10 @@ $(document).ready(function(){
 
 var test = 0;
 var status = "Normal";
-var mode   = "Start";
+var mode   = "Normal";
 var eTime = 0;
 var trader = {
-	size: .01,
+	size: .04,
 	bidAdj: 0,
 	askAdj: 0,
 	usd: 0,
@@ -102,6 +81,33 @@ var trader = {
 	book: {},
 	btcCost: 0
 };
+function postBid()
+{
+	var bid = {
+		type: 'buy',
+		size: trader.size,
+		price: trader.bid,
+		product: 'BTC-USD',
+	};
+	var jstring = JSON.stringify(bid);
+	var p = {func: 'newBid', json: jstring};
+	var funding = trader.usd - (trader.size * trader.bid);
+	$('#debug').html('Placing Bid: ');
+	if( funding > 0 )
+	{
+		status = 'Request';
+		$.post('action.php',p,function(data){
+			status = 'Normal';
+			$('#debug').append(data);
+			//mode = 'Normal';
+			//advanceTime();
+		});
+	}
+	else
+	{
+		$('#debug').append('not enough USD');
+	}
+}
 function postAsk()
 {
 	var ask = {
@@ -116,10 +122,12 @@ function postAsk()
 	$('#debug').html('Placing Ask: ');
 	if( funding >= 0 )
 	{
+		status = 'Request';
 		$.post('action.php',p,function(data){
+			status = 'Normal';
 			$('#debug').append(data);
 			//mode = 'Normal';
-			advanceTime();
+			//advanceTime();
 		});
 	}
 	else
@@ -143,8 +151,6 @@ function cancelOrder(a)
 	var p = {func: 'cancelOrder', json: jstring};
 	$.post('action.php',p,function(data){
 		$('#debug').html(data);
-		mode = 'Normal';
-		advanceTime();
 	});
 }
 function refreshPage()
@@ -165,6 +171,7 @@ function refreshPage()
 	var currentBidList = '';
 	var currentAskList = '';
 	trader.orders.forEach(function(order){
+		mode = 'Normal';
 		var cList = '';
 		cList += "<div class='openOrder'>";
 		cList += "<div>" + order.id + "</div>";
@@ -216,21 +223,14 @@ function advanceTime()
 		//mode   = "Hold";
 		$('#status').css('background','gray');
 		$('#status').html(status + " " + test);
-var decide = 'Make your choice';
-decide += '<br/>Get btc total: '+trader.btc;
-decide += '<br/>Get btc cost: '+trader.btcCost;
-decide += '<br/>Get trader ask: '+trader.ask;
-decide += '<br/>do the math: '+(trader.ask - trader.btcCost);
-if(trader.btc > 0 && trader.ask - trader.btcCost > 0)
-{
-	decide += '<br/>POST ASK';
-	postAsk();
-}
 
-$('#debug').html(decide);
+
+
 
 
 		$.post('time.php','',function(data){
+
+			//$('#debug').html('From Time');
 
 			status = 'Normal';
 			$('#status').css('background','lightgreen');
@@ -253,6 +253,40 @@ $('#debug').html(decide);
 			trader.book.bid    = obj.book.bidPrice;
 			trader.book.spread = obj.book.spread;
 			refreshPage();
+// #############################################
+			// AUTO ASK CHOICE
+			var decide = 'Make your choice';
+			decide += '<br/>Get btc total: '+trader.btc;
+			decide += '<br/>Get btc cost: '+trader.btcCost;
+			decide += '<br/>Get trader ask: '+trader.ask;
+			decide += '<br/>do the math: '+(trader.ask - trader.btcCost);
+			if(trader.btc > 0 && trader.ask - trader.btcCost >= .01)
+			{
+				decide += '<br/>POST ASK';
+				$('#debug').html(decide);
+				postAsk();
+			}
+		
+			// AUTO BID CHOICE
+			var decide = 'auto bid';
+			var bidCount = 0;
+			trader.orders.forEach(function(order){
+				if(order.type == 'buy' && order.status == 'NEW'){ bidCount++; }
+			});
+			decide += '<br/>Get open bid count: ' + bidCount;
+			decide += '<br/>Get spread: ' + trader.book.spread;
+			decide += '<br/>Get usd: ' + trader.usd;
+			decide += '<br/>Get bid price: ' + trader.bid;
+			decide += '<br/>Get bid size: ' + trader.size;
+			decide += '<br/>Get bid Cost: ' + (trader.size * trader.bid);
+			decide += '<br/>Do the Math: ' + (trader.usd - trader.size * trader.bid);
+			if(trader.usd - trader.size * trader.bid > 0 && bidCount == 0 && trader.book.spread > .00)
+			{
+				decide += '<br/>POST BID';
+				postBid();
+				$('#debug').html(decide);
+			}
+// #############################################
 		});
 	}
 }
