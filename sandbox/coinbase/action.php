@@ -74,8 +74,17 @@ switch($func)
 		break;
 	case 'getBalances':
 		$a = $trader->getAccounts();
-		$b = array($a['usdBalance'],$a['btcBalance']);
+		$b = array($a['usdAvailable'],$a['btcAvailable']);
 		$rtn = json_encode($b);
+
+		$stamp = array(
+			'usd'   => $a['usdBalance'],
+			'btc'   => $a['btcBalance'],
+			'price' => 0,
+			'value' => 0
+		);
+		$trader->moneyStamp($stamp);
+
 		break;
 	case 'getOrders':
 		$a = $trader->getOrders();

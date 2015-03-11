@@ -224,8 +224,8 @@ function advanceTime()
 			{
 				$('#debug').html(obj.debug);
 			}
-			trader.usd = obj.accounts.usdBalance;
-			trader.btc = obj.accounts.btcBalance;
+			trader.usd = obj.accounts.usdAvailable;
+			trader.btc = obj.accounts.btcAvailable;
 
 			trader.bid = obj.book.bidPrice*1 + trader.bidAdj;
 			trader.ask = obj.book.askPrice*1 - trader.askAdj;

@@ -170,8 +170,22 @@ foreach($sellOrders as $order)
 
 		return 1;
 	}
+	public function moneyStamp($stamp)
+	{
+		$query = "INSERT INTO moneylog (usd,btc,price,value) values (?,?,?,?)";
+		$stmt = mysqli_prepare($this->link_,$query);
+		$stmt->bind_param('dddd',$usd,$btc,$price,$value);
+		$usd   = $stamp['usd'];
+		$btc   = $stamp['btc'];
+		$price = $stamp['price'];
+		$value = $stamp['value'];
+		$stmt->execute();
+
+		return 1;
+	}
 	public function createTable()
 	{
+/*
 		$query = "CREATE TABLE orders (
 			id int primary key not null auto_increment,
 			time timestamp,
@@ -185,6 +199,17 @@ foreach($sellOrders as $order)
 			profit float,
 			sold float
 		)";
+*/
+		$query = "
+			CREATE TABLE moneylog
+			(
+				time timestamp,
+				usd float,
+				btc float,
+				price float,
+				value float
+			)
+		";
 		$stmt = mysqli_prepare($this->link_,$query);
 		$stmt->execute();
 		return "Creating table script";

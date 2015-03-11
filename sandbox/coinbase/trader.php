@@ -29,6 +29,10 @@ class trader
 		return $this->db->runOrderTable();
 	}
 */
+	public function moneyStamp($stamp)
+	{
+		$this->db->moneyStamp($stamp);
+	}
 	public function updateOrderProfit($id,$profit)
 	{
 		$this->db->updateOrderProfit($id,$profit);
