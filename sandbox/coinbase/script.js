@@ -1,11 +1,12 @@
+var autoRun = 1;
 $(document).ready(function(){
 	// TIME
 	setInterval(function(){ advanceTime(); },3000);
 
-	//$('#debug').hide();
+	$('#debug').hide();
 
 	// GET BALANCES FROM Exchange
-/*
+	mode = 'Start';
 	var p = {func: 'getBalances', json: ''};
 	$.post('action.php',p,function(data){
 		var obj = $.parseJSON(data);
@@ -14,7 +15,6 @@ $(document).ready(function(){
 		mode = 'Normal';
 		advanceTime();
 	});
-*/
 
 	// GET ORDERS FROM DB
 	getOrders();
@@ -171,7 +171,6 @@ function refreshPage()
 	var currentBidList = '';
 	var currentAskList = '';
 	trader.orders.forEach(function(order){
-		mode = 'Normal';
 		var cList = '';
 		cList += "<div class='openOrder'>";
 		cList += "<div>" + order.id + "</div>";
@@ -267,6 +266,7 @@ function advanceTime()
 				postAsk();
 			}
 		
+if(autoRun == 1){
 			// AUTO BID CHOICE
 			var decide = 'auto bid';
 			var bidCount = 0;
@@ -280,12 +280,13 @@ function advanceTime()
 			decide += '<br/>Get bid size: ' + trader.size;
 			decide += '<br/>Get bid Cost: ' + (trader.size * trader.bid);
 			decide += '<br/>Do the Math: ' + (trader.usd - trader.size * trader.bid);
-			if(trader.usd - trader.size * trader.bid > 0 && bidCount == 0 && trader.book.spread > .00)
+			if(trader.usd - trader.size * trader.bid > 0 && bidCount <= 1 && trader.book.spread > .00)
 			{
 				decide += '<br/>POST BID';
 				postBid();
 				$('#debug').html(decide);
 			}
+}
 // #############################################
 		});
 	}
