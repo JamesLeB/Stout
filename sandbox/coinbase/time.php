@@ -61,9 +61,12 @@
 	$btcTotalSize = 0;
 	foreach($openBuys as $buy)
 	{
-		$btcCost = $buy['price'];
-		$btcTotalValue += $buy['price'] * $buy['size'];
-		$btcTotalSize += $buy['size'];
+		if($buy['status'] == 'filled')
+		{
+			$btcCost = $buy['price'];
+			$btcTotalValue += $buy['price'] * $buy['size'];
+			$btcTotalSize += $buy['size'];
+		}
 	}
 	if($btcTotalSize != 0){$btcCost = $btcTotalValue / $btcTotalSize;}
 /*
