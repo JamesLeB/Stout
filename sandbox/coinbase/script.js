@@ -149,7 +149,9 @@ function cancelOrder(a)
 	var obj = { bidId: a };
 	var jstring = JSON.stringify(obj);
 	var p = {func: 'cancelOrder', json: jstring};
+	status = 'Request';
 	$.post('action.php',p,function(data){
+		status = 'Normal';
 		$('#debug').html(data);
 	});
 }
@@ -280,7 +282,7 @@ if(autoRun == 1){
 			decide += '<br/>Get bid size: ' + trader.size;
 			decide += '<br/>Get bid Cost: ' + (trader.size * trader.bid);
 			decide += '<br/>Do the Math: ' + (trader.usd - trader.size * trader.bid);
-			if(trader.usd - trader.size * trader.bid > 0 && bidCount <= 1 && trader.book.spread > .00)
+			if(trader.usd - trader.size * trader.bid > 0 && bidCount <= 3 && trader.book.spread > .00)
 			{
 				decide += '<br/>POST BID';
 				postBid();
