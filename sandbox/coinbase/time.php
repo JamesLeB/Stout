@@ -37,7 +37,7 @@
 		$cost = 0;
 		$price = $sell['price'];
 
-		if(1)
+		if(1) 
 		{
 			$buy = array_shift($openBuys);
 			$avail = $buy['size'] - $buy['sold'];
@@ -56,6 +56,16 @@
 			}
 		}
 	}
+	$btcCost = 0;
+	$btcTotalValue = 0;
+	$btcTotalSize = 0;
+	foreach($openBuys as $buy)
+	{
+		$btcCost = $buy['price'];
+		$btcTotalValue += $buy['price'] * $buy['size'];
+		$btcTotalSize += $buy['size'];
+	}
+	if($btcTotalSize != 0){$btcCost = $btcTotalValue / $btcTotalSize;}
 /*
 */
 
@@ -63,6 +73,7 @@
 		'book' => $book,
 		'orders' => $zOrders,
 		'accounts' => $accounts,
+		'btcCost' => $btcCost,
 		'debug' => $debug
 	));
 ?>

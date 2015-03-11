@@ -122,7 +122,8 @@ var trader = {
 	askAdj: 0,
 	usd: 0,
 	btc: 0,
-	book: {}
+	book: {},
+	btcCost: 0
 };
 
 function getOrders()
@@ -157,6 +158,7 @@ function refreshPage()
 	var traderSize = '#exchange > div:nth-child(2) > div:nth-child(3) > div:nth-child(2)';
 	var openBids   = '#exchange > div:nth-child(3) > div:nth-child(2) > div:nth-child(2)';
 	var openAsks   = '#exchange > div:nth-child(3) > div:nth-child(3) > div:nth-child(2)';
+	var btcCost    = '#exchange > div:nth-child(1) > div:nth-child(3) > div:nth-child(3)';
 
 	// REFRESH ORDERS
 	var currentBidList = '';
@@ -194,6 +196,7 @@ function refreshPage()
 
 	$(usdAmount).html(trader.usd);
 	$(btcAmount).html(trader.btc);
+	$(btcCost).html(trader.btcCost);
 
 	$(bookBid).html(trader.book.bid);
 	$(bookAsk).html(trader.book.ask);
@@ -226,6 +229,7 @@ function advanceTime()
 			}
 			trader.usd = obj.accounts.usdAvailable;
 			trader.btc = obj.accounts.btcAvailable;
+			trader.btcCost = obj.btcCost;
 
 			trader.bid = obj.book.bidPrice*1 + trader.bidAdj;
 			trader.ask = obj.book.askPrice*1 - trader.askAdj;
