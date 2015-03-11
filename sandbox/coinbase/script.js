@@ -43,30 +43,7 @@ $(document).ready(function(){
 		}
 	});
 	var askButton = '#exchange > div:nth-child(2) > div:nth-child(2) > div:nth-child(6) > button:nth-child(3)';
-	$(askButton).click(function(){
-		var ask = {
-			type: 'sell',
-			size: trader.size,
-			price: trader.ask,
-			product: 'BTC-USD',
-		};
-		var jstring = JSON.stringify(ask);
-		var p = {func: 'newAsk', json: jstring};
-		var funding = trader.btc - trader.size;
-		$('#debug').html('Placing Ask: ');
-		if( funding >= 0 )
-		{
-			$.post('action.php',p,function(data){
-				$('#debug').append(data);
-				//mode = 'Normal';
-				advanceTime();
-			});
-		}
-		else
-		{
-			$('#debug').append('not enough BTC');
-		}
-	});
+	$(askButton).click(function(){postAsk();});
 	var buttonA = '#exchange > div:nth-child(1) > div:nth-child(2) > div:nth-child(4) > button:nth-child(1)';
 	$(buttonA).click(function(){
 		if(mode == 'Hold')
@@ -125,7 +102,31 @@ var trader = {
 	book: {},
 	btcCost: 0
 };
-
+function postAsk()
+{
+	var ask = {
+		type: 'sell',
+		size: trader.size,
+		price: trader.ask,
+		product: 'BTC-USD',
+	};
+	var jstring = JSON.stringify(ask);
+	var p = {func: 'newAsk', json: jstring};
+	var funding = trader.btc - trader.size;
+	$('#debug').html('Placing Ask: ');
+	if( funding >= 0 )
+	{
+		$.post('action.php',p,function(data){
+			$('#debug').append(data);
+			//mode = 'Normal';
+			advanceTime();
+		});
+	}
+	else
+	{
+		$('#debug').append('not enough BTC');
+	}
+}
 function getOrders()
 {
 	var p = {func: 'getOrders', json: ''};
@@ -215,6 +216,20 @@ function advanceTime()
 		//mode   = "Hold";
 		$('#status').css('background','gray');
 		$('#status').html(status + " " + test);
+var decide = 'Make your choice';
+decide += '<br/>Get btc total: '+trader.btc;
+decide += '<br/>Get btc cost: '+trader.btcCost;
+decide += '<br/>Get trader ask: '+trader.ask;
+decide += '<br/>do the math: '+(trader.ask - trader.btcCost);
+if(trader.btc > 0 && trader.ask - trader.btcCost > 0)
+{
+	decide += '<br/>POST ASK';
+	postAsk();
+}
+
+$('#debug').html(decide);
+
+
 		$.post('time.php','',function(data){
 
 			status = 'Normal';
