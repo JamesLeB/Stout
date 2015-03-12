@@ -8,4 +8,5 @@ sandbox/kara/put
 sandbox/kara/get
 sandbox/coins/logs
 sandbox/coinbase/secret
+sandbox/coinbase/hide
 bter.json
