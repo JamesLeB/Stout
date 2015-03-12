@@ -1,4 +1,4 @@
-var autoRun = 1;
+var autoRun = 0;
 $(document).ready(function(){
 	// TIME
 	setInterval(function(){ advanceTime(); },3000);
