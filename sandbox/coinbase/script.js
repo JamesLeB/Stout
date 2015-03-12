@@ -1,4 +1,4 @@
-var autoRun = 1;
+var autoRun = 0;
 var autoBids = 1;
 var test = 0;
 var status = "Normal";
