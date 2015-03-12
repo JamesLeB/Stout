@@ -1,0 +1,58 @@
+		#feed
+		{
+			border: 5px ridge gray;
+			background: lightgray;
+			height: 400px;
+			overflow: auto;
+			padding-left: 10px;
+			width: 600px;
+			float: right;
+		}
+		#data
+		{
+			border: 5px ridge yellow;
+			background: lightgreen;
+			height: 200px;
+			overflow: auto;
+			padding-left: 10px;
+			padding-top: 10px;
+			width: 400px;
+			margin-left: 20px;
+			margin-top: 10px;
+		}
+		#data div
+		{
+			border: 1px dotted gray;
+		}
+		#data > div
+		{
+			height: 30px;
+		}
+		#data > div > div
+		{
+			width: 80px;
+			float: left;
+		}
+		#james
+		{
+			border: 5px ridge gray;
+			background: lightgray;
+			height: 400px;
+			overflow: auto;
+			padding: 10px;
+			width: 600px;
+			margin-top: 20px;
+			margin-left: 20px;
+		}
+		#status
+		{
+			border: 5px ridge gray;
+			background: lightgray;
+			height: 25px;
+			overflow: auto;
+			padding: 10px;
+			width: 600px;
+			margin-top: 20px;
+			margin-left: 20px;
+		}
+		#stopSock{ background: red; color: white; }

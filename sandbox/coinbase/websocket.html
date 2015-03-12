@@ -1,0 +1,86 @@
+<html>
+<head>
+	<link rel='stylesheet' type='text/css' href='websocket.css' />
+	<script src='jquery-1.11.1.js'></script>
+	<script src='websocket.js'></script>
+<!--
+--!>
+</head>
+<body>
+	<button id='stopSock'>Stop</button>
+	<div id='feed'></div>
+	<div id='status'>WEB SOCKET</div>
+	<div id='data'>
+		<div>
+			<div>open</div>
+			<div>0</div>
+		</div>
+		<div>
+			<div>received</div>
+			<div>0</div>
+		</div>
+		<div>
+			<div>done</div>
+			<div>0</div>
+		</div>
+		<div>
+			<div>match</div>
+			<div>0</div>
+		</div>
+		<div>
+			<div>error</div>
+			<div>0</div>
+		</div>
+	</div>
+
+	<div id='james'>
+
+		MATCH
+		<ul>
+			<li>type</li>
+			<li>sequence</li>
+			<li>trade_id</li>
+			<li>maker_order_id</li>
+			<li>taker_order_id</li>
+			<li>side</li>
+			<li>size</li>
+			<li>price</li>
+			<li>time</li>
+		</ul>
+
+		DONE
+		<ul>
+			<li>type</li>
+			<li>price</li>
+			<li>side</li>
+			<li>remaining_size</li>
+			<li>sequence</li>
+			<li>order_id</li>
+			<li>reason</li>
+			<li>time</li>
+		</ul>
+	
+		RECEIVED
+		<ul>
+			<li>type</li>
+			<li>sequence</li>
+			<li>order_id</li>
+			<li>size</li>
+			<li>price</li>
+			<li>side</li>
+			<li>time</li>
+		</ul>
+	
+		OPEN
+		<ul>
+			<li>type</li>
+			<li>sequence</li>
+			<li>side</li>
+			<li>price</li>
+			<li>order_id</li>
+			<li>renaming_size</li>
+			<li>time</li>
+		</ul>
+	</div>
+</body>
+</html>
