@@ -37,6 +37,17 @@
 			width: 80px;
 			float: left;
 		}
+		#james
+		{
+			border: 5px ridge gray;
+			background: lightgray;
+			height: 400px;
+			overflow: auto;
+			padding: 10px;
+			width: 600px;
+			margin-top: 20px;
+			margin-left: 20px;
+		}
 	</style>
 </head>
 <body>
@@ -66,39 +77,55 @@
 		</div>
 	</div>
 
-	DONE
-	<ul>
-		<li>type</li>
-		<li>price</li>
-		<li>side</li>
-		<li>remaining_size</li>
-		<li>sequence</li>
-		<li>order_id</li>
-		<li>reason</li>
-		<li>time</li>
-	</ul>
+	<div id='james'>
 
-	RECEIVED
-	<ul>
-		<li>type</li>
-		<li>sequence</li>
-		<li>order_id</li>
-		<li>size</li>
-		<li>price</li>
-		<li>side</li>
-		<li>time</li>
-	</ul>
+		MATCH
+		<ul>
+			<li>type</li>
+			<li>sequence</li>
+			<li>trade_id</li>
+			<li>maker_order_id</li>
+			<li>taker_order_id</li>
+			<li>side</li>
+			<li>size</li>
+			<li>price</li>
+			<li>time</li>
+		</ul>
 
-	OPEN
-	<ul>
-		<li>type</li>
-		<li>sequence</li>
-		<li>side</li>
-		<li>price</li>
-		<li>order_id</li>
-		<li>renaming_size</li>
-		<li>time</li>
-	</ul>
+		DONE
+		<ul>
+			<li>type</li>
+			<li>price</li>
+			<li>side</li>
+			<li>remaining_size</li>
+			<li>sequence</li>
+			<li>order_id</li>
+			<li>reason</li>
+			<li>time</li>
+		</ul>
+	
+		RECEIVED
+		<ul>
+			<li>type</li>
+			<li>sequence</li>
+			<li>order_id</li>
+			<li>size</li>
+			<li>price</li>
+			<li>side</li>
+			<li>time</li>
+		</ul>
+	
+		OPEN
+		<ul>
+			<li>type</li>
+			<li>sequence</li>
+			<li>side</li>
+			<li>price</li>
+			<li>order_id</li>
+			<li>renaming_size</li>
+			<li>time</li>
+		</ul>
+	</div>
 
 <script>
 var ws = {};
@@ -133,11 +160,11 @@ function webSocket()
 		else if(obj.type == 'done')
 		{
 			done.push(evt.data);
-			//$('#feed').prepend(evt.data+'<br/>');
-			$('#feed').prepend(obj.reason+'<br/>');
 		}
 		else if(obj.type == 'match')
 		{
+			//$('#feed').prepend(evt.data+'<br/>');
+			$('#feed').prepend( obj.side + ' ' + obj.size + ' ' + obj.price + '<br/>' );
 			match.push(evt.data);
 		}
 		else
