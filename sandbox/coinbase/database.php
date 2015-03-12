@@ -10,7 +10,7 @@ class database
 	public function __construct()
 	{
 		$this->kara = "I love my wife";
-		$c = file_get_contents('james');
+		$c = file_get_contents('hide/james');
 		$c = preg_split('/\s/',$c);
 		$this->user_ = $c[0];
 		$this->pass_ = $c[1];

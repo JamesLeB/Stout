@@ -11,7 +11,7 @@ class trader
 		$this->db = new database();
 		$this->path = 'https://api.exchange.coinbase.com';
 
-		$config = file_get_contents('secret');
+		$config = file_get_contents('hide/secret');
 		$this->config = preg_split('/\s/',$config);
 	}
 	public function createTable()
