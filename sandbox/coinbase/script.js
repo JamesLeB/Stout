@@ -1,10 +1,11 @@
-var autoRun = 0;
+var autoRun = 1;
+var autoBids = 1;
 var test = 0;
 var status = "Normal";
 var mode   = "Normal";
 var eTime = 0;
 var trader = {
-	size: .04,
+	size: .18,
 	bidAdj: 0,
 	askAdj: 0,
 	usd: 0,
@@ -244,7 +245,7 @@ function advanceTime()
 				decide += '<br/>Get bid size: ' + trader.size;
 				decide += '<br/>Get bid Cost: ' + (trader.size * trader.bid);
 				decide += '<br/>Do the Math: ' + (trader.usd - trader.size * trader.bid);
-				if(trader.usd - trader.size * trader.bid > 0 && bidCount <= 3 && trader.book.spread > .00)
+				if(trader.usd - trader.size * trader.bid > 0 && bidCount < autoBids && trader.book.spread > .00)
 				{
 					decide += '<br/>POST BID';
 					postBid();
