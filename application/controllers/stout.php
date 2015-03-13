@@ -55,11 +55,9 @@ class Stout extends CI_Controller {
 		elseif($user == 'john')
 		{
 			$d['user'] = $user;
-			$claimList['headings'] = array('Id','Last','First','Date','Amount','Status');
-			$this->load->model('denialmangement');
-			$claimList['rows'] = $this->denialmangement->getClaimList();
-			$d['claims'] = $claimList;
-			$this->load->view('claims',$d);
+			$d['one'] = $this->load->view('john/todo','',true);
+			$d['two'] = 'Second tab';
+			$this->load->view('john/home',$d);
 		}
 		elseif($user == 'jamesold')
 		{

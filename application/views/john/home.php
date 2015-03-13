@@ -13,7 +13,7 @@
 				});
 			});
 			$('#tabs').tabs();
-			$('#tabs').tabs({active:1});
+			$('#tabs').tabs({active:0});
 		}); // END doc ready function
 		function switchScreen(data)
 		{
@@ -94,7 +94,7 @@
 			<div id='tabs'>
 				<ul>
 					<li><a href='#tab1'>One</a></li>
-					<li><a href='#tab2'>Two Medicaid</a></li>
+					<li><a href='#tab2'>Two</a></li>
 				</ul>
 				<div id='tab1'><?php echo $one ?></div>
 				<div id='tab2'><?php echo $two ?></div>
