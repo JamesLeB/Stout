@@ -5,7 +5,7 @@ $(document).ready(function()
 	$.post('websocket.php',p,function(data)
 	{
 		kara = data;
-		webSocket();
+		//webSocket();
 		$('#stopSock').click(function(){ ws.close(); });
 		setInterval(function(){ refreshPage(); },100);
 	});
