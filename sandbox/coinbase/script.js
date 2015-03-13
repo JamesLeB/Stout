@@ -39,13 +39,13 @@ $(document).ready(function(){
 	$(askButton).click(function(){postAsk();});
 	var buttonA = '#exchange > div:nth-child(1) > div:nth-child(2) > div:nth-child(4) > button:nth-child(1)';
 	$(buttonA).click(function(){
-		if(mode == 'Hold')
+		if(autoRun == 0)
 		{
-			mode = 'Normal';
+			autoRun = 1;
 		}
 		else
 		{
-			mode = 'Hold';
+			autoRun = 0;
 		}
 	});
 	var buttonB = '#exchange > div:nth-child(1) > div:nth-child(2) > div:nth-child(4) > button:nth-child(2)';
@@ -190,7 +190,7 @@ function advanceTime()
 	eTime++;
 	$('#clock').html(eTime);
 	$('#status').html(status + " " + test);
-	$('#exchange > div:nth-child(1) > div:nth-child(2) > div:nth-child(3)').html(mode);
+	$('#exchange > div:nth-child(1) > div:nth-child(2) > div:nth-child(3)').html(autoRun);
 	if(status == 'Normal' && mode == 'Normal')
 	{
 		test++;
