@@ -1,48 +1,37 @@
 
 var ws = {};
 
-var open = [];
-var received = [];
-var done = [];
-var match = [];
-var error = [];
+var message = {
+	open:     0,
+	received: 0,
+	done:     0,
+	match:    0,
+	error:    0,
+	total:    0
+};
 
-var status = 'Startup';
-var eTime = 0;
-var messageTotal = 0;
-var kara = '';
-var tock = 0;
-var click = 0;
+var status       = 'Startup';
+var eTime        = 0;
+var kara         = '';
+var click        = 0;
 
 $(document).ready(function()
 {
 	var p = { func: 'startup' };
 	$.post('websocket.php',p,function(data)
 	{
-		kara = data;
 		webSocket();
-		$('#stopSock').click(function()
-		{
-			ws.close(); 
-			setInterval(function(){ refreshPage(); },100);
-		});
+		$('#stopSock').click(function() { ws.close(); });
+		setInterval(function(){ tick(); },1000);
 	});
-	setInterval(function(){ tick(); },1000);
 });
 
 function tick()
 {
 	click++;
-	if(tock == 0)
-	{
-		tock = 1;
-		$('#clock').css('background','lightgreen');
-	}
-	else
-	{
-		tock = 0;
-		$('#clock').css('background','yellow');
-	}
+	if(click % 2 == 0) { $('#clock').css('background','lightgreen'); }
+	else               { $('#clock').css('background','yellow'); }
+
 	var p = { func: 'tick' };
 	$.post('websocket.php',p,function(data)
 	{
@@ -50,7 +39,6 @@ function tick()
 	});
 	refreshPage();
 }
-
 function webSocket()
 {
 	ws = new WebSocket('wss://ws-feed.exchange.coinbase.com');
@@ -60,35 +48,30 @@ function webSocket()
 	}
 	ws.onmessage = function(evt)
 	{
-		messageTotal++;
+		message.total++;
 		var obj = $.parseJSON(evt.data);
 
-		if(obj.type == 'open') { open.push(evt.data); }
-		else if(obj.type == 'received') { received.push(evt.data); }
-		else if(obj.type == 'done') { done.push(evt.data); }
-		else if(obj.type == 'match')
-		{
-			//$('#feed').prepend(evt.data+'<br/>');
-			$('#feed').prepend( obj.side + ' ' + obj.size + ' ' + obj.price + '<br/>' );
-			match.push(evt.data);
-		}
-		else { error.push(evt.data); }
+		     if(obj.type == 'open')     { message.open++; }
+		else if(obj.type == 'received') { message.received++; }
+		else if(obj.type == 'done')     { message.done++; }
+		else if(obj.type == 'match')    { message.match++; }
+		else                            { message.error++; }
 
-		var p = { func: 'upload' };
+		var p = { func: 'upload', message: evt.data };
 		$.post('websocket.php',p,function(data)
 		{
 			eTime++;
 			kara = data;
 		});
-		//refreshPage();
+		if(obj.type == 'match'){ $('#feed').prepend( obj.side + ' ' + obj.size + ' ' + obj.price + '<br/>' ); }
 	};
 }
 function refreshPage()
 {
-	$('#data > div:nth-child(1) > div:nth-child(2)').html(open.length);
-	$('#data > div:nth-child(2) > div:nth-child(2)').html(received.length);
-	$('#data > div:nth-child(3) > div:nth-child(2)').html(done.length);
-	$('#data > div:nth-child(4) > div:nth-child(2)').html(match.length);
-	$('#data > div:nth-child(5) > div:nth-child(2)').html(error.length);
-	$('#status').html('Status: ' + status + ' -- Messages: ' + messageTotal + ' -- Sent: ' + eTime + ' -- ' + kara);
+	$('#data > div:nth-child(1) > div:nth-child(2)').html(message.open);
+	$('#data > div:nth-child(2) > div:nth-child(2)').html(message.received);
+	$('#data > div:nth-child(3) > div:nth-child(2)').html(message.done);
+	$('#data > div:nth-child(4) > div:nth-child(2)').html(message.match);
+	$('#data > div:nth-child(5) > div:nth-child(2)').html(message.error);
+	$('#status').html('Status: ' + status + ' -- Messages: ' + message.total + ' -- Sent: ' + eTime + ' -- ' + kara);
 }
