@@ -1,16 +1,4 @@
 
-$(document).ready(function()
-{
-	var p = { func: 'startup' };
-	$.post('websocket.php',p,function(data)
-	{
-		kara = data;
-		//webSocket();
-		$('#stopSock').click(function(){ ws.close(); });
-		setInterval(function(){ refreshPage(); },100);
-	});
-});
-
 var ws = {};
 
 var open = [];
@@ -23,7 +11,45 @@ var status = 'Startup';
 var eTime = 0;
 var messageTotal = 0;
 var kara = '';
+var tock = 0;
+var click = 0;
 
+$(document).ready(function()
+{
+	var p = { func: 'startup' };
+	$.post('websocket.php',p,function(data)
+	{
+		kara = data;
+		webSocket();
+		$('#stopSock').click(function()
+		{
+			ws.close(); 
+			setInterval(function(){ refreshPage(); },100);
+		});
+	});
+	setInterval(function(){ tick(); },1000);
+});
+
+function tick()
+{
+	click++;
+	if(tock == 0)
+	{
+		tock = 1;
+		$('#clock').css('background','lightgreen');
+	}
+	else
+	{
+		tock = 0;
+		$('#clock').css('background','yellow');
+	}
+	var p = { func: 'tick' };
+	$.post('websocket.php',p,function(data)
+	{
+		$('#clock > div').html(click + " : " + data);
+	});
+	refreshPage();
+}
 
 function webSocket()
 {
@@ -37,35 +63,24 @@ function webSocket()
 		messageTotal++;
 		var obj = $.parseJSON(evt.data);
 
-		if(obj.type == 'open')
-		{
-			open.push(evt.data);
-		}
-		else if(obj.type == 'received')
-		{
-			received.push(evt.data);
-		}
-		else if(obj.type == 'done')
-		{
-			done.push(evt.data);
-		}
+		if(obj.type == 'open') { open.push(evt.data); }
+		else if(obj.type == 'received') { received.push(evt.data); }
+		else if(obj.type == 'done') { done.push(evt.data); }
 		else if(obj.type == 'match')
 		{
 			//$('#feed').prepend(evt.data+'<br/>');
 			$('#feed').prepend( obj.side + ' ' + obj.size + ' ' + obj.price + '<br/>' );
 			match.push(evt.data);
 		}
-		else
-		{
-			error.push(evt.data);
-		}
+		else { error.push(evt.data); }
+
 		var p = { func: 'upload' };
 		$.post('websocket.php',p,function(data)
 		{
 			eTime++;
 			kara = data;
 		});
-		refreshPage();
+		//refreshPage();
 	};
 }
 function refreshPage()
