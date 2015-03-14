@@ -1,3 +1,2 @@
 Deny from all
-Allow from 192.168.15.126
 Allow from localhost
