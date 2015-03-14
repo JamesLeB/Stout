@@ -10,10 +10,10 @@ var message = {
 	total:    0
 };
 
-var status       = 'Startup';
 var eTime        = 0;
 var kara         = '';
 var click        = 0;
+var minions = [];
 
 $(document).ready(function()
 {
@@ -34,7 +34,12 @@ function tick()
 	var p = { func: 'tick' };
 	$.post('websocket.php',p,function(data)
 	{
-		$('#clock > div').html(click + " : " + data);
+		$('#clock > div').html(click);
+
+		var o = $.parseJSON(data);
+		$('#james').html('');
+		minions = o.minions;
+
 		refreshPage();
 		tick();
 	});
@@ -61,7 +66,11 @@ function webSocket()
 		$.post('websocket.php',p,function(data)
 		{
 			eTime++;
-			kara = data;
+			m = $.parseJSON(data);
+			var s  = 'Messages: ' + message.total;
+                s += ' -- Sent: ' + eTime;
+                s += ' -- ' + m;
+			$('#status').html(s);
 		});
 		if(obj.type == 'match'){ $('#feed').prepend( obj.side + ' ' + obj.size + ' ' + obj.price + '<br/>' ); }
 	};
@@ -73,5 +82,9 @@ function refreshPage()
 	$('#data > div:nth-child(3) > div:nth-child(2)').html(message.done);
 	$('#data > div:nth-child(4) > div:nth-child(2)').html(message.match);
 	$('#data > div:nth-child(5) > div:nth-child(2)').html(message.error);
-	$('#status').html('Status: ' + status + ' -- Messages: ' + message.total + ' -- Sent: ' + eTime + ' -- ' + kara);
+
+	minions.forEach(function(minion)
+	{
+		$('#james').append("<div class='minion onBookBid'>"+minion+"</div>");
+	});
 }

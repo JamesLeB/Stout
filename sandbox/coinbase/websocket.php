@@ -1,6 +1,6 @@
 <?php
 	session_start();
-	$kara = 'Groot';
+	$kara = array();
 	$func = $_POST['func'];
 	switch($func)
 	{
@@ -18,10 +18,13 @@
 			$db->upload($_POST['message']);
 			break;
 		case 'tick':
+			$minions = array('zek','groot','bob');
+			$kara = array(
+				'minions' => $minions
+			);
 			break;
 		default:
-			$kara = 'default';
 			break;
 	}
-	echo $kara;
+	echo json_encode($kara);
 ?>

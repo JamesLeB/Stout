@@ -1,3 +1,14 @@
+/* Minion States */
+.minion
+{
+	margin: 10px;
+	padding: 5px;
+}
+.onBookBid
+{
+	border: 3px ridge blue;
+	background: yellow;
+}
 #clock
 {
 	border: 5px ridge brown;
@@ -12,7 +23,7 @@
 	border: 1px dotted gray;
 	display: table-cell;
 	vertical-align: middle;
-}
+} 
 #feed
 {
 	border: 5px ridge gray;
@@ -27,34 +38,36 @@
 {
 	border: 5px ridge yellow;
 	background: lightgreen;
-	height: 200px;
+	height: 180px;
 	overflow: auto;
 	padding-left: 10px;
 	padding-top: 10px;
-	width: 400px;
+	width: 150px;
 	margin-left: 20px;
 	margin-top: 10px;
-}
-#data div
-{
-	border: 1px dotted gray;
 }
 #data > div
 {
 	height: 30px;
 }
-#data > div > div
+#data > div > div:nth-child(1)
 {
 	width: 80px;
 	float: left;
+}
+#data > div > div:nth-child(2)
+{
+	width: 50px;
+	float: left;
+	text-align: right;
+	padding-right: 15px;
 }
 #james
 {
 	border: 5px ridge gray;
 	background: lightgray;
-	height: 400px;
+	height: 200px;
 	overflow: auto;
-	padding: 10px;
 	width: 600px;
 	margin-top: 20px;
 	margin-left: 20px;
