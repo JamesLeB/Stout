@@ -8,7 +8,6 @@
 			require_once('wsdb.php');
 			$db = new wsdb();
 			$_SESSION['count'] = 0;
-			$_SESSION['click'] = 0;
 			$r = $db->createTable();
 			$kara = "Creating DB: $r";
 			break;
@@ -19,7 +18,6 @@
 			$db->upload($_POST['message']);
 			break;
 		case 'tick':
-			$kara = ++$_SESSION['click'];
 			break;
 		default:
 			$kara = 'default';

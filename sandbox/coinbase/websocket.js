@@ -17,27 +17,27 @@ var click        = 0;
 
 $(document).ready(function()
 {
+	var d = new Date();
+	elapsed = d.getTime();
+
 	var p = { func: 'startup' };
 	$.post('websocket.php',p,function(data)
 	{
 		webSocket();
 		$('#stopSock').click(function() { ws.close(); });
-		setInterval(function(){ tick(); },1000);
+		tick();
 	});
 });
-
 function tick()
 {
 	click++;
-	if(click % 2 == 0) { $('#clock').css('background','lightgreen'); }
-	else               { $('#clock').css('background','yellow'); }
-
 	var p = { func: 'tick' };
 	$.post('websocket.php',p,function(data)
 	{
 		$('#clock > div').html(click + " : " + data);
+		refreshPage();
+		tick();
 	});
-	refreshPage();
 }
 function webSocket()
 {
