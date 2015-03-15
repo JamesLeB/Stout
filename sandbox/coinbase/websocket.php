@@ -10,6 +10,13 @@
 			$_SESSION['count'] = 0;
 			$r = $db->createTable();
 			$kara = "Creating DB: $r";
+			require_once('exchange.php');
+			$exchange = new exchange();
+			$orderBook = json_decode($exchange->getOrderBook(),true);
+			$kara = array(
+				'createDB' => $r,
+				'orderBook' => $orderBook
+			);
 			break;
 		case 'upload':
 			require_once('wsdb.php');
@@ -20,8 +27,7 @@
 		case 'tick':
 			$minions = array('zek','groot','bob');
 			$kara = array(
-				'minions' => $minions,
-				'orderBook' => 'This is the order book'
+				'minions' => $minions
 			);
 			break;
 		default:

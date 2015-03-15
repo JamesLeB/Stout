@@ -23,9 +23,39 @@ $(document).ready(function()
 	var p = { func: 'startup' };
 	$.post('websocket.php',p,function(data)
 	{
-		webSocket();
-		$('#stopSock').click(function() { ws.close(); });
-		tick();
+		var o = $.parseJSON(data);
+		sequence = o.orderBook.sequence;
+		bids = o.orderBook.bids;
+		var bidTable = "<table id=bidTable>";
+		bids.forEach(function(bid)
+		{
+			bidTable += '<tr>';
+			bidTable += '<td>Bid</td>';
+			bid.forEach(function(e)
+			{
+				bidTable += '<td>'+e+'</td>';
+			});
+			bidTable += '</tr>';
+		});
+		bidTable += '</table>';
+		asks = o.orderBook.asks;
+		var askTable = "<table id=askTable>";
+		asks.forEach(function(ask)
+		{
+			askTable += '<tr>';
+			askTable += '<td>Ask</td>';
+			ask.forEach(function(e)
+			{
+				askTable += '<td>'+e+'</td>';
+			});
+			askTable += '</tr>';
+		});
+		askTable += '</table>';
+		$('#james').append(sequence + bidTable + askTable);
+		//$('#james').html(sequence);
+
+		//webSocket(); $('#stopSock').click(function() { ws.close(); });
+		//tick();
 	});
 });
 function tick()
@@ -38,9 +68,6 @@ function tick()
 
 		var o = $.parseJSON(data);
 		minions = o.minions;
-
-var orderBook = o.orderBook;
-$('#james').html(orderBook);
 
 		refreshPage();
 		tick();

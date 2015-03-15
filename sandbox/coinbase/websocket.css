@@ -66,11 +66,12 @@
 {
 	border: 5px ridge gray;
 	background: lightgray;
-	height: 200px;
+	height: 300px;
 	overflow: auto;
 	width: 600px;
 	margin-top: 20px;
 	margin-left: 20px;
+	padding: 10px;
 }
 #status
 {
