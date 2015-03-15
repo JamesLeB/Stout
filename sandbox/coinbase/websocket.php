@@ -20,7 +20,8 @@
 		case 'tick':
 			$minions = array('zek','groot','bob');
 			$kara = array(
-				'minions' => $minions
+				'minions' => $minions,
+				'orderBook' => 'This is the order book'
 			);
 			break;
 		default:

@@ -37,8 +37,10 @@ function tick()
 		$('#clock > div').html(click);
 
 		var o = $.parseJSON(data);
-		$('#james').html('');
 		minions = o.minions;
+
+var orderBook = o.orderBook;
+$('#james').html(orderBook);
 
 		refreshPage();
 		tick();
@@ -83,8 +85,11 @@ function refreshPage()
 	$('#data > div:nth-child(4) > div:nth-child(2)').html(message.match);
 	$('#data > div:nth-child(5) > div:nth-child(2)').html(message.error);
 
+/*
+	$('#james').html('');
 	minions.forEach(function(minion)
 	{
 		$('#james').append("<div class='minion onBookBid'>"+minion+"</div>");
 	});
+*/
 }
