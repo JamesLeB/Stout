@@ -7,7 +7,7 @@ class wsdb
 	{
 		$c = file_get_contents('hide/james');
 		$c = preg_split('/\s/',$c);
-		$this->link_ = mysqli_connect('localhost',$c[0],$c[1],$c[2]);
+		$this->link_ = mysqli_connect('p:localhost',$c[0],$c[1],$c[2]);
 	}
 	public function upload($a)
 	{

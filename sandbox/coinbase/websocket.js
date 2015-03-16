@@ -55,7 +55,7 @@ $(document).ready(function()
 		askTable += '</table>';
 		$('#james').append(sequence + bidTable + askTable);
 
-		// Add live book
+		// ADD LIVE ORDER BOOK
 		var book = [];
 		book.push(['ask','294.02','.1500','0','0.00']);
 		book.push(['ask','294.03','.1500','0','0.00']);
@@ -74,8 +74,8 @@ $(document).ready(function()
 		bookTable += '</table>';
 		$('#book').html(bookTable);
 
-		//webSocket(); $('#stopSock').click(function() { ws.close(); });
-		//tick();
+		webSocket(); $('#stopSock').click(function() { ws.close(); });
+		tick();
 	});
 });
 function tick()

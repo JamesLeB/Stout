@@ -8,8 +8,7 @@
 			require_once('wsdb.php');
 			$db = new wsdb();
 			$_SESSION['count'] = 0;
-			$r = $db->createTable();
-			$kara = "Creating DB: $r";
+			$db->createTable();
 			require_once('exchange.php');
 			$exchange = new exchange();
 
@@ -18,7 +17,6 @@
 			$orderBook = file_get_contents('book.json');
 			$orderBook = json_decode($orderBook,true);
 			$kara = array(
-				'createDB' => $r,
 				'orderBook' => $orderBook
 			);
 			break;
