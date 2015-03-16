@@ -24,6 +24,14 @@
 	display: table-cell;
 	vertical-align: middle;
 } 
+#book
+{
+	border: 5px ridge blue;
+	background: lightBlue;
+	width: 600px;
+	margin-left: 20px;
+	margin-top: 10px;
+}
 #feed
 {
 	border: 5px ridge gray;
