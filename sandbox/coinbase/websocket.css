@@ -27,11 +27,19 @@
 #book
 {
 	border: 5px ridge blue;
-	background: lightBlue;
+	background: lightgray;
 	width: 600px;
 	margin-left: 20px;
 	margin-top: 10px;
 }
+#book > table td
+{
+	height: 30px;
+	width: 70px;
+	text-align: right;
+}
+#book > table .bid { color: green; }
+#book > table .ask { color: red; }
 #feed
 {
 	border: 5px ridge gray;

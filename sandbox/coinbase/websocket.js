@@ -24,6 +24,8 @@ $(document).ready(function()
 	$.post('websocket.php',p,function(data)
 	{
 		var o = $.parseJSON(data);
+
+		// READ and DISPLAY full order book
 		sequence = o.orderBook.sequence;
 		bids = o.orderBook.bids;
 		var bidTable = "<table id=bidTable>";
@@ -52,7 +54,25 @@ $(document).ready(function()
 		});
 		askTable += '</table>';
 		$('#james').append(sequence + bidTable + askTable);
-		//$('#james').html(sequence);
+
+		// Add live book
+		var book = [];
+		book.push(['ask','294.02','.1500','0','0.00']);
+		book.push(['ask','294.03','.1500','0','0.00']);
+		book.push(['bid','293.82','.0294','0','0.00']);
+		book.push(['bid','293.81','.0294','0','0.00']);
+		var bookTable = "<table>";
+		book.forEach(function(a)
+		{
+			bookTable += "<tr class='"+a.shift()+"'>";
+			a.forEach(function(b)
+			{
+				bookTable += '<td>'+b+'</td>';
+			});
+			bookTable += '</tr>';
+		});
+		bookTable += '</table>';
+		$('#book').html(bookTable);
 
 		//webSocket(); $('#stopSock').click(function() { ws.close(); });
 		//tick();
