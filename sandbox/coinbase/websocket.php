@@ -12,7 +12,11 @@
 			$kara = "Creating DB: $r";
 			require_once('exchange.php');
 			$exchange = new exchange();
-			$orderBook = json_decode($exchange->getOrderBook(),true);
+
+			//$orderBook = $exchange->getOrderBook();
+			//file_put_contents('book.json',$orderBook);
+			$orderBook = file_get_contents('book.json');
+			$orderBook = json_decode($orderBook,true);
 			$kara = array(
 				'createDB' => $r,
 				'orderBook' => $orderBook
