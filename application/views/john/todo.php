@@ -1,6 +1,8 @@
 <div id='todo'>
 	<div>M - Move claim file to 14.97 New folder</div>
-	<div>S - Get claim file from 14.97 New folder</div>
+	<div>S - Get claim file from 14.97 New folder
+		<div id='newClaimFolder'></div>
+	</div>
 	<div>S - Put claims in 14.97 Sent folder</div>
 	<div>S - Put claims in 14.97 claim Queue</div>
 	<div>S - Create 270 file from claim file</div>
@@ -19,4 +21,17 @@
 		border: 1px dotted gray;
 		margin: 10px;
 	}
+	#newClaimFolder
+	{
+		border: 5px ridge gray;
+		background: lightgray;
+		height: 200px;
+		width: 500px;
+	}
 </style>
+<script>
+$(document).ready(function()
+{
+	$('#newClaimFolder').html('down the rabbit hole');
+});
+</script>
