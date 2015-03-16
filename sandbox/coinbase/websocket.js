@@ -56,19 +56,17 @@ $(document).ready(function()
 		$('#james').append(sequence + bidTable + askTable);
 
 		// ADD LIVE ORDER BOOK
-		var book = [];
-		book.push(['ask','294.02','.1500','0','0.00']);
-		book.push(['ask','294.03','.1500','0','0.00']);
-		book.push(['bid','293.82','.0294','0','0.00']);
-		book.push(['bid','293.81','.0294','0','0.00']);
+		var book = o.book;
 		var bookTable = "<table>";
 		book.forEach(function(a)
 		{
 			bookTable += "<tr class='"+a.shift()+"'>";
+			var orders = a.pop();
 			a.forEach(function(b)
 			{
 				bookTable += '<td>'+b+'</td>';
 			});
+			bookTable += '<td>'+orders+'</td>';
 			bookTable += '</tr>';
 		});
 		bookTable += '</table>';
