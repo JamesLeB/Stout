@@ -28,10 +28,36 @@
 		height: 200px;
 		width: 500px;
 	}
+	#newClaimFolder > div
+	{
+		margin: 5px;
+	}
 </style>
 <script>
 $(document).ready(function()
 {
-	$('#newClaimFolder').html('down the rabbit hole');
+	$.post('index.php?/john/getNewList','',function(d)
+	{
+		var list = $.parseJSON(d);
+		$('#newClaimFolder').html('');
+		list.forEach(function(i)
+		{
+			$('#newClaimFolder').append('<div>'+i+'</div>');
+		});
+		$('#newClaimFolder > div').mouseenter(function(){
+			$(this).css('background','yellow');
+		});
+		$('#newClaimFolder > div').mouseleave(function(){
+			$(this).css('background','lightgray');
+		});
+		$('#newClaimFolder > div').click(function(){
+			var file = $(this).html();
+			var p = {file: file};
+			$.post('index.php?/john/getNewFile',p,function(d)
+			{
+				$('#newClaimFolder').html(d);
+			});
+		});
+	});
 });
 </script>
