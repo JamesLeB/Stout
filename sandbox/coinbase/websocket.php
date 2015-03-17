@@ -18,13 +18,12 @@
 			$orderBook = json_decode($orderBook,true);
 
 $liveBids = array();
-
 foreach($orderBook['bids'] as $order)
 {
-	if(isset($liveBids[number_format($order[0],2)]))
+	if(isset($liveBids[$order[0]]))
 	{
-		$liveBids[number_format($order[0],2)]['size'] += $order[1];
-		$liveBids[number_format($order[0],2)]['orders'][] = 
+		$liveBids[$order[0]]['size'] += $order[1];
+		$liveBids[$order[0]]['orders'][] = 
 			array('orderId' => $order[2], 'orderSize' => $order[1]);
 	}
 	else
@@ -36,12 +35,59 @@ foreach($orderBook['bids'] as $order)
 			'minionA' => 0,
 			'orders' => array(array('orderId' => $order[2], 'orderSize' => $order[1]))
 		);
-		$liveBids[number_format($order[0],2)] = $entry;
+		$liveBids[$order[0]] = $entry;
 	}
 }
 
+/*
+$liveAsks = array();
+foreach($orderBook['asks'] as $order)
+{
+	if(isset($liveAsks[$order[0]]))
+	{
+		$liveAsks[$order[0]]['size'] += $order[1];
+		$liveAsks[$order[0]]['orders'][] = 
+			array('orderId' => $order[2], 'orderSize' => $order[1]);
+	}
+	else
+	{
+		$entry = array(
+			'side' => 'ask',
+			'size' => $order[1],
+			'minionC' => 0,
+			'minionA' => 0,
+			'orders' => array(array('orderId' => $order[2], 'orderSize' => $order[1]))
+		);
+		$liveAsks[$order[0]] = $entry;
+	}
+}
+*/
+
 
 $book = array();
+
+/*
+$keys = array_keys($liveAsks);
+asort($keys);
+$count = 0;
+foreach($keys as $key)
+{
+	$a = array();
+	foreach($liveAsks[$key]['orders'] as $o)
+	{
+		$a[] = $o['orderId']." : ".$o['orderSize'];
+	}
+	if(++$count > 100){ break; }
+	$book[] = array(
+		$liveAsks[$key]['side'],
+		$key,
+		$liveAsks[$key]['size'],
+		$liveAsks[$key]['minionC'],
+		$liveAsks[$key]['minionA'],
+		implode('<br/>',$a)
+	);
+}
+*/
 
 $keys = array_keys($liveBids);
 arsort($keys);
@@ -63,6 +109,10 @@ foreach($keys as $key)
 		implode('<br/>',$a)
 	);
 }
+/*
+*/
+
+
 
 			$kara = array(
 				'orderBook' => $orderBook,

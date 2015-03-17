@@ -37,6 +37,7 @@
 	height: 30px;
 	width: 70px;
 	text-align: right;
+	padding: 10px;
 }
 #book > table td:nth-child(2) { width: 110px; }
 #book > table td:nth-child(5) { width: 400px; }
@@ -49,7 +50,7 @@
 	height: 400px;
 	overflow: auto;
 	padding-left: 10px;
-	width: 450px;
+	width: 350px;
 	float: right;
 }
 #data

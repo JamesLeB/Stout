@@ -28,6 +28,7 @@ $(document).ready(function()
 		// READ and DISPLAY full order book
 		sequence = o.orderBook.sequence;
 		bids = o.orderBook.bids;
+		/*
 		var bidTable = "<table id=bidTable>";
 		bids.forEach(function(bid)
 		{
@@ -40,6 +41,7 @@ $(document).ready(function()
 			bidTable += '</tr>';
 		});
 		bidTable += '</table>';
+		*/
 		asks = o.orderBook.asks;
 		var askTable = "<table id=askTable>";
 		asks.forEach(function(ask)
@@ -53,7 +55,8 @@ $(document).ready(function()
 			askTable += '</tr>';
 		});
 		askTable += '</table>';
-		$('#james').append(sequence + bidTable + askTable);
+		//$('#james').append(sequence + bidTable + askTable);
+		$('#james').append(sequence + askTable);
 
 		// ADD LIVE ORDER BOOK
 		var book = o.book;
