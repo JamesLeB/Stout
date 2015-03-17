@@ -14,11 +14,13 @@ var eTime        = 0;
 var kara         = '';
 var click        = 0;
 var minions = [];
+var liveBook = {};
+var book = [];
 
 $(document).ready(function()
 {
-	var d = new Date();
-	elapsed = d.getTime();
+	//var d = new Date();
+	//elapsed = d.getTime();
 
 	var p = { func: 'startup' };
 	$.post('websocket.php',p,function(data)
@@ -26,8 +28,8 @@ $(document).ready(function()
 		var o = $.parseJSON(data);
 
 		// READ and DISPLAY full order book
-		sequence = o.orderBook.sequence;
-		bids = o.orderBook.bids;
+		sequence = o.sequence;
+		bids = o.bids;
 		/*
 		var bidTable = "<table id=bidTable>";
 		bids.forEach(function(bid)
@@ -42,7 +44,9 @@ $(document).ready(function()
 		});
 		bidTable += '</table>';
 		*/
-		asks = o.orderBook.asks;
+
+
+		asks = o.asks;
 		var askTable = "<table id=askTable>";
 		asks.forEach(function(ask)
 		{
@@ -58,8 +62,23 @@ $(document).ready(function()
 		//$('#james').append(sequence + bidTable + askTable);
 		$('#james').append(sequence + askTable);
 
+		var order1 = ['bid',1,2];
+		var order2 = ['ask',1,2];
+		book.push(order1);
+		book.push(order2);
+
+		webSocket(); $('#stopSock').click(function() { ws.close(); });
+		tick();
+	});
+});
+function tick()
+{
+	var p = { func: 'tick' };
+	$.post('websocket.php',p,function(data)
+	{
+		$('#clock > div').html(click++);
+
 		// ADD LIVE ORDER BOOK
-		var book = o.book;
 		var bookTable = "<table>";
 		book.forEach(function(a)
 		{
@@ -73,24 +92,11 @@ $(document).ready(function()
 			bookTable += '</tr>';
 		});
 		bookTable += '</table>';
-		$('#book').html(bookTable);
+		$('#book').html(book);
 
-		webSocket(); $('#stopSock').click(function() { ws.close(); });
-		tick();
-	});
-});
-function tick()
-{
-	click++;
-	var p = { func: 'tick' };
-	$.post('websocket.php',p,function(data)
-	{
-		$('#clock > div').html(click);
+		//var o = $.parseJSON(data);
+		//minions = o.minions;
 
-		var o = $.parseJSON(data);
-		minions = o.minions;
-
-		refreshPage();
 		tick();
 	});
 }
@@ -111,15 +117,15 @@ function webSocket()
 		else if(obj.type == 'done')     { message.done++; }
 		else if(obj.type == 'match')    { message.match++; }
 		else                            { message.error++; }
+		refreshPage();
 
 		var p = { func: 'upload', message: evt.data };
 		$.post('websocket.php',p,function(data)
 		{
 			eTime++;
-			m = $.parseJSON(data);
 			var s  = 'Messages: ' + message.total;
                 s += ' -- Sent: ' + eTime;
-                s += ' -- ' + m;
+                s += ' -- ' + data;
 			$('#status').html(s);
 		});
 		if(obj.type == 'match'){ $('#feed').prepend( obj.side + ' ' + obj.size + ' ' + obj.price + '<br/>' ); }
