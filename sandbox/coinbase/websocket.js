@@ -98,8 +98,9 @@ function tick()
 		});
 		liveBookTable += "</table>";
 		$('#book').html(liveBookTable);
+
 		$('#james').html(obj.socketBuffer);
-		$('#james').append(obj.test);
+		$('#james').append('<br/>'+obj.nextOrder);
 
 		//var o = $.parseJSON(data);
 		//minions = o.minions;
@@ -132,7 +133,7 @@ function webSocket()
 			eTime++;
 			var s  = 'Messages: ' + message.total;
                 s += ' -- Sent: ' + eTime;
-                s += ' -- ' + data;
+                s += ' -- ' + $.parseJSON(data);
 			$('#status').html(s);
 		});
 		if(obj.type == 'match'){ $('#feed').prepend( obj.side + ' ' + obj.size + ' ' + obj.price + '<br/>' ); }

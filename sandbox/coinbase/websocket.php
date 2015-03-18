@@ -74,12 +74,12 @@
 			break;
 
 		case 'upload':
+			$kara = 'Loaded: '.++$_SESSION['count'];
 			$_SESSION['socketBuffer'][] = $_POST['message'];
 			$a = $_SESSION['socketBuffer'][0];
 /*
 			require_once('wsdb.php');
 			$db = new wsdb();
-			$kara = 'Uploading: '.++$_SESSION['count'];
 			$db->upload($_POST['message']);
 */
 			break;
@@ -112,12 +112,41 @@
 ####
 # SESSION BUFFER WILL BE EMPTY FIRST FEW TICKS!!!!
 ###
+			$nextOrder = '';
+			$msg = '';
+			if(isset($_SESSION['socketBuffer'][0]))
+			{
+				$nextOrder = $_SESSION['socketBuffer'][0];
+				$o = json_decode($nextOrder,true);
+				$type = $o['type'];
+				switch($type)
+				{
+					case 'received':
+						array_shift($_SESSION['socketBuffer']);
+						$msg = 'Proceess received ignore';
+						break;
+					case 'done':
+						array_shift($_SESSION['socketBuffer']);
+						$msg = 'Proceess Done may effect book';
+						break;
+					case 'open':
+						array_shift($_SESSION['socketBuffer']);
+						$msg = 'Proceess Open add to book';
+						break;
+					case 'match':
+						array_shift($_SESSION['socketBuffer']);
+						$msg = 'Proceess Open remove from book';
+						break;
+					default:
+						$msg = $type;
+				}
+			}
 
 			$kara = array(
 				'minions' => $minions,
 				'liveBook' => $liveBook,
 				'socketBuffer' => count($_SESSION['socketBuffer']),
-				'test' => $_SESSION['socketBuffer']
+				'nextOrder' => $nextOrder.'<br/><br/>'.$msg
 			);
 			break;
 		default:
