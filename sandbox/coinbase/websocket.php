@@ -5,6 +5,7 @@
 	switch($func)
 	{
 		case 'startup':
+$debug = '';
 
 			require_once('wsdb.php');
 			$db = new wsdb();
@@ -20,17 +21,19 @@
 			//$orderBook = json_decode($orderBook,true);
 
 			$book     = file_get_contents('book.json');
-			$book = json_decode($book);
+			$book = json_decode($book,true);
 
 			# CREATE LIVEBOOK!!!!!  We will rule the world :)
 			$liveBook = [];
-			$order = [1,2,3,4,5];
-			$liveBook[]=$order;
-			$liveBook[]=$order;
+			foreach($book['bids'] as $order)
+			{
+				$liveBook[] = array('bid',$order[0],$order[1],0,0,$order[2]);
+			}
 
 			$kara = array(
 				'book'     => $book,
-				'liveBook' => $liveBook
+				'liveBook' => $liveBook,
+				'debug' => $debug
 			);
 			break;
 		case 'upload':

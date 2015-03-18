@@ -37,7 +37,7 @@ $(document).ready(function()
 		bids.forEach(function(bid)
 		{
 			bidTable += '<tr>';
-			bidTable += '<td>Bid</td>';
+			bidTable += '<td>+</td>';
 			bid.forEach(function(e)
 			{
 				bidTable += '<td>'+e+'</td>';
@@ -51,7 +51,7 @@ $(document).ready(function()
 		asks.forEach(function(ask)
 		{
 			askTable += '<tr>';
-			askTable += '<td>Ask</td>';
+			askTable += '<td>-</td>';
 			ask.forEach(function(e)
 			{
 				askTable += '<td>'+e+'</td>';
@@ -60,18 +60,22 @@ $(document).ready(function()
 		});
 		askTable += '</table>';
 
-		$('#james').append(sequence + bidTable + askTable);
-		//$('#james').append(sequence + askTable);
+		//$('#james').append(sequence);
+		$('#james').append(bidTable);
+		//$('#james').append(askTable);
+		//$('#james').html(obj.debug);
 
 		var liveBookTable = '';
 		liveBookTable += "<table>";
 		obj.liveBook.forEach(function(order)
 		{
-			liveBookTable += "<tr class='bid'>";
-			order.forEach(function(element)
-			{
-				liveBookTable += "<td>"+element+"</td>";
-			});
+			var side = order.shift();
+			liveBookTable += "<tr class='"+side+"'>";
+			liveBookTable += "<td>"+Number(order[0]).toFixed(2)+"</td>";
+			liveBookTable += "<td>"+order[1]+"</td>";
+			liveBookTable += "<td>"+order[2]+"</td>";
+			liveBookTable += "<td>"+order[3]+"</td>";
+			liveBookTable += "<td>"+order[4]+"</td>";
 			liveBookTable += "</tr>";
 		});
 		liveBookTable += "</table>";
