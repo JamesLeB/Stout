@@ -25,12 +25,14 @@ $(document).ready(function()
 	var p = { func: 'startup' };
 	$.post('websocket.php',p,function(data)
 	{
-		var o = $.parseJSON(data);
+		var obj = $.parseJSON(data);
+		var o = obj.book;
 
 		// READ and DISPLAY full order book
+
 		sequence = o.sequence;
+
 		bids = o.bids;
-		/*
 		var bidTable = "<table id=bidTable>";
 		bids.forEach(function(bid)
 		{
@@ -43,8 +45,6 @@ $(document).ready(function()
 			bidTable += '</tr>';
 		});
 		bidTable += '</table>';
-		*/
-
 
 		asks = o.asks;
 		var askTable = "<table id=askTable>";
@@ -59,16 +59,25 @@ $(document).ready(function()
 			askTable += '</tr>';
 		});
 		askTable += '</table>';
-		//$('#james').append(sequence + bidTable + askTable);
-		$('#james').append(sequence + askTable);
 
-		var order1 = ['bid',1,2];
-		var order2 = ['ask',1,2];
-		book.push(order1);
-		book.push(order2);
+		$('#james').append(sequence + bidTable + askTable);
+		//$('#james').append(sequence + askTable);
 
-		webSocket(); $('#stopSock').click(function() { ws.close(); });
-		tick();
+		var liveBookTable = '';
+		liveBookTable += "<table>";
+		obj.liveBook.forEach(function(order)
+		{
+			liveBookTable += "<tr class='bid'>";
+			order.forEach(function(element)
+			{
+				liveBookTable += "<td>"+element+"</td>";
+			});
+			liveBookTable += "</tr>";
+		});
+		liveBookTable += "</table>";
+		$('#book').html(liveBookTable);
+		//webSocket(); $('#stopSock').click(function() { ws.close(); });
+		//tick();
 	});
 });
 function tick()

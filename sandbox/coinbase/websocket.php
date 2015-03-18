@@ -19,13 +19,27 @@
 			//$orderBook = file_get_contents('book.json');
 			//$orderBook = json_decode($orderBook,true);
 
-			$kara = file_get_contents('book.json');
+			$book     = file_get_contents('book.json');
+			$book = json_decode($book);
+
+			# CREATE LIVEBOOK!!!!!  We will rule the world :)
+			$liveBook = [];
+			$order = [1,2,3,4,5];
+			$liveBook[]=$order;
+			$liveBook[]=$order;
+
+			$kara = array(
+				'book'     => $book,
+				'liveBook' => $liveBook
+			);
 			break;
 		case 'upload':
+/*
 			require_once('wsdb.php');
 			$db = new wsdb();
 			$kara = 'Uploading: '.++$_SESSION['count'];
 			$db->upload($_POST['message']);
+*/
 			break;
 		case 'tick':
 			//$minions = array('zek','groot','bob');
@@ -34,5 +48,5 @@
 		default:
 			break;
 	}
-	echo $kara;
+	echo json_encode($kara);
 ?>
