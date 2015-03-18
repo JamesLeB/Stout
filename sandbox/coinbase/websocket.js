@@ -75,7 +75,12 @@ $(document).ready(function()
 			liveBookTable += "<td>"+order[1]+"</td>";
 			liveBookTable += "<td>"+order[2]+"</td>";
 			liveBookTable += "<td>"+order[3]+"</td>";
-			liveBookTable += "<td>"+order[4]+"</td>";
+			var orders = '';
+			order[4].forEach(function(x)
+			{
+				orders += '<div>'+x.id+' : '+x.amt+'</div>';
+			});
+			liveBookTable += "<td>"+orders+"</td>";
 			liveBookTable += "</tr>";
 		});
 		liveBookTable += "</table>";
