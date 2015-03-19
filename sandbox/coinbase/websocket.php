@@ -10,6 +10,7 @@
 			require_once('wsdb.php');
 			$db = new wsdb();
 $_SESSION['X'] = 1;
+$_SESSION['testId'] = 'kill it';
 			$_SESSION['count'] = 0;
 			$_SESSION['socketBuffer'] = array();
 			$db->createTable();
@@ -91,6 +92,7 @@ $_SESSION['X'] = 1;
 			$liveBookDepth = 2;
 
 			$keys = array_keys($_SESSION['bookAsks']);
+			sort($keys);
 			$ct = 0;
 			foreach($keys as $key)
 			{
@@ -132,13 +134,14 @@ $_SESSION['X'] = 1;
 						$msg = 'Proceess Done may effect book';
 						break;
 					case 'open':
-						$side = $o['side'] == 'buy' ? 'bid' : 'ask';
-						$price = $o['price'];
-						$orderId = $o['order_id'];
-						$size = $o['remaining_size'];
+
+						$side    = $o['side'] == 'buy' ? 'bid' : 'ask';
+						$price   = $o['price'];
+						$orderI  = $o['order_id'];
+						$size    = $o['remaining_size'];
 
 						$orderId = array(
-							'id'  => $orderId,
+							'id'  => $orderI,
 							'amt' => $size
 						);
 
@@ -149,29 +152,41 @@ $_SESSION['X'] = 1;
 						else
 						{
 							$priceX = '293.82000000';
-
-# This is the check that prevents adding record over and over
-# Wont happen once I am always shift the buffer
-if($_SESSION['X'] == 1)
-{
+							# Check to Price line in book
 							if(isset($_SESSION['bookBids'][$priceX]))
 							{
-								$_SESSION['bookBids'][$priceX][4][] = $orderId ;
-								$t = 0;
+								$checkForOrder = 0;
 								foreach($_SESSION['bookBids'][$priceX][4] as $a)
 								{
-									$t += $a['amt'];
+									if($a['id'] == $orderI)
+									{
+										# Update order
+										$a['amt'] = 69;
+										$checkForOrder = 1;
+									}
 								}
-								$_SESSION['bookBids'][$priceX][1] = $t ;
-								$_SESSION['X'] = 0;
+								# Add order
+								if(!$checkForOrder)
+								{
+									# Add order to book
+									$_SESSION['bookBids'][$priceX][4][] = $orderId ;
+
+									# Update price total size
+									$t = 0;
+									foreach($_SESSION['bookBids'][$priceX][4] as $a)
+									{
+										$t += $a['amt'];
+									}
+									$_SESSION['bookBids'][$priceX][1] = $t ;
+								}
 							}
+							# Add new Price Line
 							else
 							{
 								$_SESSION['bookBids'][$priceX] = array($side,$size,1,0,array($orderId));
 							}
-}
 						}
-							$msg = "test: ".$_SESSION['X'];
+						$msg = "test: ";
 						break;
 					case 'match':
 						array_shift($_SESSION['socketBuffer']);
