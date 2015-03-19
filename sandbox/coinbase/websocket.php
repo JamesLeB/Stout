@@ -98,6 +98,7 @@
 			$liveBook      = [];
 			$liveBookDepth = 2;
 
+			# Load asks onto live book
 			$keys = array_keys($_SESSION['bookAsks']);
 			sort($keys);
 			$ct = 0;
@@ -108,6 +109,7 @@
 				array_unshift($liveBook,array($order[0],$key,$order[1],$order[2],$order[3],$order[4]));
 			}
 
+			# Load bids onto live book
 			$keys = array_keys($_SESSION['bookBids']);
 			rsort($keys);
 			$ct = 0;
@@ -118,16 +120,14 @@
 				$liveBook[] = array($order[0],$key,$order[1],$order[2],$order[3],$order[4]);
 			}
 
+		# Minions will go here, I think this should be done after the buffer is clear?
 			$minions = array('zek','groot','bob');
 
-####
-# SESSION BUFFER WILL BE EMPTY FIRST FEW TICKS!!!!
-###
 			$nextOrder = '';
 			$msg = '';
 
 			# Check to see if the buffer is empty
-			if(isset($_SESSION['socketBuffer'][0]))
+			while(isset($_SESSION['socketBuffer'][0]))
 			{
 				$nextOrder = $_SESSION['socketBuffer'][0];
 				$o = json_decode($nextOrder,true);
@@ -143,6 +143,9 @@
 						$msg = 'Proceess Done may effect book';
 						break;
 					case 'open':
+
+						array_shift($_SESSION['socketBuffer']);
+						break;
 
 						$side    = $o['side'] == 'buy' ? 'bid' : 'ask';
 						$price   = $o['price'];
@@ -207,13 +210,13 @@
 						break;
 					default:
 						$msg = $type;
-				}
-			}
+				} # END SWITCH ON ORDER TYPE (recieved,open,done,match)
+			} # END OF PROCESSING BUFFER
 
 			$kara = array(
 				'minions'      => $minions,
 				'liveBook'     => $liveBook,
-				'socketBuffer' => count($_SESSION['socketBuffer']),
+				'socketBuffer' => 'Groot',
 				'nextOrder'    => $nextOrder.'<br/><br/>'.$msg
 			);
 			break;
