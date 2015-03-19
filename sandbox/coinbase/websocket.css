@@ -46,10 +46,25 @@
 	background: lightgray;
 	height: 400px;
 	overflow: auto;
-	padding-left: 10px;
+	padding-left: 40px;
+	padding-top: 20px;
+	padding-bottom: 20px;
 	width: 350px;
 	float: right;
 }
+#feed > div
+{
+	height: 30px;
+}
+#feed .sell { color: green; }
+#feed .buy  { color: red; }
+#feed > div > div
+{
+	float: left
+}
+#feed > div > div:nth-child(1){ width: 50px; }
+#feed > div > div:nth-child(2){ width: 80px; }
+#feed > div > div:nth-child(3){ width: 100px; }
 #data
 {
 	border: 5px ridge yellow;

@@ -138,7 +138,16 @@ function webSocket()
                 s += ' -- ' + $.parseJSON(data);
 			$('#status').html(s);
 		});
-		if(obj.type == 'match'){ $('#feed').prepend( obj.side + ' ' + obj.size + ' ' + obj.price + '<br/>' ); }
+
+		// PROCESS NEW TRADE
+		if(obj.type == 'match')
+		{
+			var matchSide  = '<div>'+obj.side+'</div>';
+			var matchSize  = '<div>'+obj.size+'</div>';
+			var matchPrice = '<div>'+Number(obj.price).toFixed(2)+'</div>';
+			var matchLine = "<div class='"+obj.side+"'>"+matchSide+matchPrice+matchSize+"</div>";
+			$('#feed').prepend(matchLine);
+		}
 	};
 }
 function refreshPage()
