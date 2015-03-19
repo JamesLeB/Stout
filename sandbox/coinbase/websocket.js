@@ -72,7 +72,7 @@ $(document).ready(function()
 });
 function tick()
 {
-	var p = { func: 'tick' };
+	var p = { func: 'tick', click: click };
 	$.post('websocket.php',p,function(data)
 	{
 		$('#clock > div').html(++click);
@@ -106,7 +106,7 @@ function tick()
 		//var o = $.parseJSON(data);
 		//minions = o.minions;
 
-		tick();
+		if(obj.stopOrder == 0){tick();}
 	});
 }
 function webSocket()

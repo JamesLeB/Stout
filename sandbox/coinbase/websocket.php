@@ -44,6 +44,7 @@
 			}
 			# Put Bid Book on session
 			$_SESSION['bookBids'] = $bookBids;
+			#$_SESSION['bookBids'] = [];
 
 			# LOAD ASKS
 			$bookAsks = [];
@@ -64,6 +65,7 @@
 			}
 			# Put Ask Book on session
 			$_SESSION['bookAsks'] = $bookAsks;
+			#$_SESSION['bookAsks'] = [];
 
 			$kara = array(
 				'book'  => $book,
@@ -73,19 +75,113 @@
 			break;
 
 		case 'upload':
-			$kara = 'Loaded: '.++$_SESSION['count'];
+			$kara = 'Loaded: '.++$_SESSION['count'].' : Buffer: '.sizeof($_SESSION['socketBuffer']);
 			$_SESSION['socketBuffer'][] = $_POST['message'];
-/*
-			require_once('wsdb.php');
-			$db = new wsdb();
-			$db->upload($_POST['message']);
-*/
+			#require_once('wsdb.php');
+			#$db = new wsdb();
+			#$db->upload($_POST['message']);
 			break;
 		case 'tick':
+			$stopOrder = 0;
 
+
+		# Minions will go here, I think this should be done after the buffer is clear?
+			$minions = array('zek','groot','bob');
+
+			$nextOrder = '';
+			$msg = '';
+
+			# Check to see if the buffer is empty
+			while(isset($_SESSION['socketBuffer'][0]) && $stopOrder == 0)
+			{
+				$nextOrder = $_SESSION['socketBuffer'][0];
+				$o = json_decode($nextOrder,true);
+				$type = $o['type'];
+				switch($type)
+				{
+					case 'received':
+						array_shift($_SESSION['socketBuffer']);
+						$msg = 'Proceess received ignore';
+						break;
+					case 'done':
+						array_shift($_SESSION['socketBuffer']);
+$stopOrder = 1;
+						$msg = 'Proceess Done may effect book';
+						break;
+					case 'open':
+
+						array_shift($_SESSION['socketBuffer']);
+						break;
+
+						$side    = $o['side'] == 'buy' ? 'bid' : 'ask';
+						$price   = $o['price'];
+						$orderI  = $o['order_id'];
+						$size    = $o['remaining_size'];
+
+						if($side == 'ask')
+						{
+							//$priceX = '294.01000000';
+							$priceX = $price;
+							# Check for price Line
+							if(isset($_SESSION['bookAsks'][$priceX]))
+							{
+								# Add order to price line
+								$_SESSION['bookAsks'][$priceX][4][$orderI] = $size;
+								# Update price line total
+								$total = 0;
+								$keys = array_keys($_SESSION['bookAsks'][$priceX][4]);
+								foreach($keys as $key)
+								{
+									$total += $_SESSION['bookAsks'][$priceX][4][$key];
+								}
+								$_SESSION['bookAsks'][$priceX][1] = $total;
+							}
+							else
+							{
+								# Add new price line
+								$_SESSION['bookAsks'][$priceX] = array($side,$size,0,0,array($orderI=>$size));
+							}
+						}
+						else
+						{
+							//$priceX = '293.82000000';
+							$priceX = $price;
+							# Check for price Line
+							if(isset($_SESSION['bookBids'][$priceX]))
+							{
+								# Add order to price line
+								$_SESSION['bookBids'][$priceX][4][$orderI] = $size;
+								# Update price line total
+								$total = 0;
+								$keys = array_keys($_SESSION['bookBids'][$priceX][4]);
+								foreach($keys as $key)
+								{
+									$total += $_SESSION['bookBids'][$priceX][4][$key];
+								}
+								$_SESSION['bookBids'][$priceX][1] = $total;
+							}
+							else
+							{
+								# Add new price line
+								$_SESSION['bookBids'][$priceX] = array($side,$size,0,0,array($orderI=>$size));
+							}
+						}
+						
+						break;
+
+					case 'match':
+						array_shift($_SESSION['socketBuffer']);
+						$msg = 'Proceess Open remove from book';
+						break;
+					default:
+						$msg = $type;
+				} # END SWITCH ON ORDER TYPE (recieved,open,done,match)
+			} # END OF PROCESSING BUFFER
+
+############################   CREATE LIVE BOOK #################################
 			# CREATE LIVE BOOK
 			$liveBook      = [];
-			$liveBookDepth = 2;
+			$liveBookDepth = 3;
 
 			# Load asks onto live book
 			$keys = array_keys($_SESSION['bookAsks']);
@@ -120,105 +216,16 @@
 				}
 				$liveBook[] = array($order[0],$key,$order[1],$order[2],$order[3],$orders);
 			}
+############################   END CREATE LIVE BOOK #################################
 
-		# Minions will go here, I think this should be done after the buffer is clear?
-			$minions = array('zek','groot','bob');
-
-			$nextOrder = '';
-			$msg = '';
-
-			# Check to see if the buffer is empty
-			while(isset($_SESSION['socketBuffer'][0]))
-			{
-				$nextOrder = $_SESSION['socketBuffer'][0];
-				$o = json_decode($nextOrder,true);
-				$type = $o['type'];
-				switch($type)
-				{
-					case 'received':
-						array_shift($_SESSION['socketBuffer']);
-						$msg = 'Proceess received ignore';
-						break;
-					case 'done':
-						array_shift($_SESSION['socketBuffer']);
-						$msg = 'Proceess Done may effect book';
-						break;
-					case 'open':
-
-						array_shift($_SESSION['socketBuffer']);
-						break;
-
-						$side    = $o['side'] == 'buy' ? 'bid' : 'ask';
-						$price   = $o['price'];
-						$orderI  = $o['order_id'];
-						$size    = $o['remaining_size'];
-
-						# This will change when price line order list is a hash
-						$orderId = array(
-							'id'  => $orderI,
-							'amt' => $size
-						);
-
-						# Process Open Ask
-						if($side == 'ask')
-						{
-							array_shift($_SESSION['socketBuffer']);
-						}
-						# Process Open Bid
-						else
-						{
-							$priceX = '293.82000000';
-							# Check to Price line in book
-							if(isset($_SESSION['bookBids'][$priceX]))
-							{
-								# This needs to be reworked after Price line order list change
-								$checkForOrder = 0;
-								foreach($_SESSION['bookBids'][$priceX][4] as $a)
-								{
-									if($a['id'] == $orderI)
-									{
-										# Update order
-										$a['amt'] = 69;
-										$checkForOrder = 1;
-									}
-								}
-								# Add order
-								if(!$checkForOrder)
-								{
-									# Add order to book
-									$_SESSION['bookBids'][$priceX][4][] = $orderId ;
-
-									# Update price total size
-									$t = 0;
-									foreach($_SESSION['bookBids'][$priceX][4] as $a)
-									{
-										$t += $a['amt'];
-									}
-									$_SESSION['bookBids'][$priceX][1] = $t ;
-								}
-							}
-							# Add new Price Line
-							else
-							{
-								$_SESSION['bookBids'][$priceX] = array($side,$size,1,0,array($orderId));
-							}
-						}
-						$msg = "test: ";
-						break;
-					case 'match':
-						array_shift($_SESSION['socketBuffer']);
-						$msg = 'Proceess Open remove from book';
-						break;
-					default:
-						$msg = $type;
-				} # END SWITCH ON ORDER TYPE (recieved,open,done,match)
-			} # END OF PROCESSING BUFFER
+			//if($_POST['click'] > 100){$stopOrder = 1;}
 
 			$kara = array(
 				'minions'      => $minions,
 				'liveBook'     => $liveBook,
-				'socketBuffer' => 'Groot',
-				'nextOrder'    => $nextOrder.'<br/><br/>'.$msg
+				'socketBuffer' => 'Groot: '.$stopOrder.' : '.$_POST['click'],
+				'nextOrder'    => $nextOrder.'<br/><br/>'.$msg,
+				'stopOrder'    => $stopOrder
 			);
 			break;
 		default:
