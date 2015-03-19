@@ -17,12 +17,14 @@
 			$exchange = new exchange();
 
 			# GET ORDER BOOK
-			//$orderBook = $exchange->getOrderBook();
+			$book = $exchange->getOrderBook();
 			//file_put_contents('book.json',$orderBook);
-			//$orderBook = file_get_contents('book.json');
-			//$orderBook = json_decode($orderBook,true);
-			$book = file_get_contents('book.json');
+			//$book = file_get_contents('book.json');
 			$book = json_decode($book,true);
+
+			$_SESSION['bookSequence']=$book['sequence'];
+			$_SESSION['bufferFirst'] = 0;
+			$_SESSION['bufferLast']  = 0;
 
 			# LOAD BIDS
 			$bookBids = [];
@@ -43,8 +45,8 @@
 				}
 			}
 			# Put Bid Book on session
-			#$_SESSION['bookBids'] = $bookBids;
-			$_SESSION['bookBids'] = [];
+			$_SESSION['bookBids'] = $bookBids;
+			#$_SESSION['bookBids'] = [];
 
 			# LOAD ASKS
 			$bookAsks = [];
@@ -64,8 +66,8 @@
 				}
 			}
 			# Put Ask Book on session
-			#$_SESSION['bookAsks'] = $bookAsks;
-			$_SESSION['bookAsks'] = [];
+			$_SESSION['bookAsks'] = $bookAsks;
+			#$_SESSION['bookAsks'] = [];
 
 			$kara = array(
 				'book'  => $book,
@@ -75,8 +77,16 @@
 			break;
 
 		case 'upload':
-			$kara = 'Loaded: '.++$_SESSION['count'].' : Buffer: '.sizeof($_SESSION['socketBuffer']);
 			$_SESSION['socketBuffer'][] = $_POST['message'];
+
+			$fOrder = json_decode($_SESSION['socketBuffer'][0],true);
+			$lOrder = json_decode($_POST['message'],true);
+
+			$_SESSION['bufferFirst'] = $fOrder['sequence'];
+			$_SESSION['bufferLast']  = $lOrder['sequence'];
+
+			$kara = 'Loaded: '.++$_SESSION['count'].' : Buffer: '.sizeof($_SESSION['socketBuffer']);
+
 			#require_once('wsdb.php');
 			#$db = new wsdb();
 			#$db->upload($_POST['message']);
@@ -92,8 +102,10 @@
 			$nextOrder = '';
 			$msg = '';
 
+# FLUSH ORDERS BEFORE FULL BOOK SEQUENCE
+
 			# Check to see if the buffer is empty
-			while(isset($_SESSION['socketBuffer'][0]) && $stopOrder == 0)
+			while(isset($_SESSION['socketBuffer'][0]) && $stopOrder == 0 && 0)
 			{
 				$nextOrder = $_SESSION['socketBuffer'][0];
 				$o = json_decode($nextOrder,true);
@@ -298,11 +310,16 @@
 ############################   END CREATE LIVE BOOK #################################
 
 			//if($_POST['click'] > 100){$stopOrder = 1;}
+$mrtn = [];
+$mrtn[] = 'bookSequence: '.$_SESSION['bookSequence'];
+$mrtn[] = 'BufferFirst: '.$_SESSION['bufferFirst'];
+$mrtn[] = 'BufferLast: '.$_SESSION['bufferLast'];
+				#'socketBuffer' => 'Groot: '.$_SESSION['bookSequence'].' : '.$stopOrder.' : '.$_POST['click'],
 
 			$kara = array(
 				'minions'      => $minions,
 				'liveBook'     => $liveBook,
-				'socketBuffer' => 'Groot: '.$stopOrder.' : '.$_POST['click'],
+				'socketBuffer' => implode('<br/>',$mrtn),
 				'nextOrder'    => $nextOrder.'<br/><br/>'.$msg,
 				'stopOrder'    => $stopOrder
 			);
