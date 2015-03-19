@@ -10,12 +10,13 @@ var message = {
 	total:    0
 };
 
-var eTime        = 0;
-var kara         = '';
-var click        = 0;
-var minions = [];
+var eTime = 0;
+var kara  = '';
+var click = 0;
+
+var minions  = [];
 var liveBook = {};
-var book = [];
+var book     = [];
 
 $(document).ready(function()
 {
@@ -74,7 +75,7 @@ function tick()
 	var p = { func: 'tick' };
 	$.post('websocket.php',p,function(data)
 	{
-		$('#clock > div').html(click++);
+		$('#clock > div').html(++click);
 		var obj = $.parseJSON(data);
 
 		// ADD LIVE ORDER BOOK
@@ -88,6 +89,7 @@ function tick()
 			liveBookTable += "<td>"+Number(order[1]).toFixed(8)+"</td>";
 			liveBookTable += "<td>"+order[2]+"</td>";
 			liveBookTable += "<td>"+order[3]+"</td>";
+			// This is gona get screwed up when I convert price line order list to a hash
 			var orders = '';
 			order[4].forEach(function(x)
 			{
@@ -125,6 +127,7 @@ function webSocket()
 		else if(obj.type == 'done')     { message.done++; }
 		else if(obj.type == 'match')    { message.match++; }
 		else                            { message.error++; }
+
 		refreshPage();
 
 		var p = { func: 'upload', message: evt.data };

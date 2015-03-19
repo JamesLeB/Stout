@@ -1,19 +1,17 @@
 <?php
 	session_start();
 	$kara = '';
+	$debug = '';
 	$func = $_POST['func'];
 	switch($func)
 	{
 		case 'startup':
-			$debug = '';
-
 			require_once('wsdb.php');
 			$db = new wsdb();
-$_SESSION['X'] = 1;
-$_SESSION['testId'] = 'kill it';
+			$db->createTable();
+
 			$_SESSION['count'] = 0;
 			$_SESSION['socketBuffer'] = array();
-			$db->createTable();
 
 			require_once('exchange.php');
 			$exchange = new exchange();
@@ -30,47 +28,57 @@ $_SESSION['testId'] = 'kill it';
 			$bookBids = [];
 			foreach($book['bids'] as $order)
 			{
+				# This needs to be fixed, orders should be a hash  id : amt
 				$orderId = array(
 					'id'  => $order[2],
 					'amt' => $order[1]
 				);
+				# Check for price line
 				if(!isset($bookBids[$order[0]]))
 				{
+					# Add new price line
 					$orders = array($orderId);
 					$bookBids[$order[0]] = array('bid',$order[1],0,0,$orders);
 				}
 				else
 				{
+					# Add order to price line
 					$bookBids[$order[0]][4][] = $orderId;
 					$bookBids[$order[0]][1]  += $order[1];
 				}
 			}
+			# Put Bid Book on session
 			$_SESSION['bookBids'] = $bookBids;
 
 			# LOAD ASKS
 			$bookAsks = [];
 			foreach($book['asks'] as $order)
 			{
+				# This needs to be fixed, orders should be a hash  id : amt
 				$orderId = array(
 					'id'  => $order[2],
 					'amt' => $order[1]
 				);
+				# Check for price line
 				if(!isset($bookAsks[$order[0]]))
 				{
+					# Add new price line
 					$orders = array($orderId);
 					$bookAsks[$order[0]] = array('ask',$order[1],0,0,$orders);
 				}
 				else
 				{
+					# Add order to price line
 					$bookAsks[$order[0]][4][] = $orderId;
 					$bookAsks[$order[0]][1] += $order[1];
 				}
 			}
+			# Put Ask Book on session
 			$_SESSION['bookAsks'] = $bookAsks;
 
 			$kara = array(
-				'book'     => $book,
-				'debug'    => $debug
+				'book'  => $book,
+				'debug' => $debug
 			);
 
 			break;
@@ -78,7 +86,6 @@ $_SESSION['testId'] = 'kill it';
 		case 'upload':
 			$kara = 'Loaded: '.++$_SESSION['count'];
 			$_SESSION['socketBuffer'][] = $_POST['message'];
-			$a = $_SESSION['socketBuffer'][0];
 /*
 			require_once('wsdb.php');
 			$db = new wsdb();
@@ -88,7 +95,7 @@ $_SESSION['testId'] = 'kill it';
 		case 'tick':
 
 			# CREATE LIVE BOOK
-			$liveBook = [];
+			$liveBook      = [];
 			$liveBookDepth = 2;
 
 			$keys = array_keys($_SESSION['bookAsks']);
@@ -118,6 +125,8 @@ $_SESSION['testId'] = 'kill it';
 ###
 			$nextOrder = '';
 			$msg = '';
+
+			# Check to see if the buffer is empty
 			if(isset($_SESSION['socketBuffer'][0]))
 			{
 				$nextOrder = $_SESSION['socketBuffer'][0];
@@ -140,21 +149,25 @@ $_SESSION['testId'] = 'kill it';
 						$orderI  = $o['order_id'];
 						$size    = $o['remaining_size'];
 
+						# This will change when price line order list is a hash
 						$orderId = array(
 							'id'  => $orderI,
 							'amt' => $size
 						);
 
+						# Process Open Ask
 						if($side == 'ask')
 						{
 							array_shift($_SESSION['socketBuffer']);
 						}
+						# Process Open Bid
 						else
 						{
 							$priceX = '293.82000000';
 							# Check to Price line in book
 							if(isset($_SESSION['bookBids'][$priceX]))
 							{
+								# This needs to be reworked after Price line order list change
 								$checkForOrder = 0;
 								foreach($_SESSION['bookBids'][$priceX][4] as $a)
 								{
@@ -198,10 +211,10 @@ $_SESSION['testId'] = 'kill it';
 			}
 
 			$kara = array(
-				'minions' => $minions,
-				'liveBook' => $liveBook,
+				'minions'      => $minions,
+				'liveBook'     => $liveBook,
 				'socketBuffer' => count($_SESSION['socketBuffer']),
-				'nextOrder' => $nextOrder.'<br/><br/>'.$msg
+				'nextOrder'    => $nextOrder.'<br/><br/>'.$msg
 			);
 			break;
 		default:
