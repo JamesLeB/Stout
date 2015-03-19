@@ -89,11 +89,10 @@ function tick()
 			liveBookTable += "<td>"+Number(order[1]).toFixed(8)+"</td>";
 			liveBookTable += "<td>"+order[2]+"</td>";
 			liveBookTable += "<td>"+order[3]+"</td>";
-			// This is gona get screwed up when I convert price line order list to a hash
 			var orders = '';
 			order[4].forEach(function(x)
 			{
-				orders += '<div>'+x.id+' : '+x.amt+'</div>';
+				orders += '<div>'+x[0]+' : '+x[1]+'</div>';
 			});
 			liveBookTable += "<td>"+orders+"</td>";
 			liveBookTable += "</tr>";

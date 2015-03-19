@@ -28,22 +28,17 @@
 			$bookBids = [];
 			foreach($book['bids'] as $order)
 			{
-				# This needs to be fixed, orders should be a hash  id : amt
-				$orderId = array(
-					'id'  => $order[2],
-					'amt' => $order[1]
-				);
 				# Check for price line
 				if(!isset($bookBids[$order[0]]))
 				{
 					# Add new price line
-					$orders = array($orderId);
-					$bookBids[$order[0]] = array('bid',$order[1],0,0,$orders);
+					//$orders = array($orderId);
+					$bookBids[$order[0]] = array('bid',$order[1],0,0,array($order[2] => $order[1]));
 				}
 				else
 				{
 					# Add order to price line
-					$bookBids[$order[0]][4][] = $orderId;
+					$bookBids[$order[0]][4][$order[2]] = $order[1];
 					$bookBids[$order[0]][1]  += $order[1];
 				}
 			}
@@ -54,22 +49,16 @@
 			$bookAsks = [];
 			foreach($book['asks'] as $order)
 			{
-				# This needs to be fixed, orders should be a hash  id : amt
-				$orderId = array(
-					'id'  => $order[2],
-					'amt' => $order[1]
-				);
 				# Check for price line
 				if(!isset($bookAsks[$order[0]]))
 				{
 					# Add new price line
-					$orders = array($orderId);
-					$bookAsks[$order[0]] = array('ask',$order[1],0,0,$orders);
+					$bookAsks[$order[0]] = array('ask',$order[1],0,0,array($order[2] => $order[1]));
 				}
 				else
 				{
 					# Add order to price line
-					$bookAsks[$order[0]][4][] = $orderId;
+					$bookAsks[$order[0]][4][$order[2]] = $order[1];
 					$bookAsks[$order[0]][1] += $order[1];
 				}
 			}
@@ -106,7 +95,13 @@
 			{
 				if(++$ct > $liveBookDepth){ break; }
 				$order = $_SESSION['bookAsks'][$key];
-				array_unshift($liveBook,array($order[0],$key,$order[1],$order[2],$order[3],$order[4]));
+				$okeys = array_keys($order[4]);
+				$orders = [];
+				foreach($okeys as $okey)
+				{
+					$orders[] = array($okey,$order[4][$okey]);
+				}
+				array_unshift($liveBook,array($order[0],$key,$order[1],$order[2],$order[3],$orders));
 			}
 
 			# Load bids onto live book
@@ -117,7 +112,13 @@
 			{
 				if(++$ct > $liveBookDepth){ break; }
 				$order = $_SESSION['bookBids'][$key];
-				$liveBook[] = array($order[0],$key,$order[1],$order[2],$order[3],$order[4]);
+				$okeys = array_keys($order[4]);
+				$orders = [];
+				foreach($okeys as $okey)
+				{
+					$orders[] = array($okey,$order[4][$okey]);
+				}
+				$liveBook[] = array($order[0],$key,$order[1],$order[2],$order[3],$orders);
 			}
 
 		# Minions will go here, I think this should be done after the buffer is clear?
