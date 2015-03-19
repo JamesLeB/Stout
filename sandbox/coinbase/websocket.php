@@ -43,8 +43,8 @@
 				}
 			}
 			# Put Bid Book on session
-			$_SESSION['bookBids'] = $bookBids;
-			#$_SESSION['bookBids'] = [];
+			#$_SESSION['bookBids'] = $bookBids;
+			$_SESSION['bookBids'] = [];
 
 			# LOAD ASKS
 			$bookAsks = [];
@@ -64,8 +64,8 @@
 				}
 			}
 			# Put Ask Book on session
-			$_SESSION['bookAsks'] = $bookAsks;
-			#$_SESSION['bookAsks'] = [];
+			#$_SESSION['bookAsks'] = $bookAsks;
+			$_SESSION['bookAsks'] = [];
 
 			$kara = array(
 				'book'  => $book,
@@ -86,6 +86,7 @@
 
 
 		# Minions will go here, I think this should be done after the buffer is clear?
+		# Minions need to act after buffer is clear!!!
 			$minions = array('zek','groot','bob');
 
 			$nextOrder = '';
@@ -105,13 +106,91 @@
 						break;
 					case 'done':
 						array_shift($_SESSION['socketBuffer']);
-$stopOrder = 1;
-						$msg = 'Proceess Done may effect book';
+
+						$side    = $o['side'] == 'buy' ? 'bid' : 'ask';
+						$price   = $o['price'];
+						$orderI  = $o['order_id'];
+
+						$priceX = $price;
+
+						$check1 = 'Default';
+						$sampOrder = '';
+
+						if($side == 'ask')
+						{
+							$check1 = 'ask side';
+
+							# Get test sample
+							if(isset($_SESSION['bookAsks'][$priceX][4]))
+							{
+								$sampOrderK = array_keys($_SESSION['bookAsks'][$priceX][4]);
+								$sampOrder = $sampOrderK[0];
+							}
+
+							# Check if price line AND order are on book
+							if(isset($_SESSION['bookAsks'][$priceX]))
+							{
+								# Deleted order
+								unset($_SESSION['bookAsks'][$priceX][4][$orderI]);
+								$keys = array_keys($_SESSION['bookAsks'][$priceX][4]);
+								# Check size of price line order hash
+								if(sizeof($keys) == 0)
+								{
+									unset($_SESSION['bookAsks'][$priceX]);
+								}
+								else
+								{
+									# Update price line total
+									$total = 0;
+									foreach($keys as $key)
+									{
+										$total += $_SESSION['bookAsks'][$priceX][4][$key];
+									}
+									$_SESSION['bookAsks'][$priceX][1] = $total;
+								}
+							}
+						}
+						else
+						{
+							$check1 = 'bid side';
+
+							# Get test sample
+							if(isset($_SESSION['bookBids'][$priceX][4]))
+							{
+								$sampOrderK = array_keys($_SESSION['bookBids'][$priceX][4]);
+								$sampOrder = $sampOrderK[0];
+							}
+
+							# Check if price line AND order are on book
+							if(isset($_SESSION['bookBids'][$priceX]))
+							{
+								# Deleted order
+								unset($_SESSION['bookBids'][$priceX][4][$orderI]);
+								$keys = array_keys($_SESSION['bookBids'][$priceX][4]);
+								# Check size of price line order hash
+								if(sizeof($keys) == 0)
+								{
+									unset($_SESSION['bookBids'][$priceX]);
+								}
+								else
+								{
+									# Update price line total
+									$total = 0;
+									foreach($keys as $key)
+									{
+										$total += $_SESSION['bookBids'][$priceX][4][$key];
+									}
+									$_SESSION['bookBids'][$priceX][1] = $total;
+								}
+							}
+						}
+
+						$msg = $orderI.'<br/>'.$sampOrder.'<br/>'.$check1;
+
 						break;
 					case 'open':
 
 						array_shift($_SESSION['socketBuffer']);
-						break;
 
 						$side    = $o['side'] == 'buy' ? 'bid' : 'ask';
 						$price   = $o['price'];
@@ -181,7 +260,7 @@ $stopOrder = 1;
 ############################   CREATE LIVE BOOK #################################
 			# CREATE LIVE BOOK
 			$liveBook      = [];
-			$liveBookDepth = 3;
+			$liveBookDepth = 5;
 
 			# Load asks onto live book
 			$keys = array_keys($_SESSION['bookAsks']);
