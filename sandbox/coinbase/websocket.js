@@ -33,6 +33,13 @@ $(document).ready(function()
 		$.post('websocket.php',p,function(data) { });
 	});
 
+	$('#syncBuffer').click(function()
+	{
+		var p = { func: 'syncBuffer' };
+		$.post('websocket.php',p,function(data) { });
+		//alert('syc');
+	});
+
 	var p = { func: 'startup' };
 	$.post('websocket.php',p,function(data)
 	{
@@ -110,8 +117,16 @@ function tick()
 		liveBookTable += "</table>";
 		$('#book').html(liveBookTable);
 
-		$('#james').html(obj.socketBuffer);
-		$('#james').append('<br/>'+obj.nextOrder);
+		if( obj.active == 0 )
+		{
+			$('#james').html(obj.socketBuffer);
+		}
+		else
+		{
+			$('#james').css('height','25px');
+			$('#james').html('Running: '+obj.msg);
+		}
+		//$('#james').append('<br/>'+obj.nextOrder);
 
 		//var o = $.parseJSON(data);
 		//minions = o.minions;

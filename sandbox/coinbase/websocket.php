@@ -18,8 +18,14 @@
 			$_SESSION['bookSequence'] = 0;
 			$_SESSION['bufferFirst']  = 0;
 			$_SESSION['bufferLast']   = 0;
+			$_SESSION['startLiveBook']= 0;
+			$_SESSION['currentSequence']= 0;
+			$_SESSION['msg']= 'hello';
 
 			$kara = 'Startup Complete';
+			
+			# this file is for testing a method to keep the buffer in order
+			file_put_contents('seqq','');
 
 			break;
 
@@ -95,6 +101,20 @@
 			#$db = new wsdb();
 			#$db->upload($_POST['message']);
 			break;
+
+		case 'syncBuffer':
+
+# FLUSH ORDERS BEFORE FULL BOOK SEQUENCE
+
+while( isset($_SESSION['socketBuffer'][0]) && ($_SESSION['bookSequence'] - $_SESSION['bufferFirst']) >= 0)
+{
+	array_shift($_SESSION['socketBuffer']);
+	$thing = $_SESSION['socketBuffer'][0];
+	$thing = json_decode($thing,true);
+	$_SESSION['bufferFirst'] = $thing['sequence'];
+}
+$_SESSION['startLiveBook'] = 1;
+break;
 		case 'tick':
 			$stopOrder = 0;
 
@@ -104,21 +124,63 @@
 			$minions = array('zek','groot','bob');
 
 			$nextOrder = '';
-			$msg = '';
 
-# FLUSH ORDERS BEFORE FULL BOOK SEQUENCE
+			# reorder buffer
+			function cmp($a,$b)
+			{
+				$a = json_decode($a,true);
+				$b = json_decode($b,true);
+
+				$a = $a['sequence'];
+				$b = $b['sequence'];
+				
+				if($a == $b){ return 0; }
+				return ($a < $b) ? -1 : 1;
+			}
+			if(isset($_SESSION['socketBuffer'][0]))
+			{
+				usort($_SESSION['socketBuffer'],"cmp");
+			}
 
 			# Check to see if the buffer is empty
-			while(isset($_SESSION['socketBuffer'][0]) && $stopOrder == 0 && 0)
+			while(
+				isset($_SESSION['socketBuffer'][0]) &&
+				sizeof($_SESSION['socketBuffer']) > 10 &&
+				$stopOrder == 0 &&
+				$_SESSION['startLiveBook']
+			)
 			{
 				$nextOrder = $_SESSION['socketBuffer'][0];
 				$o = json_decode($nextOrder,true);
+
+/*
+					$stopOrder = 1;
+					foreach($_SESSION['socketBuffer'] as $buff)
+					{
+						$buff = json_decode($buff,true);
+						file_put_contents('seqq',$buff['sequence']."\n",FILE_APPEND);
+					}
+					break;
+*/
+				$_SESSION['msg'] = 
+					'Current: '.$o['sequence'].' '.
+					'Last: '.$_SESSION['currentSequence'];
+				
+				if( $o['sequence'] - $_SESSION['currentSequence'] < 0 )
+				{
+					$_SESSION['msg'] = 'Bad sequence number';
+					$stopOrder = 1;
+					break;
+				}
+				$_SESSION['currentSequence'] = $o['sequence'];
+
+//file_put_contents('seqq',$o['sequence']."\n",FILE_APPEND);
+				
 				$type = $o['type'];
 				switch($type)
 				{
 					case 'received':
 						array_shift($_SESSION['socketBuffer']);
-						$msg = 'Proceess received ignore';
 						break;
 					case 'done':
 						array_shift($_SESSION['socketBuffer']);
@@ -201,7 +263,6 @@
 							}
 						}
 
-						$msg = $orderI.'<br/>'.$sampOrder.'<br/>'.$check1;
 
 						break;
 					case 'open':
@@ -266,10 +327,8 @@
 
 					case 'match':
 						array_shift($_SESSION['socketBuffer']);
-						$msg = 'Proceess Open remove from book';
 						break;
 					default:
-						$msg = $type;
 				} # END SWITCH ON ORDER TYPE (recieved,open,done,match)
 			} # END OF PROCESSING BUFFER
 
@@ -332,13 +391,14 @@ $sockStat .= '</tr>';
 $sockStat .= '</table>';
 
 
-
 			$kara = array(
 				'minions'      => $minions,
 				'liveBook'     => $liveBook,
 				'socketBuffer' => $sockStat,
-				'nextOrder'    => $nextOrder.'<br/><br/>'.$msg,
-				'stopOrder'    => $stopOrder
+				'nextOrder'    => $nextOrder,
+				'stopOrder'    => $stopOrder,
+				'active'       => $_SESSION['startLiveBook'],
+				'msg'          => $_SESSION['msg']
 			);
 			break;
 # END TICK
