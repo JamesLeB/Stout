@@ -143,7 +143,7 @@ break;
 			# Check to see if the buffer is empty
 			while(
 				isset($_SESSION['socketBuffer'][0]) &&
-				(sizeof($_SESSION['socketBuffer']) > 3) &&
+				(sizeof($_SESSION['socketBuffer']) > 4) &&
 				$stopOrder == 0 &&
 				$_SESSION['startLiveBook']
 			)
