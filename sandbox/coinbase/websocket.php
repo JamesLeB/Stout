@@ -12,6 +12,7 @@
 			$db->createTable();
 
 			$_SESSION['count']        = 0;
+			$_SESSION['lastCount']    = 0;
 			$_SESSION['socketBuffer'] = [];
 			$_SESSION['bookBids']     = [];
 			$_SESSION['bookAsks']     = [];
@@ -119,9 +120,6 @@ break;
 			$stopOrder = 0;
 
 
-			# Minions will go here, I think this should be done after the buffer is clear?
-			# Minions need to act after buffer is clear!!!
-			$minions = array('zek','groot','bob');
 
 			$nextOrder = '';
 
@@ -145,7 +143,7 @@ break;
 			# Check to see if the buffer is empty
 			while(
 				isset($_SESSION['socketBuffer'][0]) &&
-				sizeof($_SESSION['socketBuffer']) > 10 &&
+				(sizeof($_SESSION['socketBuffer']) > 3) &&
 				$stopOrder == 0 &&
 				$_SESSION['startLiveBook']
 			)
@@ -332,6 +330,23 @@ break;
 				} # END SWITCH ON ORDER TYPE (recieved,open,done,match)
 			} # END OF PROCESSING BUFFER
 
+			# Minions will go here, I think this should be done after the buffer is clear?
+			# Minions need to act after buffer is clear!!!
+
+
+
+############################ Minions  #################################
+
+			require_once('minions.php');
+			$minions = new minions();
+			$minionsSay = $minions->act();
+
+############################ End Minions  #############################
+
+
+
+
+
 ############################   CREATE LIVE BOOK #################################
 			# CREATE LIVE BOOK
 			$liveBook      = [];
@@ -392,7 +407,7 @@ $sockStat .= '</table>';
 
 
 			$kara = array(
-				'minions'      => $minions,
+				'minions'      => $minionsSay,
 				'liveBook'     => $liveBook,
 				'socketBuffer' => $sockStat,
 				'nextOrder'    => $nextOrder,

@@ -123,8 +123,10 @@ function tick()
 		}
 		else
 		{
-			$('#james').css('height','25px');
-			$('#james').html('Running: '+obj.msg);
+			//$('#james').css('height','25px');
+			//$('#james').html('Running: '+obj.msg);
+			$('#james').html(obj.minions);
+			
 		}
 		//$('#james').append('<br/>'+obj.nextOrder);
 
