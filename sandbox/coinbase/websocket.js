@@ -22,16 +22,26 @@ $(document).ready(function()
 {
 	//var d = new Date();
 	//elapsed = d.getTime();
-$('#startTick').click(function(){tick();});
+	$('#startFeed').click(function()
+	{
+		webSocket(); $('#stopFeed').click(function() { ws.close(); });
+	});
+
+	$('#getBook').click(function()
+	{
+		var p = { func: 'getBook' };
+		$.post('websocket.php',p,function(data) { });
+	});
 
 	var p = { func: 'startup' };
 	$.post('websocket.php',p,function(data)
 	{
-		var obj = $.parseJSON(data);
-		var o = obj.book;
+		//var obj = $.parseJSON(data);
+		//var o = obj.book;
 
 		// READ and DISPLAY full order book
 
+/*
 		sequence = o.sequence;
 
 		bids = o.bids;
@@ -66,8 +76,8 @@ $('#startTick').click(function(){tick();});
 		//$('#james').append(bidTable);
 		//$('#james').append(askTable);
 		//$('#james').html(obj.debug);
-
-		webSocket(); $('#stopSock').click(function() { ws.close(); });
+*/
+		tick();
 	});
 });
 function tick()

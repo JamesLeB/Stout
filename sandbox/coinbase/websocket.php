@@ -6,12 +6,24 @@
 	switch($func)
 	{
 		case 'startup':
+
 			require_once('wsdb.php');
 			$db = new wsdb();
 			$db->createTable();
 
-			$_SESSION['count'] = 0;
-			$_SESSION['socketBuffer'] = array();
+			$_SESSION['count']        = 0;
+			$_SESSION['socketBuffer'] = [];
+			$_SESSION['bookBids']     = [];
+			$_SESSION['bookAsks']     = [];
+			$_SESSION['bookSequence'] = 0;
+			$_SESSION['bufferFirst']  = 0;
+			$_SESSION['bufferLast']   = 0;
+
+			$kara = 'Startup Complete';
+
+			break;
+
+		case 'getBook':
 
 			require_once('exchange.php');
 			$exchange = new exchange();
@@ -23,8 +35,6 @@
 			$book = json_decode($book,true);
 
 			$_SESSION['bookSequence']=$book['sequence'];
-			$_SESSION['bufferFirst'] = 0;
-			$_SESSION['bufferLast']  = 0;
 
 			# LOAD BIDS
 			$bookBids = [];
@@ -46,7 +56,6 @@
 			}
 			# Put Bid Book on session
 			$_SESSION['bookBids'] = $bookBids;
-			#$_SESSION['bookBids'] = [];
 
 			# LOAD ASKS
 			$bookAsks = [];
@@ -67,12 +76,7 @@
 			}
 			# Put Ask Book on session
 			$_SESSION['bookAsks'] = $bookAsks;
-			#$_SESSION['bookAsks'] = [];
 
-			$kara = array(
-				'book'  => $book,
-				'debug' => $debug
-			);
 
 			break;
 
@@ -95,8 +99,8 @@
 			$stopOrder = 0;
 
 
-		# Minions will go here, I think this should be done after the buffer is clear?
-		# Minions need to act after buffer is clear!!!
+			# Minions will go here, I think this should be done after the buffer is clear?
+			# Minions need to act after buffer is clear!!!
 			$minions = array('zek','groot','bob');
 
 			$nextOrder = '';
@@ -310,20 +314,34 @@
 ############################   END CREATE LIVE BOOK #################################
 
 			//if($_POST['click'] > 100){$stopOrder = 1;}
-$mrtn = [];
-$mrtn[] = 'bookSequence: '.$_SESSION['bookSequence'];
-$mrtn[] = 'BufferFirst: '.$_SESSION['bufferFirst'];
-$mrtn[] = 'BufferLast: '.$_SESSION['bufferLast'];
-				#'socketBuffer' => 'Groot: '.$_SESSION['bookSequence'].' : '.$stopOrder.' : '.$_POST['click'],
+$sockStat  = '<table>';
+$sockStat .= '<tr>';
+$sockStat .= '<td>bookSequence</td>';
+$sockStat .= '<td>'.$_SESSION['bookSequence'].'</td>';
+$sockStat .= '</tr>';
+
+$sockStat .= '<tr>';
+$sockStat .= '<td>BurrferFirst</td>';
+$sockStat .= '<td>'.$_SESSION['bufferFirst'].'</td>';
+$sockStat .= '</tr>';
+
+$sockStat .= '<tr>';
+$sockStat .= '<td>BurrferLast</td>';
+$sockStat .= '<td>'.$_SESSION['bufferLast'].'</td>';
+$sockStat .= '</tr>';
+$sockStat .= '</table>';
+
+
 
 			$kara = array(
 				'minions'      => $minions,
 				'liveBook'     => $liveBook,
-				'socketBuffer' => implode('<br/>',$mrtn),
+				'socketBuffer' => $sockStat,
 				'nextOrder'    => $nextOrder.'<br/><br/>'.$msg,
 				'stopOrder'    => $stopOrder
 			);
 			break;
+# END TICK
 		default:
 			break;
 	}
