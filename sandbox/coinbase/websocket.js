@@ -14,7 +14,6 @@ var eTime = 0;
 var kara  = '';
 var click = 0;
 
-var minions  = [];
 var liveBook = {};
 var book     = [];
 
@@ -43,47 +42,32 @@ $(document).ready(function()
 	var p = { func: 'startup' };
 	$.post('websocket.php',p,function(data)
 	{
-		//var obj = $.parseJSON(data);
-		//var o = obj.book;
+		var minions = $.parseJSON(data);
 
-		// READ and DISPLAY full order book
-
-/*
-		sequence = o.sequence;
-
-		bids = o.bids;
-		var bidTable = "<table id=bidTable>";
-		bids.forEach(function(bid)
+		var m = '';
+		minions.forEach(function(a)
 		{
-			bidTable += '<tr>';
-			bidTable += '<td>+</td>';
-			bid.forEach(function(e)
-			{
-				bidTable += '<td>'+e+'</td>';
-			});
-			bidTable += '</tr>';
+			m += "<div class='minion' minion='"+a.id+"'>";
+			m += "<div>" + a.id + "</div>";
+			m += "<div>Size: " + a.size + "</div>";
+			m += "<div>Cost: " + a.cost + "</div>";
+			m += "<div>Price: " + a.price + "</div>";
+			m += "<div>OrderId: " + a.orderId + "</div>";
+			m += "<div>State: " + a.state + "</div>";
+			m += "</div>";
 		});
-		bidTable += '</table>';
-
-		asks = o.asks;
-		var askTable = "<table id=askTable>";
-		asks.forEach(function(ask)
+		$('#james').html(m);
+	
+		$('.minion').click(function()
 		{
-			askTable += '<tr>';
-			askTable += '<td>-</td>';
-			ask.forEach(function(e)
+			var id = $(this).attr('minion');
+			var p = { func: 'activateMinion', minionId: id};
+			$.post('websocket.php',p,function(data)
 			{
-				askTable += '<td>'+e+'</td>';
+				$('#feed').html(data);
 			});
-			askTable += '</tr>';
 		});
-		askTable += '</table>';
-
-		//$('#james').append(sequence);
-		//$('#james').append(bidTable);
-		//$('#james').append(askTable);
-		//$('#james').html(obj.debug);
-*/
+	
 		tick();
 	});
 });
@@ -94,6 +78,18 @@ function tick()
 	{
 		$('#clock > div').html(++click);
 		var obj = $.parseJSON(data);
+
+		// UPDATE MINIONS
+		var minions = obj.minions;
+		minions.forEach(function(m,index)
+		{
+			$('#james > div:nth-child('+(index+1)+') > div:nth-child(2)').html('Size: '+m.size);
+			$('#james > div:nth-child('+(index+1)+') > div:nth-child(3)').html('Cost: '+m.cost);
+			$('#james > div:nth-child('+(index+1)+') > div:nth-child(4)').html('Price: '+m.price);
+			$('#james > div:nth-child('+(index+1)+') > div:nth-child(5)').html('OrderId: '+m.orderId);
+			$('#james > div:nth-child('+(index+1)+') > div:nth-child(6)').html('State: '+m.state);
+		});
+
 
 		// ADD LIVE ORDER BOOK
 		var liveBookTable = '';
@@ -119,13 +115,14 @@ function tick()
 
 		if( obj.active == 0 )
 		{
-			$('#james').html(obj.socketBuffer);
+			//$('#james').html(obj.socketBuffer);
+
+
 		}
 		else
 		{
 			//$('#james').css('height','25px');
 			//$('#james').html('Running: '+obj.msg);
-			$('#james').html(obj.minions);
 			
 		}
 		//$('#james').append('<br/>'+obj.nextOrder);

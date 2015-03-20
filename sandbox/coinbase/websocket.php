@@ -23,11 +23,39 @@
 			$_SESSION['currentSequence']= 0;
 			$_SESSION['msg']= 'hello';
 
-			$kara = 'Startup Complete';
+			$minion1 = array(
+				'id'      => 1,
+				'size'    => .01,
+				'cost'    => 5,
+				'price'   => 6,
+				'orderId' => '0f',
+				'state'   => '0000'
+			);
+			$minion2 = array(
+				'id'      => 2,
+				'size'    => .01,
+				'cost'    => 5,
+				'price'   => 6,
+				'orderId' => '0f',
+				'state'   => '0000'
+			);
+			$_SESSION['minions'] = array($minion1,$minion2);
+
+			$kara = $_SESSION['minions'];
 			
 			# this file is for testing a method to keep the buffer in order
 			file_put_contents('seqq','');
 
+			break;
+
+		case 'activateMinion':
+			$minionId = $_POST['minionId'];
+			$kara = "activeating minion $minionId";
+			$_SESSION['minions'][$minionId-1]['size'] = '1131';
+			$_SESSION['minions'][$minionId-1]['cost'] = '1111';
+			$_SESSION['minions'][$minionId-1]['price'] = '1111';
+			$_SESSION['minions'][$minionId-1]['orderId'] = '1111';
+			$_SESSION['minions'][$minionId-1]['state'] = '1111';
 			break;
 
 		case 'getBook':
@@ -337,9 +365,11 @@ break;
 
 ############################ Minions  #################################
 
+/*
 			require_once('minions.php');
 			$minions = new minions();
 			$minionsSay = $minions->act();
+*/
 
 ############################ End Minions  #############################
 
@@ -407,7 +437,7 @@ $sockStat .= '</table>';
 
 
 			$kara = array(
-				'minions'      => $minionsSay,
+				'minions'      => $_SESSION['minions'],
 				'liveBook'     => $liveBook,
 				'socketBuffer' => $sockStat,
 				'nextOrder'    => $nextOrder,
