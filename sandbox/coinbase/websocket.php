@@ -146,9 +146,6 @@ $_SESSION['startLiveBook'] = 1;
 break;
 		case 'tick':
 			$stopOrder = 0;
-
-
-
 			$nextOrder = '';
 
 			# reorder buffer
@@ -171,7 +168,7 @@ break;
 			# Check to see if the buffer is empty
 			while(
 				isset($_SESSION['socketBuffer'][0]) &&
-				(sizeof($_SESSION['socketBuffer']) > 4) &&
+				(sizeof($_SESSION['socketBuffer']) > 10) &&
 				$stopOrder == 0 &&
 				$_SESSION['startLiveBook']
 			)

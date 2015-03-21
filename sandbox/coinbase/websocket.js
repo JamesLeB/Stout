@@ -42,8 +42,8 @@ $(document).ready(function()
 	var p = { func: 'startup' };
 	$.post('websocket.php',p,function(data)
 	{
+/*
 		var minions = $.parseJSON(data);
-
 		var m = '';
 		minions.forEach(function(a)
 		{
@@ -67,6 +67,7 @@ $(document).ready(function()
 				$('#feed').html(data);
 			});
 		});
+*/
 	
 		tick();
 	});
@@ -80,6 +81,7 @@ function tick()
 		var obj = $.parseJSON(data);
 
 		// UPDATE MINIONS
+/*
 		var minions = obj.minions;
 		minions.forEach(function(m,index)
 		{
@@ -89,6 +91,7 @@ function tick()
 			$('#james > div:nth-child('+(index+1)+') > div:nth-child(5)').html('OrderId: '+m.orderId);
 			$('#james > div:nth-child('+(index+1)+') > div:nth-child(6)').html('State: '+m.state);
 		});
+*/
 
 
 		// ADD LIVE ORDER BOOK
@@ -115,14 +118,12 @@ function tick()
 
 		if( obj.active == 0 )
 		{
-			//$('#james').html(obj.socketBuffer);
-
-
+			$('#james').html(obj.socketBuffer);
 		}
 		else
 		{
-			//$('#james').css('height','25px');
-			//$('#james').html('Running: '+obj.msg);
+			$('#james').css('height','25px');
+			$('#james').html('Running: '+obj.msg);
 			
 		}
 		//$('#james').append('<br/>'+obj.nextOrder);
