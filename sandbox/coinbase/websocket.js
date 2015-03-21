@@ -21,6 +21,7 @@ $(document).ready(function()
 {
 	//var d = new Date();
 	//elapsed = d.getTime();
+	$('#X').click(function(){ $('#james').toggle(); });
 	$('#startFeed').click(function()
 	{
 		webSocket(); $('#stopSock').click(function() { ws.close(); });
