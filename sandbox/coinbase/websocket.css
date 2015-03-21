@@ -11,11 +11,29 @@
 	float: left;
 }
 .minion > div:nth-child(1){ width:  40px; }
-.minion > div:nth-child(2){ width:  80px; }
-.minion > div:nth-child(3){ width:  80px; }
-.minion > div:nth-child(4){ width:  80px; }
+.minion > div:nth-child(2){ width:  50px; }
+.minion > div:nth-child(3){ width:  70px; }
+.minion > div:nth-child(4){ width:  70px; }
 .minion > div:nth-child(5){ width: 250px; }
+.minion > div:nth-child(6){ width:  70px; }
 
+#minions
+{
+	background: lightgray;
+	width: 800px;
+	width: 800px;
+	margin: 20px;
+	padding: 10px;
+	border: 5px ridge blue;
+}
+#mother
+{
+	background: lightgray;
+	width: 800px;
+	margin: 20px;
+	padding: 10px;
+	border: 5px ridge green;
+}
 #controls
 {
 	border: 5px ridge gray;

@@ -23,7 +23,7 @@ $(document).ready(function()
 	//elapsed = d.getTime();
 	$('#startFeed').click(function()
 	{
-		webSocket(); $('#stopFeed').click(function() { ws.close(); });
+		webSocket(); $('#stopSock').click(function() { ws.close(); });
 	});
 
 	$('#getBook').click(function()
@@ -42,33 +42,29 @@ $(document).ready(function()
 	var p = { func: 'startup' };
 	$.post('websocket.php',p,function(data)
 	{
-/*
 		var minions = $.parseJSON(data);
 		var m = '';
 		minions.forEach(function(a)
 		{
 			m += "<div class='minion' minion='"+a.id+"'>";
 			m += "<div>" + a.id + "</div>";
-			m += "<div>Size: " + a.size + "</div>";
-			m += "<div>Cost: " + a.cost + "</div>";
-			m += "<div>Price: " + a.price + "</div>";
-			m += "<div>OrderId: " + a.orderId + "</div>";
-			m += "<div>State: " + a.state + "</div>";
+			m += "<div>" + a.size + "</div>";
+			m += "<div>" + a.cost + "</div>";
+			m += "<div>" + a.price + "</div>";
+			m += "<div>" + a.orderId + "</div>";
+			m += "<div>" + a.state + "</div>";
+			m += "<div>" + a.msg + "</div>";
 			m += "</div>";
 		});
-		$('#james').html(m);
+		$('#minions').html(m);
 	
 		$('.minion').click(function()
 		{
 			var id = $(this).attr('minion');
 			var p = { func: 'activateMinion', minionId: id};
-			$.post('websocket.php',p,function(data)
-			{
-				$('#feed').html(data);
-			});
+			$.post('websocket.php',p,function(data) { });
 		});
-*/
-	
+
 		tick();
 	});
 });
@@ -81,17 +77,16 @@ function tick()
 		var obj = $.parseJSON(data);
 
 		// UPDATE MINIONS
-/*
 		var minions = obj.minions;
 		minions.forEach(function(m,index)
 		{
-			$('#james > div:nth-child('+(index+1)+') > div:nth-child(2)').html('Size: '+m.size);
-			$('#james > div:nth-child('+(index+1)+') > div:nth-child(3)').html('Cost: '+m.cost);
-			$('#james > div:nth-child('+(index+1)+') > div:nth-child(4)').html('Price: '+m.price);
-			$('#james > div:nth-child('+(index+1)+') > div:nth-child(5)').html('OrderId: '+m.orderId);
-			$('#james > div:nth-child('+(index+1)+') > div:nth-child(6)').html('State: '+m.state);
+			$('#minions > div:nth-child('+(index+1)+') > div:nth-child(2)').html(m.size);
+			$('#minions > div:nth-child('+(index+1)+') > div:nth-child(3)').html(m.cost);
+			$('#minions > div:nth-child('+(index+1)+') > div:nth-child(4)').html(m.price);
+			$('#minions > div:nth-child('+(index+1)+') > div:nth-child(5)').html(m.orderId);
+			$('#minions > div:nth-child('+(index+1)+') > div:nth-child(6)').html(m.state);
+			$('#minions > div:nth-child('+(index+1)+') > div:nth-child(7)').html(m.msg);
 		});
-*/
 
 
 		// ADD LIVE ORDER BOOK

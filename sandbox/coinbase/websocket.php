@@ -26,10 +26,11 @@
 			$minion1 = array(
 				'id'      => 1,
 				'size'    => .01,
-				'cost'    => 5,
-				'price'   => 6,
+				'cost'    => 255.11,
+				'price'   => 264.23,
 				'orderId' => '0f',
-				'state'   => '0000'
+				'state'   => 'Idle',
+				'msg'     => 'HI'
 			);
 			$minion2 = array(
 				'id'      => 2,
@@ -37,7 +38,8 @@
 				'cost'    => 5,
 				'price'   => 6,
 				'orderId' => '0f',
-				'state'   => '0000'
+				'state'   => 'Idle',
+				'msg'     => 'HI'
 			);
 			$_SESSION['minions'] = array($minion1,$minion2);
 
@@ -51,11 +53,18 @@
 		case 'activateMinion':
 			$minionId = $_POST['minionId'];
 			$kara = "activeating minion $minionId";
-			$_SESSION['minions'][$minionId-1]['size'] = '1131';
-			$_SESSION['minions'][$minionId-1]['cost'] = '1111';
-			$_SESSION['minions'][$minionId-1]['price'] = '1111';
-			$_SESSION['minions'][$minionId-1]['orderId'] = '1111';
-			$_SESSION['minions'][$minionId-1]['state'] = '1111';
+			//$_SESSION['minions'][$minionId-1]['size'] = '1131';
+			//$_SESSION['minions'][$minionId-1]['cost'] = '1111';
+			//$_SESSION['minions'][$minionId-1]['price'] = '1111';
+			//$_SESSION['minions'][$minionId-1]['orderId'] = '1111';
+			if($_SESSION['minions'][$minionId-1]['state'] == 'Idle')
+			{
+				$_SESSION['minions'][$minionId-1]['state'] = 'Bid';
+			}
+			else if($_SESSION['minions'][$minionId-1]['state'] == 'Bid')
+			{
+				$_SESSION['minions'][$minionId-1]['state'] = 'Idle';
+			}
 			break;
 
 		case 'getBook':
@@ -367,6 +376,21 @@ break;
 			$minions = new minions();
 			$minionsSay = $minions->act();
 */
+
+	//$_SESSION['minions'][1]['msg'] = 'Music';
+
+			foreach($_SESSION['minions'] as $minion)
+			{
+				if($minion['state'] == 'Idle')
+				{
+					$_SESSION['minions'][$minion['id']-1]['msg'] = 'Waiting';
+				}
+				else
+				{
+					$_SESSION['minions'][$minion['id']-1]['msg'] = 'Post Bid';
+				}
+			}
+
 
 ############################ End Minions  #############################
 
