@@ -23,26 +23,10 @@
 			$_SESSION['currentSequence']= 0;
 			$_SESSION['msg']= 'hello';
 
-			$minion1 = array(
-				'id'      => 1,
-				'size'    => .01,
-				'cost'    => 255.11,
-				'price'   => 264.23,
-				'orderId' => '0f',
-				'state'   => 'Idle',
-				'msg'     => 'HI'
-			);
-			$minion2 = array(
-				'id'      => 2,
-				'size'    => .01,
-				'cost'    => 5,
-				'price'   => 6,
-				'orderId' => '0f',
-				'state'   => 'Idle',
-				'msg'     => 'HI'
-			);
-			$_SESSION['minions'] = array($minion1,$minion2);
-
+			# Load Minions
+			require_once('minions.php');
+			$minions = new minions();
+			$minions->loadMinions();
 			$kara = $_SESSION['minions'];
 			
 			# this file is for testing a method to keep the buffer in order
@@ -51,20 +35,11 @@
 			break;
 
 		case 'activateMinion':
-			$minionId = $_POST['minionId'];
-			$kara = "activeating minion $minionId";
-			//$_SESSION['minions'][$minionId-1]['size'] = '1131';
-			//$_SESSION['minions'][$minionId-1]['cost'] = '1111';
-			//$_SESSION['minions'][$minionId-1]['price'] = '1111';
-			//$_SESSION['minions'][$minionId-1]['orderId'] = '1111';
-			if($_SESSION['minions'][$minionId-1]['state'] == 'Idle')
-			{
-				$_SESSION['minions'][$minionId-1]['state'] = 'Bid';
-			}
-			else if($_SESSION['minions'][$minionId-1]['state'] == 'Bid')
-			{
-				$_SESSION['minions'][$minionId-1]['state'] = 'Idle';
-			}
+
+			require_once('minions.php');
+			$minions = new minions();
+			$minions->activateMinion($_POST['minionId']);
+
 			break;
 
 		case 'getBook':
@@ -371,25 +346,14 @@ break;
 
 ############################ Minions  #################################
 
-/*
 			require_once('minions.php');
 			$minions = new minions();
-			$minionsSay = $minions->act();
-*/
+			$minions->act();
 
 	//$_SESSION['minions'][1]['msg'] = 'Music';
 
-			foreach($_SESSION['minions'] as $minion)
-			{
-				if($minion['state'] == 'Idle')
-				{
-					$_SESSION['minions'][$minion['id']-1]['msg'] = 'Waiting';
-				}
-				else
-				{
-					$_SESSION['minions'][$minion['id']-1]['msg'] = 'Post Bid';
-				}
-			}
+/*
+*/
 
 
 ############################ End Minions  #############################
@@ -417,7 +381,7 @@ break;
 				{
 					$orders[] = array($okey,$order[4][$okey]);
 				}
-				array_unshift($liveBook,array($order[0],$key,$order[1],$order[2],$order[3],$orders));
+				//array_unshift($liveBook,array($order[0],$key,$order[1],$order[2],$order[3],$orders));
 			}
 
 			# Load bids onto live book

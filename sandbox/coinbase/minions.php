@@ -6,91 +6,58 @@ class minions
 	public function __construct()
 	{
 	}
+	public function loadMinions()
+	{
+		$_SESSION['minions'] = [];
+		for($i=1;$i<4;$i++)
+		{
+			$minion = array(
+				'id'      => $i,
+				'size'    => .01,
+				'cost'    => 0.00,
+				'price'   => 0.00,
+				'orderId' => '0f',
+				'state'   => 'Idle',
+				'msg'     => 'Hmm'
+			);
+			$_SESSION['minions'][] = $minion;
+		}
+	}
+	public function activateMinion($minionId)
+	{
+		if($_SESSION['minions'][$minionId-1]['state'] == 'Idle')
+		{
+			$_SESSION['minions'][$minionId-1]['state'] = 'Bid';
+		}
+		else if($_SESSION['minions'][$minionId-1]['state'] == 'Bid')
+		{
+			$_SESSION['minions'][$minionId-1]['state'] = 'Idle';
+		}
+	}
 	public function act()
 	{
-		$adam = $_SESSION['count'];
-
-		$usd = 20;
-		$btc = 1;
-		$size = .1;
-		$bid = 200;
-		$ask = 203;
-		$spread = $ask - $bid;
-
-		$minions = [];
-
-		$m1 = array(
-			'id'      => 1,
-			'cost'    => '',
-			'price'   => '',
-			'size'    => '',
-			'orderId' => '',
-			'state'   => '0000'
-		);
-
-		$m2 = array(
-			'id'      => 2,
-			'cost'    => '',
-			'price'   => '',
-			'size'    => '',
-			'orderId' => '',
-			'state'   => '0000'
-		);
-
-		$a = [];
-		$a[] = $m1;
-		$a[] = $m2;
-		foreach($a as $b)
+		foreach($_SESSION['minions'] as $minion)
 		{
-			$mId      = $b['id'];
-			$mCost    = $b['cost'];
-			$mPrice   = $b['price'];
-			$mSize    = $b['size'];
-			$mOrderId = $b['orderId'];
-			$mState   = $b['state'];
+			if($minion['state'] == 'Idle')
+			{
+				$_SESSION['minions'][$minion['id']-1]['msg'] = 'Waiting';
+			}
+			else if($minion['state'] == 'Bid')
+			{
+				# GET HIGH BID
+				$_SESSION['minions'][$minion['id']-1]['msg'] = 'Getting high bid';
 
-			$minions[] = "
-				<div class='minion'>
-					Id:      $mId - 
-					Cost:    $mCost - 
-					Price:   $mPrice - 
-					Size:    $mSize - 
-					OrderId: $mOrderId - 
-					State:   $mState 
-				</div>
-			";
+				$keys = array_keys($_SESSION['bookBids']);
+				usort($keys);
+
+				$_SESSION['minions'][$minion['id']-1]['cost'] = array_shift($keys) + 0;
+
+			}
+			else
+			{
+				$_SESSION['minions'][$minion['id']-1]['msg'] = 'Post Bid';
+			}
 		}
-
-		$html = '';
-		$html .= "
-			<div>$adam  - USD: $usd  - BTC: $btc  - Size: $size  - Bid: $bid  - Ask: $ask
-			</div>";
-
-		$html .= '<div>';
-		foreach($minions as $minion)
-		{
-			$html .= $minion;
-		}
-		$html .= '</div>';
-
-		$html .= "
-			<style>
-				.minion
-				{
-					border: 1px solid black;
-					margin: 5px;
-					padding: 5px;
-				}
-			</style>
-			<script>
-				$('.minion').click(function()
-				{
-					$(this).css('background','yellow');
-				})
-			</script>
-		";
-
-		return $html;
 	}
 }
 ?>
