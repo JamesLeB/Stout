@@ -37,7 +37,6 @@ $(document).ready(function()
 	{
 		var p = { func: 'syncBuffer' };
 		$.post('websocket.php',p,function(data) { });
-		//alert('syc');
 	});
 
 	var p = { func: 'startup' };
