@@ -63,7 +63,7 @@ $(document).ready(function()
 		{
 			var id = $(this).attr('minion');
 			var p = { func: 'activateMinion', minionId: id};
-			$.post('websocket.php',p,function(data) { });
+			$.post('websocket.php',p,function(data) {alert('clicked') });
 		});
 
 		tick();
@@ -78,6 +78,7 @@ function tick()
 		var obj = $.parseJSON(data);
 
 		// UPDATE MINIONS
+/*
 		var minions = obj.minions;
 		minions.forEach(function(m,index)
 		{
@@ -88,6 +89,7 @@ function tick()
 			$('#minions > div:nth-child('+(index+1)+') > div:nth-child(6)').html(m.state);
 			$('#minions > div:nth-child('+(index+1)+') > div:nth-child(7)').html(m.msg);
 		});
+*/
 
 
 		// ADD LIVE ORDER BOOK

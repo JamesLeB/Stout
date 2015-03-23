@@ -36,9 +36,11 @@
 
 		case 'activateMinion':
 
+/*
 			require_once('minions.php');
 			$minions = new minions();
 			$minions->activateMinion($_POST['minionId']);
+*/
 
 			break;
 
