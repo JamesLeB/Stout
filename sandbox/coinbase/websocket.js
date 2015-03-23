@@ -23,6 +23,10 @@ $(document).ready(function()
 	//elapsed = d.getTime();
 	$('#X').click(function(){ $('#james').toggle(); });
 	$('#bug').click(function(){ $('#debug').toggle(); });
+	$('#getMom').click(function()
+	{
+		$('#mother').html('getting Account info');
+	});
 	$('#startFeed').click(function()
 	{
 		webSocket(); $('#stopSock').click(function() { ws.close(); });
