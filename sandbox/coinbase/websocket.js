@@ -25,7 +25,12 @@ $(document).ready(function()
 	$('#bug').click(function(){ $('#debug').toggle(); });
 	$('#getMom').click(function()
 	{
-		$('#mother').html('getting Account info');
+		var p = { func: 'getBalance' };
+		$.post('websocket.php',p,function(data)
+		{
+			var balance = $.parseJSON(data);
+			$('#mother').html(balance[0]+" : "+balance[1]);
+		});
 	});
 	$('#startFeed').click(function()
 	{

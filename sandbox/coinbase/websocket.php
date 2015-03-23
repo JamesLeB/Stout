@@ -45,6 +45,16 @@
 
 			break;
 
+		case 'getBalance':
+			require_once('exchange.php');
+			$exchange = new exchange();
+			$balance = $exchange->getBalance();
+			$b = json_decode($balance,true);
+			$usdA = $b[0]['available'];
+			$btcA = $b[1]['available'];
+			$kara = array($usdA,$btcA);
+			break;
+
 		case 'getBook':
 
 			require_once('exchange.php');
