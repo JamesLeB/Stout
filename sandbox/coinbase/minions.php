@@ -16,7 +16,7 @@ class minions
 				'size'    => .01,
 				'cost'    => 0.00,
 				'price'   => 0.00,
-				'orderId' => '0f',
+				'orderId' => '00f',
 				'state'   => 'Idle',
 				'msg'     => 'Hmm'
 			);
@@ -36,6 +36,7 @@ class minions
 	}
 	public function act()
 	{
+		$a = 'hey';
 		foreach($_SESSION['minions'] as $minion)
 		{
 			if($minion['state'] == 'Idle')
@@ -48,16 +49,24 @@ class minions
 				$_SESSION['minions'][$minion['id']-1]['msg'] = 'Getting high bid';
 
 				$keys = array_keys($_SESSION['bookBids']);
-				usort($keys);
-
-				$_SESSION['minions'][$minion['id']-1]['cost'] = array_shift($keys) + 0;
-
+				if(sizeof($keys) > 0)
+				{
+					rsort($keys);
+					$a = $keys[0];
+					$_SESSION['minions'][$minion['id']-1]['cost'] = $keys[0] + 0 - 100;
+				}
 			}
+/*
+
+
 			else
 			{
 				$_SESSION['minions'][$minion['id']-1]['msg'] = 'Post Bid';
 			}
+*/
 		}
+		//$a = json_encode($_SESSION['minions'][0]);
+		return "$a : hh";
 	}
 }
 ?>

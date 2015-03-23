@@ -26,6 +26,14 @@
 	padding: 10px;
 	border: 5px ridge blue;
 }
+#debug
+{
+	background: lightgray;
+	width: 800px;
+	margin: 20px;
+	padding: 10px;
+	border: 5px ridge red;
+}
 #mother
 {
 	background: lightgray;
@@ -37,7 +45,7 @@
 #controls
 {
 	border: 5px ridge gray;
-	width: 300px;
+	width: 400px;
 	height: 40px;
 	padding-top:  10px;
 	padding-left: 10px;

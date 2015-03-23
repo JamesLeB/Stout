@@ -22,6 +22,7 @@ $(document).ready(function()
 	//var d = new Date();
 	//elapsed = d.getTime();
 	$('#X').click(function(){ $('#james').toggle(); });
+	$('#bug').click(function(){ $('#debug').toggle(); });
 	$('#startFeed').click(function()
 	{
 		webSocket(); $('#stopSock').click(function() { ws.close(); });
@@ -62,7 +63,9 @@ $(document).ready(function()
 		{
 			var id = $(this).attr('minion');
 			var p = { func: 'activateMinion', minionId: id};
-			$.post('websocket.php',p,function(data) {alert('clicked') });
+			$.post('websocket.php',p,function(data) {
+				//$('#debug').html(data);
+			});
 		});
 
 		tick();
@@ -76,8 +79,9 @@ function tick()
 		$('#clock > div').html(++click);
 		var obj = $.parseJSON(data);
 
+$('#debug').html(obj.debug);
+
 		// UPDATE MINIONS
-/*
 		var minions = obj.minions;
 		minions.forEach(function(m,index)
 		{
@@ -88,6 +92,7 @@ function tick()
 			$('#minions > div:nth-child('+(index+1)+') > div:nth-child(6)').html(m.state);
 			$('#minions > div:nth-child('+(index+1)+') > div:nth-child(7)').html(m.msg);
 		});
+/*
 */
 
 

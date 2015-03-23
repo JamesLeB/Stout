@@ -30,17 +30,18 @@
 			$kara = $_SESSION['minions'];
 			
 			# this file is for testing a method to keep the buffer in order
-			file_put_contents('seqq','');
+			//file_put_contents('seqq','');
 
 			break;
 
 		case 'activateMinion':
 
-/*
 			require_once('minions.php');
 			$minions = new minions();
 			$minions->activateMinion($_POST['minionId']);
+/*
 */
+			$kara = "activate Minion: ".$_POST['minionId'];
 
 			break;
 
@@ -350,7 +351,7 @@ break;
 
 			require_once('minions.php');
 			$minions = new minions();
-			$minions->act();
+			$debug = $minions->act();
 
 	//$_SESSION['minions'][1]['msg'] = 'Music';
 
@@ -430,7 +431,8 @@ $sockStat .= '</table>';
 				'nextOrder'    => $nextOrder,
 				'stopOrder'    => $stopOrder,
 				'active'       => $_SESSION['startLiveBook'],
-				'msg'          => $_SESSION['msg']
+				'msg'          => $_SESSION['msg'],
+				'debug'        => $debug
 			);
 			break;
 # END TICK
