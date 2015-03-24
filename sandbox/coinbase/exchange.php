@@ -55,6 +55,51 @@ class exchange
 
 		return $orders;
 	}
+	public function placeOrder($size,$price,$side)
+	{
+		//$size = .01;
+		//$price = 999;
+		//$side = 'buy';
+		$product = 'BTC_USD';
+
+		$ms = 0;
+		$a = array();
+		$a['size']  = $size;
+		$a['price'] = $price;
+		$a['side']  = $side;
+		$a['product_id'] = $product;
+
+		return "$price";
+/*
+
+		$json = json_encode($a);
+		$newOrder = $this->sendOrder($json);
+		$newOrder = json_decode($newOrder,true);
+		$order['serverId'] = $newOrder['id'];
+		if($order['serverId']){$this->db->saveOrder($order);}
+		$ms = $newOrder['id'];
+
+		return $ms;
+
+	private function sendOrder($body)
+	{
+		$url = '/orders';
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_URL, $this->path.$url);
+		curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0');
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($curl, CURLOPT_POSTFIELDS, $body);
+		$signatureArray = $this->getSignatureArray($url,$body,'POST');
+		$signatureArray[] = "Content-Type: application/json";
+		$length = strlen($body);
+		$signatureArray[] = "Content-Length: $length";
+		curl_setopt($curl, CURLOPT_HTTPHEADER,$signatureArray);
+		$order = curl_exec($curl);
+		return $order;
+	}
+*/
+
+	}
 	private function getSignatureArray($url,$body,$method)
 	{
 		# Create Signature

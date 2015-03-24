@@ -46,19 +46,25 @@ class minions
 			else if($minion['state'] == 'Bid')
 			{
 				# GET HIGH BID
-				$_SESSION['minions'][$minion['id']-1]['msg'] = 'Getting high bid';
-
+				$highBid = 0;
 				$keys = array_keys($_SESSION['bookBids']);
 				if(sizeof($keys) > 0)
 				{
 					rsort($keys);
-					$a = $keys[0];
+					$highBid = $keys[0] - 100;
 					$_SESSION['minions'][$minion['id']-1]['cost'] = $keys[0] + 0 - 100;
 				}
+
+				# PLACING BID
+				require_once('exchange.php');
+				$exchange = new exchange();
+				$size = .01;
+				$side = 'buy';
+				$orderId = $exchange->placeOrder($size,$highBid,$side);
+
+				$_SESSION['minions'][$minion['id']-1]['msg'] = $orderId;
 			}
 /*
-
-
 			else
 			{
 				$_SESSION['minions'][$minion['id']-1]['msg'] = 'Post Bid';

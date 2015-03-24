@@ -89,7 +89,6 @@ function tick()
 		var obj = $.parseJSON(data);
 
 		$('#debug').html(obj.debug);
-		$('#mother').html(obj.openOrders);
 
 		// UPDATE MINIONS
 		var minions = obj.minions;
