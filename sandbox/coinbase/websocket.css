@@ -80,6 +80,8 @@
 	margin-left: 20px;
 	margin-top: 10px;
 	background: lightgray;
+	height: 500px;
+	overflow: auto;
 }
 #book table td
 {
@@ -124,8 +126,9 @@
 	padding-left: 10px;
 	padding-top: 10px;
 	width: 150px;
-	margin-left: 20px;
-	margin-top: 10px;
+	position: absolute;
+	top: 600px;
+	left: 900px;
 }
 #data > div
 {
