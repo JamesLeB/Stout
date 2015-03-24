@@ -32,7 +32,7 @@
 			# Load Minions
 			require_once('minions.php');
 			$minions = new minions();
-			$minions->loadMinions();
+			$_SESSION['minions'] = $minions->loadMinions();
 			$kara = $_SESSION['minions'];
 			
 			# this file is for testing a method to keep the buffer in order
@@ -82,7 +82,6 @@
 				if(!isset($bookBids[$order[0]]))
 				{
 					# Add new price line
-					//$orders = array($orderId);
 					$bookBids[$order[0]] = array('bid',$order[1],0,0,array($order[2] => $order[1]));
 				}
 				else
@@ -129,24 +128,28 @@
 
 			$kara = 'Loaded: '.++$_SESSION['count'].' : Buffer: '.sizeof($_SESSION['socketBuffer']);
 
+			# SEND MESSAGE TO DATABASE
 			#require_once('wsdb.php');
 			#$db = new wsdb();
 			#$db->upload($_POST['message']);
+
 			break;
 
 		case 'syncBuffer':
 
-# FLUSH ORDERS BEFORE FULL BOOK SEQUENCE
+			# FLUSH ORDERS BEFORE FULL BOOK SEQUENCE
+			while( isset($_SESSION['socketBuffer'][0])
+				&& ($_SESSION['bookSequence'] - $_SESSION['bufferFirst']) >= 0)
+			{
+				array_shift($_SESSION['socketBuffer']);
+				$thing = $_SESSION['socketBuffer'][0];
+				$thing = json_decode($thing,true);
+				$_SESSION['bufferFirst'] = $thing['sequence'];
+			}
+			$_SESSION['startLiveBook'] = 1;
 
-while( isset($_SESSION['socketBuffer'][0]) && ($_SESSION['bookSequence'] - $_SESSION['bufferFirst']) >= 0)
-{
-	array_shift($_SESSION['socketBuffer']);
-	$thing = $_SESSION['socketBuffer'][0];
-	$thing = json_decode($thing,true);
-	$_SESSION['bufferFirst'] = $thing['sequence'];
-}
-$_SESSION['startLiveBook'] = 1;
-break;
+			break;
+
 		case 'tick':
 			$stopOrder = 0;
 			$nextOrder = '';
@@ -188,6 +191,8 @@ break;
 					}
 					break;
 */
+
+				# CHECK for bad sequence
 				$_SESSION['msg'] = 
 					'Current: '.$o['sequence'].' '.
 					'Last: '.$_SESSION['currentSequence'];
@@ -200,8 +205,6 @@ break;
 				}
 				$_SESSION['currentSequence'] = $o['sequence'];
 
-//file_put_contents('seqq',$o['sequence']."\n",FILE_APPEND);
-				
 				$type = $o['type'];
 				switch($type)
 				{
@@ -218,18 +221,20 @@ break;
 						$priceX = $price;
 
 						$check1 = 'Default';
-						$sampOrder = '';
+						//$sampOrder = '';
 
 						if($side == 'ask')
 						{
 							$check1 = 'ask side';
 
+/*
 							# Get test sample
 							if(isset($_SESSION['bookAsks'][$priceX][4]))
 							{
 								$sampOrderK = array_keys($_SESSION['bookAsks'][$priceX][4]);
 								$sampOrder = $sampOrderK[0];
 							}
+*/
 
 							# Check if price line AND order are on book
 							if(isset($_SESSION['bookAsks'][$priceX]))
@@ -258,12 +263,14 @@ break;
 						{
 							$check1 = 'bid side';
 
+/*
 							# Get test sample
 							if(isset($_SESSION['bookBids'][$priceX][4]))
 							{
 								$sampOrderK = array_keys($_SESSION['bookBids'][$priceX][4]);
 								$sampOrder = $sampOrderK[0];
 							}
+*/
 
 							# Check if price line AND order are on book
 							if(isset($_SESSION['bookBids'][$priceX]))
@@ -358,10 +365,6 @@ break;
 				} # END SWITCH ON ORDER TYPE (recieved,open,done,match)
 			} # END OF PROCESSING BUFFER
 
-			# Minions will go here, I think this should be done after the buffer is clear?
-			# Minions need to act after buffer is clear!!!
-
-
 
 ############################ Minions  #################################
 
@@ -369,13 +372,6 @@ break;
 			$minions = new minions();
 			$debug = $minions->act();
 			$debug = $_SESSION['debug'];
-
-
-
-	//$_SESSION['minions'][1]['msg'] = 'Music';
-
-/*
-*/
 
 
 ############################ End Minions  #############################

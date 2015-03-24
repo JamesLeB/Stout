@@ -8,7 +8,8 @@ class minions
 	}
 	public function loadMinions()
 	{
-		$_SESSION['minions'] = [];
+		//$_SESSION['minions'] = [];
+		$minions = [];
 		for($i=1;$i<4;$i++)
 		{
 			$minion = array(
@@ -20,8 +21,10 @@ class minions
 				'state'   => 'Idle',
 				'msg'     => 'Hmm'
 			);
-			$_SESSION['minions'][] = $minion;
+			$minions[] = $minion;
+			//$_SESSION['minions'][] = $minion;
 		}
+		return $minions;
 	}
 	public function activateMinion($minionId)
 	{
