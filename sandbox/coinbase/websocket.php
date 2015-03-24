@@ -23,6 +23,8 @@
 			$_SESSION['currentSequence']= 0;
 			$_SESSION['msg']= 'hello';
 
+			$_SESSION['openOrders']= 'theres are the session open orders';
+
 			require_once('exchange.php');
 			$exchange = new exchange();
 			$d = $exchange->getOpenOrders();
@@ -451,6 +453,7 @@ $sockStat .= '</table>';
 				'stopOrder'    => $stopOrder,
 				'active'       => $_SESSION['startLiveBook'],
 				'msg'          => $_SESSION['msg'],
+				'openOrders'   => $_SESSION['openOrders'],
 				'debug'        => $debug
 			);
 			break;
