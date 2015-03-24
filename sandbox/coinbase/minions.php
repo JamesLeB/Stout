@@ -39,7 +39,7 @@ class minions
 	}
 	public function act()
 	{
-		$a = 'hey';
+		$a = 'Ho';
 		foreach($_SESSION['minions'] as $minion)
 		{
 			if($minion['state'] == 'Idle')
@@ -75,7 +75,7 @@ class minions
 */
 		}
 		//$a = json_encode($_SESSION['minions'][0]);
-		return "$a : hh";
+		return "$a : k";
 	}
 }
 ?>

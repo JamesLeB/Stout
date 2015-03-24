@@ -371,7 +371,7 @@
 			require_once('minions.php');
 			$minions = new minions();
 			$debug = $minions->act();
-			$debug = $_SESSION['debug'];
+			//$debug = $_SESSION['debug'];
 
 
 ############################ End Minions  #############################

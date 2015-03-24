@@ -69,7 +69,7 @@ class exchange
 		$a['side']  = $side;
 		$a['product_id'] = $product;
 
-		return "$price";
+		return "ORDER!!";
 /*
 
 		$json = json_encode($a);
