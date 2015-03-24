@@ -47,37 +47,39 @@ $(document).ready(function()
 		$.post('websocket.php',p,function(data) { });
 	});
 
-	// RUN STARTUP SCRIPT
-	var p = { func: 'startup' };
-	$.post('websocket.php',p,function(data)
+	$('#start').click(function()
 	{
-		var minions = $.parseJSON(data);
-		var m = '';
-		minions.forEach(function(a)
+		// RUN STARTUP SCRIPT
+		var p = { func: 'startup' };
+		$.post('websocket.php',p,function(data)
 		{
-			m += "<div class='minion' minion='"+a.id+"'>";
-			m += "<div>" + a.id + "</div>";
-			m += "<div>" + a.size + "</div>";
-			m += "<div>" + a.cost + "</div>";
-			m += "<div>" + a.price + "</div>";
-			m += "<div>" + a.orderId + "</div>";
-			m += "<div>" + a.state + "</div>";
-			m += "<div>" + a.msg + "</div>";
-			m += "</div>";
-		});
-		$('#minions').html(m);
-	
-		$('.minion').click(function()
-		{
-			var id = $(this).attr('minion');
-			var p = { func: 'activateMinion', minionId: id};
-			$.post('websocket.php',p,function(data) {
-				//$('#debug').html(data);
+			var minions = $.parseJSON(data);
+			var m = '';
+			minions.forEach(function(a)
+			{
+				m += "<div class='minion' minion='"+a.id+"'>";
+				m += "<div>" + a.id + "</div>";
+				m += "<div>" + a.size + "</div>";
+				m += "<div>" + a.cost + "</div>";
+				m += "<div>" + a.price + "</div>";
+				m += "<div>" + a.orderId + "</div>";
+				m += "<div>" + a.state + "</div>";
+				m += "<div>" + a.msg + "</div>";
+				m += "</div>";
+			});
+			$('#minions').html(m);
+		
+			$('.minion').click(function()
+			{
+				var id = $(this).attr('minion');
+				var p = { func: 'activateMinion', minionId: id};
+				$.post('websocket.php',p,function(data) {
+					//$('#debug').html(data);
+				});
 			});
 		});
-
-		//tick();
 	});
+
 });
 function tick()
 {
