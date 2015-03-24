@@ -11,16 +11,15 @@ var message = {
 };
 
 var eTime = 0;
-var kara  = '';
 var click = 0;
-
-var liveBook = {};
-var book     = [];
 
 $(document).ready(function()
 {
 	//var d = new Date();
 	//elapsed = d.getTime();
+
+	// SET UP BUTTON CLICKS
+	$('#T').click(function(){ tick(); });
 	$('#X').click(function(){ $('#james').toggle(); });
 	$('#bug').click(function(){ $('#debug').toggle(); });
 	$('#getMom').click(function()
@@ -42,13 +41,13 @@ $(document).ready(function()
 		var p = { func: 'getBook' };
 		$.post('websocket.php',p,function(data) { });
 	});
-
 	$('#syncBuffer').click(function()
 	{
 		var p = { func: 'syncBuffer' };
 		$.post('websocket.php',p,function(data) { });
 	});
 
+	// RUN STARTUP SCRIPT
 	var p = { func: 'startup' };
 	$.post('websocket.php',p,function(data)
 	{
@@ -77,7 +76,7 @@ $(document).ready(function()
 			});
 		});
 
-		tick();
+		//tick();
 	});
 });
 function tick()
@@ -85,9 +84,12 @@ function tick()
 	var p = { func: 'tick', click: click };
 	$.post('websocket.php',p,function(data)
 	{
-		$('#clock > div').html(++click);
 		var obj = $.parseJSON(data);
 
+		// UPDATE CLOCK
+		$('#clock > div').html(++click);
+
+		// SEND TICK DEBUG TO PAGE
 		$('#debug').html(obj.debug);
 
 		// UPDATE MINIONS
@@ -101,9 +103,6 @@ function tick()
 			$('#minions > div:nth-child('+(index+1)+') > div:nth-child(6)').html(m.state);
 			$('#minions > div:nth-child('+(index+1)+') > div:nth-child(7)').html(m.msg);
 		});
-/*
-*/
-
 
 		// ADD LIVE ORDER BOOK
 		var liveBookTable = '';
@@ -127,21 +126,18 @@ function tick()
 		liveBookTable += "</table>";
 		$('#book').html(liveBookTable);
 
+		// UPDATE socket buffer Feed back
 		if( obj.active == 0 )
 		{
 			$('#james').html(obj.socketBuffer);
 		}
 		else
 		{
-			$('#james').css('height','25px');
 			$('#james').html('Running: '+obj.msg);
 			
 		}
-		//$('#james').append('<br/>'+obj.nextOrder);
 
-		//var o = $.parseJSON(data);
-		//minions = o.minions;
-
+		// CALL TICK
 		if(obj.stopOrder == 0){tick();}
 	});
 }
@@ -157,14 +153,19 @@ function webSocket()
 		message.total++;
 		var obj = $.parseJSON(evt.data);
 
+		// UPDATE message feed data
 		     if(obj.type == 'open')     { message.open++; }
 		else if(obj.type == 'received') { message.received++; }
 		else if(obj.type == 'done')     { message.done++; }
 		else if(obj.type == 'match')    { message.match++; }
 		else                            { message.error++; }
+		$('#data > div:nth-child(1) > div:nth-child(2)').html(message.open);
+		$('#data > div:nth-child(2) > div:nth-child(2)').html(message.received);
+		$('#data > div:nth-child(3) > div:nth-child(2)').html(message.done);
+		$('#data > div:nth-child(4) > div:nth-child(2)').html(message.match);
+		$('#data > div:nth-child(5) > div:nth-child(2)').html(message.error);
 
-		refreshPage();
-
+		// SEND new message to PHP
 		var p = { func: 'upload', message: evt.data };
 		$.post('websocket.php',p,function(data)
 		{
@@ -185,20 +186,4 @@ function webSocket()
 			$('#feed').prepend(matchLine);
 		}
 	};
-}
-function refreshPage()
-{
-	$('#data > div:nth-child(1) > div:nth-child(2)').html(message.open);
-	$('#data > div:nth-child(2) > div:nth-child(2)').html(message.received);
-	$('#data > div:nth-child(3) > div:nth-child(2)').html(message.done);
-	$('#data > div:nth-child(4) > div:nth-child(2)').html(message.match);
-	$('#data > div:nth-child(5) > div:nth-child(2)').html(message.error);
-
-/*
-	$('#james').html('');
-	minions.forEach(function(minion)
-	{
-		$('#james').append("<div class='minion onBookBid'>"+minion+"</div>");
-	});
-*/
 }
