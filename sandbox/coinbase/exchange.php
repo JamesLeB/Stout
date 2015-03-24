@@ -38,6 +38,23 @@ class exchange
 		return $accounts;
 
 	}
+	public function getOpenOrders()
+	{
+		$url = '/orders';
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_URL, $this->path.$url);
+		curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0');
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+
+		$body = ''; #$body = json_encode($body);
+		$signatureArray = $this->getSignatureArray($url,$body,'GET');
+
+		curl_setopt($curl, CURLOPT_HTTPHEADER,$signatureArray);
+
+		$orders = curl_exec($curl);
+
+		return $orders;
+	}
 	private function getSignatureArray($url,$body,$method)
 	{
 		# Create Signature

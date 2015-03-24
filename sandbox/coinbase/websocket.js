@@ -88,7 +88,7 @@ function tick()
 		$('#clock > div').html(++click);
 		var obj = $.parseJSON(data);
 
-$('#debug').html(obj.debug);
+		$('#debug').html(obj.debug);
 
 		// UPDATE MINIONS
 		var minions = obj.minions;

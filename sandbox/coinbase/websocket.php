@@ -23,6 +23,12 @@
 			$_SESSION['currentSequence']= 0;
 			$_SESSION['msg']= 'hello';
 
+			require_once('exchange.php');
+			$exchange = new exchange();
+			$d = $exchange->getOpenOrders();
+
+			$_SESSION['debug']= $d;
+
 			# Load Minions
 			require_once('minions.php');
 			$minions = new minions();
@@ -362,6 +368,9 @@ break;
 			require_once('minions.php');
 			$minions = new minions();
 			$debug = $minions->act();
+			$debug = $_SESSION['debug'];
+
+
 
 	//$_SESSION['minions'][1]['msg'] = 'Music';
 
