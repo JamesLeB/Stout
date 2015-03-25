@@ -13,6 +13,10 @@ var message = {
 var eTime = 0;
 var click = 0;
 
+var activeBuffer = 1;
+var buffer1 = [];
+var buffer2 = [];
+
 $(document).ready(function()
 {
 	//var d = new Date();
@@ -28,14 +32,13 @@ $(document).ready(function()
 		$.post('websocket.php',p,function(data)
 		{
 			var balance = $.parseJSON(data);
-			$('#mother').html(balance[0]+" : "+balance[1]);
+			$('#mother').html("<div>USD: "+balance[0]+"</div><div>BTC: "+balance[1]+"</div>");
 		});
 	});
 	$('#startFeed').click(function()
 	{
 		webSocket(); $('#stopSock').click(function() { ws.close(); });
 	});
-
 	$('#getBook').click(function()
 	{
 		var p = { func: 'getBook' };
@@ -46,7 +49,6 @@ $(document).ready(function()
 		var p = { func: 'syncBuffer' };
 		$.post('websocket.php',p,function(data) { });
 	});
-
 	$('#start').click(function()
 	{
 		// RUN STARTUP SCRIPT
@@ -79,14 +81,34 @@ $(document).ready(function()
 			});
 		});
 	});
-
 });
+
 function tick()
 {
-	var p = { func: 'tick', click: click };
+	// Switch and clear buffer
+	var payload = [];
+	if( activeBuffer == 1 )
+	{
+		activeBuffer = 2;
+		payload = buffer1;
+		buffer1 = [];
+	}
+	else
+	{
+		activeBuffer = 1;
+		payload = buffer2;
+		buffer2 = [];
+	}
+/*
+*/
+
+	var p = { func: 'tick', click: click, payload: payload };
 	$.post('websocket.php',p,function(data)
 	{
+	//	$('#book').html(data);
 		var obj = $.parseJSON(data);
+
+		$('#data').html(obj.feedData);
 
 		// UPDATE CLOCK
 		$('#clock > div').html(++click);
@@ -105,6 +127,8 @@ function tick()
 			$('#minions > div:nth-child('+(index+1)+') > div:nth-child(6)').html(m.state);
 			$('#minions > div:nth-child('+(index+1)+') > div:nth-child(7)').html(m.msg);
 		});
+/*
+*/
 
 		// ADD LIVE ORDER BOOK
 		var liveBookTable = '';
@@ -127,6 +151,8 @@ function tick()
 		});
 		liveBookTable += "</table>";
 		$('#book').html(liveBookTable);
+/*
+*/
 
 		// UPDATE socket buffer Feed back
 		if( obj.active == 0 )
@@ -136,8 +162,9 @@ function tick()
 		else
 		{
 			$('#james').html('Running: '+obj.msg);
-			
 		}
+/*
+*/
 
 		// CALL TICK
 		if(obj.stopOrder == 0){tick();}
@@ -152,31 +179,22 @@ function webSocket()
 	}
 	ws.onmessage = function(evt)
 	{
-		message.total++;
 		var obj = $.parseJSON(evt.data);
 
-		// UPDATE message feed data
-		     if(obj.type == 'open')     { message.open++; }
-		else if(obj.type == 'received') { message.received++; }
-		else if(obj.type == 'done')     { message.done++; }
-		else if(obj.type == 'match')    { message.match++; }
-		else                            { message.error++; }
-		$('#data > div:nth-child(1) > div:nth-child(2)').html(message.open);
-		$('#data > div:nth-child(2) > div:nth-child(2)').html(message.received);
-		$('#data > div:nth-child(3) > div:nth-child(2)').html(message.done);
-		$('#data > div:nth-child(4) > div:nth-child(2)').html(message.match);
-		$('#data > div:nth-child(5) > div:nth-child(2)').html(message.error);
-
-		// SEND new message to PHP
-		var p = { func: 'upload', message: evt.data };
-		$.post('websocket.php',p,function(data)
+		message.total++;
+		if( activeBuffer == 1 )
 		{
-			eTime++;
-			var s  = 'Messages: ' + message.total;
-                s += ' -- Sent: ' + eTime;
-                s += ' -- ' + $.parseJSON(data);
-			$('#status').html(s);
-		});
+			buffer1.push(evt.data);
+		}
+		else
+		{
+			buffer2.push(evt.data);
+		}
+		$('#status').html('');
+		$('#status').append('Msg: '+message.total);
+		$('#status').append(' B1: '+buffer1.length);
+		$('#status').append(' B2: '+buffer2.length);
+		$('#status').append(' Seq: '+obj.sequence);
 
 		// PROCESS NEW TRADE
 		if(obj.type == 'match')
@@ -188,4 +206,33 @@ function webSocket()
 			$('#feed').prepend(matchLine);
 		}
 	};
+
+
+/*
+		// UPDATE message feed data
+		     if(obj.type == 'open')     { message.open++; }
+		else if(obj.type == 'received') { message.received++; }
+		else if(obj.type == 'done')     { message.done++; }
+		else if(obj.type == 'match')    { message.match++; }
+		else                            { message.error++; }
+		$('#data > div:nth-child(1) > div:nth-child(2)').html(message.open);
+		$('#data > div:nth-child(2) > div:nth-child(2)').html(message.received);
+		$('#data > div:nth-child(3) > div:nth-child(2)').html(message.done);
+		$('#data > div:nth-child(4) > div:nth-child(2)').html(message.match);
+		$('#data > div:nth-child(5) > div:nth-child(2)').html(message.error);
+*/
+
+		// SEND new message to PHP
+/*
+		var p = { func: 'upload', message: evt.data };
+		$.post('websocket.php',p,function(data)
+		{
+			eTime++;
+			var s  = 'Messages: ' + message.total;
+                s += ' -- Sent: ' + eTime;
+                s += ' -- ' + $.parseJSON(data);
+			$('#status').html(s);
+		});
+*/
+
 }
