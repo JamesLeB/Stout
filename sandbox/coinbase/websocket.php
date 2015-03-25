@@ -7,9 +7,11 @@
 	{
 		case 'startup':
 
+/*
 			require_once('wsdb.php');
 			$db = new wsdb();
 			$db->createTable();
+*/
 
 			$_SESSION['count']        = 0;
 			$_SESSION['lastCount']    = 0;
@@ -23,11 +25,12 @@
 			$_SESSION['currentSequence']= 0;
 			$_SESSION['msg']= 'hello';
 
+/*
 			require_once('exchange.php');
 			$exchange = new exchange();
 			$d = $exchange->getOpenOrders();
-
 			$_SESSION['debug']= $d;
+*/
 
 			# Load Minions
 			require_once('minions.php');
@@ -152,6 +155,22 @@
 
 		case 'tick':
 			$stopOrder = 0;
+			$feedData = 'feed data';
+
+			$ct = 0;
+			if(isset($_POST['payload']))
+			{
+				$payload = $_POST['payload'];
+				$ct = sizeof($payload);
+				foreach($payload as $message)
+				{
+					$_SESSION['socketBuffer'][] = $message;
+				}
+			}
+			$_SESSION['count'] += $ct;
+			$feedData  = 'msg ct: '.$_SESSION['count'];
+			$feedData .= ' - buff sz: '.sizeof($_SESSION['socketBuffer']);
+
 			$nextOrder = '';
 
 			# reorder buffer
@@ -169,28 +188,31 @@
 			if(isset($_SESSION['socketBuffer'][0]))
 			{
 				usort($_SESSION['socketBuffer'],"cmp");
+				# trim buffer
+				while(sizeof($_SESSION['socketBuffer']) > 50 && $_SESSION['startLiveBook'])
+				{
+					array_shift($_SESSION['socketBuffer']);
+				}
+				$fOrder = json_decode($_SESSION['socketBuffer'][0],true);
+				$lOrder = json_decode($_SESSION['socketBuffer'][sizeof($_SESSION['socketBuffer'])-1],true);
+				$_SESSION['bufferFirst'] = $fOrder['sequence'];
+				$_SESSION['bufferLast']  = $lOrder['sequence'];
+				$_SESSION['currentSequence'] = 0;
 			}
 
+
+
+
 			# Check to see if the buffer is empty
-			while(
+			if(
 				isset($_SESSION['socketBuffer'][0]) &&
-				(sizeof($_SESSION['socketBuffer']) > 10) &&
 				$stopOrder == 0 &&
 				$_SESSION['startLiveBook']
 			)
 			{
-				$nextOrder = $_SESSION['socketBuffer'][0];
+			foreach($_SESSION['socketBuffer'] as $nextOrder)
+			{
 				$o = json_decode($nextOrder,true);
-
-/*
-					$stopOrder = 1;
-					foreach($_SESSION['socketBuffer'] as $buff)
-					{
-						$buff = json_decode($buff,true);
-						file_put_contents('seqq',$buff['sequence']."\n",FILE_APPEND);
-					}
-					break;
-*/
 
 				# CHECK for bad sequence
 				$_SESSION['msg'] = 
@@ -199,7 +221,7 @@
 				
 				if( $o['sequence'] - $_SESSION['currentSequence'] < 0 )
 				{
-					$_SESSION['msg'] = 'Bad sequence number';
+					$_SESSION['msg'] = 'Bad sequence number '.$o['sequence'].' '.$_SESSION['currentSequence'];
 					$stopOrder = 1;
 					break;
 				}
@@ -209,10 +231,8 @@
 				switch($type)
 				{
 					case 'received':
-						array_shift($_SESSION['socketBuffer']);
 						break;
 					case 'done':
-						array_shift($_SESSION['socketBuffer']);
 
 						$side    = $o['side'] == 'buy' ? 'bid' : 'ask';
 						$price   = $o['price'];
@@ -226,15 +246,6 @@
 						if($side == 'ask')
 						{
 							$check1 = 'ask side';
-
-/*
-							# Get test sample
-							if(isset($_SESSION['bookAsks'][$priceX][4]))
-							{
-								$sampOrderK = array_keys($_SESSION['bookAsks'][$priceX][4]);
-								$sampOrder = $sampOrderK[0];
-							}
-*/
 
 							# Check if price line AND order are on book
 							if(isset($_SESSION['bookAsks'][$priceX]))
@@ -263,15 +274,6 @@
 						{
 							$check1 = 'bid side';
 
-/*
-							# Get test sample
-							if(isset($_SESSION['bookBids'][$priceX][4]))
-							{
-								$sampOrderK = array_keys($_SESSION['bookBids'][$priceX][4]);
-								$sampOrder = $sampOrderK[0];
-							}
-*/
-
 							# Check if price line AND order are on book
 							if(isset($_SESSION['bookBids'][$priceX]))
 							{
@@ -299,8 +301,6 @@
 
 						break;
 					case 'open':
-
-						array_shift($_SESSION['socketBuffer']);
 
 						$side    = $o['side'] == 'buy' ? 'bid' : 'ask';
 						$price   = $o['price'];
@@ -359,11 +359,11 @@
 						break;
 
 					case 'match':
-						array_shift($_SESSION['socketBuffer']);
 						break;
 					default:
 				} # END SWITCH ON ORDER TYPE (recieved,open,done,match)
 			} # END OF PROCESSING BUFFER
+			} # END OF PROCESSING BUFFER ON close for if other for for each
 
 
 ############################ Minions  #################################
@@ -443,6 +443,7 @@ $sockStat .= '</table>';
 				'minions'      => $_SESSION['minions'],
 				'liveBook'     => $liveBook,
 				'socketBuffer' => $sockStat,
+				'feedData'     => $feedData,
 				'nextOrder'    => $nextOrder,
 				'stopOrder'    => $stopOrder,
 				'active'       => $_SESSION['startLiveBook'],
