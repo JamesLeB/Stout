@@ -10,14 +10,18 @@ div { border: white dotted 1px; }
 	margin-left:  auto;
 	margin-right: auto;
 	box-shadow: 3px 3px 3px black;
+	padding-top: 5px;
 }
 #cave > div:nth-child(1){ height:  40px; } 
 
 #minions
 {
-	width: 800px;
+	width: 790px;
 	height: 150px;
 	overflow: auto;
+	border: 5px ridge gray;
+	margin-left: 10px;
+	margin-bottom: 10px;
 }
 .minion
 {
@@ -41,13 +45,24 @@ div { border: white dotted 1px; }
 #debug
 {
 	width: 800px;
+	margin-left: 10px;
+	color: red;
+	margin-bottom: 10px;
 }
 
 
 #mother
 {
+	border: 5px ridge gray;
 	width: 350px;
 	float: right;
+	margin-right: 10px;
+	height: 100px;
+}
+#mother > div
+{
+	margin-left: 10px;
+	margin-top: 10px;
 }
 
 #controls
@@ -86,8 +101,12 @@ div { border: white dotted 1px; }
 
 #book
 {
-	width: 800px;
+	border: 5px ridge gray;
+	width: 780px;
 	height: 400px;
+	margin-left:  10px;
+	padding-left: 10px;
+	
 	overflow: auto;
 }
 #book table td
@@ -101,12 +120,17 @@ div { border: white dotted 1px; }
 
 #james
 {
+	margin-top: 10px;
 	width: 350px;
 	float: right;
 }
 #feed
 {
-	height: 400px;
+	border: 5px ridge gray;
+	margin-right:  10px;
+	padding-left: 10px;
+	padding-top: 10px;
+	height: 390px;
 	overflow: auto;
 	width: 350px;
 	float: right;
@@ -130,6 +154,7 @@ div { border: white dotted 1px; }
 	height: 30px;
 	width:  350px;
 	float: left;
+	padding-top: 5px;
 }
 #data > div
 {
