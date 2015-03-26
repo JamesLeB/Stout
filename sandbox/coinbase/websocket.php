@@ -167,9 +167,9 @@
 					$_SESSION['socketBuffer'][] = $message;
 				}
 			}
-			$_SESSION['count'] += $ct;
-			$feedData  = 'msg ct: '.$_SESSION['count'];
-			$feedData .= ' - buff sz: '.sizeof($_SESSION['socketBuffer']);
+			//$_SESSION['count'] += $ct;
+			//$feedData  = 'msg ct: '.$_SESSION['count'];
+			$feedData .= 'Buff sz: '.sizeof($_SESSION['socketBuffer']);
 
 			$nextOrder = '';
 

@@ -16,6 +16,7 @@ var click = 0;
 var activeBuffer = 1;
 var buffer1 = [];
 var buffer2 = [];
+var tradeCount = 0;
 
 $(document).ready(function()
 {
@@ -152,6 +153,7 @@ function tick()
 		liveBookTable += "</table>";
 		$('#book').html(liveBookTable);
 /*
+##################################################
 */
 
 		// UPDATE socket buffer Feed back
@@ -182,14 +184,16 @@ function webSocket()
 		var obj = $.parseJSON(evt.data);
 
 		message.total++;
+		buffer1.push(evt.data);
+		buffer2.push(evt.data);
+/*
 		if( activeBuffer == 1 )
 		{
-			buffer1.push(evt.data);
 		}
 		else
 		{
-			buffer2.push(evt.data);
 		}
+*/
 		$('#status').html('');
 		$('#status').append('Msg: '+message.total);
 		$('#status').append(' B1: '+buffer1.length);
@@ -203,8 +207,16 @@ function webSocket()
 			var matchSize  = '<div>'+obj.size+'</div>';
 			var matchPrice = '<div>'+Number(obj.price).toFixed(2)+'</div>';
 			var matchLine = "<div class='"+obj.side+"'>"+matchSide+matchPrice+matchSize+"</div>";
-			$('#feed').prepend(matchLine);
+			$('#feed > div:nth-child(2)').prepend(matchLine);
+
+			var test = $('#feed > div:nth-child(2) > div');
+			if(test.length > 50)
+			{ 
+				$('#feed > div:nth-child(2) > div').last().remove();
+ 			}
+			$('#feed > div:nth-child(1)').html(++tradeCount);
 		}
+
 	};
 
 
