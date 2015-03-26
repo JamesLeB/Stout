@@ -16,6 +16,7 @@ class EDI837{
 		return "Testing EDI837";
 	}
 	public function loadEDI837D($file){
+
 		$isDentalBatch = 1;
 
 		$m = array();
@@ -101,6 +102,8 @@ if(1){
 			$seg = array_shift($segments);
 			if(preg_match('/^IEA\*/',$seg)){
 			}else{throw new exception("error loading IEA<br/>---<br/>$seg<br/>---");}
+
+			$m[] = 'All good :)';
 
 		}catch(exception $e){
 			$size = $startSize - sizeof($segments);

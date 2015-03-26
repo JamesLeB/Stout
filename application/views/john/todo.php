@@ -1,7 +1,8 @@
 <div id='todo'>
+	<div id='newClaimFolder'></div>
+<!--
 	<div>M - Move claim file to 14.97 New folder</div>
 	<div>S - Get claim file from 14.97 New folder
-		<div id='newClaimFolder'></div>
 	</div>
 	<div>S - Put claims in 14.97 Sent folder</div>
 	<div>S - Put claims in 14.97 claim Queue</div>
@@ -9,6 +10,7 @@
 	<div>S - Send 270 file to 14.97 270 queue</div>
 	<div>M - Get 270 file from 14.97 270 queue</div>
 	<div>M - Send 270 file to state</div>
+--!>
 </div>
 <style>
 	#todo
@@ -25,8 +27,9 @@
 	{
 		border: 5px ridge gray;
 		background: lightgray;
-		height: 200px;
-		width: 500px;
+		height: 600px;
+		width: 1000px;
+		overflow: auto;
 	}
 	#newClaimFolder > div
 	{
