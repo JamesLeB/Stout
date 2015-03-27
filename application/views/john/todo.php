@@ -38,6 +38,7 @@
 		height: 500px;
 		overflow: auto;
 		margin-top: 10px;
+		padding-left: 20px;
 	}
 </style>
 <script>
