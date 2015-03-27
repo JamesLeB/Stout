@@ -20,6 +20,20 @@ class John extends CI_Controller {
 		$list = ftp_nlist($this->conn,'3rdParty\New');
 		echo json_encode($list);
 	}
+	public function get271List()
+	{
+		$list = ftp_nlist($this->conn,'3rdParty\271Queue');
+		echo json_encode($list);
+	}
+	public function process271()
+	{
+		$file = $_POST['file'];
+		$remoteFile = '3rdParty\271Queue\\'.$file;
+		$localFile = 'files/edi/temp/a';
+		ftp_get($this->conn,$localFile,$remoteFile,FTP_BINARY);
+		$a = file_get_contents($localFile);
+		echo $a;
+	}
 	public function getNewFile()
 	{
 		$file = $_POST['file'];

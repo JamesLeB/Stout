@@ -1,16 +1,6 @@
 <div id='todo'>
 	<div id='newClaimFolder'></div>
-<!--
-	<div>M - Move claim file to 14.97 New folder</div>
-	<div>S - Get claim file from 14.97 New folder
-	</div>
-	<div>S - Put claims in 14.97 Sent folder</div>
-	<div>S - Put claims in 14.97 claim Queue</div>
-	<div>S - Create 270 file from claim file</div>
-	<div>S - Send 270 file to 14.97 270 queue</div>
-	<div>M - Get 270 file from 14.97 270 queue</div>
-	<div>M - Send 270 file to state</div>
---!>
+	<div id='eligibilityFiles'><div></div><div></div><div></div></div>
 </div>
 <style>
 	#todo
@@ -27,18 +17,33 @@
 	{
 		border: 5px ridge gray;
 		background: lightgray;
-		height: 600px;
-		width: 1000px;
+		height: 100px;
+		width: 600px;
 		overflow: auto;
 	}
-	#newClaimFolder > div
+	#newClaimFolder > div { margin: 5px; }
+	#eligibilityFiles
 	{
-		margin: 5px;
+		background: lightgray;
+		width: 1200px;
+	}
+	#eligibilityFiles > div:nth-child(2)
+	{
+		height: 150px;
+		margin-top: 10px;
+	}
+	#eligibilityFiles > div:nth-child(2) > div { margin: 5px; }
+	#eligibilityFiles > div:nth-child(3)
+	{
+		height: 500px;
+		overflow: auto;
+		margin-top: 10px;
 	}
 </style>
 <script>
 $(document).ready(function()
 {
+	$('#newClaimFolder').hide();
 	$.post('index.php?/john/getNewList','',function(d)
 	{
 		var list = $.parseJSON(d);
@@ -59,6 +64,31 @@ $(document).ready(function()
 			$.post('index.php?/john/getNewFile',p,function(d)
 			{
 				$('#newClaimFolder').html(d);
+			});
+		});
+	});
+
+	$('#eligibilityFiles > div:nth-child(1)').html('271 files');
+	$.post('index.php?/john/get271List','',function(d)
+	{
+		var list = $.parseJSON(d);
+		$('#eligibilityFiles > div:nth-child(2)').html('');
+		list.forEach(function(i)
+		{
+			$('#eligibilityFiles > div:nth-child(2)').append('<div>'+i+'</div>');
+		});
+		$('#eligibilityFiles > div:nth-child(2) > div').mouseenter(function(){
+			$(this).css('background','yellow');
+		});
+		$('#eligibilityFiles > div:nth-child(2) > div').mouseleave(function(){
+			$(this).css('background','lightgray');
+		});
+		$('#eligibilityFiles > div:nth-child(2) > div').click(function(){
+			var file = $(this).html();
+			var p = {file: file};
+			$.post('index.php?/john/process271',p,function(d)
+			{
+				$('#eligibilityFiles > div:nth-child(3)').html(d);
 			});
 		});
 	});
