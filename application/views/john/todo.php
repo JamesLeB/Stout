@@ -1,6 +1,7 @@
 <div id='todo'>
 	<div id='newClaimFolder'></div>
 	<div id='eligibilityFiles'><div></div><div></div><div></div></div>
+	<div id='addElly'><div></div><div></div><div></div></div>
 </div>
 <style>
 	#todo
@@ -40,11 +41,30 @@
 		margin-top: 10px;
 		padding-left: 20px;
 	}
+	#addElly
+	{
+		background: lightgray;
+		width: 1200px;
+	}
+	#addElly > div:nth-child(2)
+	{
+		height: 150px;
+		margin-top: 10px;
+	}
+	#addElly > div:nth-child(2) > div { margin: 5px; }
+	#addElly > div:nth-child(3)
+	{
+		height: 500px;
+		overflow: auto;
+		margin-top: 10px;
+		padding-left: 20px;
+	}
 </style>
 <script>
 $(document).ready(function()
 {
 	$('#newClaimFolder').hide();
+	$('#eligibilityFiles').hide();
 	$.post('index.php?/john/getNewList','',function(d)
 	{
 		var list = $.parseJSON(d);
@@ -93,5 +113,31 @@ $(document).ready(function()
 			});
 		});
 	});
+
+	$('#addElly > div:nth-child(1)').html('Add elly to claim file');
+	$.post('index.php?/john/getNewList','',function(d)
+	{
+		var list = $.parseJSON(d);
+		$('#addElly > div:nth-child(2)').html('');
+		list.forEach(function(i)
+		{
+			$('#addElly > div:nth-child(2)').append('<div>'+i+'</div>');
+		});
+		$('#addElly > div:nth-child(2) > div').mouseenter(function(){
+			$(this).css('background','yellow');
+		});
+		$('#addElly > div:nth-child(2) > div').mouseleave(function(){
+			$(this).css('background','lightgray');
+		});
+		$('#addElly > div:nth-child(2) > div').click(function(){
+			var file = $(this).html();
+			var p = {file: file};
+			$.post('index.php?/john/addElly',p,function(d)
+			{
+				$('#addElly > div:nth-child(3)').html(d);
+			});
+		});
+	});
+
 });
 </script>

@@ -15,6 +15,36 @@ class John extends CI_Controller {
 		ftp_login($conn,$user,$pass);
 		$this->conn = $conn;
 	}
+	public function addElly()
+	{
+		$file = $_POST['file'];
+		$remoteFile = '3rdParty\New\\'.$file;
+		$localFile = 'files/edi/temp/a';
+		ftp_get($this->conn,$localFile,$remoteFile,FTP_BINARY);
+		$a = file_get_contents($localFile);
+
+		require('lib/classes/EDI837.php');
+		$edi = new EDI837();
+		$obj = $edi->loadEDI837D('temp/a');
+
+		$m = [];
+
+		$thing = $obj['ediObj']->getStuff();
+		$m[] = 'Batch: '.$thing['batch'];
+
+		$providers = $thing['providers'];
+		foreach($providers as $p)
+		{
+			$claims = $p->getClaims();
+			foreach($claims as $c)
+			{
+				$clm = $c->getStuff();
+				$m[] = $clm['claimid'];
+			}
+		}
+
+		echo implode('<br/>',$m);
+	}
 	public function getNewList()
 	{
 		$list = ftp_nlist($this->conn,'3rdParty\New');
@@ -252,7 +282,6 @@ class John extends CI_Controller {
 			if(preg_match('/^GE\*/',$seg)){}else{throw new exception('6');}
 			$seg = array_shift($segs);
 			if(preg_match('/^IEA\*/',$seg)){}else{throw new exception('6');}
-#################################
 			$m[] = 'All good :)';
 		}
 		catch(exception $e)
@@ -262,9 +291,11 @@ class John extends CI_Controller {
 			$m[] = $seg;
 		}
 
-		$m[] = '';
-		$m[] = 'Elly starts here';
-		$m[] = json_encode($elly);
+		#save elly
+		$localFile = 'files/edi/temp/a';
+		file_put_contents($localFile,json_encode($elly));
+		$remoteFile = '3rdParty\271Queue\\'.$elly['batchId'].'.json';
+		ftp_put($this->conn,$remoteFile,$localFile,FTP_BINARY);
 
 		echo implode('<br/>',$m);
 	}
