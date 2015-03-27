@@ -24,6 +24,7 @@
 			$_SESSION['startLiveBook']= 0;
 			$_SESSION['currentSequence']= 0;
 			$_SESSION['msg']= 'hello';
+			$_SESSION['orders']= [];
 
 /*
 */
@@ -39,11 +40,28 @@
 
 			break;
 
+		case 'loadOrders':
+
+			$orders  = $_SESSION['orders'];
+			$minions = $_SESSION['minions'];
+
+			require_once('minions.php');
+			$minions = new minions();
+			$a = $minions->loadOrders();
+
+			$kara = $a;
+
+			break;
+
 		case 'getOrders':
+
 
 			require_once('exchange.php');
 			$exchange = new exchange();
-			$kara = json_decode($exchange->getOpenOrders(),true);
+			$orders = json_decode($exchange->getOpenOrders(),true);
+			$_SESSION['orders'] = $orders;
+
+			$kara = $orders;
 			break;
 
 		case 'activateMinion':

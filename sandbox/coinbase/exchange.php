@@ -55,6 +55,25 @@ class exchange
 
 		return $orders;
 	}
+	public function cancelOrder($orderId)
+	{
+		$url = "/orders/$orderId";
+		$curl = curl_init();
+		curl_setopt($curl, CURLOPT_URL, $this->path.$url);
+		curl_setopt($curl, CURLOPT_USERAGENT, 'Mozilla/5.0');
+		curl_setopt($curl, CURLOPT_RETURNTRANSFER, TRUE);
+		curl_setopt($curl, CURLOPT_CUSTOMREQUEST, "DELETE");
+		$body = ''; #$body = json_encode($body);
+		$signatureArray = $this->getSignatureArray($url,$body,'DELETE');
+		curl_setopt($curl, CURLOPT_HTTPHEADER,$signatureArray);
+		//$cancel = curl_exec($curl);
+/*
+
+
+
+*/
+		return $cancel;
+	}
 	public function placeOrder($size,$price,$side)
 	{
 		//$size = .01;

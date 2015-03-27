@@ -41,9 +41,36 @@ class minions
 		{
 			$_SESSION['minions'][$minionId-1]['state'] = 'Idle';
 		}
+		else if($_SESSION['minions'][$minionId-1]['state'] == 'OnBookB')
+		{
+			$_SESSION['minions'][$minionId-1]['state'] = 'xBid';
+		}
+	}
+	public function loadOrders()
+	{
+		$order = $_SESSION['orders'];
+		if(sizeof($order) > 0)
+		{
+			$_SESSION['minions'][0]['orderId'] = $order[0]['id'];
+			$_SESSION['minions'][0]['size']    = $order[0]['size'];
+			if($order[0]['side'] == 'buy')
+			{
+				$_SESSION['minions'][0]['cost']    = $order[0]['price'];
+				$_SESSION['minions'][0]['state'] = 'OnBookB';
+			}
+			else
+			{
+				$_SESSION['minions'][0]['price']   = $order[0]['price'];
+				$_SESSION['minions'][0]['state'] = 'OnBookS';
+			}
+		}
+		return $_SESSION['orders'];
 	}
 	public function act()
 	{
+		require_once('exchange.php');
+		$exchange = new exchange();
+
 		$a = 'Ho';
 		foreach($_SESSION['minions'] as $minion)
 		{
@@ -64,21 +91,29 @@ class minions
 				}
 
 				# PLACING BID
-				require_once('exchange.php');
-				$exchange = new exchange();
 				$size = .01;
 				$side = 'buy';
-				$orderId = $exchange->placeOrder($size,$highBid,$side);
 
-				$_SESSION['minions'][$minion['id']-1]['orderId'] = $orderId;
+				#$orderId = $exchange->placeOrder($size,$highBid,$side);
+				#$_SESSION['minions'][$minion['id']-1]['orderId'] = $orderId;
+
 				$_SESSION['minions'][$minion['id']-1]['state'] = 'Climbing';
 				
 			}
+			else if($minion['state'] == 'OnBookB')
+			{
+				$_SESSION['minions'][$minion['id']-1]['msg'] = 'Checking Book';
+			}
+			else if($minion['state'] == 'xBid')
+			{
+				$orderId = $_SESSION['minions'][$minion['id']-1]['orderId'];
+				$a = $exchange->cancelOrder($orderId);
+				$_SESSION['minions'][$minion['id']-1]['msg'] = $a;
+				$_SESSION['minions'][$minion['id']-1]['state'] = 'cBid';
+			}
 			else
 			{
-				#$_SESSION['arcadia'] = $_SESSION['minions'][$minion['id']-1]['orderId'];
-$kid = json_decode($_SESSION['arcadia'],true);
-				$_SESSION['minions'][$minion['id']-1]['msg'] = $kid['id'];
+				$_SESSION['minions'][$minion['id']-1]['msg'] = 'Now what';
 			}
 		}
 		//$a = json_encode($_SESSION['minions'][0]);

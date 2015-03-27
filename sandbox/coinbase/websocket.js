@@ -26,6 +26,15 @@ $(document).ready(function()
 	// SET UP BUTTON CLICKS
 	$('#T').click(function(){ tick(); });
 	$('#X').click(function(){ $('#james').toggle(); });
+	$('#loadOrders').click(function()
+	{
+		var p = { func: 'loadOrders' };
+		$.post('websocket.php',p,function(data)
+		{
+			//var a = $.parseJSON(data);
+			$('#debug').html(data);
+		});
+	});
 	$('#getOrders').click(function()
 	{
 		var p = { func: 'getOrders' };
@@ -129,9 +138,9 @@ function tick()
 		var minions = obj.minions;
 		minions.forEach(function(m,index)
 		{
-			$('#minions > div:nth-child('+(index+1)+') > div:nth-child(2)').html(m.size);
-			$('#minions > div:nth-child('+(index+1)+') > div:nth-child(3)').html(m.cost);
-			$('#minions > div:nth-child('+(index+1)+') > div:nth-child(4)').html(m.price);
+			$('#minions > div:nth-child('+(index+1)+') > div:nth-child(2)').html(Number(m.size).toFixed(2));
+			$('#minions > div:nth-child('+(index+1)+') > div:nth-child(3)').html(Number(m.cost).toFixed(2));
+			$('#minions > div:nth-child('+(index+1)+') > div:nth-child(4)').html(Number(m.price).toFixed(2));
 			$('#minions > div:nth-child('+(index+1)+') > div:nth-child(5)').html(m.orderId);
 			$('#minions > div:nth-child('+(index+1)+') > div:nth-child(6)').html(m.state);
 			$('#minions > div:nth-child('+(index+1)+') > div:nth-child(7)').html(m.msg);
