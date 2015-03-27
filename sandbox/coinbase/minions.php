@@ -19,7 +19,8 @@ class minions
 				'price'   => 0.00,
 				'orderId' => '00f',
 				'state'   => 'Idle',
-				'msg'     => 'Hmm'
+				'msg'     => 'Hmm',
+				'order'   => []
 			);
 			$minions[] = $minion;
 			//$_SESSION['minions'][] = $minion;
@@ -33,6 +34,10 @@ class minions
 			$_SESSION['minions'][$minionId-1]['state'] = 'Bid';
 		}
 		else if($_SESSION['minions'][$minionId-1]['state'] == 'Bid')
+		{
+			//$_SESSION['minions'][$minionId-1]['state'] = 'Idle';
+		}
+		else if($_SESSION['minions'][$minionId-1]['state'] == 'Climbing')
 		{
 			$_SESSION['minions'][$minionId-1]['state'] = 'Idle';
 		}
@@ -65,14 +70,16 @@ class minions
 				$side = 'buy';
 				$orderId = $exchange->placeOrder($size,$highBid,$side);
 
-				$_SESSION['minions'][$minion['id']-1]['msg'] = $orderId;
+				$_SESSION['minions'][$minion['id']-1]['orderId'] = $orderId;
+				$_SESSION['minions'][$minion['id']-1]['state'] = 'Climbing';
+				
 			}
-/*
 			else
 			{
-				$_SESSION['minions'][$minion['id']-1]['msg'] = 'Post Bid';
+				#$_SESSION['arcadia'] = $_SESSION['minions'][$minion['id']-1]['orderId'];
+$kid = json_decode($_SESSION['arcadia'],true);
+				$_SESSION['minions'][$minion['id']-1]['msg'] = $kid['id'];
 			}
-*/
 		}
 		//$a = json_encode($_SESSION['minions'][0]);
 		return "$a : k";
