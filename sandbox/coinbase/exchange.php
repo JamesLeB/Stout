@@ -66,12 +66,7 @@ class exchange
 		$body = ''; #$body = json_encode($body);
 		$signatureArray = $this->getSignatureArray($url,$body,'DELETE');
 		curl_setopt($curl, CURLOPT_HTTPHEADER,$signatureArray);
-		//$cancel = curl_exec($curl);
-/*
-
-
-
-*/
+		$cancel = curl_exec($curl);
 		return $cancel;
 	}
 	public function placeOrder($size,$price,$side)

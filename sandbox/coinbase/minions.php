@@ -37,7 +37,7 @@ class minions
 		{
 			//$_SESSION['minions'][$minionId-1]['state'] = 'Idle';
 		}
-		else if($_SESSION['minions'][$minionId-1]['state'] == 'Climbing')
+		else if($_SESSION['minions'][$minionId-1]['state'] == 'Bidding')
 		{
 			$_SESSION['minions'][$minionId-1]['state'] = 'Idle';
 		}
@@ -94,10 +94,12 @@ class minions
 				$size = .01;
 				$side = 'buy';
 
-				#$orderId = $exchange->placeOrder($size,$highBid,$side);
-				#$_SESSION['minions'][$minion['id']-1]['orderId'] = $orderId;
+				$thing = json_decode($exchange->placeOrder($size,$highBid,$side),true);
+				$orderId = $thing['id'];
+				
+				$_SESSION['minions'][$minion['id']-1]['orderId'] = $orderId;
 
-				$_SESSION['minions'][$minion['id']-1]['state'] = 'Climbing';
+				$_SESSION['minions'][$minion['id']-1]['state'] = 'Bidding';
 				
 			}
 			else if($minion['state'] == 'OnBookB')
@@ -117,6 +119,7 @@ class minions
 			}
 		}
 		//$a = json_encode($_SESSION['minions'][0]);
+		//$_SESSION['minions'][$minion['id']-1]['state'] = 'xBid';
 		return "$a : k";
 	}
 }
