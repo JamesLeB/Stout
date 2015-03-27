@@ -26,10 +26,6 @@
 			$_SESSION['msg']= 'hello';
 
 /*
-			require_once('exchange.php');
-			$exchange = new exchange();
-			$d = $exchange->getOpenOrders();
-			$_SESSION['debug']= $d;
 */
 
 			# Load Minions
@@ -41,6 +37,13 @@
 			# this file is for testing a method to keep the buffer in order
 			//file_put_contents('seqq','');
 
+			break;
+
+		case 'getOrders':
+
+			require_once('exchange.php');
+			$exchange = new exchange();
+			$kara = json_decode($exchange->getOpenOrders(),true);
 			break;
 
 		case 'activateMinion':

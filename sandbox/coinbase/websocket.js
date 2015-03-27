@@ -26,7 +26,15 @@ $(document).ready(function()
 	// SET UP BUTTON CLICKS
 	$('#T').click(function(){ tick(); });
 	$('#X').click(function(){ $('#james').toggle(); });
-	$('#bug').click(function(){ $('#debug').toggle(); });
+	$('#getOrders').click(function()
+	{
+		var p = { func: 'getOrders' };
+		$.post('websocket.php',p,function(data)
+		{
+			//var a = $.parseJSON(data);
+			$('#debug').html(data);
+		});
+	});
 	$('#getMom').click(function()
 	{
 		var p = { func: 'getBalance' };
@@ -115,7 +123,7 @@ function tick()
 		$('#clock > div').html(++click);
 
 		// SEND TICK DEBUG TO PAGE
-		$('#debug').html(obj.debug);
+		//$('#debug').html(obj.debug);
 
 		// UPDATE MINIONS
 		var minions = obj.minions;
