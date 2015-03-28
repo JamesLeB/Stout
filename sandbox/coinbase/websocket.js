@@ -51,6 +51,14 @@ $(document).ready(function()
 			$('#debug').html(data);
 		});
 	});
+	$('#getOpenOrders').click(function()
+	{
+		var p = { func: 'getOpenOrders' };
+		$.post('websocket.php',p,function(data)
+		{
+			$('#debug').html(data);
+		});
+	});
 	$('#getMom').click(function()
 	{
 		var p = { func: 'getBalance' };

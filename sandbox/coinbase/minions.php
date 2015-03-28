@@ -131,7 +131,7 @@ class minions
 			{
 				$_SESSION['minions'][$minion['id']-1]['msg'] = 'xCancel Bid';
 				//$_SESSION['minions'][$minion['id']-1]['state'] = 'Idle';
-				$_SESSION['debug'] = json_encode($_SESSION['openOrders']);
+				//$_SESSION['debug'] = json_encode($_SESSION['openOrders']);
 			}
 ##############################################################
 			else if($minion['state'] == 'xBid')

@@ -26,6 +26,7 @@
 			$_SESSION['msg']= 'hello';
 			$_SESSION['orders'] = [];
 			$_SESSION['debug'] = '';
+			$_SESSION['openOrders'] = [];
 
 /*
 */
@@ -60,6 +61,9 @@
 
 			break;
 
+		case 'getOpenOrders':
+			$_SESSION['debug'] = json_encode($_SESSION['openOrders']);
+			break;
 		case 'getOrders':
 
 
@@ -67,8 +71,9 @@
 			$exchange = new exchange();
 			$orders = json_decode($exchange->getOpenOrders(),true);
 			$_SESSION['orders'] = $orders;
+			$_SESSION['debug'] = json_encode($_SESSION['orders']);
 
-			$kara = $orders;
+			//$kara = $orders;
 			break;
 
 		case 'activateMinion':
@@ -329,11 +334,19 @@
 
 						break;
 					case 'open':
-
 						$side    = $o['side'] == 'buy' ? 'bid' : 'ask';
 						$price   = $o['price'];
 						$orderI  = $o['order_id'];
 						$size    = $o['remaining_size'];
+###
+	$keys = array_keys($_SESSION['openOrders']);
+	if(isset($_SESSION['openOrders'][$orderI]))
+	{
+		$_SESSION['openOrders'][$orderI] = 'open';
+	}
+
+	#$_SESSION['openOrders']
+###
 
 						if($side == 'ask')
 						{
