@@ -25,7 +25,14 @@ $(document).ready(function()
 
 	// SET UP BUTTON CLICKS
 	$('#T').click(function(){ tick(); });
-	$('#X').click(function(){ $('#james').toggle(); });
+	$('#D').click(function()
+	{
+		var p = { func: 'clearDebug' };
+		$.post('websocket.php',p,function(data)
+		{
+			$('#debug').html(data);
+		});
+	});
 	$('#loadOrders').click(function()
 	{
 		var p = { func: 'loadOrders' };

@@ -41,6 +41,12 @@
 
 			break;
 
+		case 'clearDebug':
+
+			$_SESSION['debug'] = '';
+			$kara = 'Clear';
+			
+			break;
 		case 'loadOrders':
 
 			$orders  = $_SESSION['orders'];
