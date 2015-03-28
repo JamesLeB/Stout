@@ -24,7 +24,8 @@
 			$_SESSION['startLiveBook']= 0;
 			$_SESSION['currentSequence']= 0;
 			$_SESSION['msg']= 'hello';
-			$_SESSION['orders']= [];
+			$_SESSION['orders'] = [];
+			$_SESSION['debug'] = '';
 
 /*
 */
@@ -469,7 +470,7 @@ $sockStat .= '</table>';
 				'stopOrder'    => $stopOrder,
 				'active'       => $_SESSION['startLiveBook'],
 				'msg'          => $_SESSION['msg'],
-				'debug'        => $debug
+				'debug'        => $_SESSION['debug']
 			);
 			break;
 # END TICK

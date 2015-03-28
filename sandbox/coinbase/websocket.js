@@ -132,7 +132,7 @@ function tick()
 		$('#clock > div').html(++click);
 
 		// SEND TICK DEBUG TO PAGE
-		//$('#debug').html(obj.debug);
+		if(obj.debug != ''){$('#debug').html(obj.debug)};
 
 		// UPDATE MINIONS
 		var minions = obj.minions;

@@ -72,23 +72,28 @@ class minions
 		$exchange = new exchange();
 
 		$a = 'Ho';
+
+
+		# GET HIGH BID
+		$highBid = 0;
+		$keys = array_keys($_SESSION['bookBids']);
+		if(sizeof($keys) > 0)
+		{
+			rsort($keys);
+			$highBid = $keys[0] - 100;
+		}
+
 		foreach($_SESSION['minions'] as $minion)
 		{
 			if($minion['state'] == 'Idle')
 			{
-				$_SESSION['minions'][$minion['id']-1]['msg'] = 'Waiting';
+
+				$_SESSION['minions'][$minion['id']-1]['msg'] = 'Wating';
+				$_SESSION['minions'][$minion['id']-1]['orderId'] = '';
+				$_SESSION['minions'][$minion['id']-1]['cost'] = $highBid;
 			}
 			else if($minion['state'] == 'Bid')
 			{
-				# GET HIGH BID
-				$highBid = 0;
-				$keys = array_keys($_SESSION['bookBids']);
-				if(sizeof($keys) > 0)
-				{
-					rsort($keys);
-					$highBid = $keys[0] - 100;
-					$_SESSION['minions'][$minion['id']-1]['cost'] = $keys[0] + 0 - 100;
-				}
 
 				# PLACING BID
 				$size = .01;
@@ -98,14 +103,37 @@ class minions
 				$orderId = $thing['id'];
 				
 				$_SESSION['minions'][$minion['id']-1]['orderId'] = $orderId;
+				$_SESSION['openOrders'][$orderId] = 'new';
 
 				$_SESSION['minions'][$minion['id']-1]['state'] = 'Bidding';
+
+				$_SESSION['minions'][$minion['id']-1]['cost'] = $highBid;
 				
+			}
+			else if($minion['state'] == 'Bidding')
+			{
+				$_SESSION['minions'][$minion['id']-1]['msg'] = 'fuck';
+				$_SESSION['minions'][$minion['id']-1]['state'] = 'OnBookB';
+
+				$oid = $_SESSION['minions'][$minion['id']-1]['orderId'];
+				if($_SESSION['openOrders'][$oid] == 'open')
+				{
+					$_SESSION['minions'][$minion['id']-1]['state'] = 'OnBookB';
+				}
+
 			}
 			else if($minion['state'] == 'OnBookB')
 			{
-				$_SESSION['minions'][$minion['id']-1]['msg'] = 'Checking Book';
+				$_SESSION['minions'][$minion['id']-1]['msg'] = 'Climbing';
 			}
+##############################################################
+			else if($minion['state'] == 'cBid')
+			{
+				$_SESSION['minions'][$minion['id']-1]['msg'] = 'xCancel Bid';
+				//$_SESSION['minions'][$minion['id']-1]['state'] = 'Idle';
+				$_SESSION['debug'] = json_encode($_SESSION['openOrders']);
+			}
+##############################################################
 			else if($minion['state'] == 'xBid')
 			{
 				$orderId = $_SESSION['minions'][$minion['id']-1]['orderId'];
