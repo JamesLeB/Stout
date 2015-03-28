@@ -49,8 +49,8 @@
 			break;
 		case 'loadOrders':
 
-			$orders  = $_SESSION['orders'];
-			$minions = $_SESSION['minions'];
+			#$orders  = $_SESSION['orders'];
+			#$minions = $_SESSION['minions'];
 
 			require_once('minions.php');
 			$minions = new minions();
@@ -398,8 +398,7 @@
 
 			require_once('minions.php');
 			$minions = new minions();
-			$debug = $minions->act();
-			//$debug = $_SESSION['debug'];
+			$minions->act();
 
 
 ############################ End Minions  #############################
