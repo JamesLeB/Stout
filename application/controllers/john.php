@@ -71,18 +71,29 @@ class John extends CI_Controller {
 			$claims = $p->getClaims();
 			foreach($claims as $c)
 			{
+				$services = $c->getServices();
+				$lines = [];
+				foreach($services as $service)
+				{
+					$line = $service->getStuff();
+					$amt = $line['amount'];
+					$ada = $line['adacode'];
+					$ada = preg_split('/:/',$ada);
+					$ada = $ada[1];
+					$lines[] = array($ada,$amt);
+				}
 				$clm = $c->getStuff();
 				$m[] = array(
 					$clm['claimid'],
 					$ellyHash[$clm['claimid']],
-					'Last',
-					'First',
-					'Medicaid',
-					'RateCode',
-					'ClaimBilled',
-					'ServiceDate',
-					'AdaCode',
-					'LineBilled'
+					$clm['last'],
+					$clm['first'],
+					$clm['id'],
+					1428,
+					$clm['amount'],
+					$clm['date'],
+					$lines,
+					'amt'
 				);
 			}
 		}

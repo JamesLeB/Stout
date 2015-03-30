@@ -55,24 +55,35 @@
 	}
 	#addElly > div:nth-child(2)
 	{
-		height: 150px;
-		margin-top: 10px;
-	}
-	#addElly > div:nth-child(2) > div { margin: 5px; }
-	#addElly > div:nth-child(3)
-	{
-		height: 500px;
+		height: 200px;
 		overflow: auto;
 		margin-top: 10px;
 		padding-left: 20px;
 	}
+	#addElly > div:nth-child(3)
+	{
+		background: white;
+		height: 300px;
+		width: 1100px;
+		overflow: auto;
+		border: 5px ridge yellow;
+	}
+	#addElly > div:nth-child(4)
+	{
+		background: white;
+		height: 300px;
+		width: 1100px;
+		overflow: auto;
+		border: 5px ridge yellow;
+	}
+	#addElly > div:nth-child(5) { border: 5px ridge yellow; }
 	#addElly > div:nth-child(5)
 	{
 		background: white;
 		height: 300px;
 		width: 1100px;
-		margin-left: 20px;
 		overflow: auto;
+		border: 5px ridge yellow;
 	}
 	#addElly table
 	{
@@ -82,15 +93,23 @@
 	{
 		border: 1px dotted gray;
 	}
+	#addElly > div:nth-child(6)
+	{
+		background: white;
+		height: 300px;
+		width: 1100px;
+		overflow: auto;
+		border: 5px ridge yellow;
+	}
 </style>
 <script>
 $(document).ready(function()
 {
 	$('#newClaimFolder').hide();
 	$('#eligibilityFiles').hide();
-	$('#addElly > div:nth-child(3)').hide();
-	$('#addElly > div:nth-child(4)').hide();
-	$('#addElly > div:nth-child(6)').hide();
+	//$('#addElly > div:nth-child(3)').hide();
+	//$('#addElly > div:nth-child(4)').hide();
+	//$('#addElly > div:nth-child(6)').hide();
 
 	$.post('index.php?/john/getNewList','',function(d)
 	{
@@ -201,13 +220,19 @@ $(document).ready(function()
 				paulTable += '<td>CappAddOn</td>';
 				paulTable += '<td>OverPaid</td>';
 				paulTable += '</tr>';
+
 				
 				thing.claimList.forEach(function(j)
 				{
+				var lineCount = 0;
+				var claimCount = 1;
+				j[8].forEach(function(k)
+				{
 					var myRow = '';
 					myRow += '<tr>';
-					myRow += '<td>_</td>';
-					myRow += '<td>_</td>';
+					myRow += '<td>'+(++lineCount)+'</td>';
+					myRow += '<td>'+claimCount+'</td>';
+					claimCount = 0;
 					myRow += '<td>_</td>';
 					myRow += '<td>'+j[0]+'</td>';
 					myRow += '<td>'+j[2]+'</td>';
@@ -221,8 +246,8 @@ $(document).ready(function()
 					myRow += '<td>_</td>';
 					myRow += '<td>_</td>';
 					myRow += '<td>'+j[7]+'</td>';
-					myRow += '<td>'+j[8]+'</td>';
-					myRow += '<td>'+j[9]+'</td>';
+					myRow += '<td>'+k[0]+'</td>';
+					myRow += '<td>'+k[1]+'</td>';
 					myRow += '<td>_</td>';
 					myRow += '<td>_</td>';
 					myRow += '<td>_</td>';
@@ -242,9 +267,9 @@ $(document).ready(function()
 						check = jj.substring(0,4);
 						if( check == 'Med:') { hasMed = 'YES'; }
 					});
-					myRow += '<td>'+insLines+'</td>';
-					myRow += '<td>'+j[1].length+'</td>';
-					myRow += '<td>'+hasMed+'</td>';
+					//myRow += '<td>'+insLines+'</td>';
+					//myRow += '<td>'+j[1].length+'</td>';
+					//myRow += '<td>'+hasMed+'</td>';
 					myRow += '</tr>';
 					myTable += myRow;
 					if( hasMed == 'YES' && j[1].length == 1 )
@@ -260,16 +285,19 @@ $(document).ready(function()
 						errorTable += myRow;
 					}
 				});
+				});
 				myTable    += '</table>';
 				art28Table += '</table>';
 				paulTable  += '</table>';
 				errorTable += '</table>';
 				$('#addElly > div:nth-child(3)').append(myTable);
+				$('#addElly > div:nth-child(3)').append('Done All');
 				$('#addElly > div:nth-child(4)').append(art28Table);
+				$('#addElly > div:nth-child(4)').append('Done Art28');
 				$('#addElly > div:nth-child(5)').append(paulTable);
+				$('#addElly > div:nth-child(5)').append('Done Paul');
 				$('#addElly > div:nth-child(6)').append(errorTable);
-/*
-*/
+				$('#addElly > div:nth-child(6)').append('Done Error');
 			});
 		});
 	});
