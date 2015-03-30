@@ -18,6 +18,40 @@ class John extends CI_Controller {
 	public function addElly()
 	{
 		$file = $_POST['file'];
+		$s = preg_split('/_/',$file);
+		$debug = $s[4];
+
+		#get elly
+		$localFile = 'files/edi/temp/a';
+		if($s[4] == '430.txt')
+		{
+			$jsonName = '200100601';
+		}
+		else if($s[4] == '485.txt')
+		{
+			$jsonName = '200100602';
+		}
+		else if($s[4] == '491.txt')
+		{
+			$jsonName = '100100603';
+		}
+		$remoteFile = '3rdParty\271Queue\\'.$jsonName.'.json';
+		ftp_get($this->conn,$localFile,$remoteFile,FTP_BINARY);
+		$a = file_get_contents($localFile);
+
+		$elly = json_decode($a,true);
+		$keys = array_keys($elly);
+		$bel = $elly['claims'];
+		$ellyHash = [];
+		foreach($bel as $bob)
+		{
+			$ellyHash[$bob['id']] = $bob['insurance'];
+		}
+
+		//$debug = json_encode($ellyHash);
+		#$debug = json_encode($bel);
+
+		# GET claim file
 		$remoteFile = '3rdParty\New\\'.$file;
 		$localFile = 'files/edi/temp/a';
 		ftp_get($this->conn,$localFile,$remoteFile,FTP_BINARY);
@@ -30,7 +64,6 @@ class John extends CI_Controller {
 		$m = [];
 
 		$thing = $obj['ediObj']->getStuff();
-		$m[] = 'Batch: '.$thing['batch'];
 
 		$providers = $thing['providers'];
 		foreach($providers as $p)
@@ -39,11 +72,27 @@ class John extends CI_Controller {
 			foreach($claims as $c)
 			{
 				$clm = $c->getStuff();
-				$m[] = $clm['claimid'];
+				$m[] = array(
+					$clm['claimid'],
+					$ellyHash[$clm['claimid']],
+					'Last',
+					'First',
+					'Medicaid',
+					'RateCode',
+					'ClaimBilled',
+					'ServiceDate',
+					'AdaCode',
+					'LineBilled'
+				);
 			}
 		}
 
-		echo implode('<br/>',$m);
+
+		echo json_encode(array(
+			'batch'     => $thing['batch'],
+			'claimList' => $m,
+			'debug'     => $debug
+		));
 	}
 	public function getNewList()
 	{
