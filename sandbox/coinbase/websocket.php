@@ -10,7 +10,7 @@
 /*
 			require_once('wsdb.php');
 			$db = new wsdb();
-			$db->createTable();
+			$db->punchOut();
 */
 
 			$_SESSION['count']        = 0;
@@ -92,8 +92,13 @@
 			$exchange = new exchange();
 			$balance = $exchange->getBalance();
 			$b = json_decode($balance,true);
-			$usdA = $b[0]['available'];
-			$btcA = $b[1]['available'];
+			$usdA = 0;
+			$btcA = 0;
+			foreach($b as $bb)
+			{
+				if($bb['currency'] == 'USD'){$usdA = $bb['available'];}
+				if($bb['currency'] == 'BTC'){$btcA = $bb['available'];}
+			}
 			$kara = array($usdA,$btcA);
 			break;
 
@@ -276,6 +281,14 @@
 						$check1 = 'Default';
 						//$sampOrder = '';
 
+						### Update open Orders
+						$keys = array_keys($_SESSION['openOrders']);
+						if(isset($_SESSION['openOrders'][$orderI]))
+						{
+							$_SESSION['openOrders'][$orderI] = $o['reason'];
+						}
+						###
+
 						if($side == 'ask')
 						{
 							$check1 = 'ask side';
@@ -338,15 +351,14 @@
 						$price   = $o['price'];
 						$orderI  = $o['order_id'];
 						$size    = $o['remaining_size'];
-###
-	$keys = array_keys($_SESSION['openOrders']);
-	if(isset($_SESSION['openOrders'][$orderI]))
-	{
-		$_SESSION['openOrders'][$orderI] = 'open';
-	}
 
-	#$_SESSION['openOrders']
-###
+						### Update open Orders
+						$keys = array_keys($_SESSION['openOrders']);
+						if(isset($_SESSION['openOrders'][$orderI]))
+						{
+							$_SESSION['openOrders'][$orderI] = 'open';
+						}
+						###
 
 						if($side == 'ask')
 						{
@@ -435,11 +447,14 @@
 				$order = $_SESSION['bookAsks'][$key];
 				$okeys = array_keys($order[4]);
 				$orders = [];
+				$myAsks = 0;
 				foreach($okeys as $okey)
 				{
 					$orders[] = array($okey,$order[4][$okey]);
+					if(isset($_SESSION['openOrders'][$okey])){$myAsks++;}
 				}
-				//array_unshift($liveBook,array($order[0],$key,$order[1],$order[2],$order[3],$orders));
+				array_unshift($liveBook,array($order[0],$key,$order[1],$myAsks,$order[3],$orders));
+				//$liveBook[] = array($order[0],$key,$order[1],$order[2],$order[3],$orders);
 			}
 
 			# Load bids onto live book
@@ -452,11 +467,13 @@
 				$order = $_SESSION['bookBids'][$key];
 				$okeys = array_keys($order[4]);
 				$orders = [];
+				$myBids = 0;
 				foreach($okeys as $okey)
 				{
 					$orders[] = array($okey,$order[4][$okey]);
+					if(isset($_SESSION['openOrders'][$okey])){$myBids++;}
 				}
-				$liveBook[] = array($order[0],$key,$order[1],$order[2],$order[3],$orders);
+				$liveBook[] = array($order[0],$key,$order[1],$myBids,$order[3],$orders);
 			}
 ############################   END CREATE LIVE BOOK #################################
 

@@ -9,6 +9,44 @@ class wsdb
 		$c = preg_split('/\s/',$c);
 		$this->link_ = mysqli_connect('p:localhost',$c[0],$c[1],$c[2]);
 	}
+	public function punchOut($minion)
+	{
+		$size = $minion['size'];
+		$cost = $minion['cost'];
+		$price = $minion['price'];
+		$profit = $size*$price - $size*$cost;
+
+		$query = "INSERT INTO timecard 
+			(id,size,cost,price,profit) values (1,?,?,?,?)";
+/*
+		$query = "update timecard set size=?,cost=?,price=?,profit=? where id = 1";
+*/
+		$stmt = mysqli_prepare($this->link_,$query);
+		$stmt->bind_param('ssss',$size,$cost,$price,$profit);
+		$stmt->execute();
+/*
+*/
+		
+
+/*
+		$query = "DROP TABLE timecard";
+		$stmt = mysqli_prepare($this->link_,$query);
+		$stmt->execute();
+
+		$query = "CREATE TABLE timecard (
+			id int,
+			stamp timestamp,
+			size  decimal(16,8),
+			cost  decimal(16,8),
+			price decimal(16,8),
+			profit decimal(16,8)
+		)";
+		$stmt = mysqli_prepare($this->link_,$query);
+		$stmt->execute();
+*/
+
+		return 1;
+	}
 	public function upload($a)
 	{
 		$o = json_decode($a,true);
