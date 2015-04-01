@@ -31,8 +31,8 @@ class minions
 	{
 		if($_SESSION['minions'][$minionId-1]['state'] == 'Sleep')
 		{
-			$_SESSION['minions'][$minionId-1]['state'] = 'Flying';
-			//$_SESSION['minions'][$minionId-1]['state'] = 'Idle';
+			//$_SESSION['minions'][$minionId-1]['state'] = 'Flying';
+			$_SESSION['minions'][$minionId-1]['state'] = 'Idle';
 		}
 		else if($_SESSION['minions'][$minionId-1]['state'] == 'Bid')
 		{
@@ -116,7 +116,7 @@ class minions
 				$chk3 = $bookSpread  >= .02 ? 'Y' : 'N';
 				if($chk3 = 'Y')
 				{
-					//$_SESSION['minions'][$minion['id']-1]['state'] = 'Bid';
+					$_SESSION['minions'][$minion['id']-1]['state'] = 'Bid';
 				}
 			}
 			else if($minion['state'] == 'Bid')
