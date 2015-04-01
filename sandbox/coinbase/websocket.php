@@ -10,7 +10,7 @@
 /*
 			require_once('wsdb.php');
 			$db = new wsdb();
-			$db->punchOut();
+			$db->createPunchOut();
 */
 
 			$_SESSION['count']        = 0;

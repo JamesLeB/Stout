@@ -9,6 +9,24 @@ class wsdb
 		$c = preg_split('/\s/',$c);
 		$this->link_ = mysqli_connect('p:localhost',$c[0],$c[1],$c[2]);
 	}
+	public function createPunchOut()
+	{
+/*
+		$query = "DROP TABLE timecard";
+		$stmt = mysqli_prepare($this->link_,$query);
+		$stmt->execute();
+*/
+		$query = "CREATE TABLE timecard (
+			id int,
+			stamp timestamp,
+			size  decimal(16,8),
+			cost  decimal(16,8),
+			price decimal(16,8),
+			profit decimal(16,8)
+		)";
+		$stmt = mysqli_prepare($this->link_,$query);
+		$stmt->execute();
+	}
 	public function punchOut($minion)
 	{
 		$size = $minion['size'];
@@ -28,22 +46,6 @@ class wsdb
 */
 		
 
-/*
-		$query = "DROP TABLE timecard";
-		$stmt = mysqli_prepare($this->link_,$query);
-		$stmt->execute();
-
-		$query = "CREATE TABLE timecard (
-			id int,
-			stamp timestamp,
-			size  decimal(16,8),
-			cost  decimal(16,8),
-			price decimal(16,8),
-			profit decimal(16,8)
-		)";
-		$stmt = mysqli_prepare($this->link_,$query);
-		$stmt->execute();
-*/
 
 		return 1;
 	}
