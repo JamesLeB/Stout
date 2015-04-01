@@ -100,16 +100,24 @@ class minions
 			sort($keys);
 			$highAsk = $keys[0] + 0;
 		}
+		$bookSpread = $highAsk - $highBid;
 
 		foreach($_SESSION['minions'] as $minion)
 		{
 			if($minion['state'] == 'Idle')
 			{
 
-				$_SESSION['minions'][$minion['id']-1]['msg'] = 'Wating';
+				$s = $highAsk - $highBid;
+				$_SESSION['minions'][$minion['id']-1]['msg'] = 'S: '.round($s,2);
 				$_SESSION['minions'][$minion['id']-1]['orderId'] = '';
 				$_SESSION['minions'][$minion['id']-1]['cost'] = $highBid;
 				$_SESSION['minions'][$minion['id']-1]['price'] = 0;
+
+				$chk3 = $bookSpread  >= .02 ? 'Y' : 'N';
+				if($chk3 = 'Y')
+				{
+					$_SESSION['minions'][$minion['id']-1]['state'] = 'Bid';
+				}
 			}
 			else if($minion['state'] == 'Bid')
 			{
@@ -179,25 +187,7 @@ class minions
 			{
 				$_SESSION['debug'] = 'climb need book info';
 
-				$_SESSION['minions'][$minion['id']-1]['msg'] = 'Climbing';
 
-
-########## WORK ZONE getting depth in book
-/*
-				$lastLine = 0;
-				$depthCheck = 'NO';
-				foreach($keys as $key)
-				{
-					$_SESSION['debug'] = "$key : $currentAsk";
-					if( $key > $currentAsk){break;}
-					$orderKeys = array_keys($_SESSION['bookAsks'][$key][4]);
-					foreach($orderKeys as $cOrder)
-					{
-						$depth += $_SESSION['bookAsks'][$key][4][$cOrder];
-						$lastLine = $key;
-					}
-				}
-*/
 				$currentBid = $_SESSION['minions'][$minion['id']-1]['cost'];
 				$highBid = 0;
 				$keys = array_keys($_SESSION['bookBids']);
@@ -209,6 +199,30 @@ class minions
 				$spread = round($highBid - $currentBid,2);
 				$depth = 0;
 
+				$lastLine = 0;
+				foreach($keys as $key)
+				{
+					$_SESSION['debug'] = "$key : $currentBid";
+					if( $key < $currentBid){break;}
+					$orderKeys = array_keys($_SESSION['bookBids'][$key][4]);
+					foreach($orderKeys as $cOrder)
+					{
+						$depth += $_SESSION['bookBids'][$key][4][$cOrder];
+						$lastLine = $key;
+					}
+				}
+
+				$chk1 = $spread      >= .01 ? 'Y' : 'N';
+				$chk2 = $depth       >= .1  ? 'Y' : 'N';
+				$chk3 = $bookSpread  >= .02 ? 'Y' : 'N';
+
+				$_SESSION['minions'][$minion['id']-1]['msg'] = $chk1.$chk2.$chk3;
+				if($chk1 == 'Y' && $chk2 == 'Y' && $chk3 == 'Y')
+				{
+					$_SESSION['minions'][$minion['id']-1]['state'] = 'xBid';
+				}
+
+/*
 				$_SESSION['debug'] .= "<br/>
 					Checking distance from top of bid<br/>
 					Cost $currentBid<br/>
@@ -216,13 +230,7 @@ class minions
 					spread $spread<br/>
 					depth $depth<br/>
 				";
-/*
-					lastLine $lastLine<br/>
-					depthCheck $depthCheck
 */
-########## WORK ZONE
-
-
 
 				$oid = $_SESSION['minions'][$minion['id']-1]['orderId'];
 				if(isset($_SESSION['openOrders'][$oid]) && $_SESSION['openOrders'][$oid] == 'filled')
@@ -233,9 +241,7 @@ class minions
 			}
 			else if($minion['state'] == 'OnBookA')
 			{
-				$_SESSION['minions'][$minion['id']-1]['msg'] = 'Fishing';
 
-########## WORK ZONE getting depth in book
 				$currentAsk = $_SESSION['minions'][$minion['id']-1]['price'];
 				$lowAsk = 0;
 				$keys = array_keys($_SESSION['bookAsks']);
@@ -246,13 +252,13 @@ class minions
 				}
 				$spread = round($currentAsk - $lowAsk,2);
 				$currentCost = $_SESSION['minions'][$minion['id']-1]['cost'];
-				$profit = $lowAsk - $currentCost;
+				$profit = round($lowAsk - $currentCost,2);
 				$depth = 0;
 				$lastLine = 0;
 				$depthCheck = 'NO';
 				foreach($keys as $key)
 				{
-					$_SESSION['debug'] = "$key : $currentAsk";
+					#$_SESSION['debug'] = "$key : $currentAsk";
 					if( $key > $currentAsk){break;}
 					$orderKeys = array_keys($_SESSION['bookAsks'][$key][4]);
 					foreach($orderKeys as $cOrder)
@@ -261,6 +267,7 @@ class minions
 						$lastLine = $key;
 					}
 				}
+/*
 				$_SESSION['debug'] .= "<br/>
 					checking distance from bottom of ask<br/>
 					price $currentAsk<br/>
@@ -271,8 +278,20 @@ class minions
 					depthCheck $depthCheck<br/>
 					profit $profit
 				";
-########## WORK ZONE
-				if($depth > 1 && $spread > .01){$_SESSION['minions'][$minion['id']-1]['state'] = 'xAsk';}
+*/
+
+				$chk1 = $spread      >= .01 ? 'Y' : 'N';
+				$chk2 = $depth       >= .1  ? 'Y' : 'N';
+				$chk3 = $bookSpread  >= .02 ? 'Y' : 'N';
+				$chk4 = $profit      >= .01 ? 'Y' : 'Y';
+
+
+				$_SESSION['minions'][$minion['id']-1]['msg'] = $chk1.$chk2.$chk3.$chk4;
+
+				if($chk1 == 'Y' && $chk2 == 'Y' && $chk3 == 'Y' && $chk4 == 'Y')
+				{
+					$_SESSION['minions'][$minion['id']-1]['state'] = 'xAsk';
+				}
 
 				$oid = $_SESSION['minions'][$minion['id']-1]['orderId'];
 				if(isset($_SESSION['openOrders'][$oid]) && $_SESSION['openOrders'][$oid] == 'filled')
@@ -302,12 +321,14 @@ class minions
 */
 			else if($minion['state'] == 'cBid')
 			{
+/*
 				$oid = $_SESSION['minions'][$minion['id']-1]['orderId'];
 				if(isset($_SESSION['openOrders'][$oid]) && $_SESSION['openOrders'][$oid] == 'canceled')
 				{
 					unset($_SESSION['openOrders'][$oid]);
 					$_SESSION['minions'][$minion['id']-1]['state'] = 'Idle';
 				}
+*/
 			}
 			else if($minion['state'] == 'xBid')
 			{
