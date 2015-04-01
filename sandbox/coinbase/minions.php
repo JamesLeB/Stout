@@ -100,7 +100,7 @@ class minions
 			sort($keys);
 			$highAsk = $keys[0] + 0;
 		}
-		$bookSpread = $highAsk - $highBid;
+		$bookSpread = round($highAsk - $highBid,2);
 
 		foreach($_SESSION['minions'] as $minion)
 		{
@@ -108,10 +108,10 @@ class minions
 			{
 
 				$s = $highAsk - $highBid;
-				$_SESSION['minions'][$minion['id']-1]['msg'] = 'S: '.round($s,2);
+				$_SESSION['minions'][$minion['id']-1]['msg'] = $bookSpread;
 				$_SESSION['minions'][$minion['id']-1]['orderId'] = '';
 				$_SESSION['minions'][$minion['id']-1]['cost'] = $highBid;
-				$_SESSION['minions'][$minion['id']-1]['price'] = 0;
+				$_SESSION['minions'][$minion['id']-1]['price'] = $highAsk;
 
 				$chk3 = $bookSpread  >= .02 ? 'Y' : 'N';
 				if($chk3 = 'Y')
@@ -164,12 +164,18 @@ class minions
 			}
 			else if($minion['state'] == 'Asking')
 			{
-				$_SESSION['minions'][$minion['id']-1]['msg'] = 'Check Ask';
+				$_SESSION['minions'][$minion['id']-1]['msg'] = 'Chck Ask';
 
 				$oid = $_SESSION['minions'][$minion['id']-1]['orderId'];
 				if(isset($_SESSION['openOrders'][$oid]) && $_SESSION['openOrders'][$oid] == 'open')
 				{
 					$_SESSION['minions'][$minion['id']-1]['state'] = 'OnBookA';
+				}
+				if(isset($_SESSION['openOrders'][$oid]) && $_SESSION['openOrders'][$oid] == 'filled')
+				{
+					unset($_SESSION['openOrders'][$oid]);
+					$_SESSION['minions'][$minion['id']-1]['state'] = 'PunchOut';
+					$_SESSION['minions'][$minion['id']-1]['orderId'] = '';
 				}
 			}
 			else if($minion['state'] == 'Bidding')
@@ -375,6 +381,12 @@ $payload = json_encode($_SESSION['bookAsks'][$keys[0]]);
 				{
 					unset($_SESSION['openOrders'][$oid]);
 					$_SESSION['minions'][$minion['id']-1]['state'] = 'Flying';
+					$_SESSION['minions'][$minion['id']-1]['orderId'] = '';
+				}
+				if(isset($_SESSION['openOrders'][$oid]) && $_SESSION['openOrders'][$oid] == 'filled')
+				{
+					unset($_SESSION['openOrders'][$oid]);
+					$_SESSION['minions'][$minion['id']-1]['state'] = 'PunchOut';
 					$_SESSION['minions'][$minion['id']-1]['orderId'] = '';
 				}
 			}
