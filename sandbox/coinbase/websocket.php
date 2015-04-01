@@ -227,7 +227,7 @@
 			{
 				usort($_SESSION['socketBuffer'],"cmp");
 				# trim buffer
-				while(sizeof($_SESSION['socketBuffer']) > 100 && $_SESSION['startLiveBook'])
+				while(sizeof($_SESSION['socketBuffer']) > 200 && $_SESSION['startLiveBook'])
 				{
 					array_shift($_SESSION['socketBuffer']);
 				}

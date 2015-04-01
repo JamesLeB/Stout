@@ -138,7 +138,8 @@ function tick()
 	var p = { func: 'tick', click: click, payload: payload };
 	$.post('websocket.php',p,function(data)
 	{
-	//	$('#book').html(data);
+		//$('#debug').html(data);
+
 		var obj = $.parseJSON(data);
 
 		$('#data').html(obj.feedData);
@@ -160,8 +161,6 @@ function tick()
 			$('#minions > div:nth-child('+(index+1)+') > div:nth-child(6)').html(m.state);
 			$('#minions > div:nth-child('+(index+1)+') > div:nth-child(7)').html(m.msg);
 		});
-/*
-*/
 
 		// ADD LIVE ORDER BOOK
 		var liveBookTable = '';
@@ -184,9 +183,6 @@ function tick()
 		});
 		liveBookTable += "</table>";
 		$('#book').html(liveBookTable);
-/*
-##################################################
-*/
 
 		// UPDATE socket buffer Feed back
 		if( obj.active == 0 )
@@ -197,8 +193,6 @@ function tick()
 		{
 			$('#james').html('Running: '+obj.msg);
 		}
-/*
-*/
 
 		// CALL TICK
 		if(obj.stopOrder == 0){tick();}

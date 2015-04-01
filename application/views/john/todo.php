@@ -8,6 +8,7 @@
 		<div>art28</div>
 		<div>paul</div>
 		<div>error</div>
+		<div>medicare</div>
 	</div>
 </div>
 <style>
@@ -101,6 +102,14 @@
 		overflow: auto;
 		border: 5px ridge yellow;
 	}
+	#addElly > div:nth-child(7)
+	{
+		background: white;
+		height: 300px;
+		width: 1100px;
+		overflow: auto;
+		border: 5px ridge yellow;
+	}
 </style>
 <script>
 $(document).ready(function()
@@ -185,10 +194,11 @@ $(document).ready(function()
 				var thing = $.parseJSON(d);
 				$('#addElly > div:nth-child(3)').html(thing.batch+'<br/>');
 				$('#addElly > div:nth-child(3)').append(thing.debug);
-				var myTable    = '<table>';
-				var art28Table = '<table>';
-				var paulTable  = '<table>';
-				var errorTable = '<table>';
+				var myTable       = '<table>';
+				var art28Table    = '<table>';
+				var paulTable     = '<table>';
+				var errorTable    = '<table>';
+				var medicareTable = '<table>';
 
 				paulTable += '<tr>';
 				paulTable += '<td>Line</td>';
@@ -276,6 +286,10 @@ $(document).ready(function()
 					{
 						art28Table += myRow;
 					}
+					else if( hasMed == 'YES' && j[1].length == 2 )
+					{
+						medicareTable += myRow;
+					}
 					else if( hasMed == 'YES' && j[1].length > 2 )
 					{
 						paulTable += myRow;
@@ -286,10 +300,11 @@ $(document).ready(function()
 					}
 				});
 				});
-				myTable    += '</table>';
-				art28Table += '</table>';
-				paulTable  += '</table>';
-				errorTable += '</table>';
+				myTable       += '</table>';
+				art28Table    += '</table>';
+				paulTable     += '</table>';
+				errorTable    += '</table>';
+				medicareTable += '<table>';
 				$('#addElly > div:nth-child(3)').append(myTable);
 				$('#addElly > div:nth-child(3)').append('Done All');
 				$('#addElly > div:nth-child(4)').append(art28Table);
@@ -298,6 +313,8 @@ $(document).ready(function()
 				$('#addElly > div:nth-child(5)').append('Done Paul');
 				$('#addElly > div:nth-child(6)').append(errorTable);
 				$('#addElly > div:nth-child(6)').append('Done Error');
+				$('#addElly > div:nth-child(7)').append(medicareTable);
+				$('#addElly > div:nth-child(7)').append('Done Error');
 			});
 		});
 	});

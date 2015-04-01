@@ -18,7 +18,7 @@ class minions
 				'cost'    => 0.00,
 				'price'   => 0.00,
 				'orderId' => '',
-				'state'   => 'Idle',
+				'state'   => 'Sleep',
 				'msg'     => 'Hmm',
 				'order'   => []
 			);
@@ -29,10 +29,10 @@ class minions
 	}
 	public function activateMinion($minionId)
 	{
-		if($_SESSION['minions'][$minionId-1]['state'] == 'Idle')
+		if($_SESSION['minions'][$minionId-1]['state'] == 'Sleep')
 		{
-			//$_SESSION['minions'][$minionId-1]['state'] = 'Flying';
-			$_SESSION['minions'][$minionId-1]['state'] = 'Bid';
+			$_SESSION['minions'][$minionId-1]['state'] = 'Flying';
+			//$_SESSION['minions'][$minionId-1]['state'] = 'Idle';
 		}
 		else if($_SESSION['minions'][$minionId-1]['state'] == 'Bid')
 		{
@@ -116,7 +116,7 @@ class minions
 				$chk3 = $bookSpread  >= .02 ? 'Y' : 'N';
 				if($chk3 = 'Y')
 				{
-					$_SESSION['minions'][$minion['id']-1]['state'] = 'Bid';
+					//$_SESSION['minions'][$minion['id']-1]['state'] = 'Bid';
 				}
 			}
 			else if($minion['state'] == 'Bid')
@@ -181,28 +181,33 @@ class minions
 				{
 					$_SESSION['minions'][$minion['id']-1]['state'] = 'OnBookB';
 				}
+				if(isset($_SESSION['openOrders'][$oid]) && $_SESSION['openOrders'][$oid] == 'filled')
+				{
+					unset($_SESSION['openOrders'][$oid]);
+					$_SESSION['minions'][$minion['id']-1]['state'] = 'Flying';
+				}
 
 			}
 			else if($minion['state'] == 'OnBookB')
 			{
-				$_SESSION['debug'] = 'climb need book info';
-
-
 				$currentBid = $_SESSION['minions'][$minion['id']-1]['cost'];
 				$highBid = 0;
+				$backSpread = 0;
 				$keys = array_keys($_SESSION['bookBids']);
 				if(sizeof($keys) > 0)
 				{
 					rsort($keys);
 					$highBid = $keys[0];
+					$backSpread = round($keys[0] - $keys[1],2);
 				}
+				//$_SESSION['debug'] = $backSpread;
+
 				$spread = round($highBid - $currentBid,2);
 				$depth = 0;
 
 				$lastLine = 0;
 				foreach($keys as $key)
 				{
-					$_SESSION['debug'] = "$key : $currentBid";
 					if( $key < $currentBid){break;}
 					$orderKeys = array_keys($_SESSION['bookBids'][$key][4]);
 					foreach($orderKeys as $cOrder)
@@ -214,9 +219,10 @@ class minions
 
 				$chk1 = $spread      >= .01 ? 'Y' : 'N';
 				$chk2 = $depth       >= .1  ? 'Y' : 'N';
-				$chk3 = $bookSpread  >= .02 ? 'Y' : 'N';
+				$chk3 = $bookSpread  >= .01 ? 'Y' : 'N';
+				$chk4 = $backSpread   > .01 ? 'Y' : 'N';
 
-				$_SESSION['minions'][$minion['id']-1]['msg'] = $chk1.$chk2.$chk3;
+				$_SESSION['minions'][$minion['id']-1]['msg'] = $chk1.$chk2.$chk3.$chk4;
 				if($chk1 == 'Y' && $chk2 == 'Y' && $chk3 == 'Y')
 				{
 					$_SESSION['minions'][$minion['id']-1]['state'] = 'xBid';
@@ -244,12 +250,24 @@ class minions
 
 				$currentAsk = $_SESSION['minions'][$minion['id']-1]['price'];
 				$lowAsk = 0;
+				$backSpread = 99;
 				$keys = array_keys($_SESSION['bookAsks']);
 				if(sizeof($keys) > 0)
 				{
 					sort($keys);
 					$lowAsk = $keys[0];
+					$backSpread = round($keys[1] - $keys[0],2);
 				}
+############ WORK ZONE
+$payload = json_encode($_SESSION['bookAsks'][$keys[0]]);
+				$_SESSION['debug'] = "
+						next task figure out how to jump back<br/>
+						$payload<br/>
+						How many orders on lowest rung?<br/>
+						How many of those are mine?<br/>
+					"; 
+############ WORK ZONE
+
 				$spread = round($currentAsk - $lowAsk,2);
 				$currentCost = $_SESSION['minions'][$minion['id']-1]['cost'];
 				$profit = round($lowAsk - $currentCost,2);
@@ -282,15 +300,21 @@ class minions
 
 				$chk1 = $spread      >= .01 ? 'Y' : 'N';
 				$chk2 = $depth       >= .1  ? 'Y' : 'N';
-				$chk3 = $bookSpread  >= .02 ? 'Y' : 'N';
+				$chk3 = $bookSpread  > .001 ? 'Y' : 'N';
+				# NOT SURE IF THIS IS A USEFUL CHECK
 				$chk4 = $profit      >= .01 ? 'Y' : 'Y';
+				$chk5 = $backSpread   > .01 ? 'Y' : 'N';
 
 
-				$_SESSION['minions'][$minion['id']-1]['msg'] = $chk1.$chk2.$chk3.$chk4;
-
+				$_SESSION['minions'][$minion['id']-1]['msg'] = $chk1.$chk2.$chk3.$chk4.$chk5;
+				
 				if($chk1 == 'Y' && $chk2 == 'Y' && $chk3 == 'Y' && $chk4 == 'Y')
 				{
 					$_SESSION['minions'][$minion['id']-1]['state'] = 'xAsk';
+				}
+				if($chk5 == 'Y')
+				{
+					#$_SESSION['minions'][$minion['id']-1]['state'] = 'xAsk';
 				}
 
 				$oid = $_SESSION['minions'][$minion['id']-1]['orderId'];
@@ -321,13 +345,13 @@ class minions
 */
 			else if($minion['state'] == 'cBid')
 			{
-/*
 				$oid = $_SESSION['minions'][$minion['id']-1]['orderId'];
 				if(isset($_SESSION['openOrders'][$oid]) && $_SESSION['openOrders'][$oid] == 'canceled')
 				{
 					unset($_SESSION['openOrders'][$oid]);
 					$_SESSION['minions'][$minion['id']-1]['state'] = 'Idle';
 				}
+/*
 */
 			}
 			else if($minion['state'] == 'xBid')
