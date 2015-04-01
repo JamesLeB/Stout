@@ -35,6 +35,7 @@
 			require_once('minions.php');
 			$minions = new minions();
 			$_SESSION['minions'] = $minions->loadMinions();
+			$_SESSION['minionJumpLog'] = array(0,sizeof($_SESSION['minions']),0,0);
 			$kara = $_SESSION['minions'];
 			
 			# this file is for testing a method to keep the buffer in order
