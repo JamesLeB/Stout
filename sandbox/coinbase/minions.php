@@ -135,7 +135,7 @@ $b = json_encode($firstBidLine);
 $c = json_encode($minionJumpLog);
 
 #WORK ZONE
-#$_SESSION['debug'] = "$a $b $c";
+$_SESSION['debug'] = "$a $b $c";
 
 		foreach($_SESSION['minions'] as $minion)
 		{
@@ -164,8 +164,8 @@ $c = json_encode($minionJumpLog);
 				$_SESSION['minions'][$minion['id']-1]['msg'] = 'check book';
 
 				# PLACING BID
-#WORK
-				if(0 && $_SESSION['minionJumpLog'][0] == 0)
+				$a = 0;
+				if($_SESSION['minionJumpLog'][0] == 0)
 				{
 					$size = $_SESSION['minions'][$minion['id']-1]['size'];
 					$side = 'buy';
@@ -175,10 +175,13 @@ $c = json_encode($minionJumpLog);
 					$_SESSION['openOrders'][$orderId] = 'new';
 					$_SESSION['minions'][$minion['id']-1]['state'] = 'Bidding';
 					$_SESSION['minions'][$minion['id']-1]['cost'] = $highBid;
+					$_SESSION['minionJumpLog'][1]--;
+					$_SESSION['minionJumpLog'][0]++;
 				}
 				else
 				{
-					$_SESSION['minions'][$minion['id']-1]['msg'] = 'GOOD MORING';
+					$_SESSION['minions'][$minion['id']-1]['msg'] = 'Wating';
+					$_SESSION['minions'][$minion['id']-1]['orderId'] = '';
 				}
 			}
 			else if($minion['state'] == 'Flying')
@@ -191,13 +194,11 @@ $c = json_encode($minionJumpLog);
 			{
 
 				# PLACING ASK 
-				#$size = $_SESSION['minions'][$minion['id']-1]['size'];
-				$_SESSION['debug'] = $_SESSION['btcA'];
-				$size = round($_SESSION['btcA'],8);
+				$size = $_SESSION['minions'][$minion['id']-1]['size'];
+				#$size = round($_SESSION['btcA'],8);
 				$side = 'sell';
 
 				$thing = json_decode($exchange->placeOrder($size,$highAsk,$side),true);
-				#$_SESSION['debug'] = json_encode($thing);
 				$orderId = $thing['id'];
 				
 				$_SESSION['minions'][$minion['id']-1]['orderId'] = $orderId;
@@ -231,14 +232,11 @@ $c = json_encode($minionJumpLog);
 			}
 			else if($minion['state'] == 'Bidding')
 			{
-				//$_SESSION['minions'][$minion['id']-1]['state'] = 'OnBookB';
 
 				$oid = $_SESSION['minions'][$minion['id']-1]['orderId'];
 				if(isset($_SESSION['openOrders'][$oid]) && $_SESSION['openOrders'][$oid] == 'open')
 				{
 					$_SESSION['minions'][$minion['id']-1]['state'] = 'OnBookB';
-					$_SESSION['minionJumpLog'][1]--;
-					$_SESSION['minionJumpLog'][0]++;
 				}
 				if(isset($_SESSION['openOrders'][$oid]) && $_SESSION['openOrders'][$oid] == 'filled')
 				{
@@ -261,7 +259,6 @@ $c = json_encode($minionJumpLog);
 					$highBid = $keys[0];
 					$backSpread = round($keys[0] - $keys[1],2);
 				}
-				//$_SESSION['debug'] = $backSpread;
 
 				$spread = round($highBid - $currentBid,2);
 				$depth = 0;
