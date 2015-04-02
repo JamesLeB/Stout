@@ -138,7 +138,7 @@ function tick()
 	var p = { func: 'tick', click: click, payload: payload };
 	$.post('websocket.php',p,function(data)
 	{
-		//$('#debug').html(data);
+		$('#tickReturn').html(data);
 
 		var obj = $.parseJSON(data);
 
