@@ -1,7 +1,7 @@
 <?php
 class minions
 {
-	private $minionGo = false;
+	private $minionGo = true;
 
 	public function __construct()
 	{
