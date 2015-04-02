@@ -1,7 +1,7 @@
 <?php
 class minions
 {
-	private $minionGo = true;
+	private $minionGo = false;
 
 	public function __construct()
 	{
@@ -14,7 +14,7 @@ class minions
 		{
 			$minion = array(
 				'id'      => $i,
-				'size'    => .02,
+				'size'    => .03,
 				'cost'    => 0.00,
 				'price'   => 0.00,
 				'orderId' => '',
@@ -40,7 +40,7 @@ class minions
 		}
 		else if($_SESSION['minions'][$minionId-1]['state'] == 'Bid')
 		{
-			//$_SESSION['minions'][$minionId-1]['state'] = 'Idle';
+			$_SESSION['minions'][$minionId-1]['state'] = 'Sleep';
 		}
 		else if($_SESSION['minions'][$minionId-1]['state'] == 'Bidding')
 		{
@@ -197,15 +197,18 @@ class minions
 			else if($minion['state'] == 'Ask')
 			{
 				# PLACING ASK 
-				if($_SESSION['minionJumpLog'][2] == 0)
+				$priceFloor = round($_SESSION['minions'][$minion['id']-1]['cost'] + .05,2);
+				$_SESSION['minions'][$minion['id']-1]['msg'] = $priceFloor;
+				#WORK
+				if(1 && $_SESSION['minionJumpLog'][2] == 0)
 				{
 					$_SESSION['minionJumpLog'][3]--;
 					$_SESSION['minionJumpLog'][2]++;
-#WORK
-					$size = $_SESSION['minions'][$minion['id']-1]['size'];
-					#$size = round($_SESSION['btcA'],8) - .1;
+					#$size = $_SESSION['minions'][$minion['id']-1]['size'];
+					$size = round($_SESSION['btcA'],8) - .1;
 					$side = 'sell';
-					$thing = json_decode($exchange->placeOrder($size,$highAsk,$side),true);
+					$price = $highAsk > $priceFloor ? $highAsk : $priceFloor;
+					$thing = json_decode($exchange->placeOrder($size,$price,$side),true);
 					if(isset($thing['id']))
 					{
 						$orderId = $thing['id'];
@@ -219,13 +222,13 @@ class minions
 						$_SESSION['minions'][$minion['id']-1]['state'] = 'Sleep';
 						$_SESSION['minions'][$minion['id']-1]['orderId'] = json_encode($thing);
 					}
+					$_SESSION['minions'][$minion['id']-1]['price'] = $price;
 				}
 				else
 				{
-					$_SESSION['minions'][$minion['id']-1]['msg'] = 'Waiting';
 					$_SESSION['minions'][$minion['id']-1]['orderId'] = '';
+					$_SESSION['minions'][$minion['id']-1]['price'] = $highAsk;
 				}
-				$_SESSION['minions'][$minion['id']-1]['price'] = $highAsk;
 				
 			}
 			else if($minion['state'] == 'Asking')
@@ -387,10 +390,13 @@ $payload = json_encode($_SESSION['bookAsks'][$keys[0]]);
 				$chk5 = $backSpread   > .01 ? 'Y' : 'N';
 				$chk6 = $firstAskLine[0] == $firstAskLine[1] ? 'B' : 'H';
 
+				$priceFloor = round($_SESSION['minions'][$minion['id']-1]['cost'] + .05,2);
+				$chk7 = $highAsk > $priceFloor ? 'Y' : 'N';
 
-				$_SESSION['minions'][$minion['id']-1]['msg'] = $chk1.$chk2.$chk3.$chk4.$chk5.$chk6;
+
+				$_SESSION['minions'][$minion['id']-1]['msg'] = $chk1.$chk2.$chk3.$chk4.$chk5.$chk6.$chk7;
 				
-				if(($chk1 == 'Y' && $chk2 == 'Y' && $chk3 == 'Y' && $chk4 == 'Y') || $chk6 == 'B')
+				if(($chk1 == 'Y' && $chk2 == 'Y' && $chk3 == 'Y' && $chk4 == 'Y' && $chk7 == 'Y') || $chk6 == 'B')
 				{
 					$_SESSION['minions'][$minion['id']-1]['state'] = 'xAsk';
 				}
