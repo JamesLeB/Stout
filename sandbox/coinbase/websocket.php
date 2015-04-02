@@ -425,7 +425,7 @@
 
 			require_once('minions.php');
 			$minions = new minions();
-			$minions->act();
+			$minionActionReturn = $minions->act();
 
 
 ############################ End Minions  #############################
@@ -507,7 +507,8 @@ $sockStat .= '</table>';
 				'stopOrder'    => $stopOrder,
 				'active'       => $_SESSION['startLiveBook'],
 				'msg'          => $_SESSION['msg'],
-				'debug'        => $_SESSION['debug']
+				'debug'        => $_SESSION['debug'],
+				'minionAction' => $minionActionReturn
 			);
 			break;
 # END TICK

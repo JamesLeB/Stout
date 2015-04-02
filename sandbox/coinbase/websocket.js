@@ -142,7 +142,7 @@ function tick()
 
 		var obj = $.parseJSON(data);
 
-		$('#data').html(obj.feedData);
+		$('#data').html(obj.feedData + " :: " + obj.minionAction);
 
 		// UPDATE CLOCK
 		$('#clock > div').html(++click);
