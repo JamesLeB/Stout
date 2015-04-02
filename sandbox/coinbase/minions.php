@@ -154,6 +154,10 @@ class minions
 					}
 				}
 			}
+			else if($minion['state'] == 'Sleep')
+			{
+				//$_SESSION['minions'][$minion['id']['state'] = 'Flying';
+			}
 			else if($minion['state'] == 'Bid')
 			{
 				$_SESSION['minions'][$minion['id']-1]['msg'] = 'check book';
@@ -204,8 +208,8 @@ class minions
 				{
 					$_SESSION['minionJumpLog'][3]--;
 					$_SESSION['minionJumpLog'][2]++;
-					#$size = $_SESSION['minions'][$minion['id']-1]['size'];
-					$size = round($_SESSION['btcA'],8) - .1;
+					$size = $_SESSION['minions'][$minion['id']-1]['size'];
+					#$size = round($_SESSION['btcA'],8) - .1;
 					$side = 'sell';
 					$price = $highAsk > $priceFloor ? $highAsk : $priceFloor;
 					$thing = json_decode($exchange->placeOrder($size,$price,$side),true);
