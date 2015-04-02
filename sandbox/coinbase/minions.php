@@ -1,7 +1,7 @@
 <?php
 class minions
 {
-	private $minionGo = true;
+	private $minionGo = false;
 
 	public function __construct()
 	{
@@ -133,15 +133,13 @@ $minionJumpLog = $_SESSION['minionJumpLog'];
 $a = json_encode($firstAskLine);
 $b = json_encode($firstBidLine);
 $c = json_encode($minionJumpLog);
-$_SESSION['debug'] = "
-	working on the problem<br/>
-	$a<br/>
-	$b<br/>
-	$c<br/>
-";
+
+#WORK ZONE
+#$_SESSION['debug'] = "$a $b $c";
 
 		foreach($_SESSION['minions'] as $minion)
 		{
+				#$_SESSION['debug'] = round($_SESSION['btcA'],8);
 			if($minion['state'] == 'Idle')
 			{
 
@@ -166,7 +164,8 @@ $_SESSION['debug'] = "
 				$_SESSION['minions'][$minion['id']-1]['msg'] = 'check book';
 
 				# PLACING BID
-				if(1 || $firstBidLine[1] == 0)
+#WORK
+				if(0 && $_SESSION['minionJumpLog'][0] == 0)
 				{
 					$size = $_SESSION['minions'][$minion['id']-1]['size'];
 					$side = 'buy';
@@ -179,7 +178,7 @@ $_SESSION['debug'] = "
 				}
 				else
 				{
-					$_SESSION['minions'][$minion['id']-1]['msg'] = 'Waiting';
+					$_SESSION['minions'][$minion['id']-1]['msg'] = 'GOOD MORING';
 				}
 			}
 			else if($minion['state'] == 'Flying')
@@ -192,10 +191,13 @@ $_SESSION['debug'] = "
 			{
 
 				# PLACING ASK 
-				$size = $_SESSION['minions'][$minion['id']-1]['size'];
+				#$size = $_SESSION['minions'][$minion['id']-1]['size'];
+				$_SESSION['debug'] = $_SESSION['btcA'];
+				$size = round($_SESSION['btcA'],8);
 				$side = 'sell';
 
 				$thing = json_decode($exchange->placeOrder($size,$highAsk,$side),true);
+				#$_SESSION['debug'] = json_encode($thing);
 				$orderId = $thing['id'];
 				
 				$_SESSION['minions'][$minion['id']-1]['orderId'] = $orderId;
@@ -280,8 +282,9 @@ $_SESSION['debug'] = "
 				$chk2 = $depth       >=  .1  ? 'Y' : 'N';
 				$chk3 = $bookSpread  >= .01 ? 'Y' : 'N';
 				$chk4 = $backSpread   > .01 ? 'Y' : 'N';
+				$chk5 = 'G';
 
-				$_SESSION['minions'][$minion['id']-1]['msg'] = $chk1.$chk2.$chk3.$chk4;
+				$_SESSION['minions'][$minion['id']-1]['msg'] = $chk1.$chk2.$chk3.$chk4.$chk5;
 				if(($chk1 == 'Y' && $chk2 == 'Y' && $chk3 == 'Y') || !$this->minionGo)
 				{
 					$_SESSION['minions'][$minion['id']-1]['state'] = 'xBid';

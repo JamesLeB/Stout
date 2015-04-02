@@ -101,6 +101,7 @@
 				if($bb['currency'] == 'BTC'){$btcA = $bb['available'];}
 			}
 			$kara = array($usdA,$btcA);
+			$_SESSION['btcA'] = $btcA;
 			break;
 
 		case 'getBook':
