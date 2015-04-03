@@ -204,7 +204,7 @@ class minions
 				$priceFloor = round($_SESSION['minions'][$minion['id']-1]['cost'] + .05,2);
 				$_SESSION['minions'][$minion['id']-1]['msg'] = $priceFloor;
 				#WORK
-				if(1 && $_SESSION['minionJumpLog'][2] == 0)
+				if(1 && $_SESSION['minionJumpLog'][2] >= 0)
 				{
 					$_SESSION['minionJumpLog'][3]--;
 					$_SESSION['minionJumpLog'][2]++;
