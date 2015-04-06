@@ -142,6 +142,8 @@ function tick()
 
 		var obj = $.parseJSON(data);
 
+		if(obj.matchedResult[1] == 1){$('#matchedResult').html('<br/>'+obj.matchedResult[2]+'<br/>x');}
+
 		$('#data').html(obj.feedData + " :: " + obj.minionAction);
 
 		// UPDATE CLOCK
@@ -195,7 +197,7 @@ function tick()
 		}
 
 		// CALL TICK
-		if(obj.stopOrder == 0){tick();}
+		if(obj.stopOrder == 0 && obj.matchedResult[0] == 0){tick();}
 	});
 }
 function webSocket()

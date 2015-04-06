@@ -196,6 +196,7 @@
 		case 'tick':
 			$stopOrder = 0;
 			$feedData = 'feed data';
+			$matchedResult = array(0,0,'');
 
 			$ct = 0;
 			if(isset($_POST['payload']))
@@ -414,6 +415,11 @@
 						break;
 
 					case 'match':
+						$a = "<br/>Maker id";
+						$b = "<br/>Maker size";
+						$c = "<br/>Match size";
+						$d = "<br/>test";
+						$matchedResult = array(1,1,$nextOrder.$a.$b.$c.$d);
 						break;
 					default:
 				} # END SWITCH ON ORDER TYPE (recieved,open,done,match)
@@ -508,7 +514,8 @@ $sockStat .= '</table>';
 				'active'       => $_SESSION['startLiveBook'],
 				'msg'          => $_SESSION['msg'],
 				'debug'        => $_SESSION['debug'],
-				'minionAction' => $minionActionReturn
+				'minionAction' => $minionActionReturn,
+				'matchedResult' => $matchedResult
 			);
 			break;
 # END TICK

@@ -1,7 +1,7 @@
 <?php
 class minions
 {
-	private $minionGo = true;
+	private $minionGo = false;
 
 	public function __construct()
 	{
@@ -201,15 +201,20 @@ class minions
 			else if($minion['state'] == 'Ask')
 			{
 				# PLACING ASK 
+
+				#$_SESSION['minions'][$minion['id']-1]['cost'] = 0;
 				$priceFloor = round($_SESSION['minions'][$minion['id']-1]['cost'] + .05,2);
+
 				$_SESSION['minions'][$minion['id']-1]['msg'] = $priceFloor;
 				#WORK
 				if(1 && $_SESSION['minionJumpLog'][2] >= 0)
 				{
 					$_SESSION['minionJumpLog'][3]--;
 					$_SESSION['minionJumpLog'][2]++;
+
 					$size = $_SESSION['minions'][$minion['id']-1]['size'];
 					#$size = round($_SESSION['btcA'],8) - .1;
+
 					$side = 'sell';
 					$price = $highAsk > $priceFloor ? $highAsk : $priceFloor;
 					$thing = json_decode($exchange->placeOrder($size,$price,$side),true);
