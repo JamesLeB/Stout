@@ -26,7 +26,7 @@
 	{
 		border: 5px ridge gray;
 		background: lightgray;
-		height: 100px;
+		height: 300px;
 		width: 600px;
 		overflow: auto;
 	}
@@ -114,8 +114,8 @@
 <script>
 $(document).ready(function()
 {
-	$('#newClaimFolder').hide();
-	$('#eligibilityFiles').hide();
+	//$('#newClaimFolder').hide();
+	//$('#eligibilityFiles').hide();
 	//$('#addElly > div:nth-child(3)').hide();
 	//$('#addElly > div:nth-child(4)').hide();
 	//$('#addElly > div:nth-child(6)').hide();
