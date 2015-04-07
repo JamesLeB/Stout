@@ -38,7 +38,7 @@
 	}
 	#eligibilityFiles > div:nth-child(2)
 	{
-		height: 150px;
+		height: 250px;
 		margin-top: 10px;
 	}
 	#eligibilityFiles > div:nth-child(2) > div { margin: 5px; }
@@ -273,11 +273,11 @@ $(document).ready(function()
 					var hasMed = 'NO';
 					j[1].forEach(function(jj)
 					{
-						insLines += '<div>'+jj+'</div>';
+						insLines += jj+' __ ';
 						check = jj.substring(0,4);
 						if( check == 'Med:') { hasMed = 'YES'; }
 					});
-					//myRow += '<td>'+insLines+'</td>';
+					myRow += '<td>'+insLines+'</td>';
 					//myRow += '<td>'+j[1].length+'</td>';
 					//myRow += '<td>'+hasMed+'</td>';
 					myRow += '</tr>';
@@ -304,7 +304,7 @@ $(document).ready(function()
 				art28Table    += '</table>';
 				paulTable     += '</table>';
 				errorTable    += '</table>';
-				medicareTable += '<table>';
+				medicareTable += '</table>';
 				$('#addElly > div:nth-child(3)').append(myTable);
 				$('#addElly > div:nth-child(3)').append('Done All');
 				$('#addElly > div:nth-child(4)').append(art28Table);
@@ -314,7 +314,7 @@ $(document).ready(function()
 				$('#addElly > div:nth-child(6)').append(errorTable);
 				$('#addElly > div:nth-child(6)').append('Done Error');
 				$('#addElly > div:nth-child(7)').append(medicareTable);
-				$('#addElly > div:nth-child(7)').append('Done Error');
+				$('#addElly > div:nth-child(7)').append('Done medicare');
 			});
 		});
 	});

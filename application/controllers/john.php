@@ -31,7 +31,7 @@ class John extends CI_Controller {
 		{
 			$jsonName = '200100602';
 		}
-		else if($s[4] == '491.txt')
+		else if($s[4] == '535.txt')
 		{
 			$jsonName = '100100603';
 		}
@@ -210,6 +210,12 @@ class John extends CI_Controller {
 				{
 					$seg = array_shift($segs);
 					$claim['insurance'][] = 'Med: Medicaid CBLTC';
+				}
+
+				if(preg_match('/^EB\*1\*IND\*30\*\*Outpatient Coverage w\/ CBLTC/',$segs[0]))
+				{
+					$seg = array_shift($segs);
+					$claim['insurance'][] = 'Med: Medicaid Outpatient CBLTC';
 				}
 
 				if(preg_match('/^EB\*1\*IND\*30\*\*Eligible Only Outpatient Care/',$segs[0]))
