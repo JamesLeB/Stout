@@ -19,25 +19,29 @@ class John extends CI_Controller {
 	{
 		$file = $_POST['file'];
 		$s = preg_split('/_/',$file);
-		$debug = $s[4];
 
 		#get elly
 		$localFile = 'files/edi/temp/a';
-		if($s[4] == '430.txt')
+		     if($s[4] == '430.txt')
 		{
-			$jsonName = '200100601';
+			$jsonName = '100100101';
 		}
 		else if($s[4] == '485.txt')
 		{
-			$jsonName = '200100602';
+			$jsonName = '100100102';
+		}
+		else if($s[4] == '491.txt')
+		{
+			$jsonName = '100100103';
 		}
 		else if($s[4] == '535.txt')
 		{
-			$jsonName = '100100603';
+			$jsonName = '100100104';
 		}
 		$remoteFile = '3rdParty\271Queue\\'.$jsonName.'.json';
 		ftp_get($this->conn,$localFile,$remoteFile,FTP_BINARY);
 		$a = file_get_contents($localFile);
+
 
 		$elly = json_decode($a,true);
 		$keys = array_keys($elly);
@@ -56,6 +60,80 @@ class John extends CI_Controller {
 		$localFile = 'files/edi/temp/a';
 		ftp_get($this->conn,$localFile,$remoteFile,FTP_BINARY);
 		$a = file_get_contents($localFile);
+
+
+#  This section needs to be redone, I need a mode switch with 4 options head,foot,provider,claim which will direct where the current segment will go.  Also need to check the elly ins values and direct the claims to the correct file, medicaid medicare or other, finally I need to iterate each file type and validate that the provider has at least one claim and if so output the providers and claims to the relative files.   Good luck. 
+
+$ss = preg_split('/\~/',$a);
+$outbound = [];
+
+$art28    = [];
+$medicare = [];
+$other    = [];
+
+$a = [];
+$a[] = array_shift($ss);
+$a[] = array_shift($ss);
+$a[] = array_shift($ss);
+$a[] = array_shift($ss);
+$a[] = array_shift($ss);
+$a[] = array_shift($ss);
+$a[] = array_shift($ss);
+
+foreach($a as $b)
+{
+	$art28[]    = $b;
+	$medicare[] = $b;
+	$other[]    = $b;
+	$outbound[] = $b;
+}
+
+if(preg_match('/^HL\*[0-9]+\*\*20\*/',$ss[0]))
+{
+	while(sizeof($ss) > 0)
+	{
+		$s = array_shift($ss);
+		if(preg_match('/^CLM\*/',$s))
+		{
+			$a = preg_split('/\*/',$s);
+			$outbound[] = $s.' '.json_encode($ellyHash[$a[1]]);
+		}
+		else if(preg_match('/^HL\*[0-9]+\*\*20\*/',$s))
+		{
+			$a = [];
+			$a[] = $s.' !! new provider ********************************';
+			$s = array_shift($ss);
+			if(preg_match('/^PRV/',$s)){$a[] = $s; $s = array_shift($ss);}
+			if(preg_match('/^NM1/',$s)){$a[] = $s; $s = array_shift($ss);}
+			if(preg_match('/^N3/',$s)){$a[] = $s; $s = array_shift($ss);}
+			if(preg_match('/^N4/',$s)){$a[] = $s; $s = array_shift($ss);}
+			if(preg_match('/^REF/',$s)){$a[] = $s; $s = array_shift($ss);}
+			
+			foreach($a as $b)
+			{
+				$art28[]    = $b;
+				$medicare[] = $b;
+				$other[]    = $b;
+				$outbound[] = $b;
+			}
+		}
+		else if(preg_match('/^HL\*[0-9]+\*[0-9]+\*22\*/',$s))
+		{
+			$outbound[] = $s.' !! new claim ********************************';
+		}
+		else
+		{
+			$outbound[] = $s;
+		}
+	}
+	$debug = implode('<br/><br/>',$outbound);
+	
+	
+	file_put_contents('files/edi/temp/art28.x12',implode("\n",$art28));
+	file_put_contents('files/edi/temp/medicare.x12',implode("\n",$medicare));
+	file_put_contents('files/edi/temp/other.x12',implode("\n",$other));
+}
+
 
 		require('lib/classes/EDI837.php');
 		$edi = new EDI837();
@@ -113,7 +191,13 @@ class John extends CI_Controller {
 	public function get271List()
 	{
 		$list = ftp_nlist($this->conn,'3rdParty\271Queue');
-		echo json_encode($list);
+		$listx = [];
+		foreach($list as $i)
+		{
+			$a = explode('.',$i);
+			if($a[2] == 'x12'){$listx[] = $i;}
+		}
+		echo json_encode($listx);
 	}
 	public function process271()
 	{

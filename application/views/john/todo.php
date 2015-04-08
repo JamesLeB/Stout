@@ -4,11 +4,12 @@
 	<div id='addElly'>
 		<div></div>
 		<div></div>
-		<div>Test</div>
-		<div>art28</div>
-		<div>paul</div>
-		<div>error</div>
-		<div>medicare</div>
+		<div>All</div>
+		<div>Art28</div>
+		<div>Medicare</div>
+		<div>Paul</div>
+		<div>Error</div>
+		<div>Debug</div>
 	</div>
 </div>
 <style>
@@ -44,7 +45,7 @@
 	#eligibilityFiles > div:nth-child(2) > div { margin: 5px; }
 	#eligibilityFiles > div:nth-child(3)
 	{
-		height: 500px;
+		height: 200px;
 		overflow: auto;
 		margin-top: 10px;
 		padding-left: 20px;
@@ -60,6 +61,14 @@
 		overflow: auto;
 		margin-top: 10px;
 		padding-left: 20px;
+	}
+	#addElly table
+	{
+		background: white;
+	}
+	#addElly table td
+	{
+		border: 1px dotted gray;
 	}
 	#addElly > div:nth-child(3)
 	{
@@ -77,7 +86,6 @@
 		overflow: auto;
 		border: 5px ridge yellow;
 	}
-	#addElly > div:nth-child(5) { border: 5px ridge yellow; }
 	#addElly > div:nth-child(5)
 	{
 		background: white;
@@ -85,14 +93,6 @@
 		width: 1100px;
 		overflow: auto;
 		border: 5px ridge yellow;
-	}
-	#addElly table
-	{
-		background: white;
-	}
-	#addElly table td
-	{
-		border: 1px dotted gray;
 	}
 	#addElly > div:nth-child(6)
 	{
@@ -110,20 +110,30 @@
 		overflow: auto;
 		border: 5px ridge yellow;
 	}
+	#addElly > div:nth-child(8)
+	{
+		background: white;
+		height: 300px;
+		width: 1100px;
+		overflow: auto;
+		border: 5px ridge yellow;
+	}
 </style>
 <script>
 $(document).ready(function()
 {
-	//$('#newClaimFolder').hide();
-	//$('#eligibilityFiles').hide();
-	//$('#addElly > div:nth-child(3)').hide();
-	//$('#addElly > div:nth-child(4)').hide();
-	//$('#addElly > div:nth-child(6)').hide();
+	$('#newClaimFolder').hide();
+	$('#eligibilityFiles').hide();
+	$('#addElly > div:nth-child(3)').hide();
+	$('#addElly > div:nth-child(4)').hide();
+	$('#addElly > div:nth-child(5)').hide();
+	$('#addElly > div:nth-child(6)').hide();
+	$('#addElly > div:nth-child(7)').hide();
 
 	$.post('index.php?/john/getNewList','',function(d)
 	{
 		var list = $.parseJSON(d);
-		$('#newClaimFolder').html('');
+		$('#newClaimFolder').html('Click to create 270 file<br/><br/>');
 		list.forEach(function(i)
 		{
 			$('#newClaimFolder').append('<div>'+i+'</div>');
@@ -139,7 +149,7 @@ $(document).ready(function()
 			var p = {file: file};
 			$.post('index.php?/john/getNewFile',p,function(d)
 			{
-				$('#newClaimFolder').html(d);
+				$('#newClaimFolder').append(d);
 			});
 		});
 	});
@@ -193,44 +203,51 @@ $(document).ready(function()
 			{
 				var thing = $.parseJSON(d);
 				$('#addElly > div:nth-child(3)').html(thing.batch+'<br/>');
-				$('#addElly > div:nth-child(3)').append(thing.debug);
 				var myTable       = '<table>';
 				var art28Table    = '<table>';
 				var paulTable     = '<table>';
 				var errorTable    = '<table>';
 				var medicareTable = '<table>';
 
-				paulTable += '<tr>';
-				paulTable += '<td>Line</td>';
-				paulTable += '<td>Count</td>';
-				paulTable += '<td>TCN</td>';
-				paulTable += '<td>Echo</td>';
-				paulTable += '<td>LastName</td>';
-				paulTable += '<td>FirstName</td>';
-				paulTable += '<td>Medicaid</td>';
-				paulTable += '<td>Status</td>';
-				paulTable += '<td>CARC</td>';
-				paulTable += '<td>RARC</td>';
-				paulTable += '<td>RateCode</td>';
-				paulTable += '<td>ClaimBilled</td>';
-				paulTable += '<td>ClaimPaid</td>';
-				paulTable += '<td>Clinic</td>';
-				paulTable += '<td>ServiceDate</td>';
-				paulTable += '<td>AdaCode</td>';
-				paulTable += '<td>LineBilled</td>';
-				paulTable += '<td>LinePaid</td>';
-				paulTable += '<td>MaxAllowed</td>';
-				paulTable += '<td>ApgPaid</td>';
-				paulTable += '<td>BlendPaid</td>';
-				paulTable += '<td>ApgNumber</td>';
-				paulTable += '<td>ApgWeight</td>';
-				paulTable += '<td>ApgPercent</td>';
-				paulTable += '<td>CARC</td>';
-				paulTable += '<td>RARC</td>';
-				paulTable += '<td>CappAddOn</td>';
-				paulTable += '<td>OverPaid</td>';
-				paulTable += '</tr>';
+				headingRow = '';
+				headingRow += '<tr>';
+				headingRow += '<td>Line</td>';
+				headingRow += '<td>Count</td>';
+				headingRow += '<td>TCN</td>';
+				headingRow += '<td>Echo</td>';
+				headingRow += '<td>LastName</td>';
+				headingRow += '<td>FirstName</td>';
+				headingRow += '<td>Medicaid</td>';
+				headingRow += '<td>Status</td>';
+				headingRow += '<td>CARC</td>';
+				headingRow += '<td>RARC</td>';
+				headingRow += '<td>RateCode</td>';
+				headingRow += '<td>ClaimBilled</td>';
+				headingRow += '<td>ClaimPaid</td>';
+				headingRow += '<td>Clinic</td>';
+				headingRow += '<td>ServiceDate</td>';
+				headingRow += '<td>AdaCode</td>';
+				headingRow += '<td>LineBilled</td>';
+				headingRow += '<td>LinePaid</td>';
+				headingRow += '<td>MaxAllowed</td>';
+				headingRow += '<td>ApgPaid</td>';
+				headingRow += '<td>BlendPaid</td>';
+				headingRow += '<td>ApgNumber</td>';
+				headingRow += '<td>ApgWeight</td>';
+				headingRow += '<td>ApgPercent</td>';
+				headingRow += '<td>CARC</td>';
+				headingRow += '<td>RARC</td>';
+				headingRow += '<td>CappAddOn</td>';
+				headingRow += '<td>OverPaid</td>';
+				headingRow += '</tr>';
 
+/*
+				myTable       += headingRow;
+				art28Table    += headingRow;
+				paulTable     += headingRow;
+				errorTable    += headingRow;
+				medicareTable += headingRow;
+*/
 				
 				thing.claimList.forEach(function(j)
 				{
@@ -305,16 +322,24 @@ $(document).ready(function()
 				paulTable     += '</table>';
 				errorTable    += '</table>';
 				medicareTable += '</table>';
+
 				$('#addElly > div:nth-child(3)').append(myTable);
 				$('#addElly > div:nth-child(3)').append('Done All');
+
 				$('#addElly > div:nth-child(4)').append(art28Table);
 				$('#addElly > div:nth-child(4)').append('Done Art28');
-				$('#addElly > div:nth-child(5)').append(paulTable);
-				$('#addElly > div:nth-child(5)').append('Done Paul');
-				$('#addElly > div:nth-child(6)').append(errorTable);
-				$('#addElly > div:nth-child(6)').append('Done Error');
-				$('#addElly > div:nth-child(7)').append(medicareTable);
-				$('#addElly > div:nth-child(7)').append('Done medicare');
+
+				$('#addElly > div:nth-child(5)').append(medicareTable);
+				$('#addElly > div:nth-child(5)').append('Done Medicare');
+
+				$('#addElly > div:nth-child(6)').append(paulTable);
+				$('#addElly > div:nth-child(6)').append('Done Paul');
+
+				$('#addElly > div:nth-child(7)').append(errorTable);
+				$('#addElly > div:nth-child(7)').append('Done Error');
+
+				$('#addElly > div:nth-child(8)').html(thing.debug);
+
 			});
 		});
 	});
