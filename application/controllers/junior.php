@@ -183,11 +183,11 @@ class Junior extends CI_Controller {
 		$e = $this->load->view('junior/folderView',$d,true);
 
 		# Get local unproccesed list
-		$list = scandir('files/edi');
+		$list = scandir('files/edi/medicaid');
 		$checkedList = array();
 		if(is_array($list)){
 			foreach($list as $l){
-				if(preg_match('/\.txt$/',$l) && !preg_match('/^log/',$l)){$checkedList[] = $l;}
+				if(preg_match('/\.x12$/',$l) && !preg_match('/^log/',$l)){$checkedList[] = $l;}
 			}
 		}
 		$d['folderName'] = 'zork1';

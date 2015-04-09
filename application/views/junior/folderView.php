@@ -49,6 +49,7 @@
 					$('#debug').html('Process '+fileName+'...');
 					var target = 'index.php?/slides/worker/';
 					var func = 'convertEdi';
+					fileName = 'medicaid/'+fileName;
 					var parm = { file: fileName };
 					$.post(target+func,parm,function(data){
 						var p = { log: data, file: fileName };

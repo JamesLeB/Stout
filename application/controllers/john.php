@@ -228,6 +228,7 @@ foreach( $art28['Segments'] as $segment)
 	{
 		$z = preg_split('/\*/',$segment);
 		$z[13] = preg_replace('/^0000/','1001',$z[13]);
+		$art28['BatchNum'] = $z[13];
 		$a[] = implode('*',$z);
 	}
 	else
@@ -290,6 +291,7 @@ foreach( $medicare['Segments'] as $segment)
 	{
 		$z = preg_split('/\*/',$segment);
 		$z[13] = preg_replace('/^0000/','2001',$z[13]);
+		$medicare['BatchNum'] = $z[13];
 		$b[] = implode('*',$z);
 	}
 	else
@@ -363,6 +365,7 @@ foreach( $other['Segments'] as $segment)
 	{
 		$z = preg_split('/\*/',$segment);
 		$z[13] = preg_replace('/^0000/','3001',$z[13]);
+		$other['BatchNum'] = $z[13];
 		$c[] = implode('*',$z);
 	}
 	else
@@ -436,6 +439,7 @@ foreach( $error['Segments'] as $segment)
 	{
 		$z = preg_split('/\*/',$segment);
 		$z[13] = preg_replace('/^0000/','4001',$z[13]);
+		$error['BatchNum'] = $z[13];
 		$d[] = implode('*',$z);
 	}
 	else
@@ -500,10 +504,10 @@ foreach( $error['foot'] as $segment)
 	}
 }
 
-file_put_contents('files/edi/temp/art28.x12',implode("\n",$a));
-file_put_contents('files/edi/temp/medicare.x12',implode("\n",$b));
-file_put_contents('files/edi/temp/other.x12',implode("\n",$c));
-file_put_contents('files/edi/temp/error.x12',implode("\n",$d));
+file_put_contents('files/edi/medicaid/'.$art28['BatchNum'].'.x12',implode("~",$a));
+file_put_contents('files/edi/medicare/'.$medicare['BatchNum'].'.x12',implode("\n",$b));
+file_put_contents('files/edi/other/'.$other['BatchNum'].'.x12',implode("\n",$c));
+file_put_contents('files/edi/error/'.$error['BatchNum'].'.x12',implode("\n",$d));
 
 		require('lib/classes/EDI837.php');
 		$edi = new EDI837();
