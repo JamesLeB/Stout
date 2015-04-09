@@ -64,76 +64,446 @@ class John extends CI_Controller {
 
 #  This section needs to be redone, I need a mode switch with 4 options head,foot,provider,claim which will direct where the current segment will go.  Also need to check the elly ins values and direct the claims to the correct file, medicaid medicare or other, finally I need to iterate each file type and validate that the provider has at least one claim and if so output the providers and claims to the relative files.   Good luck. 
 
-$ss = preg_split('/\~/',$a);
+#$ss = preg_split('/\~/',$a);
+$ss = explode('~',$a);
+
 $outbound = [];
 
-$art28    = [];
-$medicare = [];
-$other    = [];
+$art28 = array(
+	'Providers' => [],
+	'Segments' => [],
+	'foot' => [],
+	'BatchNum' => '100100100'
+); 
 
-$a = [];
-$a[] = array_shift($ss);
-$a[] = array_shift($ss);
-$a[] = array_shift($ss);
-$a[] = array_shift($ss);
-$a[] = array_shift($ss);
-$a[] = array_shift($ss);
-$a[] = array_shift($ss);
+$medicare = array(
+	'Providers' => [],
+	'Segments' => [],
+	'foot' => [],
+	'BatchNum' => '100100100'
+); 
 
-foreach($a as $b)
-{
-	$art28[]    = $b;
-	$medicare[] = $b;
-	$other[]    = $b;
-	$outbound[] = $b;
-}
+$other = array(
+	'Providers' => [],
+	'Segments' => [],
+	'foot' => [],
+	'BatchNum' => '100100100'
+); 
 
-if(preg_match('/^HL\*[0-9]+\*\*20\*/',$ss[0]))
-{
-	while(sizeof($ss) > 0)
+$error = array(
+	'Providers' => [],
+	'Segments' => [],
+	'foot' => [],
+	'BatchNum' => '100100100'
+); 
+
+$mode = 'HEAD';
+$type = 'NO';
+$claimS = [];
+
+	foreach($ss as $s)
 	{
-		$s = array_shift($ss);
+		if(preg_match('/^HL\*\d+\*\*20\*/',$s))
+		{
+			$mode = 'PROVIDER';
+			$art28['Providers'][] = array('Segments' => [], 'Claims' => []);
+			$medicare['Providers'][] = array('Segments' => [], 'Claims' => []);
+			$other['Providers'][] = array('Segments' => [], 'Claims' => []);
+			$error['Providers'][] = array('Segments' => [], 'Claims' => []);
+		}
+		if(preg_match('/^HL\*\d+\*\d+\*22\*/',$s))
+		{
+			$mode = 'CLAIM';
+			$type = 'NO';
+			$claimS = [];
+		}
+		if(preg_match('/^SE\*/',$s))
+		{
+			$mode = 'FOOT';
+		}
 		if(preg_match('/^CLM\*/',$s))
 		{
 			$a = preg_split('/\*/',$s);
-			$outbound[] = $s.' '.json_encode($ellyHash[$a[1]]);
-		}
-		else if(preg_match('/^HL\*[0-9]+\*\*20\*/',$s))
-		{
-			$a = [];
-			$a[] = $s.' !! new provider ********************************';
-			$s = array_shift($ss);
-			if(preg_match('/^PRV/',$s)){$a[] = $s; $s = array_shift($ss);}
-			if(preg_match('/^NM1/',$s)){$a[] = $s; $s = array_shift($ss);}
-			if(preg_match('/^N3/',$s)){$a[] = $s; $s = array_shift($ss);}
-			if(preg_match('/^N4/',$s)){$a[] = $s; $s = array_shift($ss);}
-			if(preg_match('/^REF/',$s)){$a[] = $s; $s = array_shift($ss);}
-			
-			foreach($a as $b)
+			$ins = $ellyHash[$a[1]];
+			$f1 = 0; # medicaid flag
+			$f2 = 0; # medicare flag
+			$f3 = 0; # mmc flag
+			$f4 = 0; # other flag
+			$insType = '!';
+			foreach( $ins as $i)
 			{
-				$art28[]    = $b;
-				$medicare[] = $b;
-				$other[]    = $b;
-				$outbound[] = $b;
+				if(preg_match('/^Med: Medicaid/',$i)){$f1 = 1;}
+				else if(preg_match('/^OTHER: MEDICARE/',$i)){$f2 = 1;}
+				else if(preg_match('/^MMC: /',$i)){$f3 = 1;}
+				else {$f4 = 1;}
 			}
+			     if( $f1 == 1 && $f2 == 0 && $f3 == 0 && $f4 == 0 ){ $insType = 'Medicaid'; }
+			else if( $f1 == 1 && $f2 == 1 && $f3 == 0 && $f4 == 0 ){ $insType = 'Medicare'; }
+			else if( $f1 == 1 && $f2 == 1 && $f3 == 0 && $f4 > 0 ){ $insType = 'Other'; }
+			else if( $f3 > 0  || $f4 > 0 ){ $insType = 'Error'; }
+			else { $insType = 'Error'; }
+
+			foreach($claimS as $c)
+			{
+				if($insType == 'Medicaid' )
+				{
+					$art28['Providers'][sizeof($art28['Providers'])-1]['Claims'][] = $c;
+				}
+				else if($insType == 'Medicare' )
+				{
+					$medicare['Providers'][sizeof($medicare['Providers'])-1]['Claims'][] = $c;
+				}
+				else if($insType == 'Other' )
+				{
+					$other['Providers'][sizeof($other['Providers'])-1]['Claims'][] = $c;
+				}
+				else if($insType == 'Error' )
+				{
+					$error['Providers'][sizeof($error['Providers'])-1]['Claims'][] = $c;
+				}
+			}
+
+			$type = $insType;
+			#$type = $insType.' '.$f1.$f2.$f3.$f4.' :: '.json_encode($ins);
 		}
-		else if(preg_match('/^HL\*[0-9]+\*[0-9]+\*22\*/',$s))
+		$outbound[] = "$s :: $mode :: $type";
+		if( $mode == 'HEAD' )
 		{
-			$outbound[] = $s.' !! new claim ********************************';
+			$art28['Segments'][] = $s;
+			$medicare['Segments'][] = $s;
+			$other['Segments'][] = $s;
+			$error['Segments'][] = $s;
 		}
-		else
+		if( $mode == 'FOOT' )
 		{
-			$outbound[] = $s;
+			$art28['foot'][] = $s;
+			$medicare['foot'][] = $s;
+			$other['foot'][] = $s;
+			$error['foot'][] = $s;
+		}
+		if( $mode == 'PROVIDER' )
+		{
+			$art28['Providers'][sizeof($art28['Providers'])-1]['Segments'][] = $s;
+			$medicare['Providers'][sizeof($art28['Providers'])-1]['Segments'][] = $s;
+			$other['Providers'][sizeof($art28['Providers'])-1]['Segments'][] = $s;
+			$error['Providers'][sizeof($art28['Providers'])-1]['Segments'][] = $s;
+		}
+		if( $mode == 'CLAIM' )
+		{
+			if( $type == 'NO' )
+			{
+				$claimS[] = $s;
+			}
+			else if( $type == 'Medicaid' )
+			{
+				$art28['Providers'][sizeof($art28['Providers'])-1]['Claims'][] = $s;
+			}
+			else if( $type == 'Medicare' )
+			{
+				$medicare['Providers'][sizeof($medicare['Providers'])-1]['Claims'][] = $s;
+			}
+			else if( $type == 'Other' )
+			{
+				$other['Providers'][sizeof($other['Providers'])-1]['Claims'][] = $s;
+			}
+			else if( $type == 'Error' )
+			{
+				$error['Providers'][sizeof($error['Providers'])-1]['Claims'][] = $s;
+			}
+			#else
+			#{
+			#}
+			#$art28['Providers'][sizeof($art28['Providers'])-1]['Segments'][] = $s;
 		}
 	}
+
 	$debug = implode('<br/><br/>',$outbound);
 	
-	
-	file_put_contents('files/edi/temp/art28.x12',implode("\n",$art28));
-	file_put_contents('files/edi/temp/medicare.x12',implode("\n",$medicare));
-	file_put_contents('files/edi/temp/other.x12',implode("\n",$other));
+################################ CREATE MEDICAID SEGMETNTS #########################################
+$a = [];
+$hlct = 0;
+foreach( $art28['Segments'] as $segment)
+{
+	if(preg_match('/^ISA\*/',$segment))
+	{
+		$z = preg_split('/\*/',$segment);
+		$z[13] = preg_replace('/^0000/','1001',$z[13]);
+		$a[] = implode('*',$z);
+	}
+	else
+	{
+		$a[] = $segment;
+	}
+}
+foreach( $art28['Providers'] as $provider )
+{
+	if( sizeof($provider['Claims']) > 0 )
+	{
+		foreach( $provider['Segments'] as $segment)
+		{
+			if(preg_match('/^HL\*/',$segment))
+			{
+				$z = preg_split('/\*/',$segment);
+				$z[1] = ++$hlct;
+				$a[] = implode('*',$z);
+			}
+			else
+			{
+				$a[] = $segment;
+			}
+		}
+		foreach( $provider['Claims'] as $segment)
+		{
+			if(preg_match('/^HL\*/',$segment))
+			{
+				$z = preg_split('/\*/',$segment);
+				$z[1] = ++$hlct;
+				$a[] = implode('*',$z);
+			}
+			else
+			{
+				$a[] = $segment;
+			}
+		}
+	}
+}
+foreach( $art28['foot'] as $segment)
+{
+	if(preg_match('/^IEA\*/',$segment))
+	{
+		$z = preg_split('/\*/',$segment);
+		$z[2] = preg_replace('/^0000/','1001',$z[2]);
+		$a[] = implode('*',$z);
+	}
+	else
+	{
+		$a[] = $segment;
+	}
 }
 
+################################ CREATE MEDICARE SEGMETNTS #########################################
+$b = [];
+$hlct = 0;
+foreach( $medicare['Segments'] as $segment)
+{
+	if(preg_match('/^ISA\*/',$segment))
+	{
+		$z = preg_split('/\*/',$segment);
+		$z[13] = preg_replace('/^0000/','2001',$z[13]);
+		$b[] = implode('*',$z);
+	}
+	else
+	{
+		$b[] = $segment;
+	}
+	#$b[] = $segment;
+}
+foreach( $medicare['Providers'] as $provider )
+{
+	if( sizeof($provider['Claims']) > 0 )
+	{
+		foreach( $provider['Segments'] as $segment)
+		{
+			if(preg_match('/^HL\*/',$segment))
+			{
+				$z = preg_split('/\*/',$segment);
+				$z[1] = ++$hlct;
+				$b[] = implode('*',$z);
+			}
+			else
+			{
+				$b[] = $segment;
+			}
+		}
+		foreach( $provider['Claims'] as $segment)
+		{
+			if(preg_match('/^HL\*/',$segment))
+			{
+				$z = preg_split('/\*/',$segment);
+				$z[1] = ++$hlct;
+				$b[] = implode('*',$z);
+			}
+			else
+			{
+				$b[] = $segment;
+			}
+		}
+/*
+		foreach( $provider['Segments'] as $segment)
+		{
+			$b[] = $segment;
+		}
+		foreach( $provider['Claims'] as $segment)
+		{
+			$b[] = $segment;
+		}
+*/
+	}
+}
+foreach( $medicare['foot'] as $segment)
+{
+	if(preg_match('/^IEA\*/',$segment))
+	{
+		$z = preg_split('/\*/',$segment);
+		$z[2] = preg_replace('/^0000/','2001',$z[2]);
+		$b[] = implode('*',$z);
+	}
+	else
+	{
+		$b[] = $segment;
+	}
+}
+
+################################ CREATE OTHER SEGMETNTS #########################################
+$c = [];
+$hlct = 0;
+foreach( $other['Segments'] as $segment)
+{
+	if(preg_match('/^ISA\*/',$segment))
+	{
+		$z = preg_split('/\*/',$segment);
+		$z[13] = preg_replace('/^0000/','3001',$z[13]);
+		$c[] = implode('*',$z);
+	}
+	else
+	{
+		$c[] = $segment;
+	}
+	#$c[] = $segment;
+}
+foreach( $other['Providers'] as $provider )
+{
+	if( sizeof($provider['Claims']) > 0 )
+	{
+		foreach( $provider['Segments'] as $segment)
+		{
+			if(preg_match('/^HL\*/',$segment))
+			{
+				$z = preg_split('/\*/',$segment);
+				$z[1] = ++$hlct;
+				$c[] = implode('*',$z);
+			}
+			else
+			{
+				$c[] = $segment;
+			}
+		}
+		foreach( $provider['Claims'] as $segment)
+		{
+			if(preg_match('/^HL\*/',$segment))
+			{
+				$z = preg_split('/\*/',$segment);
+				$z[1] = ++$hlct;
+				$c[] = implode('*',$z);
+			}
+			else
+			{
+				$c[] = $segment;
+			}
+		}
+/*
+		foreach( $provider['Segments'] as $segment)
+		{
+			$c[] = $segment;
+		}
+		foreach( $provider['Claims'] as $segment)
+		{
+			$c[] = $segment;
+		}
+*/
+	}
+}
+foreach( $other['foot'] as $segment)
+{
+	if(preg_match('/^IEA\*/',$segment))
+	{
+		$z = preg_split('/\*/',$segment);
+		$z[2] = preg_replace('/^0000/','3001',$z[2]);
+		$c[] = implode('*',$z);
+	}
+	else
+	{
+		$c[] = $segment;
+	}
+}
+
+################################ CREATE ERROR SEGMETNTS #########################################
+$d = [];
+$hlct = 0;
+foreach( $error['Segments'] as $segment)
+{
+	if(preg_match('/^ISA\*/',$segment))
+	{
+		$z = preg_split('/\*/',$segment);
+		$z[13] = preg_replace('/^0000/','4001',$z[13]);
+		$d[] = implode('*',$z);
+	}
+	else
+	{
+		$d[] = $segment;
+	}
+	#$d[] = $segment;
+}
+foreach( $error['Providers'] as $provider )
+{
+	if( sizeof($provider['Claims']) > 0 )
+	{
+		foreach( $provider['Segments'] as $segment)
+		{
+			if(preg_match('/^HL\*/',$segment))
+			{
+				$z = preg_split('/\*/',$segment);
+				$z[1] = ++$hlct;
+				$d[] = implode('*',$z);
+			}
+			else
+			{
+				$d[] = $segment;
+			}
+		}
+		foreach( $provider['Claims'] as $segment)
+		{
+			if(preg_match('/^HL\*/',$segment))
+			{
+				$z = preg_split('/\*/',$segment);
+				$z[1] = ++$hlct;
+				$d[] = implode('*',$z);
+			}
+			else
+			{
+				$d[] = $segment;
+			}
+		}
+/*
+		foreach( $provider['Segments'] as $segment)
+		{
+			$d[] = $segment;
+		}
+		foreach( $provider['Claims'] as $segment)
+		{
+			$d[] = $segment;
+		}
+*/
+	}
+}
+foreach( $error['foot'] as $segment)
+{
+	if(preg_match('/^IEA\*/',$segment))
+	{
+		$z = preg_split('/\*/',$segment);
+		$z[2] = preg_replace('/^0000/','4001',$z[2]);
+		$d[] = implode('*',$z);
+	}
+	else
+	{
+		$d[] = $segment;
+	}
+}
+
+file_put_contents('files/edi/temp/art28.x12',implode("\n",$a));
+file_put_contents('files/edi/temp/medicare.x12',implode("\n",$b));
+file_put_contents('files/edi/temp/other.x12',implode("\n",$c));
+file_put_contents('files/edi/temp/error.x12',implode("\n",$d));
 
 		require('lib/classes/EDI837.php');
 		$edi = new EDI837();
