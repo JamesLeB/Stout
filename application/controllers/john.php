@@ -505,7 +505,7 @@ foreach( $error['foot'] as $segment)
 }
 
 file_put_contents('files/edi/medicaid/'.$art28['BatchNum'].'.x12',implode("~",$a));
-file_put_contents('files/edi/medicare/'.$medicare['BatchNum'].'.x12',implode("\n",$b));
+file_put_contents('files/edi/medicare/'.$medicare['BatchNum'].'.x12',implode("~",$b));
 file_put_contents('files/edi/other/'.$other['BatchNum'].'.x12',implode("\n",$c));
 file_put_contents('files/edi/error/'.$error['BatchNum'].'.x12',implode("\n",$d));
 
