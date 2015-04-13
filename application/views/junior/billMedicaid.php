@@ -1,10 +1,10 @@
 <div id='juniorBiller'>
 	<div>
-		<div>Batches</div>
+		<div>Medicare</div>
 		<div></div>
 	</div>
 	<div>
-		<div>To Process</div>
+		<div>Medicaid</div>
 		<div></div>
 	</div>
 	<div>
