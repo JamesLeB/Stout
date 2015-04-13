@@ -62,7 +62,7 @@ class John extends CI_Controller {
 		$a = file_get_contents($localFile);
 
 
-#  This section needs to be redone, I need a mode switch with 4 options head,foot,provider,claim which will direct where the current segment will go.  Also need to check the elly ins values and direct the claims to the correct file, medicaid medicare or other, finally I need to iterate each file type and validate that the provider has at least one claim and if so output the providers and claims to the relative files.   Good luck. 
+#  This section needs to be redone, I need a mode switch with 4 options head,foot,provider,claim which will direct where the current segment will go.  Also need to check the elly ins values and direct the claims to the correct file, medicaid medicare or other, finally I need to iterate each file type and validate that the provider has at least one claim and if so output the providers and claims to the relative files.   Good luck.  this is done :)  Got a possitive test from batch 535
 
 #$ss = preg_split('/\~/',$a);
 $ss = explode('~',$a);
@@ -217,7 +217,7 @@ $claimS = [];
 		}
 	}
 
-	$debug = implode('<br/><br/>',$outbound);
+	//$debug = implode('<br/><br/>',$outbound);
 	
 ################################ CREATE MEDICAID SEGMETNTS #########################################
 $a = [];
@@ -509,6 +509,12 @@ file_put_contents('files/edi/medicare/'.$medicare['BatchNum'].'.x12',implode("\n
 file_put_contents('files/edi/other/'.$other['BatchNum'].'.x12',implode("\n",$c));
 file_put_contents('files/edi/error/'.$error['BatchNum'].'.x12',implode("\n",$d));
 
+		# GET claim file
+		$remoteFile = '3rdParty\New\\'.$file;
+		$localFile = 'files/edi/temp/a';
+		ftp_get($this->conn,$localFile,$remoteFile,FTP_BINARY);
+		//$a = file_get_contents($localFile);
+
 		require('lib/classes/EDI837.php');
 		$edi = new EDI837();
 		$obj = $edi->loadEDI837D('temp/a');
@@ -550,6 +556,7 @@ file_put_contents('files/edi/error/'.$error['BatchNum'].'.x12',implode("\n",$d))
 			}
 		}
 
+		$debug = 'all good :)  No that we were looking for anything';
 
 		echo json_encode(array(
 			'batch'     => $thing['batch'],

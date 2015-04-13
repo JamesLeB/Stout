@@ -181,7 +181,7 @@ $(document).ready(function()
 
 //////////////////////////////////////////////////////////////////////////////////////
 
-	$('#addElly > div:nth-child(1)').html('Add elly to claim file');
+	$('#addElly > div:nth-child(1)').html('Testing claim creation');
 	$.post('index.php?/john/getNewList','',function(d)
 	{
 		var list = $.parseJSON(d);
