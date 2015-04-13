@@ -29,6 +29,187 @@ class Worker extends CI_Controller {
 		echo $edi->saveExcel();
 	} # END FUNCTION read277
 
+	private function create837Dmedicare($obj,$fileName){
+
+		#header('status: Creating 837D');
+
+/*
+		require('lib/classes/EDI837.php');
+		require('lib/classes/EDI837D.php');
+		require('lib/classes/dentalClaim.php');
+		require('lib/classes/billingProvider.php');
+		require('lib/classes/service.php');
+		require('lib/classes/patient.php');
+*/
+
+		$m = array();
+		$m[] = "Messages...";
+		$batchCount  = 0;
+		$batchAmount = 0;
+		$batchNumber;
+
+		try{
+			# LOAD HEADER
+			#$serial = file_get_contents('files/a.ser');
+			#$obj = unserialize($serial);
+			$ediObj = $obj{'ediObj'};
+			$edi = $ediObj->getStuff();
+			$date6 = $edi{'date'};
+			$date8 = "20$date6";
+			$time = $edi{'time'};
+			$batch = $edi{'batch'};
+			$batch = preg_replace('/^0/','2',$batch);
+			$batchNumber = $batch;
+			$x12 = array();
+			$x12[] = "ISA*00*          *00*          *ZZ*F00            *ZZ*EMEDNYBAT      *$date6*$time*U*00501*$batch*0*P*:";
+			$x12[] = "GS*HC*F00*EMEDNYBAT*$date8*$time*$batch*X*005010X223A2";
+			$x12[] = "ST*837*0001*005010X223A2";
+			$x12[] = "BHT*0019*00*$batch*$date8*$time*CH";
+			$x12[] = "NM1*41*2*NEW YORK UNIV DENTAL CTR*****46*F00";
+			$x12[] = "PER*IC*TYKIEYEN MOORE*TE*2129989879";
+			$x12[] = "NM1*40*2*NYSDOH*****46*141797357";
+			$x12[] = "HL*1**20*1";
+			$x12[] = "NM1*85*2*NEW YORK UNIV DENTAL CTR*****XX*1164555124";
+			$x12[] = "N3*345 E 24TH ST 213S";
+			$x12[] = "N4*NEW YORK*NY*100104020";
+			$x12[] = "REF*EI*135562308";
+		
+			# LOAD SUBSCRIBER
+			$HL = 1;
+			$providers = $edi{'providers'};
+
+			foreach($providers as $provider){
+				$claims = $provider->getClaims();
+				foreach($claims as $claim){
+
+					# Check for Claims that have no valid ADA codes
+					$checkForValidAda = 0;
+					$services = $claim->getServices();
+					foreach($services as $service){
+						$serviceData = $service->getStuff();
+						$adaCode = $serviceData{'adacode'};
+						$adaCode = preg_split('/:/',$adaCode);
+						$adaCode  = $adaCode[1];
+						if($adaCode != 1428){$checkForValidAda = 1;}
+					}
+
+					if($checkForValidAda){
+	
+						$claimData = $claim->getStuff();
+			
+						$last             = $claimData{'last'};
+						$first            = $claimData{'first'};
+						$subscriberId     = $claimData{'id'};
+						$birthdate        = $claimData{'birth'};
+						$sex              = $claimData{'sex'};
+						$claimId          = $claimData{'claimid'};
+						$claimServiceDate = $claimData{'date'};
+						$claimAmount      = $claimData{'amount'};
+						$tcn              = $claimData{'tcn'};
+	
+						$batchCount++;
+						$batchAmount += $claimAmount;
+	
+						$HL++;
+						$x12[] = "HL*$HL*1*22*0";
+						$x12[] = "SBR*P*18*******MC";
+						$x12[] = "NM1*IL*1*$last*$first****MI*$subscriberId";
+						$x12[] = "DMG*D8*$birthdate*$sex";
+						$x12[] = "NM1*PR*2*NYSDOH*****PI*141797357";
+						if($tcn)
+						{
+							$x12[] = "CLM*$claimId*$claimAmount***79:A:7**A*Y*Y";
+						}
+						else
+						{
+							$x12[] = "CLM*$claimId*$claimAmount***79:A:1**A*Y*Y";
+						}
+												$x12[] = "DTP*434*RD8*$claimServiceDate-$claimServiceDate";
+												$x12[] = "CL1*1*7*30";
+						if($tcn)
+						{
+							$x12[] = "REF*F8*$tcn";
+						}
+						$x12[] = "HI*BK:52100";
+						$x12[] = "HI*BE:24:::1428";
+						$x12[] = "NM1*71*1*DESTENO*COSMO****XX*1518920727";
+
+						# MEDICARE SEGMENTS
+						$x12[] = "SBR*P*18*******MA";
+						$x12[] = "OI***Y***Y";
+						$x12[] = "NM1*IL*1*$last*$first****MI*$subscriberId";
+						$x12[] = "NM1*PR*2*MEDICARE*****PI*XX";
+	
+						$services = $claim->getServices();
+	
+						$serviceIndex = 0;
+						$serviceTotal = 0;
+						foreach($services as $service){
+							$serviceData = $service->getStuff();
+							$adaCode         = $serviceData{'adacode'};
+							$lineAmount      = $serviceData{'amount'};
+							$lineServiceDate = $serviceData{'date'};
+	
+							$adaCode = preg_split('/:/',$adaCode);
+							$adaCode  = $adaCode[1];
+	
+							if($lineServiceDate != $claimServiceDate){
+								# disabled
+								#throw new exception("Date miss match $claimId");
+							}
+							if($adaCode != '1428'){
+								$serviceIndex++;
+								$serviceTotal += $lineAmount ;
+								$x12[] = "LX*$serviceIndex";
+								$x12[] = "SV2*0512*HC:$adaCode*$lineAmount*UN*1";
+								$x12[] = "DTP*472*RD8*$lineServiceDate-$lineServiceDate";
+
+								# MEDICARE SEGMENTS
+								$x12[] = "SVD*XX*0*HC:$adaCode*X*1";
+								$x12[] = "CAS*PR*96*$lineAmount";
+								$x12[] = "DTP*573*D8*$lineServiceDate";
+							}
+						}# end services loop
+						if(round($claimAmount,2) != round($serviceTotal,2)){
+							throw new exception("Claim Out of Balance
+								$claimAmount:$serviceTotal - $claimId");
+						}
+					}else{
+						$claimData = $claim->getStuff();
+						$claimId = $claimData{'claimid'};
+						$m[] = "Bad Claim $claimId";
+					}# END IF
+				}# end claims loop
+			}# end providers loop
+		
+			# LOAD FOOTER
+			$segmentCount = sizeof($x12)-1;
+			$x12[] = "SE*$segmentCount*0001";
+			$x12[] = "GE*1*$batch";
+			$x12[] = "IEA*1*$batch";
+		
+			# SAVE FILE TO DISK
+			$file = "B2".substr($batchNumber,strlen($batchNumber)-4,4);
+			$x12 = implode("~",$x12)."~";
+			file_put_contents("files/edi/$file.x12",$x12);
+			file_put_contents("files/edi/SENT/$file.x12",$x12);
+			#unlink("files/edi/$fileName");
+
+			#throw new exception("this is an error");
+			$m[] = '-----';
+			$m[] = "Batch Number: $batchNumber";
+			$m[] = "Batch Count: $batchCount";
+			$m[] = "Batch Amount: $batchAmount";
+
+		}catch(exception $e){
+			$error = $e->getMessage();
+			$m[] = $error;
+		}
+
+		$m = implode("<br/>",$m);
+		return $m;
+
+	}
 	private function create837D($obj,$fileName){
 
 		#header('status: Creating 837D');
@@ -178,11 +359,11 @@ class Worker extends CI_Controller {
 			$x12[] = "IEA*1*$batch";
 		
 			# SAVE FILE TO DISK
-			$file = "B".substr($batchNumber,strlen($batchNumber)-4,4);
+			$file = "B1".substr($batchNumber,strlen($batchNumber)-4,4);
 			$x12 = implode("~",$x12)."~";
 			file_put_contents("files/edi/$file.x12",$x12);
 			file_put_contents("files/edi/SENT/$file.x12",$x12);
-			unlink("files/edi/$fileName");
+			#unlink("files/edi/$fileName");
 
 			#throw new exception("this is an error");
 			$m[] = '-----';
@@ -262,13 +443,21 @@ class Worker extends CI_Controller {
 		$ediObj  = $obj{'ediObj'};
 
 		$m = array();
+		$m[] = $fileName;
 		$m[] = '-----------------';
 		$m[] = 'EDI Object Output';
 		$m[] = '-----------------';
 		$m[] = $message;
 		$m[] = '-----------------';
 		$m[] = 'Create X12 file';
-		$m[] = $this->create837D($obj,$fileName);
+		if( isset($_POST['medicare']) == 1 )
+		{
+			$m[] = $this->create837Dmedicare($obj,$fileName);
+		}
+		else
+		{
+			$m[] = $this->create837D($obj,$fileName);
+		}
 		$m[] = '-----------------';
 		$m = implode("<br/>",$m);
 		
