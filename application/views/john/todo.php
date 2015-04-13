@@ -122,6 +122,7 @@
 <script>
 $(document).ready(function()
 {
+/*
 	$('#newClaimFolder').hide();
 	$('#eligibilityFiles').hide();
 	$('#addElly > div:nth-child(3)').hide();
@@ -129,6 +130,7 @@ $(document).ready(function()
 	$('#addElly > div:nth-child(5)').hide();
 	$('#addElly > div:nth-child(6)').hide();
 	$('#addElly > div:nth-child(7)').hide();
+*/
 
 	$.post('index.php?/john/getNewList','',function(d)
 	{

@@ -858,7 +858,8 @@ file_put_contents('files/edi/error/'.$error['BatchNum'].'.x12',implode("\n",$d))
 		$date8 = date('Ymd');
 		$time = date('Hi');
 		//$gscontrol = $thing['batch'];
-$gscontrol = '100100603';
+$gscontrol = $thing['batch'];
+$gscontrol = preg_replace('/^0/','1',$gscontrol);
 $stcontrol = '1001';
 
 		$x12 = [];
@@ -884,10 +885,13 @@ $hlCount = 2;
 				$medicaid    = $claim['id'];
 				$serviceDate = $claim['date'];
 
-				$x12[] = "HL*".++$hlCount."*2*22*0~";
-				$x12[] = "TRN*1*$claimId*1135562308~";
-				$x12[] = "NM1*IL*1******MI*$medicaid~";
-				$x12[] = "DTP*291*D8*$serviceDate~";
+				if( $serviceDate != '')
+				{
+					$x12[] = "HL*".++$hlCount."*2*22*0~";
+					$x12[] = "TRN*1*$claimId*1135562308~";
+					$x12[] = "NM1*IL*1******MI*$medicaid~";
+					$x12[] = "DTP*291*D8*$serviceDate~";
+				}
 			}
 		}
 		$segCount = sizeof($x12)-1;
