@@ -33,18 +33,22 @@
 			$('#$folderName > div').click(function(){
 				var fileName = $(this).html();
 				var todo = $(this).parent().parent().parent().children().first().html();
-				if(todo == 'Batches')
+				if(todo == 'Medicare')
 				{
-					$('#debug').html('Move '+fileName+'...');
-					var target = 'index.php?/junior/';
-					var func = 'getBatchFile';
-					var parm = { file: fileName };
+					$('#debug').html('Process '+fileName+'...');
+					var target = 'index.php?/slides/worker/';
+					var func = 'convertEdi';
+					fileName = 'medicare/'+fileName;
+					var parm = { file: fileName, medicare: 1 };
 					$.post(target+func,parm,function(data){
-						$('#debug').append('<br/>'+data);
-						$('#juniorBiller button').trigger('click');
+						var p = { log: data, file: fileName };
+						$.post('index.php?/junior/saveLog',p,function(dta){
+							$('#debug').append('<br/>'+dta);
+							$('#juniorBiller button').trigger('click');
+						});
 					});
 				}
-				else if(todo == 'To Process')
+				else if(todo == 'Medicaid')
 				{
 					$('#debug').html('Process '+fileName+'...');
 					var target = 'index.php?/slides/worker/';
