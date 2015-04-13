@@ -172,11 +172,14 @@ class Junior extends CI_Controller {
 	public function go(){
 
 		# Get ftp batch list
-		$a = $this->getFTP('getFtpBatchList','');
-		$list = JSON_decode($a[1],true);
+		#$a = $this->getFTP('getFtpBatchList','');
+		#$list = JSON_decode($a[1],true);
+		$list = scandir('files/edi/medicare');
 		$checkedList = array();
 		if(is_array($list)){
-			foreach($list as $l){$checkedList[]=$l;}
+			foreach($list as $l){
+				if(preg_match('/\.x12$/',$l) && !preg_match('/^log/',$l)){$checkedList[] = $l;}
+			}
 		}
 		$d['folderName'] = 'zork';
 		$d['list'] = $checkedList;
