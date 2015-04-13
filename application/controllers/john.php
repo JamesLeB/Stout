@@ -38,6 +38,7 @@ class John extends CI_Controller {
 		{
 			$jsonName = '100100104';
 		}
+		$jsonName = '100000557';
 		$remoteFile = '3rdParty\271Queue\\'.$jsonName.'.json';
 		ftp_get($this->conn,$localFile,$remoteFile,FTP_BINARY);
 		$a = file_get_contents($localFile);
@@ -631,6 +632,7 @@ file_put_contents('files/edi/error/'.$error['BatchNum'].'.x12',implode("\n",$d))
 
 			# START CLAIM Loop
 			$elly['claims'] = [];
+			$debug = 'Groot';
 			while(preg_match('/^HL\*[0-9]+\*2\*22/',$segs[0]))
 			{
 				$seg = array_shift($segs);
@@ -642,6 +644,7 @@ file_put_contents('files/edi/error/'.$error['BatchNum'].'.x12',implode("\n",$d))
 				{
 					$t = preg_split('/\*/',$seg);
 					$claim['id'] = $t[2];
+$debug = $t[2];
 				}
 				else{throw new exception('11');}
 	
@@ -660,6 +663,12 @@ file_put_contents('files/edi/error/'.$error['BatchNum'].'.x12',implode("\n",$d))
 				$claim['insurance'] = [];
 	
 				if(preg_match('/^EB\*1\*IND\*30\*\*MA Eligible/',$segs[0]))
+				{
+					$seg = array_shift($segs);
+					$claim['insurance'][] = 'Med: Medicaid';
+				}
+
+				if(preg_match('/^EB\*1\*IND\*30\*\*Presumptive Eli/',$segs[0]))
 				{
 					$seg = array_shift($segs);
 					$claim['insurance'][] = 'Med: Medicaid';
@@ -715,8 +724,7 @@ file_put_contents('files/edi/error/'.$error['BatchNum'].'.x12',implode("\n",$d))
 				while(preg_match('/^EB\*U\*IND\*30\*\*ELIGIBLE PCP/',$segs[0]))
 				{
 					$seg = array_shift($segs);
-					if(preg_match('/^MSG\*/',$segs[0])){$seg = array_shift($segs);}
-					if(preg_match('/^MSG\*/',$segs[0])){$seg = array_shift($segs);}
+					while(preg_match('/^MSG\*/',$segs[0])){$seg = array_shift($segs);}
 					if(preg_match('/^LS\*2120/',$segs[0])){$seg = array_shift($segs);}
 					if(preg_match('/^NM1\*Y2/',$segs[0]))
 					{
@@ -808,11 +816,11 @@ file_put_contents('files/edi/error/'.$error['BatchNum'].'.x12',implode("\n",$d))
 			}
 			# End Claim loop
 			$seg = array_shift($segs);
-			if(preg_match('/^SE\*/',$seg)){}else{throw new exception('6');}
+			if(preg_match('/^SE\*/',$seg)){}else{throw new exception('100: '.$debug);}
 			$seg = array_shift($segs);
-			if(preg_match('/^GE\*/',$seg)){}else{throw new exception('6');}
+			if(preg_match('/^GE\*/',$seg)){}else{throw new exception('101');}
 			$seg = array_shift($segs);
-			if(preg_match('/^IEA\*/',$seg)){}else{throw new exception('6');}
+			if(preg_match('/^IEA\*/',$seg)){}else{throw new exception('102');}
 			$m[] = 'All good :)';
 		}
 		catch(exception $e)

@@ -205,6 +205,7 @@ $(document).ready(function()
 			{
 				var thing = $.parseJSON(d);
 				$('#addElly > div:nth-child(3)').html(thing.batch+'<br/>');
+
 				var myTable       = '<table>';
 				var art28Table    = '<table>';
 				var paulTable     = '<table>';
@@ -290,17 +291,22 @@ $(document).ready(function()
 					myRow += '<td>_</td>';
 					var insLines = '';
 					var hasMed = 'NO';
-					j[1].forEach(function(jj)
+
+					//myRow += '<td>'+ Object.prototype.toString.call(j[1]) + '</td>';
+					if( Object.prototype.toString.call(j[1]) == '[object Array]' )
 					{
-						insLines += jj+' __ ';
-						check = jj.substring(0,4);
-						if( check == 'Med:') { hasMed = 'YES'; }
-					});
+						j[1].forEach(function(jj)
+						{
+							insLines += jj+' __ ';
+							check = jj.substring(0,4);
+							if( check == 'Med:') { hasMed = 'YES'; }
+						});
+					}
 					myRow += '<td>'+insLines+'</td>';
-					//myRow += '<td>'+j[1].length+'</td>';
 					//myRow += '<td>'+hasMed+'</td>';
 					myRow += '</tr>';
 					myTable += myRow;
+
 					if( hasMed == 'YES' && j[1].length == 1 )
 					{
 						art28Table += myRow;
@@ -317,6 +323,8 @@ $(document).ready(function()
 					{
 						errorTable += myRow;
 					}
+/*
+*/
 				});
 				});
 				myTable       += '</table>';
