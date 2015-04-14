@@ -13,7 +13,7 @@
 				});
 			});
 			$('#tabs').tabs();
-			$('#tabs').tabs({active:0});
+			$('#tabs').tabs({active:1});
 		}); // END doc ready function
 		function switchScreen(data)
 		{
@@ -95,9 +95,11 @@
 				<ul>
 					<li><a href='#tab1'>One</a></li>
 					<li><a href='#tab2'>Two</a></li>
+					<li><a href='#tab3'>Three</a></li>
 				</ul>
 				<div id='tab1'><?php echo $one ?></div>
 				<div id='tab2'><?php echo $two ?></div>
+				<div id='tab3'><?php echo $three ?></div>
 			</div>
 		</div>
 		<!-- Footer -->
