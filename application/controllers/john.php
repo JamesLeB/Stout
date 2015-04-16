@@ -15,6 +15,106 @@ class John extends CI_Controller {
 		ftp_login($conn,$user,$pass);
 		$this->conn = $conn;
 	}
+	public function getBatchList()
+	{
+		$list = ftp_nlist($this->conn,'x12');
+		echo json_encode($list);
+	}
+	public function createStatusRequest()
+	{
+		$date6 = date('ymd');
+		$date8 = date('Ymd');
+		$time = date('Hi');
+		$gscontrol = '900100100';
+		$stcontrol = '1001';
+		$x12 = [];
+
+#########################################################################################
+
+
+		$x12[] = "ISA*00*          *00*          *ZZ*F00            *ZZ*EMEDNYBAT      *$date6*$time*U*00501*$gscontrol*0*P*:~";
+
+		#$x12[] = "GS*HS*F00*EMEDNYBAT*$date8*$time*$gscontrol*X*005010X279A1~";
+		$x12[] = "GS*HS*F00*EMEDNYBAT*$date8*$time*1*X*005010X212~";
+
+		$x12[] = "ST*276*$stcontrol*005010X212~";
+		#$x12[] = "ST*276*$stcontrol*005010X212~";
+
+		#$x12[] = "BHT*0022*13*$gscontrol*$date8*$time~";
+		#$x12[] = "BHT*0010*13*$gscontrol*$date8*$time~";
+
+		#$x12[] = "HL*1**20*1~";
+		#$x12[] = "NM1*PR*2*NYSDOH*****FI*141797357~";
+		#$x12[] = "HL*2*1*21*1~";
+		#$x12[] = "NM1*1P*2*NEW YORK UNIV DENTAL CTR*****XX*1164555124~";
+
+		#$x12[] = "HL*".++$hlCount."*2*22*0~";
+		#$x12[] = "TRN*1*$claimId*1135562308~";
+		#$x12[] = "NM1*IL*1******MI*$medicaid~";
+		#$x12[] = "DTP*291*D8*$serviceDate~";
+
+		$segCount = sizeof($x12)-1;
+		$x12[] = "SE*$segCount*$stcontrol~";
+		$x12[] = "GE*1*1~";
+		$x12[] = "IEA*1*$gscontrol~";
+
+#########################################################################################
+
+/*
+		$x12[] = "ISA*00*          *00*          *ZZ*F00            *ZZ*EMEDNYBAT      *$date6*$time*U*00501*$gscontrol*0*P*:~";
+		$x12[] = "GS*HS*F00*EMEDNYBAT*$date8*$time*$gscontrol*X*005010X212~";
+		$x12[] = "ST*276*$stcontrol*005010X212~";
+		$x12[] = "BHT*0010*13*$gscontrol*$date8*$time~";
+
+		$x12[] = "HL*1**20*1~";
+		$x12[] = "NM1*PR*2*NYSDOH*****FI*141797357~";
+
+		$x12[] = "HL*2*1*21*1~";
+		$x12[] = "NM1*1P*2*NEW YORK UNIV DENTAL CTR*****XX*1164555124~";
+
+		
+		$x12[] = "HL*3*2*19*1~";
+		$x12[] = "NM1*1P*2*NEW YORK UNIV DENTAL CTR*****XX*1164555124~";
+
+		$birthDate = '19821222';
+		$sex = 'F';
+		$lastName = 'causer';
+		$firstName = 'alison';
+		$subscriberNumber = 'NX38444Q';
+		$serviceDate = '20150408';
+
+		$x12[] = "HL*4*3*22*0~";
+		$x12[] = "DMG*D8*$birthDate*$sex~";
+		$x12[] = "NM1*IL*1*$lastName*$firstName****MI*$subscriberNumber~";
+		#$x12[] = "TRN*1*$tcn~";
+		$x12[] = "DTP*472*RD8*$serviceDate-$serviceDate~";
+
+		$segCount = sizeof($x12)-1;
+		$x12[] = "SE*$segCount*$stcontrol~";
+		$x12[] = "GE*1*$gscontrol~";
+		$x12[] = "IEA*1*$gscontrol~";
+*/
+		# SAVE x12 file to disk
+		$tfile = 'files/edi/temp/x12';
+		file_put_contents($tfile,implode("",$x12));
+
+		# Move file to server
+		#$f = explode('.',$file);
+		#$f = $f[0].'.x12';
+		$remoteFile = 'x12\\test.x12';
+		#$localFile = 'files/edi/temp/x12';
+		$localFile = $tfile;
+		ftp_put($this->conn,$remoteFile,$localFile,FTP_BINARY);
+/*
+		echo '270 file created';
+*/
+		$file = $_POST['file'];
+		$statusRequest = implode('<br/>',$x12);
+		echo json_encode(array(
+			'batch' => $file,
+			'statusRequest' => $statusRequest
+		));
+	}
 	public function addElly()
 	{
 		$file = $_POST['file'];
