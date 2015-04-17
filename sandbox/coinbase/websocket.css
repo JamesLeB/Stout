@@ -94,7 +94,7 @@ div { border: white dotted 1px; }
 #status
 {
 	height: 25px;
-	width: 500px;
+	width: 280px;
 	float: left;
 	padding-top: 5px;
 }
@@ -109,6 +109,7 @@ div { border: white dotted 1px; }
 	
 	overflow: auto;
 }
+/*
 #book table td
 {
 	border: 1px solid black;
@@ -117,6 +118,7 @@ div { border: white dotted 1px; }
 }
 #book > table .bid { color: green; }
 #book > table .ask { color: red; }
+*/
 
 #james
 {
