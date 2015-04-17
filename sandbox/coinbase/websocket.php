@@ -168,6 +168,7 @@
 
 		case 'syncBuffer':
 
+/*
 			# FLUSH ORDERS BEFORE FULL BOOK SEQUENCE
 			while( isset($_SESSION['socketBuffer'][0])
 				&& ($_SESSION['bookSequence'] - $_SESSION['bufferFirst']) >= 0)
@@ -177,18 +178,14 @@
 				$thing = json_decode($thing,true);
 				$_SESSION['bufferFirst'] = $thing['sequence'];
 			}
+*/
 			$_SESSION['startLiveBook'] = 1;
 
 			break;
 
 		case 'tick':
 
-			$stopOrder = 0;
-			$feedData = 'feed data';
-			$matchedResult = array(0,0,'');
-
 			# ADD PAYLOAD TO SOCKET BUFFER
-			$ct = 0;
 			if(isset($_POST['payload']))
 			{
 				$payload = $_POST['payload'];
@@ -198,13 +195,8 @@
 					$_SESSION['socketBuffer'][] = $message;
 				}
 			}
-			//$_SESSION['count'] += $ct;
-			//$feedData  = 'msg ct: '.$_SESSION['count'];
-			$feedData .= 'Buff sz: '.sizeof($_SESSION['socketBuffer']);
 
-			$nextOrder = '';
-
-			# reorder buffer
+			# REORDER AND TRIM BUFFER
 			function cmp($a,$b)
 			{
 				$a = json_decode($a,true);
@@ -219,8 +211,9 @@
 			if(isset($_SESSION['socketBuffer'][0]))
 			{
 				usort($_SESSION['socketBuffer'],"cmp");
-				# trim buffer
-				while(sizeof($_SESSION['socketBuffer']) > 200 && $_SESSION['startLiveBook'])
+
+				# TRIM BUFFER
+				while(sizeof($_SESSION['socketBuffer']) > 400 && $_SESSION['startLiveBook'])
 				{
 					array_shift($_SESSION['socketBuffer']);
 				}
@@ -230,6 +223,24 @@
 				$_SESSION['bufferLast']  = $lOrder['sequence'];
 				$_SESSION['currentSequence'] = 0;
 			}
+
+			$kara = array(
+				'socketBuffer' => sizeof($_SESSION['socketBuffer']),
+				'msg' => 'tick return',
+				'startLiveBook' => $_SESSION['startLiveBook'],
+				'buffer' => $_SESSION['socketBuffer']
+			);
+
+			break;
+
+		case 'tickx':
+
+			$stopOrder = 0;
+			$feedData = 'feed data';
+			$matchedResult = array(0,0,'');
+
+			$nextOrder = '';
+
 
 			# Check to see if the buffer is empty
 			if(

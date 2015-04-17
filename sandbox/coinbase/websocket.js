@@ -24,7 +24,16 @@ $(document).ready(function()
 	//elapsed = d.getTime();
 
 	// SET UP BUTTON CLICKS
-	$('#T').click(function(){ tick(); });
+	$('#syncBuffer').click(function()
+	{
+		var p = { func: 'syncBuffer' };
+		$.post('websocket.php',p,function(data) { });
+	});
+/*
+	$('#startFeed').click(function()
+	{
+		webSocket(); $('#stopSock').click(function() { ws.close(); });
+	});
 	$('#D').click(function()
 	{
 		var p = { func: 'clearDebug' };
@@ -66,20 +75,12 @@ $(document).ready(function()
 			$('#mother').html("<div>USD: "+balance[0]+"</div><div>BTC: "+balance[1]+"</div>");
 		});
 	});
-	$('#startFeed').click(function()
-	{
-		webSocket(); $('#stopSock').click(function() { ws.close(); });
-	});
 	$('#getBook').click(function()
 	{
 		var p = { func: 'getBook' };
 		$.post('websocket.php',p,function(data) { });
 	});
-	$('#syncBuffer').click(function()
-	{
-		var p = { func: 'syncBuffer' };
-		$.post('websocket.php',p,function(data) { });
-	});
+*/
 	$('#start').click(function()
 	{
 		// RUN STARTUP SCRIPT
@@ -104,20 +105,24 @@ $(document).ready(function()
 		
 			$('.minion').click(function()
 			{
+/*
 				var id = $(this).attr('minion');
 				var p = { func: 'activateMinion', minionId: id};
 				$.post('websocket.php',p,function(data) {
 					//$('#debug').html(data);
 				});
+*/
 			});
+			tick();
+			webSocket(); $('#stopSock').click(function() { ws.close(); });
 		});
 	});
 });
 
 function tick()
 {
-	// Switch and clear buffer
 	var payload = [];
+	// Switch and clear buffer
 	if( activeBuffer == 1 )
 	{
 		activeBuffer = 2;
@@ -134,16 +139,28 @@ function tick()
 	var p = { func: 'tick', click: click, payload: payload };
 	$.post('websocket.php',p,function(data)
 	{
-		$('#tickReturn').html(data);
+		// UPDATE CLOCK
+		$('#clock > div').html(++click);
 
+		$('#tickReturn').html('<br/>'+data);
 		var obj = $.parseJSON(data);
+
+		$('#data').html("Buff: "+obj.socketBuffer);
+
+		var bookTable = '';
+		obj.buffer.forEach(function(order)
+		{
+			var or = $.parseJSON(order);
+			bookTable += '<div>' + or.sequence + '</div>';
+		});
+		$('#book').html(bookTable);
+/*
+
 
 		if(obj.matchedResult[1] == 1){$('#matchedResult').html('<br/>'+obj.matchedResult[2]+'<br/>x');}
 
 		$('#data').html(obj.feedData + " :: " + obj.minionAction);
 
-		// UPDATE CLOCK
-		$('#clock > div').html(++click);
 
 		// SEND TICK DEBUG TO PAGE
 		if(obj.debug != ''){$('#debug').html(obj.debug)};
@@ -194,6 +211,8 @@ function tick()
 
 		// CALL TICK
 		if(obj.stopOrder == 0 && obj.matchedResult[0] == 0){tick();}
+*/
+		tick();
 	});
 }
 function webSocket()
