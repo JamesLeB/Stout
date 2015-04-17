@@ -38,7 +38,6 @@ $(document).ready(function()
 		var p = { func: 'loadOrders' };
 		$.post('websocket.php',p,function(data)
 		{
-			//var a = $.parseJSON(data);
 			$('#debug').html(data);
 		});
 	});
@@ -47,7 +46,6 @@ $(document).ready(function()
 		var p = { func: 'getOrders' };
 		$.post('websocket.php',p,function(data)
 		{
-			//var a = $.parseJSON(data);
 			$('#debug').html(data);
 		});
 	});
@@ -132,8 +130,6 @@ function tick()
 		payload = buffer2;
 		buffer2 = [];
 	}
-/*
-*/
 
 	var p = { func: 'tick', click: click, payload: payload };
 	$.post('websocket.php',p,function(data)
@@ -211,17 +207,12 @@ function webSocket()
 	{
 		var obj = $.parseJSON(evt.data);
 
+		// SEND MESSAGE TO BUFFERS
 		message.total++;
-		buffer1.push(evt.data);
+	 	buffer1.push(evt.data);
 		buffer2.push(evt.data);
-/*
-		if( activeBuffer == 1 )
-		{
-		}
-		else
-		{
-		}
-*/
+
+		// UPDATE STATUS
 		$('#status').html('');
 		$('#status').append('Msg: '+message.total);
 		$('#status').append(' B1: '+buffer1.length);
@@ -244,35 +235,5 @@ function webSocket()
  			}
 			$('#feed > div:nth-child(1)').html(++tradeCount);
 		}
-
 	};
-
-
-/*
-		// UPDATE message feed data
-		     if(obj.type == 'open')     { message.open++; }
-		else if(obj.type == 'received') { message.received++; }
-		else if(obj.type == 'done')     { message.done++; }
-		else if(obj.type == 'match')    { message.match++; }
-		else                            { message.error++; }
-		$('#data > div:nth-child(1) > div:nth-child(2)').html(message.open);
-		$('#data > div:nth-child(2) > div:nth-child(2)').html(message.received);
-		$('#data > div:nth-child(3) > div:nth-child(2)').html(message.done);
-		$('#data > div:nth-child(4) > div:nth-child(2)').html(message.match);
-		$('#data > div:nth-child(5) > div:nth-child(2)').html(message.error);
-*/
-
-		// SEND new message to PHP
-/*
-		var p = { func: 'upload', message: evt.data };
-		$.post('websocket.php',p,function(data)
-		{
-			eTime++;
-			var s  = 'Messages: ' + message.total;
-                s += ' -- Sent: ' + eTime;
-                s += ' -- ' + $.parseJSON(data);
-			$('#status').html(s);
-		});
-*/
-
 }

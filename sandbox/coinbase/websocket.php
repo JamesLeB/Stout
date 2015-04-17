@@ -7,12 +7,10 @@
 	{
 		case 'startup':
 
-/*
-			require_once('wsdb.php');
-			$db = new wsdb();
-			$db->createPunchOut();
-*/
+			# DATABASE CONNECTION
+			#require_once('wsdb.php'); $db = new wsdb(); $db->createPunchOut();
 
+			# INITIALIZE SESSION VARS
 			$_SESSION['count']        = 0;
 			$_SESSION['lastCount']    = 0;
 			$_SESSION['socketBuffer'] = [];
@@ -28,18 +26,12 @@
 			$_SESSION['debug'] = '';
 			$_SESSION['openOrders'] = [];
 
-/*
-*/
-
-			# Load Minions
+			# LOAD MINIONS
 			require_once('minions.php');
 			$minions = new minions();
 			$_SESSION['minions'] = $minions->loadMinions();
 			$_SESSION['minionJumpLog'] = array(0,sizeof($_SESSION['minions']),0,0);
 			$kara = $_SESSION['minions'];
-			
-			# this file is for testing a method to keep the buffer in order
-			//file_put_contents('seqq','');
 
 			break;
 
@@ -51,9 +43,6 @@
 			break;
 		case 'loadOrders':
 
-			#$orders  = $_SESSION['orders'];
-			#$minions = $_SESSION['minions'];
-
 			require_once('minions.php');
 			$minions = new minions();
 			$a = $minions->loadOrders();
@@ -63,8 +52,10 @@
 			break;
 
 		case 'getOpenOrders':
+
 			$_SESSION['debug'] = json_encode($_SESSION['openOrders']);
 			break;
+
 		case 'getOrders':
 
 
@@ -74,7 +65,6 @@
 			$_SESSION['orders'] = $orders;
 			$_SESSION['debug'] = json_encode($_SESSION['orders']);
 
-			//$kara = $orders;
 			break;
 
 		case 'activateMinion':
@@ -82,8 +72,6 @@
 			require_once('minions.php');
 			$minions = new minions();
 			$minions->activateMinion($_POST['minionId']);
-/*
-*/
 			$kara = "activate Minion: ".$_POST['minionId'];
 
 			break;
@@ -111,8 +99,6 @@
 
 			# GET ORDER BOOK
 			$book = $exchange->getOrderBook();
-			//file_put_contents('book.json',$orderBook);
-			//$book = file_get_contents('book.json');
 			$book = json_decode($book,true);
 
 			$_SESSION['bookSequence']=$book['sequence'];
@@ -160,7 +146,9 @@
 
 			break;
 
+# looks like this case is no longer used !!!
 		case 'upload':
+
 			$_SESSION['socketBuffer'][] = $_POST['message'];
 
 			$fOrder = json_decode($_SESSION['socketBuffer'][0],true);
@@ -177,6 +165,10 @@
 			#$db->upload($_POST['message']);
 
 			break;
+
+#############################################################
+# STOPPED HERE !!!!!!!
+##############################################################
 
 		case 'syncBuffer':
 
