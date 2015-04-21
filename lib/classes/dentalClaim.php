@@ -106,6 +106,15 @@ class dentalClaim{
 	function getServices(){ return $this->services; }
 	function getPatient(){ return $this->patient; }
 	function getStuff(){
+		$balancedAmount = 0;
+		$a = '';
+		foreach($this->getServices() as $service)
+		{
+			$b = $service->getStuff();
+			$ada = preg_split('/:/',$b['adacode']);
+			if( $ada[1] != '1428'){ $balancedAmount += $b['amount']; }
+			$a .= $ada[1] . ' : ' . $b['amount'] . ' :: ';
+		}
 		return array(
 			'last'    => $this->patientLast,
 			'first'   => $this->patientFirst,
@@ -115,7 +124,8 @@ class dentalClaim{
 			'claimid' => $this->claimId,
 			'date'    => $this->serviceDate,
 			'amount'  => $this->claimAmount,
-			'tcn'     => $this->tcn
+			'tcn'     => $this->tcn,
+			'balanceAmount' => $balancedAmount
 		);
 	}
 	function getPayer(){

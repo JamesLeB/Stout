@@ -171,7 +171,7 @@ class Worker extends CI_Controller {
 							}
 						}# end services loop
 						if(round($claimAmount,2) != round($serviceTotal,2)){
-							throw new exception("Claim Out of Balance
+							throw new exception("xx Claim Out of Balance
 								$claimAmount:$serviceTotal - $claimId");
 						}
 					}else{
@@ -286,6 +286,7 @@ class Worker extends CI_Controller {
 						$claimId          = $claimData{'claimid'};
 						$claimServiceDate = $claimData{'date'};
 						$claimAmount      = $claimData{'amount'};
+						$claimAmount2     = $claimData['balanceAmount'];
 						$tcn              = $claimData{'tcn'};
 	
 						$batchCount++;
@@ -299,11 +300,11 @@ class Worker extends CI_Controller {
 						$x12[] = "NM1*PR*2*NYSDOH*****PI*141797357";
 						if($tcn)
 						{
-							$x12[] = "CLM*$claimId*$claimAmount***79:A:7**A*Y*Y";
+							$x12[] = "CLM*$claimId*$claimAmount2***79:A:7**A*Y*Y";
 						}
 						else
 						{
-							$x12[] = "CLM*$claimId*$claimAmount***79:A:1**A*Y*Y";
+							$x12[] = "CLM*$claimId*$claimAmount2***79:A:1**A*Y*Y";
 						}
 												$x12[] = "DTP*434*RD8*$claimServiceDate-$claimServiceDate";
 												$x12[] = "CL1*1*7*30";
@@ -340,9 +341,9 @@ class Worker extends CI_Controller {
 								$x12[] = "DTP*472*RD8*$lineServiceDate-$lineServiceDate";
 							}
 						}# end services loop
-						if(round($claimAmount,2) != round($serviceTotal,2)){
+						if(round($claimAmount2,2) != round($serviceTotal,2)){
 							throw new exception("Claim Out of Balance
-								$claimAmount:$serviceTotal - $claimId");
+								$claimAmount2:$serviceTotal - $claimId");
 						}
 					}else{
 						$claimData = $claim->getStuff();
