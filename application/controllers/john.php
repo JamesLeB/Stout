@@ -122,6 +122,7 @@ class John extends CI_Controller {
 
 		#get elly
 		$localFile = 'files/edi/temp/a';
+/*
 		     if($s[4] == '430.txt')
 		{
 			$jsonName = '100100101';
@@ -138,7 +139,9 @@ class John extends CI_Controller {
 		{
 			$jsonName = '100100104';
 		}
-		$jsonName = '100000557';
+*/
+		$a = preg_split('/\./',$s[4]);
+		$jsonName = '100000'.$a[0];
 		$remoteFile = '3rdParty\271Queue\\'.$jsonName.'.json';
 		ftp_get($this->conn,$localFile,$remoteFile,FTP_BINARY);
 		$a = file_get_contents($localFile);
@@ -792,6 +795,12 @@ $debug = $t[2];
 					$claim['insurance'][] = 'Med: Medicaid Outpatient CBLTC';
 				}
 
+				if(preg_match('/^EB\*1\*IND\*30\*\*Outpatient Coverage No LTC/',$segs[0]))
+				{
+					$seg = array_shift($segs);
+					$claim['insurance'][] = 'Med: Medicaid Outpatient No LTC';
+				}
+
 				if(preg_match('/^EB\*1\*IND\*30\*\*Eligible Only Outpatient Care/',$segs[0]))
 				{
 					$seg = array_shift($segs);
@@ -877,6 +886,10 @@ $debug = $t[2];
 				if(preg_match('/^EB\*N\*IND\*88/',$segs[0])){$seg = array_shift($segs);}
 				if(preg_match('/^EB\*F\*IND\*98/',$segs[0])){$seg = array_shift($segs);}
 				if(preg_match('/^EB\*F\*IND\*35/',$segs[0])){$seg = array_shift($segs);}
+				if(preg_match('/^EB\*F\*IND\*5/',$segs[0])){$seg = array_shift($segs);}
+				if(preg_match('/^EB\*Y\*IND\*AG/',$segs[0])){$seg = array_shift($segs);}
+				if(preg_match('/^EB\*Y\*IND\*AG/',$segs[0])){$seg = array_shift($segs);}
+				if(preg_match('/^DTP\*291\*D8\*/',$segs[0])){$seg = array_shift($segs);}
 
 				if(preg_match('/^LS\*2120/',$segs[0])){$seg = array_shift($segs);}
 				if(preg_match('/^NM1\*P3/',$segs[0]))
