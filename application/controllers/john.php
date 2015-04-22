@@ -17,22 +17,60 @@ class John extends CI_Controller {
 	}
 	public function sandbox()
 	{
+
+		$x12 = [];
+
+		$date6 = date('ymd');
+		$date8 = date('Ymd');
+		$time = date('Hi');
+		$gscontrol = '100100100';
+		$stcontrol = '1001';
+
+		$x12[] = "ISA*00*          *00*          *ZZ*F00            *ZZ*EMEDNYBAT      *$date6*$time*U*00501*$gscontrol*0*P*:~";
+		$x12[] = "GS*HS*F00*EMEDNYBAT*$date8*$time*$gscontrol*X*005010X279A1~";
+		$x12[] = "ST*270*$stcontrol*005010X279A1~";
+		$x12[] = "BHT*0022*13*$gscontrol*$date8*$time~";
+		$x12[] = "HL*1**20*1~";
+		$x12[] = "NM1*PR*2*NYSDOH*****FI*141797357~";
+		$x12[] = "HL*2*1*21*1~";
+		$x12[] = "NM1*1P*2*NEW YORK UNIV DENTAL CTR*****XX*1164555124~";
+
+		$hlCount = 2;
+
 		$a = file_get_contents('files/edi/sample1.csv');
 		$a = preg_split('/\r\n/',$a);
 		$b = [];
+		array_shift($a);
 		foreach($a as $i)
 		{
 			$j = preg_split('/,/',$i);
 			$d = preg_split('/\//',$j[7]);
 			$e = $d[2].$d[0].$d[1];
 			$e = preg_replace('/\s/','',$e);
+
 			$thing = array(
 				'chart'       => $j[0],
 				'medicaid'    => $j[3],
 				'serviceDate' => $e 
 			);
-			$b[] = $thing;
+
+
+			if($j[3] != '')
+			{
+				$b[] = $thing;
+				$x12[] = "HL*".++$hlCount."*2*22*0~";
+				$x12[] = "TRN*1*$j[0]*1135562308~";
+				$x12[] = "NM1*IL*1******MI*$j[3]~";
+				$x12[] = "DTP*291*D8*$e~";
+			}
 		}
+
+		$segCount = sizeof($x12)-1;
+		$x12[] = "SE*$segCount*$stcontrol~";
+		$x12[] = "GE*1*$gscontrol~";
+		$x12[] = "IEA*1*$gscontrol~";
+
+		file_put_contents('files/edi/testX12.x12',implode('',$x12));
 		echo json_encode($b);
 	}
 	public function getBatchList()
