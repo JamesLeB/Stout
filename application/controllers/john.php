@@ -15,6 +15,10 @@ class John extends CI_Controller {
 		ftp_login($conn,$user,$pass);
 		$this->conn = $conn;
 	}
+	public function sandbox()
+	{
+		echo 'hello from the sandbox';
+	}
 	public function getBatchList()
 	{
 		$list = ftp_nlist($this->conn,'x12');
