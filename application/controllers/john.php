@@ -17,7 +17,23 @@ class John extends CI_Controller {
 	}
 	public function sandbox()
 	{
-		echo 'hello from the sandbox';
+		$a = file_get_contents('files/edi/sample1.csv');
+		$a = preg_split('/\r\n/',$a);
+		$b = [];
+		foreach($a as $i)
+		{
+			$j = preg_split('/,/',$i);
+			$d = preg_split('/\//',$j[7]);
+			$e = $d[2].$d[0].$d[1];
+			$e = preg_replace('/\s/','',$e);
+			$thing = array(
+				'chart'       => $j[0],
+				'medicaid'    => $j[3],
+				'serviceDate' => $e 
+			);
+			$b[] = $thing;
+		}
+		echo json_encode($b);
 	}
 	public function getBatchList()
 	{
