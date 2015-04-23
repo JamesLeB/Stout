@@ -25,19 +25,21 @@
 	{
 		//$('#sandbox').html(d);
 		//$('#sandbox').html('');
-		$('#sandbox').html('<table>');
+		var mytable = '';
+		mytable += 'Table<table>';
 		var list = $.parseJSON(d);
 		list.forEach(function(i)
 		{
-			$('#sandbox').append('<tr>');
+			mytable += '<tr>';
 			i.forEach(function(j)
 			{
-				$('#sandbox').append('<td>'+j+'</td>');
+				mytable += '<td>'+j+'</td>';
 			});
-			$('#sandbox').append('<tr>');
+			mytable += '</tr>';
 			//$('#sandbox').append('<div>'+i[0]+'</div>');
 		});
-		$('#sandbox').append('</table>');
+		mytable += '</table>EndTable';
+		$('#sandbox').html(mytable);
 	});
 /* THIS Chuck created the eligibility file
 	$.post('index.php?/john/sandbox1','',function(d)
