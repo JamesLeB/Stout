@@ -21,6 +21,7 @@
 <script>
 	//var p = {file: file};
 
+/*
 	$.post('index.php?/john/sandbox','',function(d)
 	{
 		//$('#sandbox').html(d);
@@ -41,20 +42,24 @@
 		mytable += '</table>EndTable';
 		$('#sandbox').html(mytable);
 	});
+*/
 /* THIS Chuck created the eligibility file
+*/
+
 	$.post('index.php?/john/sandbox1','',function(d)
 	{
-		$('#sandbox').html('<table>');
+		var mytable = '';
+		mytable += 'Table<table>';
 		var list = $.parseJSON(d);
 		list.forEach(function(i)
 		{
-			$('#sandbox').append('<tr>');
-			$('#sandbox').append('<td>'+i.chart+'</td>');
-			$('#sandbox').append('<td>'+i.medicaid+'</td>');
-			$('#sandbox').append('<td>'+i.serviceDate+'</td>');
-			$('#sandbox').append('<tr>');
+			mytable += '<tr>';
+			mytable += '<td>'+i.chart+'</td>';
+			mytable += '<td>'+i.medicaid+'</td>';
+			mytable += '<td>'+i.serviceDate+'</td>';
+			mytable += '</tr>';
 		});
-		$('#sandbox').append('</table>');
+		mytable += '</table>EndTable';
+		$('#sandbox').html(mytable);
 	});
-*/
 </script>
