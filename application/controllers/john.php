@@ -17,6 +17,136 @@ class John extends CI_Controller {
 	}
 	public function sandbox()
 	{
+		$a = file_get_contents('files/edi/a.x12');
+		$a = preg_split('/(HL\*\d+\*2\*22\*0~)/',$a,0,PREG_SPLIT_DELIM_CAPTURE);
+		$b = [];
+		$b[] = ['Chart','Last','First','Birth','Sex','Medicaid','ServiceDate','Type','Coverage'];
+		array_shift($a);
+		while(sizeof($a) > 0)
+		{
+			$s = array_shift($a);
+			//$b[] = $s;
+			$s = array_shift($a);
+			$u = $s;
+
+			$s = preg_split('/(EB.+?~)/',$s,0,PREG_SPLIT_DELIM_CAPTURE);
+			$t = array_shift($s);
+
+			//$b[] = $t;
+			$m = [];
+
+			preg_match('/TRN\*2\*(\d+)/',$t,$m);
+			$chart = $m[1];
+
+			preg_match('/(NM1\*IL\*1\*.+?)~/',$t,$m);
+			$patName = preg_split('/\*/',$m[1]);
+			$last     = '';
+			$first    = '';
+			$medicaid = '';
+			if(isset($patName[3])){ $last = $patName[3]; }
+			if(isset($patName[4])){ $first = $patName[4]; }
+			if(isset($patName[9])){ $medicaid = $patName[9]; }
+
+			preg_match('/DMG\*D8\*(\d+?)\*(\w?)~/',$t,$m);
+			$birth = $m[1];
+			$sex   = $m[2];
+
+			preg_match('/DTP\*472\*D8\*(\d+?)~/',$t,$m);
+			$serviceDate = $m[1];
+
+			//$b[] = json_encode($m);
+
+			$coverage = [];
+			while(sizeof($s) > 0)
+			{
+				$t = array_shift($s);
+				#$b[] = $t;
+				if(preg_match('/^EB\*U\*IND\*30\*\*ELIGIBLE PCP~/',$t))
+				{
+					$info = array_shift($s);
+					$catch = [];
+					preg_match('/NM1\*Y2\*2\*(.+?)\*+?PI\*(.+?)~/',$info,$catch);
+					$coverage[] = "MMC::".$catch[1]."::".$catch[2];
+					//$b[] = json_encode($catch);
+				}
+				else if(preg_match('/^EB\*1\*IND\*30\*\*MA Eligible/',$t))                    { $coverage[] = "Medicaid::Medicaid"; }
+				else if(preg_match('/^EB\*1\*IND\*30\*\*Presumptive Eli/',$t))                { $coverage[] = "Medicaid::Medicaid"; }
+				else if(preg_match('/^EB\*1\*IND\*30\*\*Community Coverage No LTC/',$t))      { $coverage[] = "Medicaid::Medicaid"; }
+				else if(preg_match('/^EB\*1\*IND\*30\*\*Community Coverage w\/CBLT/',$t))     { $coverage[] = "Medicaid::Medicaid"; }
+				else if(preg_match('/^EB\*1\*IND\*30\*\*Outpatient Coverage w\/ CBLTC/',$t))  { $coverage[] = "Medicaid::Medicaid"; }
+				else if(preg_match('/^EB\*1\*IND\*30\*\*Outpatient Coverage No LTC/',$t))     { $coverage[] = "Medicaid::Medicaid"; }
+				else if(preg_match('/^EB\*1\*IND\*30\*\*Eligiblie Only Outpatient Care/',$t)) { $coverage[] = "Medicaid::Medicaid"; }
+				else if(preg_match('/^EB\*1\*IND\*30\*\*Emergency Services Only/',$t))        { $coverage[] = "Medicaid::Medicaid"; }
+				else if(preg_match('/^EB\*1\*IND\*30\*\*Medicare Coinsurance Deductibl/',$t)) { $coverage[] = "Medicaid::Medicaid"; }
+				else if(preg_match('/^EB\*1\*IND\*30\*\*No Coverage/',$t))                    { $coverage[] = "No::No"; }
+				else if(preg_match('/^EB\*R\*IND\*30/',$t))
+				{
+					$info = array_shift($s);
+					$catch = [];
+					preg_match('/(NM1\*P4\*2\*.+?)~/',$info,$catch);
+					$temp = preg_split('/\*/',$catch[1]);
+					$coverName = '';
+					$coverNum  = '';
+					if(isset($temp[3])){ $coverName = $temp[3]; }
+					if(isset($temp[9])){ $coverNum  = $temp[9]; }
+					$coverage[] = 'Other::'.$coverName.'::'.$coverNum;
+					//$coverage[] = "Other::".$catch[1]."::".$catch[2];
+					//$b[] = json_encode($catch);
+
+					//$coverage[] = "Other::Other";
+					//$coverage[] = $t;
+					//$coverage[] = $info;
+					//$coverage[] = $s[0];
+				}
+
+				# LOOK FOR VALID INSURANCE
+			}
+
+			$type = 'Unknown';
+			$f1 = 0;
+			$f2 = 0;
+			$f3 = 0;
+			$f4 = 0;
+			foreach($coverage as $c)
+			{
+				if(preg_match('/^Medicaid::/',$c)){ $f1 = 1; }
+				if(preg_match('/^Other::/',$c))
+				{
+					if(preg_match('/Other::MEDICARE/',$c))
+					{
+						$f2 = 1;
+					}
+					else
+					{
+						$f3 = 1;
+					}
+				}
+				if(preg_match('/^MMC::/',$c)){ $f4 = 1; }
+				//$f1 = "|".$c."|";
+			}
+
+			     if( $f1 == 1 && $f2 == 0 && $f3 == 0 && $f4 == 0 ){ $type = 'Medicaid'; }
+			else if( $f1 == 1 && $f2 == 1 && $f3 == 0 && $f4 == 0 ){ $type = 'Medicare'; }
+			else if( $f1 == 1 && $f2 == 1 && $f3 == 1 && $f4 == 0 ){ $type = 'Other'; }
+			else if( $f4 == 1 ){ $type = 'MMC'; }
+
+			$type = $type.'::'.$f1.$f2.$f3.$f4;
+			
+			$b[] = [$chart,$last,$first,$birth,$sex,$medicaid,$serviceDate,$type,$coverage];
+			#$b[] = "LINE => Chart:$chart Last:$last First:$first Birth:$birth Sex:$sex Medicaid:$medicaid ServiceDate:$serviceDate Coverage:".sizeof($coverage);
+
+			//foreach($coverage as $c) { $b[] = $c; }
+			//$b[] = $u;
+		}
+		$c = [];
+		for($i=0;$i<1000;$i++)
+		{
+			$c[] = $b[$i];
+		}
+		echo json_encode($c);
+	}
+	public function sandbox1()
+	{
 
 		$x12 = [];
 
