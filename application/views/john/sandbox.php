@@ -22,6 +22,7 @@
 	//var p = {file: file};
 
 /*
+*/
 	$.post('index.php?/john/sandbox','',function(d)
 	{
 		//$('#sandbox').html(d);
@@ -42,10 +43,8 @@
 		mytable += '</table>EndTable';
 		$('#sandbox').html(mytable);
 	});
-*/
-/* THIS Chuck created the eligibility file
-*/
 
+	/* THIS Chuck created the eligibility file
 	$.post('index.php?/john/sandbox1','',function(d)
 	{
 		var mytable = '';
@@ -62,4 +61,6 @@
 		mytable += '</table>EndTable';
 		$('#sandbox').html(mytable);
 	});
+*/
+
 </script>

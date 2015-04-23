@@ -35,7 +35,7 @@ class John extends CI_Controller {
 			//$b[] = $t;
 			$m = [];
 
-			preg_match('/TRN\*2\*(\d+)/',$t,$m);
+			preg_match('/TRN\*2\*(.+?)\*/',$t,$m);
 			$chart = $m[1];
 
 			preg_match('/(NM1\*IL\*1\*.+?)~/',$t,$m);
@@ -138,12 +138,14 @@ class John extends CI_Controller {
 			//foreach($coverage as $c) { $b[] = $c; }
 			//$b[] = $u;
 		}
+/*
 		$c = [];
 		for($i=0;$i<1000;$i++)
 		{
 			$c[] = $b[$i];
 		}
-		echo json_encode($c);
+*/
+		echo json_encode($b);
 	}
 	public function sandbox1()
 	{
