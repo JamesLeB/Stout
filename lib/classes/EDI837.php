@@ -408,6 +408,8 @@ file_put_contents('files/edi/feedback',"current: $feedback :: $segments[0]\n");
 			$claim->setProviderId2($temp[2]);
 		}#else{throw new exception("erroc loading REF<br/>---<br/>$seg<br/>---");}
 
+		if(preg_match('/^REF\*/',$segments[0])){ $seg = array_shift($segments); }
+
 		#LOAD NM1
 		$seg = array_shift($segments);
 		if(preg_match('/^NM1\*77\*2\*/',$seg)){
@@ -433,11 +435,11 @@ file_put_contents('files/edi/feedback',"current: $feedback :: $segments[0]\n");
 		}else{throw new exception("error loading N4<br/>---<br/>$seg<br/>---");}
 
 		#LOAD REF
-		$seg = array_shift($segments);
-		if(preg_match('/^REF\*0B\*/',$seg)){
+		if(preg_match('/^REF\*0B\*/',$segments[0])){
+			$seg = array_shift($segments);
 			$temp = preg_split('/\*/',$seg);
 			$claim->setFacilityId2($temp[2]);
-		}else{throw new exception("erroc loading REF<br/>---<br/>$seg<br/>---");}
+		}#else{throw new exception("erroc loading REF<br/>---<br/>$seg<br/>---");}
 
 		while(preg_match('/^SBR\*/',$segments[0])){
 			$seg = array_shift($segments);

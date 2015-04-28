@@ -151,7 +151,7 @@ $(document).ready(function()
 			var p = {file: file};
 			$.post('index.php?/john/getNewFile',p,function(d)
 			{
-				$('#newClaimFolder').append(d);
+				$('#newClaimFolder').html(d);
 			});
 		});
 	});

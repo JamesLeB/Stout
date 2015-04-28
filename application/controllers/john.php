@@ -1143,12 +1143,13 @@ $debug = $t[2];
 	}
 	public function getNewFile()
 	{
+
 		$file = $_POST['file'];
 		$remoteFile = '3rdParty\New\\'.$file;
 		$localFile = 'files/edi/temp/a';
 		ftp_get($this->conn,$localFile,$remoteFile,FTP_BINARY);
 		$a = file_get_contents($localFile);
-		$_SESSION['activeClaimFile'] = $a;
+		#$_SESSION['activeClaimFile'] = $a;
 
 
 		# BUILD ELEGIBILITY FILE
@@ -1160,18 +1161,19 @@ $debug = $t[2];
 		require('lib/classes/patient.php');
 		require('lib/classes/service.php');
 */
+
 		$edi = new EDI837();
 		$obj = $edi->loadEDI837D('temp/a');
 		$m = $obj['message'];
 		$thing = $obj['ediObj']->getStuff();
 
+
 		$date6 = date('ymd');
 		$date8 = date('Ymd');
 		$time = date('Hi');
-		//$gscontrol = $thing['batch'];
-$gscontrol = $thing['batch'];
-$gscontrol = preg_replace('/^0/','1',$gscontrol);
-$stcontrol = '1001';
+		$gscontrol = $thing['batch'];
+		$gscontrol = preg_replace('/^0/','1',$gscontrol);
+		$stcontrol = '1001';
 
 		$x12 = [];
 
@@ -1221,7 +1223,7 @@ $hlCount = 2;
 		$localFile = 'files/edi/temp/x12';
 		ftp_put($this->conn,$remoteFile,$localFile,FTP_BINARY);
 
-		echo '270 file created';
+		echo "270 file created $m";
 
 	}
 }
