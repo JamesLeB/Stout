@@ -22,7 +22,7 @@
 	//var p = {file: file};
 
 /*
-*/
+	NOT SURE WHAT THIS ONE DOES??  I think it reads the ele file
 	$.post('index.php?/john/sandbox','',function(d)
 	{
 		//$('#sandbox').html(d);
@@ -43,6 +43,7 @@
 		mytable += '</table>EndTable';
 		$('#sandbox').html(mytable);
 	});
+*/
 
 	/* THIS Chuck created the eligibility file
 	$.post('index.php?/john/sandbox1','',function(d)
