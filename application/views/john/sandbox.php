@@ -45,7 +45,9 @@
 	});
 */
 
-	/* THIS Chuck created the eligibility file
+	/*
+	THIS Chuck created the eligibility file
+
 	$.post('index.php?/john/sandbox1','',function(d)
 	{
 		var mytable = '';
@@ -57,11 +59,13 @@
 			mytable += '<td>'+i.chart+'</td>';
 			mytable += '<td>'+i.medicaid+'</td>';
 			mytable += '<td>'+i.serviceDate+'</td>';
+			mytable += '<td>'+i.line+'</td>';
 			mytable += '</tr>';
 		});
 		mytable += '</table>EndTable';
 		$('#sandbox').html(mytable);
 	});
-*/
+
+	*/
 
 </script>

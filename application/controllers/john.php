@@ -169,30 +169,34 @@ class John extends CI_Controller {
 
 		$hlCount = 2;
 
-		$a = file_get_contents('files/edi/sample1.csv');
+		$a = file_get_contents('files/edi/sample2.csv');
 		$a = preg_split('/\r\n/',$a);
 		$b = [];
+
 		array_shift($a);
+
 		foreach($a as $i)
 		{
 			$j = preg_split('/,/',$i);
-			$d = preg_split('/\//',$j[7]);
+			$d = preg_split('/\//',$j[5]);
 			$e = $d[2].$d[0].$d[1];
 			$e = preg_replace('/\s/','',$e);
 
 			$thing = array(
-				'chart'       => $j[0],
-				'medicaid'    => $j[3],
+				'line'        => $i,
+				'chart'       => $j[2],
+				'medicaid'    => $j[4],
 				'serviceDate' => $e 
 			);
 
+			$b[] = $thing;
 
-			if($j[3] != '')
+			if($j[4] != '')
 			{
 				$b[] = $thing;
 				$x12[] = "HL*".++$hlCount."*2*22*0~";
-				$x12[] = "TRN*1*$j[0]*1135562308~";
-				$x12[] = "NM1*IL*1******MI*$j[3]~";
+				$x12[] = "TRN*1*$j[2]*1135562308~";
+				$x12[] = "NM1*IL*1******MI*$j[4]~";
 				$x12[] = "DTP*291*D8*$e~";
 			}
 		}
