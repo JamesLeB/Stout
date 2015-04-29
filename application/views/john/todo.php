@@ -291,6 +291,7 @@ $(document).ready(function()
 					myRow += '<td>_</td>';
 					var insLines = '';
 					var hasMed = 'NO';
+					var hasMec = 'NO';
 
 					//myRow += '<td>'+ Object.prototype.toString.call(j[1]) + '</td>';
 					if( Object.prototype.toString.call(j[1]) == '[object Array]' )
@@ -300,6 +301,8 @@ $(document).ready(function()
 							insLines += jj+' __ ';
 							check = jj.substring(0,4);
 							if( check == 'Med:') { hasMed = 'YES'; }
+							check = jj.substring(0,15);
+							if( check == 'OTHER: MEDICARE') { hasMec = 'YES'; }
 						});
 					}
 					myRow += '<td>'+insLines+'</td>';
@@ -311,11 +314,11 @@ $(document).ready(function()
 					{
 						art28Table += myRow;
 					}
-					else if( hasMed == 'YES' && j[1].length == 2 )
+					else if( hasMed == 'YES' && j[1].length == 2 && hasMec == 'YES' )
 					{
 						medicareTable += myRow;
 					}
-					else if( hasMed == 'YES' && j[1].length > 2 )
+					else if( hasMed == 'YES' && j[1].length > 1 )
 					{
 						paulTable += myRow;
 					}

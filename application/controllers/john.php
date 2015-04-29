@@ -312,24 +312,7 @@ class John extends CI_Controller {
 
 		#get elly
 		$localFile = 'files/edi/temp/a';
-/*
-		     if($s[4] == '430.txt')
-		{
-			$jsonName = '100100101';
-		}
-		else if($s[4] == '485.txt')
-		{
-			$jsonName = '100100102';
-		}
-		else if($s[4] == '491.txt')
-		{
-			$jsonName = '100100103';
-		}
-		else if($s[4] == '535.txt')
-		{
-			$jsonName = '100100104';
-		}
-*/
+
 		$a = preg_split('/\./',$s[4]);
 		$jsonName = '100000'.$a[0];
 		$remoteFile = '3rdParty\271Queue\\'.$jsonName.'.json';
@@ -346,54 +329,47 @@ class John extends CI_Controller {
 			$ellyHash[$bob['id']] = $bob['insurance'];
 		}
 
-		//$debug = json_encode($ellyHash);
-		#$debug = json_encode($bel);
-
 		# GET claim file
 		$remoteFile = '3rdParty\New\\'.$file;
 		$localFile = 'files/edi/temp/a';
 		ftp_get($this->conn,$localFile,$remoteFile,FTP_BINARY);
 		$a = file_get_contents($localFile);
 
-
-#  This section needs to be redone, I need a mode switch with 4 options head,foot,provider,claim which will direct where the current segment will go.  Also need to check the elly ins values and direct the claims to the correct file, medicaid medicare or other, finally I need to iterate each file type and validate that the provider has at least one claim and if so output the providers and claims to the relative files.   Good luck.  this is done :)  Got a possitive test from batch 535
-
-#$ss = preg_split('/\~/',$a);
-$ss = explode('~',$a);
-
-$outbound = [];
-
-$art28 = array(
-	'Providers' => [],
-	'Segments' => [],
-	'foot' => [],
-	'BatchNum' => '100100100'
-); 
-
-$medicare = array(
-	'Providers' => [],
-	'Segments' => [],
-	'foot' => [],
-	'BatchNum' => '100100100'
-); 
-
-$other = array(
-	'Providers' => [],
-	'Segments' => [],
-	'foot' => [],
-	'BatchNum' => '100100100'
-); 
-
-$error = array(
-	'Providers' => [],
-	'Segments' => [],
-	'foot' => [],
-	'BatchNum' => '100100100'
-); 
-
-$mode = 'HEAD';
-$type = 'NO';
-$claimS = [];
+	$ss = explode('~',$a);
+	
+	$outbound = [];
+	
+	$art28 = array(
+		'Providers' => [],
+		'Segments' => [],
+		'foot' => [],
+		'BatchNum' => '100100100'
+	); 
+	
+	$medicare = array(
+		'Providers' => [],
+		'Segments' => [],
+		'foot' => [],
+		'BatchNum' => '100100100'
+	); 
+	
+	$other = array(
+		'Providers' => [],
+		'Segments' => [],
+		'foot' => [],
+		'BatchNum' => '100100100'
+	); 
+	
+	$error = array(
+		'Providers' => [],
+		'Segments' => [],
+		'foot' => [],
+		'BatchNum' => '100100100'
+	); 
+	
+	$mode = 'HEAD';
+	$type = 'NO';
+	$claimS = [];
 
 	foreach($ss as $s)
 	{
