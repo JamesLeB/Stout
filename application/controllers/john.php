@@ -226,10 +226,11 @@ class John extends CI_Controller {
 #########################################################################################
 
 
-		$x12[] = "ISA*00*          *00*          *ZZ*F00            *ZZ*EMEDNYBAT      *$date6*$time*U*00501*$gscontrol*0*P*:~";
+		$x12[] = "ISA*00*          *00*          *ZZ*F00            *ZZ*EMEDNYBAT      *$date6*$time*U*00501*$gscontrol*0*T*:~";
 
 		#$x12[] = "GS*HS*F00*EMEDNYBAT*$date8*$time*$gscontrol*X*005010X279A1~";
-		$x12[] = "GS*HS*F00*EMEDNYBAT*$date8*$time*1*X*005010X212~";
+		$x12[] = "GS*HS*F00*EMEDNYBAT*$date8*$time*$gscontrol*X*005010X212~";
+		#$x12[] = "GS*HS*F00*EMEDNYBAT*$date8*$time*1*X*005010X212~";
 
 		$x12[] = "ST*276*$stcontrol*005010X212~";
 		#$x12[] = "ST*276*$stcontrol*005010X212~";
@@ -247,10 +248,10 @@ class John extends CI_Controller {
 		#$x12[] = "NM1*IL*1******MI*$medicaid~";
 		#$x12[] = "DTP*291*D8*$serviceDate~";
 
-		$segCount = sizeof($x12)-1;
-		$x12[] = "SE*$segCount*$stcontrol~";
-		$x12[] = "GE*1*1~";
-		$x12[] = "IEA*1*$gscontrol~";
+		#$segCount = sizeof($x12)-1;
+		#$x12[] = "SE*$segCount*$stcontrol~";
+		#$x12[] = "GE*1*1~";
+		#$x12[] = "IEA*1*$gscontrol~";
 
 #########################################################################################
 
@@ -285,27 +286,28 @@ class John extends CI_Controller {
 
 		$segCount = sizeof($x12)-1;
 		$x12[] = "SE*$segCount*$stcontrol~";
+*/
 		$x12[] = "GE*1*$gscontrol~";
 		$x12[] = "IEA*1*$gscontrol~";
-*/
+
 		# SAVE x12 file to disk
-		$tfile = 'files/edi/temp/x12';
+		$tfile = 'files/edi/temp/test.x12';
 		file_put_contents($tfile,implode("",$x12));
 
 		# Move file to server
 		#$f = explode('.',$file);
 		#$f = $f[0].'.x12';
-		$remoteFile = 'x12\\test.x12';
+		#$remoteFile = 'x12\\test.x12';
 		#$localFile = 'files/edi/temp/x12';
-		$localFile = $tfile;
-		ftp_put($this->conn,$remoteFile,$localFile,FTP_BINARY);
+		#$localFile = $tfile;
+		#ftp_put($this->conn,$remoteFile,$localFile,FTP_BINARY);
 /*
 		echo '270 file created';
 */
-		$file = $_POST['file'];
+		#$file = $_POST['file'];
 		$statusRequest = implode('<br/>',$x12);
 		echo json_encode(array(
-			'batch' => $file,
+			#'batch' => $file,
 			'statusRequest' => $statusRequest
 		));
 	}

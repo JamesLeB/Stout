@@ -26,8 +26,17 @@
 	}
 </style>
 <script>
-	$('#claimStatusRequest > div:nth-child(1)').html('getting list from somewhere');
+			// TESTING
+			$.post('index.php?/john/createStatusRequest',p,function(d)
+			{
+				var thing = $.parseJSON(d);
+				//$('#claimStatusRequest > div:nth-child(2)').html(thing.batch)
+				$('#claimStatusRequest > div:nth-child(2)').html(thing.statusRequest)
+			});
+
+	//$('#claimStatusRequest > div:nth-child(2)').html('getting list from somewhere');
 	//$('#claimStatusRequest > div:nth-child(2)').html('Click out put will go here');
+
 	var p = {};
 	$.post('index.php?/john/getBatchList',p,function(d)
 	{
