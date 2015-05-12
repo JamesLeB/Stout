@@ -1056,6 +1056,7 @@ $debug = $t[2];
 				if(preg_match('/^EB\*N\*IND\*48/',$segs[0])){$seg = array_shift($segs);}
 				if(preg_match('/^EB\*N\*IND\*50/',$segs[0])){$seg = array_shift($segs);}
 				if(preg_match('/^EB\*N\*IND\*88/',$segs[0])){$seg = array_shift($segs);}
+				if(preg_match('/^EB\*F\*IND\*88/',$segs[0])){$seg = array_shift($segs);}
 				if(preg_match('/^EB\*F\*IND\*98/',$segs[0])){$seg = array_shift($segs);}
 				if(preg_match('/^EB\*F\*IND\*35/',$segs[0])){$seg = array_shift($segs);}
 				if(preg_match('/^EB\*F\*IND\*5/',$segs[0])){$seg = array_shift($segs);}
