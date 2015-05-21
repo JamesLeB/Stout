@@ -116,29 +116,23 @@ class Worker extends CI_Controller {
 						$x12[] = "NM1*IL*1*$last*$first****MI*$subscriberId";
 						$x12[] = "DMG*D8*$birthdate*$sex";
 						$x12[] = "NM1*PR*2*NYSDOH*****PI*141797357";
+#######################################
+$x121 = [];
+						$x121[] = "DTP*434*RD8*$claimServiceDate-$claimServiceDate";
+						$x121[] = "CL1*1*7*30";
 						if($tcn)
 						{
-							$x12[] = "CLM*$claimId*$claimAmount***79:A:7**A*Y*Y";
+							$x121[] = "REF*F8*$tcn";
 						}
-						else
-						{
-							$x12[] = "CLM*$claimId*$claimAmount***79:A:1**A*Y*Y";
-						}
-												$x12[] = "DTP*434*RD8*$claimServiceDate-$claimServiceDate";
-												$x12[] = "CL1*1*7*30";
-						if($tcn)
-						{
-							$x12[] = "REF*F8*$tcn";
-						}
-						$x12[] = "HI*BK:52100";
-						$x12[] = "HI*BE:24:::1428";
-						$x12[] = "NM1*71*1*DESTENO*COSMO****XX*1518920727";
+						$x121[] = "HI*BK:52100";
+						$x121[] = "HI*BE:24:::1428";
+						$x121[] = "NM1*71*1*DESTENO*COSMO****XX*1518920727";
 
 						# MEDICARE SEGMENTS
-						$x12[] = "SBR*P*18*******MA";
-						$x12[] = "OI***Y***Y";
-						$x12[] = "NM1*IL*1*$last*$first****MI*$subscriberId";
-						$x12[] = "NM1*PR*2*MEDICARE*****PI*XX";
+						$x121[] = "SBR*P*18*******MA";
+						$x121[] = "OI***Y***Y";
+						$x121[] = "NM1*IL*1*$last*$first****MI*$subscriberId";
+						$x121[] = "NM1*PR*2*MEDICARE*****PI*XX";
 	
 						$services = $claim->getServices();
 	
@@ -160,16 +154,27 @@ class Worker extends CI_Controller {
 							if($adaCode != '1428'){
 								$serviceIndex++;
 								$serviceTotal += $lineAmount ;
-								$x12[] = "LX*$serviceIndex";
-								$x12[] = "SV2*0512*HC:$adaCode*$lineAmount*UN*1";
-								$x12[] = "DTP*472*RD8*$lineServiceDate-$lineServiceDate";
+								$x121[] = "LX*$serviceIndex";
+								$x121[] = "SV2*0512*HC:$adaCode*$lineAmount*UN*1";
+								$x121[] = "DTP*472*RD8*$lineServiceDate-$lineServiceDate";
 
 								# MEDICARE SEGMENTS
-								$x12[] = "SVD*XX*0*HC:$adaCode*X*1";
-								$x12[] = "CAS*PR*96*$lineAmount";
-								$x12[] = "DTP*573*D8*$lineServiceDate";
+								$x121[] = "SVD*XX*0*HC:$adaCode*X*1";
+								$x121[] = "CAS*PR*96*$lineAmount";
+								$x121[] = "DTP*573*D8*$lineServiceDate";
 							}
 						}# end services loop
+						$claimAmount = $serviceTotal;
+						if($tcn)
+						{
+							$x12[] = "CLM*$claimId*$claimAmount***79:A:7**A*Y*Y";
+						}
+						else
+						{
+							$x12[] = "CLM*$claimId*$claimAmount***79:A:1**A*Y*Y";
+						}
+						foreach($x121 as $x){ $x12[] = $x; }
+########################################
 						if(round($claimAmount,2) != round($serviceTotal,2)){
 							throw new exception("xx Claim Out of Balance
 								$claimAmount:$serviceTotal - $claimId");
@@ -298,23 +303,17 @@ class Worker extends CI_Controller {
 						$x12[] = "NM1*IL*1*$last*$first****MI*$subscriberId";
 						$x12[] = "DMG*D8*$birthdate*$sex";
 						$x12[] = "NM1*PR*2*NYSDOH*****PI*141797357";
+################################
+$x121 = [];
+						$x121[] = "DTP*434*RD8*$claimServiceDate-$claimServiceDate";
+						$x121[] = "CL1*1*7*30";
 						if($tcn)
 						{
-							$x12[] = "CLM*$claimId*$claimAmount2***79:A:7**A*Y*Y";
+							$x121[] = "REF*F8*$tcn";
 						}
-						else
-						{
-							$x12[] = "CLM*$claimId*$claimAmount2***79:A:1**A*Y*Y";
-						}
-												$x12[] = "DTP*434*RD8*$claimServiceDate-$claimServiceDate";
-												$x12[] = "CL1*1*7*30";
-						if($tcn)
-						{
-							$x12[] = "REF*F8*$tcn";
-						}
-						$x12[] = "HI*BK:52100";
-						$x12[] = "HI*BE:24:::1428";
-						$x12[] = "NM1*71*1*DESTENO*COSMO****XX*1518920727";
+						$x121[] = "HI*BK:52100";
+						$x121[] = "HI*BE:24:::1428";
+						$x121[] = "NM1*71*1*DESTENO*COSMO****XX*1518920727";
 	
 						$services = $claim->getServices();
 	
@@ -336,11 +335,24 @@ class Worker extends CI_Controller {
 							if($adaCode != '1428'){
 								$serviceIndex++;
 								$serviceTotal += $lineAmount ;
-								$x12[] = "LX*$serviceIndex";
-								$x12[] = "SV2*0512*HC:$adaCode*$lineAmount*UN*1";
-								$x12[] = "DTP*472*RD8*$lineServiceDate-$lineServiceDate";
+								$x121[] = "LX*$serviceIndex";
+								$x121[] = "SV2*0512*HC:$adaCode*$lineAmount*UN*1";
+								$x121[] = "DTP*472*RD8*$lineServiceDate-$lineServiceDate";
 							}
 						}# end services loop
+
+						$claimAmount2 = $serviceTotal;
+
+						if($tcn)
+						{
+							$x12[] = "CLM*$claimId*$claimAmount2***79:A:7**A*Y*Y";
+						}
+						else
+						{
+							$x12[] = "CLM*$claimId*$claimAmount2***79:A:1**A*Y*Y";
+						}
+						foreach($x121 as $x){ $x12[] = $x; }
+####################################
 						if(round($claimAmount2,2) != round($serviceTotal,2)){
 							throw new exception("Claim Out of Balance
 								$claimAmount2:$serviceTotal - $claimId");
