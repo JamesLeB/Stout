@@ -252,14 +252,14 @@ class John extends CI_Controller {
 		$x12[] = "N4*NEW YORK*NY*100104020~";
 		$x12[] = "REF*EI*135562308~";
 
-$last     = 'Pedraza';
-$first    = 'Lisa';
-$scriber  = 'TR13317H';
-$birth    = '19790110';
-$sex      = 'F';
-$echo     = '587796-004556786';
-$clmAmt   = 25;
-$servDate = '20150427';
+$last     = 'OGrady';
+$first    = 'Michael';
+$scriber  = 'ZV05100G';
+$birth    = '19640116';
+$sex      = 'M';
+$echo     = '012186-004563603';
+$clmAmt   = 30;
+$servDate = '20150430';
 
 		# SUBSCRIBER DETAIL
 		$x12[] = "HL*2*1*22*0~";
@@ -291,8 +291,8 @@ $servDate = '20150427';
 		$x12[] = "NM1*PR*2*HIP MEDICARE HMO*****PI*YY~";
 		
 
-$adacode = 'D9110';
-$lineAmt = 25;
+$adacode = 'D9310';
+$lineAmt = 30;
 
 		# SERVICE LINE
 		$x12[] = "LX*1~";
