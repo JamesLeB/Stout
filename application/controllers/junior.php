@@ -198,7 +198,7 @@ class Junior extends CI_Controller {
 		$e1 = $this->load->view('junior/folderView',$d,true);
 
 		# Get local proccessed list
-		$list = scandir('files/edi/SENT');
+		$list = scandir('files/edi/other');
 		$checkedList = array();
 		if(is_array($checkedList)){
 			foreach($list as $l){
