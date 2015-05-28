@@ -48,6 +48,21 @@
 						});
 					});
 				}
+				else if(todo == 'Other')
+				{
+					$('#debug').html('Process '+fileName+'...');
+					var target = 'index.php?/slides/worker/';
+					var func = 'convertEdi';
+					fileName = 'other/'+fileName;
+					var parm = { file: fileName, other: 1 };
+					$.post(target+func,parm,function(data){
+						var p = { log: data, file: fileName };
+						$.post('index.php?/junior/saveLog',p,function(dta){
+							$('#debug').append('<br/>'+dta);
+							$('#juniorBiller button').trigger('click');
+						});
+					});
+				}
 				else if(todo == 'Medicaid')
 				{
 					$('#debug').html('Process '+fileName+'...');
