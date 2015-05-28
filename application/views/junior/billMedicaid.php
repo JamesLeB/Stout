@@ -8,7 +8,7 @@
 		<div></div>
 	</div>
 	<div>
-		<div>Processed</div>
+		<div>Other</div>
 		<div></div>
 	</div>
 	<div>
