@@ -226,17 +226,92 @@ class John extends CI_Controller {
 #########################################################################################
 
 
-		$x12[] = "ISA*00*          *00*          *ZZ*F00            *ZZ*EMEDNYBAT      *$date6*$time*U*00501*$gscontrol*0*T*:~";
+		$x12[] = "ISA*00*          *00*          *ZZ*F00            *ZZ*EMEDNYBAT      *$date6*$time*U*00501*$gscontrol*0*P*:~";
 
-		#$x12[] = "GS*HS*F00*EMEDNYBAT*$date8*$time*$gscontrol*X*005010X279A1~";
-		$x12[] = "GS*HS*F00*EMEDNYBAT*$date8*$time*$gscontrol*X*005010X212~";
+		$x12[] = "GS*HC*F00*EMEDNYBAT*$date8*$time*$gscontrol*X*005010X223A2~";
+		#$x12[] = "GS*HS*F00*EMEDNYBAT*$date8*$time*$gscontrol*X*005010X212~";
 		#$x12[] = "GS*HS*F00*EMEDNYBAT*$date8*$time*1*X*005010X212~";
 
-		$x12[] = "ST*276*$stcontrol*005010X212~";
+		#$x12[] = "ST*276*$stcontrol*005010X212~";
 		#$x12[] = "ST*276*$stcontrol*005010X212~";
 
 		#$x12[] = "BHT*0022*13*$gscontrol*$date8*$time~";
 		#$x12[] = "BHT*0010*13*$gscontrol*$date8*$time~";
+
+		# HEADER
+		$x12[] = "ST*837*$stcontrol*005010X223A2~";
+		$x12[] = "BHT*0019*00*$gscontrol*$date8*$time*CH~";
+		$x12[] = "NM1*41*2*NEW YORK UNIV DENTAL CTR*****46*F00~";
+		$x12[] = "PER*IC*TYKIEYEN MOORE*TE*2129989879~";
+		$x12[] = "NM1*40*2*NYSDOH*****46*141797357~";
+
+		# BILLING PROVIDER DETAIL
+		$x12[] = "HL*1**20*1~";
+		$x12[] = "NM1*85*2*NEW YORK UNIV DENTAL CTR*****XX*1164555124~";
+		$x12[] = "N3*345 E 24TH ST 213S~";
+		$x12[] = "N4*NEW YORK*NY*100104020~";
+		$x12[] = "REF*EI*135562308~";
+
+$last     = 'Pedraza';
+$first    = 'Lisa';
+$scriber  = 'TR13317H';
+$birth    = '19790110';
+$sex      = 'F';
+$echo     = '587796-004556786';
+$clmAmt   = 25;
+$servDate = '20150427';
+
+		# SUBSCRIBER DETAIL
+		$x12[] = "HL*2*1*22*0~";
+		$x12[] = "SBR*P*18*******MC~";
+		$x12[] = "NM1*IL*1*$last*$first****MI*$scriber~";
+		$x12[] = "DMG*D8*$birth*$sex~";
+		$x12[] = "NM1*PR*2*NYSDOH*****PI*141797357~";
+
+		# CLAIM INFORMATION
+		$x12[] = "CLM*$echo*$clmAmt***79:A:1**A*Y*Y~";
+		$x12[] = "DTP*434*RD8*$servDate-$servDate~";
+		$x12[] = "CL1*1*7*30~";
+		$x12[] = "HI*BK:52100~";
+		$x12[] = "HI*BE:24:::1428~";
+		$x12[] = "NM1*71*1*DESTENO*COSMO****XX*1518920727~";
+
+		# OTHER SUBSCRIBER INFORMATION
+		$x12[] = "SBR*P*18*******MA~";
+		$x12[] = "AMT*A8*79~";
+		$x12[] = "OI***Y***Y~";
+		$x12[] = "NM1*IL*1*$last*$first****MI*$scriber~";
+		$x12[] = "NM1*PR*2*MEDICARE*****PI*XX~";
+
+		# OTHER SUBSCRIBER INFORMATION
+		$x12[] = "SBR*S*18*******ZZ~";
+		$x12[] = "AMT*A8*79~";
+		$x12[] = "OI***Y***Y~";
+		$x12[] = "NM1*IL*1*$last*$first****MI*$scriber~";
+		$x12[] = "NM1*PR*2*HIP MEDICARE HMO*****PI*YY~";
+		
+
+$adacode = 'D9110';
+$lineAmt = 25;
+
+		# SERVICE LINE
+		$x12[] = "LX*1~";
+		$x12[] = "SV2*0512*HC:$adacode*$lineAmt*UN*1~";
+		$x12[] = "DTP*472*RD8*$servDate-$servDate~";
+
+/*
+		# LINE ADJUDICATION INFORMATION
+		$x12[] = "SVD*XX*0*HC:$adacode*X*1~";
+		$x12[] = "CAS*PR*22*$lineAmt~";
+		$x12[] = "DTP*573*D8*$servDate~";
+*/
+
+/*
+		# LINE ADJUDICATION INFORMATION
+		$x12[] = "SVD*YY*0*HC:$adacode*X*1~";
+		$x12[] = "CAS*PR*0*$lineAmt~";
+		$x12[] = "DTP*573*D8*$servDate~";
+*/
 
 		#$x12[] = "HL*1**20*1~";
 		#$x12[] = "NM1*PR*2*NYSDOH*****FI*141797357~";
@@ -284,9 +359,9 @@ class John extends CI_Controller {
 		#$x12[] = "TRN*1*$tcn~";
 		$x12[] = "DTP*472*RD8*$serviceDate-$serviceDate~";
 
+*/
 		$segCount = sizeof($x12)-1;
 		$x12[] = "SE*$segCount*$stcontrol~";
-*/
 		$x12[] = "GE*1*$gscontrol~";
 		$x12[] = "IEA*1*$gscontrol~";
 
