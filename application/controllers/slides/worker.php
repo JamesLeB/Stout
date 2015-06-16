@@ -29,6 +29,233 @@ class Worker extends CI_Controller {
 		echo $edi->saveExcel();
 	} # END FUNCTION read277
 
+	private function create837Dother($obj,$fileName){
+
+		$m = array();
+		$m[] = "Messages...";
+		$batchCount  = 0;
+		$batchAmount = 0;
+		$batchNumber;
+
+		try{
+			# LOAD HEADER
+			$ediObj = $obj{'ediObj'};
+			$edi = $ediObj->getStuff();
+			$date6 = $edi{'date'};
+			$date8 = "20$date6";
+			$time = $edi{'time'};
+			$batch = $edi{'batch'};
+			$batch = preg_replace('/^0/','3',$batch);
+			$batchNumber = $batch;
+			$x12 = array();
+			$x12[] = "ISA*00*          *00*          *ZZ*F00            *ZZ*EMEDNYBAT      *$date6*$time*U*00501*$batch*0*P*:";
+			$x12[] = "GS*HC*F00*EMEDNYBAT*$date8*$time*$batch*X*005010X223A2";
+			$x12[] = "ST*837*0001*005010X223A2";
+			$x12[] = "BHT*0019*00*$batch*$date8*$time*CH";
+			$x12[] = "NM1*41*2*NEW YORK UNIV DENTAL CTR*****46*F00";
+			$x12[] = "PER*IC*TYKIEYEN MOORE*TE*2129989879";
+			$x12[] = "NM1*40*2*NYSDOH*****46*141797357";
+			$x12[] = "HL*1**20*1";
+			$x12[] = "NM1*85*2*NEW YORK UNIV DENTAL CTR*****XX*1164555124";
+			$x12[] = "N3*345 E 24TH ST 213S";
+			$x12[] = "N4*NEW YORK*NY*100104020";
+			$x12[] = "REF*EI*135562308";
+		
+			# LOAD SUBSCRIBER
+			$HL = 1;
+			$providers = $edi{'providers'};
+
+			foreach($providers as $provider){
+				$claims = $provider->getClaims();
+				foreach($claims as $claim){
+
+					# Check for Claims that have no valid ADA codes
+					$checkForValidAda = 0;
+					$services = $claim->getServices();
+					foreach($services as $service){
+						$serviceData = $service->getStuff();
+						$adaCode = $serviceData{'adacode'};
+						$adaCode = preg_split('/:/',$adaCode);
+						$adaCode  = $adaCode[1];
+						if($adaCode != 1428){$checkForValidAda = 1;}
+					}
+
+					if($checkForValidAda){
+	
+						$claimData = $claim->getStuff();
+			
+						$last             = $claimData{'last'};
+						$first            = $claimData{'first'};
+						$subscriberId     = $claimData{'id'};
+						$birthdate        = $claimData{'birth'};
+						$sex              = $claimData{'sex'};
+						$claimId          = $claimData{'claimid'};
+						$claimServiceDate = $claimData{'date'};
+						$claimAmount      = $claimData{'amount'};
+						$tcn              = $claimData{'tcn'};
+						$insuranceCount   = $claimData{'insuranceCount'};
+	
+						$batchCount++;
+						$batchAmount += $claimAmount;
+	
+						$HL++;
+						$x12[] = "HL*$HL*1*22*0";
+						$x12[] = "SBR*P*18*******MC";
+						$x12[] = "NM1*IL*1*$last*$first****MI*$subscriberId";
+						$x12[] = "DMG*D8*$birthdate*$sex";
+						$x12[] = "NM1*PR*2*NYSDOH*****PI*141797357";
+#######################################
+$x121 = [];
+
+						$x121[] = "DTP*434*RD8*$claimServiceDate-$claimServiceDate";
+						$x121[] = "CL1*1*7*30";
+						if($tcn)
+						{
+							$x121[] = "REF*F8*$tcn";
+						}
+						$x121[] = "HI*BK:52100";
+						$x121[] = "HI*BE:24:::1428";
+						$x121[] = "NM1*71*1*DESTENO*COSMO****XX*1518920727";
+
+						# GET Claim Total
+						$services = $claim->getServices();
+						$serviceTotal = 0;
+						foreach($services as $service){
+							$serviceData = $service->getStuff();
+							$adaCode         = $serviceData{'adacode'};
+							$lineAmount      = $serviceData{'amount'};
+							$adaCode = preg_split('/:/',$adaCode);
+							$adaCode  = $adaCode[1];
+							if($adaCode != '1428'){
+								$serviceTotal += $lineAmount ;
+							}
+							$claimAmount = $serviceTotal;
+						}
+
+						# MEDICARE SEGMENTS
+						$x121[] = "SBR*P*18*******MA";
+						$x121[] = "AMT*A8*$claimAmount";
+						$x121[] = "OI***Y***Y";
+						$x121[] = "NM1*IL*1*$last*$first****MI*$subscriberId";
+						$x121[] = "NM1*PR*2*MEDICARE*****PI*XX";
+
+						# OTHER INSURANCE SEGMENTS
+						$insOrder = ['S','T','A','B','C','D','E','G'];
+
+						for($i=0;$i<$insuranceCount;$i++)
+						{
+							$tt = '';
+							if($i<9){ $tt = $insOrder[$i]; } else { $tt = 'U'; }
+							#$x121[] = "HOW MANY!!!$insuranceCount";
+							$x121[] = "SBR*$tt*18*******ZZ";
+							$x121[] = "AMT*A8*$claimAmount";
+							$x121[] = "OI***Y***Y";
+							$x121[] = "NM1*IL*1*$last*$first****MI*$subscriberId";
+							$x121[] = "NM1*PR*2*Other*****PI*YY";
+						}
+
+	
+	
+						$serviceIndex = 0;
+						$serviceTotal = 0;
+
+						foreach($services as $service){
+							$serviceData = $service->getStuff();
+							$adaCode         = $serviceData{'adacode'};
+							$lineAmount      = $serviceData{'amount'};
+							$lineServiceDate = $serviceData{'date'};
+	
+							$adaCode = preg_split('/:/',$adaCode);
+							$adaCode  = $adaCode[1];
+	
+							if($lineServiceDate != $claimServiceDate){
+								# disabled
+								#throw new exception("Date miss match $claimId");
+							}
+							if($adaCode != '1428'){
+								$serviceIndex++;
+								$serviceTotal += $lineAmount ;
+								$x121[] = "LX*$serviceIndex";
+								$x121[] = "SV2*0512*HC:$adaCode*$lineAmount*UN*1";
+								$x121[] = "DTP*472*RD8*$lineServiceDate-$lineServiceDate";
+
+								# MEDICARE SEGMENTS
+								#$x121[] = "SVD*XX*0*HC:$adaCode*X*1";
+								#$x121[] = "CAS*PR*96*$lineAmount";
+								#$x121[] = "DTP*573*D8*$lineServiceDate";
+							}
+						}# end services loop
+
+						$claimAmount = $serviceTotal;
+
+						# GET CLAIM AGE
+						$iY = substr($claimServiceDate,0,4);
+						$iM = substr($claimServiceDate,4,2);
+						$iD = substr($claimServiceDate,6,2);
+						$d1 = date_create("$iY-$iM-$iD");
+						$dt = date('Y-m-d');
+						$d2 = date_create($dt);
+						$inter = $d1->diff($d2);
+						$inter = $inter->days;
+						if($inter > 90)
+						{
+							#$x121[] = "TOO LONG";
+							$x12[] = "CLM*$claimId*$claimAmount***79:A:1**A*Y*Y***********7";
+						}
+						else
+						{
+							#$x121[] = "NORMAL";
+							if($tcn)
+							{
+								$x12[] = "CLM*$claimId*$claimAmount***79:A:7**A*Y*Y";
+							}
+							else
+							{
+								$x12[] = "CLM*$claimId*$claimAmount***79:A:1**A*Y*Y";
+							}
+						}
+						foreach($x121 as $x){ $x12[] = $x; }
+########################################
+						if(round($claimAmount,2) != round($serviceTotal,2)){
+							throw new exception("xx Claim Out of Balance
+								$claimAmount:$serviceTotal - $claimId");
+						}
+					}else{
+						$claimData = $claim->getStuff();
+						$claimId = $claimData{'claimid'};
+						$m[] = "Bad Claim $claimId";
+					}# END IF
+				}# end claims loop
+			}# end providers loop
+		
+			# LOAD FOOTER
+			$segmentCount = sizeof($x12)-1;
+			$x12[] = "SE*$segmentCount*0001";
+			$x12[] = "GE*1*$batch";
+			$x12[] = "IEA*1*$batch";
+		
+			# SAVE FILE TO DISK
+			$file = "B3".substr($batchNumber,strlen($batchNumber)-4,4);
+			$x12 = implode("~",$x12)."~";
+			file_put_contents("files/edi/$file.x12",$x12);
+			file_put_contents("files/edi/SENT/$file.x12",$x12);
+			#unlink("files/edi/$fileName");
+
+			#throw new exception("this is an error");
+			$m[] = '-----';
+			$m[] = "Batch Number: $batchNumber";
+			$m[] = "Batch Count: $batchCount";
+			$m[] = "Batch Amount: $batchAmount";
+
+		}catch(exception $e){
+			$error = $e->getMessage();
+			$m[] = $error;
+		}
+
+		$m = implode("<br/>",$m);
+		return $m;
+
+	}
 	private function create837Dmedicare($obj,$fileName){
 
 		#header('status: Creating 837D');
@@ -463,9 +690,13 @@ $x121 = [];
 		$m[] = $message;
 		$m[] = '-----------------';
 		$m[] = 'Create X12 file';
-		if( isset($_POST['medicare']) == 1 )
+		if( isset($_POST['medicare']))
 		{
 			$m[] = $this->create837Dmedicare($obj,$fileName);
+		}
+		elseif( isset($_POST['other']))
+		{
+			$m[] = $this->create837Dother($obj,$fileName);
 		}
 		else
 		{
