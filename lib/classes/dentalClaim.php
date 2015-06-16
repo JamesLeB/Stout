@@ -48,6 +48,7 @@ class dentalClaim{
 	private $exceptionCode;
 	private $patientPaid;
 	private $supplementalInfo;
+	private $insuranceCount;
 
 	function __construct(){
 		$this->claimIndex = '';
@@ -97,6 +98,7 @@ class dentalClaim{
 		$this->services = array();
 		$this->exceptionCode = '';
 		$this->patientPaid = '';
+		$this->insuranceCount = 0;
 	}
 	
 	# ADDERS
@@ -125,7 +127,8 @@ class dentalClaim{
 			'date'    => $this->serviceDate,
 			'amount'  => $this->claimAmount,
 			'tcn'     => $this->tcn,
-			'balanceAmount' => $balancedAmount
+			'balanceAmount' => $balancedAmount,
+			'insuranceCount' => $this->insuranceCount
 		);
 	}
 	function getPayer(){
@@ -133,6 +136,7 @@ class dentalClaim{
 	}
 
 	# SETTERS
+	function setInsuranceCount($x){ $this->insuranceCount = $x; }
 	function setPatientPaid($x){ $this->patientPaid = $x; }
 	function setTcn($x){ $this->tcn = $x; }
 	function setSupplementalInfo($x){ $this->supplementalInfo = $x; }

@@ -229,6 +229,8 @@ file_put_contents('files/edi/feedback',"current: $feedback :: $segments[0]\n");
 		$seg = array_shift($segments);
 		if(preg_match('/^HL\*[0-9]+\*[0-9]+\*22\*/',$seg)){
 			$claim->setClaimIndex($seg);
+			$temp = preg_split('/\*/',$seg);
+			if(isset($temp[5])){ $claim->setInsuranceCount($temp[5]); }
 		}else{throw new exception("error loading HL<br/>---<br/>$seg<br/>---");}
 
 		#LOAD SBR
