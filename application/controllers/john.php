@@ -486,7 +486,7 @@ $lineAmt = 30;
 				if(preg_match('/^Med: Medicaid/',$i)){$f1 = 1;}
 				else if(preg_match('/^OTHER: MEDICARE/',$i)){$f2 = 1;}
 				else if(preg_match('/^MMC: /',$i)){$f3 = 1;}
-				else {$f4 = 1;}
+				else {$f4 += 1;}
 			}
 			     if( $f1 == 1 && $f2 == 0 && $f3 == 0 && $f4 == 0 ){ $insType = 'Medicaid'; }
 			else if( $f1 == 1 && $f2 == 1 && $f3 == 0 && $f4 == 0 ){ $insType = 'Medicare'; }
@@ -506,7 +506,14 @@ $lineAmt = 30;
 				}
 				else if($insType == 'Other' )
 				{
-					$other['Providers'][sizeof($other['Providers'])-1]['Claims'][] = $c;
+					if(preg_match('/^HL\*\d+\*\d+\*22\*/',$c))
+					{
+						$other['Providers'][sizeof($other['Providers'])-1]['Claims'][] = $c.'*'.$f4;
+					}
+					else
+					{
+						$other['Providers'][sizeof($other['Providers'])-1]['Claims'][] = $c;
+					}
 				}
 				else if($insType == 'Error' )
 				{
