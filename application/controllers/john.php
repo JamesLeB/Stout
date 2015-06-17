@@ -1025,6 +1025,12 @@ $debug = $t[2];
 					$claim['insurance'][] = 'Med: Medicaid';
 				}
 
+				if(preg_match('/^EB\*1\*IND\*30\*\*Eligible Only Inpatient Services/',$segs[0]))
+				{
+					$seg = array_shift($segs);
+					$claim['insurance'][] = 'Med: Medicaid';
+				}
+
 				if(preg_match('/^EB\*1\*IND\*30\*\*Presumptive Eli/',$segs[0]))
 				{
 					$seg = array_shift($segs);
