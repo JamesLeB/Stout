@@ -15,6 +15,10 @@ class John extends CI_Controller {
 		ftp_login($conn,$user,$pass);
 		$this->conn = $conn;
 	}
+	public function getnewjob()
+	{
+		echo "where is he patient file";
+	}
 	public function sandbox()
 	{
 		$a = file_get_contents('files/edi/a.x12');
