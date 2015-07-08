@@ -55,9 +55,10 @@ class Stout extends CI_Controller {
 		elseif($user == 'john')
 		{
 			$d['user'] = $user;
-			$d['one']   = $this->load->view('john/todo','',true);
-			$d['two']   = $this->load->view('john/checkStatus','',true);
-			$d['three'] = $this->load->view('john/sandbox','',true);
+			$d['one']   = $this->load->view('john/eleCheck','',true);
+			//$d['one']   = 'One'; //$this->load->view('john/todo','',true);
+			$d['two']   = 'Two'; //$this->load->view('john/checkStatus','',true);
+			$d['three'] = 'Three'; //$this->load->view('john/sandbox','',true);
 			$this->load->view('john/home',$d);
 		}
 		elseif($user == 'jamesold')
