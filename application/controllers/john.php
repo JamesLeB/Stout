@@ -17,7 +17,37 @@ class John extends CI_Controller {
 	}
 	public function getnewjob()
 	{
-		echo "where is he patient file";
+		$a = file_get_contents('files/temp/medcheck.txt');
+		$b = preg_split('/\n/',$a);
+		$table = '<table>';
+		$c = [];
+		$test = 'YES';
+		foreach($b as $l)
+		{
+			$ll = preg_split('/\t/',$l);
+			$c[] = $l;
+			if(sizeof($ll) == 5 && preg_match('/^[a-z]{2,3}[0-9]{5}[a-z]{1}$/',$ll[3]))
+			{
+				$table .= '<tr>';
+		 		$test = "NO";
+				#$table .= sizeof($ll);
+				foreach($ll as $i)
+				{
+					$table .= '<td>';
+					$table .= $i;
+					$table .= '</td>';
+				}
+				
+				$table .= '<td>'.strlen($ll[3]).'</td>';
+				$table .= '<td>type</td>';
+				$table .= '<td>'.strtoupper($ll[3]).'</td>';
+				$table .= '</tr>';
+			}
+		}
+		$table .= '</table>';
+
+		#echo implode('<br/>',$c);
+		echo $test . '<br/><br/>' . $table;
 	}
 	public function sandbox()
 	{
