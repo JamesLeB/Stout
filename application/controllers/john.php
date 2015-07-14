@@ -15,18 +15,77 @@ class John extends CI_Controller {
 		ftp_login($conn,$user,$pass);
 		$this->conn = $conn;
 	}
+	public function getnewjobReadJson()
+	{
+		$a = file_get_contents('files/temp/a.json');
+		$b = json_decode($a,true);
+		$c = $b['batchId'];
+		$d = $b['claims'];
+		
+		$o = [];
+		$maxcol = 0;
+		foreach($d as $line)
+		{
+			$r = $line['medicaid'];
+			$col = 0;
+			foreach($line['insurance'] as $ins)
+			{
+				$col++;
+				if($col > $maxcol){$maxcol = $col;}
+				$r .= "\t" . $ins;
+			}
+			$o[] = $r;
+		}
+		$oo = "medicaid\t";
+		for($i=0;$i<$maxcol;$i++)
+		{
+			$ct = $i+1;
+			$oo .= "Ins$ct\t";
+		}
+		array_unshift($o,$oo);
+		file_put_contents('files/temp/a.txt',implode("\n",$o));
+		#echo "$a";
+		echo implode('<br/>',$o);
+	}
 	public function getnewjob()
 	{
+
+		###################### ELIGIBILITY CHECK ###################################
+		$date6 = date('ymd');
+		$date8 = date('Ymd');
+		$time = date('Hi');
+		$gscontrol = 900100999;
+		$stcontrol = '9999';
+
+		# DROP HEAD
+		$x12 = [];
+		$x12[] = "ISA*00*          *00*          *ZZ*F00            *ZZ*EMEDNYBAT      *$date6*$time*U*00501*$gscontrol*0*P*:~";
+		$x12[] = "GS*HS*F00*EMEDNYBAT*$date8*$time*$gscontrol*X*005010X279A1~";
+		$x12[] = "ST*270*$stcontrol*005010X279A1~";
+		$x12[] = "BHT*0022*13*$gscontrol*$date8*$time~";
+		$x12[] = "HL*1**20*1~";
+		$x12[] = "NM1*PR*2*NYSDOH*****FI*141797357~";
+		$x12[] = "HL*2*1*21*1~";
+		$x12[] = "NM1*1P*2*NEW YORK UNIV DENTAL CTR*****XX*1164555124~";
+		$hlCount = 2;
+
+
+
+		###################### END ELIGIBILITY CHECK ###################################
+
 		$a = file_get_contents('files/temp/medcheck.txt');
 		$b = preg_split('/\n/',$a);
 		$table = '<table>';
-		$c = [];
-		$test = 'YES';
+		#$c = [];
+		#$test = 'YES';
 		foreach($b as $l)
 		{
 			$ll = preg_split('/\t/',$l);
-			$c[] = $l;
-			if(sizeof($ll) == 5 && preg_match('/^[a-z]{2,3}[0-9]{5}[a-z]{1}$/',$ll[3]))
+			#$c[] = $l;
+			if(
+				sizeof($ll) == 5 &&
+				preg_match('/^[a-zA-Z]{2,3}[0-9]{5}[a-zA-Z]{1}$/',$ll[3]) 
+			)
 			{
 				$table .= '<tr>';
 		 		$test = "NO";
@@ -37,17 +96,41 @@ class John extends CI_Controller {
 					$table .= $i;
 					$table .= '</td>';
 				}
+
+				$subscriberNumber = strtoupper($ll[3]);
+				if( strlen($subscriberNumber) == 9 )
+				{
+					$subscriberNumber = preg_replace('/^M/','',$subscriberNumber);
+				}
 				
 				$table .= '<td>'.strlen($ll[3]).'</td>';
-				$table .= '<td>type</td>';
-				$table .= '<td>'.strtoupper($ll[3]).'</td>';
+				$table .= '<td>'.strtoupper($subscriberNumber).'</td>';
 				$table .= '</tr>';
+
+				# LOOP FOR EACH VISIT
+				$x12[] = "HL*".++$hlCount."*2*22*0~";
+				$x12[] = "TRN*1*$ll[2]*1135562308~";
+				$x12[] = "NM1*IL*1******MI*$subscriberNumber~";
+				$x12[] = "DTP*291*D8*20150713~";
 			}
 		}
 		$table .= '</table>';
 
-		#echo implode('<br/>',$c);
-		echo $test . '<br/><br/>' . $table;
+		#echo $table;
+
+		# DROP FOOTER
+		$segCount = sizeof($x12)-1;
+		$x12[] = "SE*$segCount*$stcontrol~";
+		$x12[] = "GE*1*$gscontrol~";
+		$x12[] = "IEA*1*$gscontrol~";
+
+		# SAVE FILE
+		$tfile = 'files/temp/medcheck.x12';
+		file_put_contents($tfile,implode("",$x12));
+
+		echo implode("<br/>",$x12);
+		echo "DONE!!";
+
 	}
 	public function sandbox()
 	{
@@ -1041,7 +1124,11 @@ $debug = $t[2];
 	
 
 				$seg = array_shift($segs);
-				if(preg_match('/^NM1\*/',$seg)) {}else{throw new exception('12');}
+				if(preg_match('/^NM1\*/',$seg))
+				{
+					$t = preg_split('/\*/',$seg);
+					$claim['medicaid'] = $t[9];
+				}else{throw new exception('12');}
 	
 				if(preg_match('/^AAA\*/',$segs[0])) { $seg = array_shift($segs); }
 				if(preg_match('/^N3\*/',$segs[0])) { $seg = array_shift($segs); }
