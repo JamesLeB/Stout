@@ -17,6 +17,7 @@ class John extends CI_Controller {
 	}
 	public function getnewjobReadJson()
 	{
+ini_set('max_execution_time',3000);
 		$a = file_get_contents('files/temp/a.json');
 		$b = json_decode($a,true);
 		$c = $b['batchId'];
@@ -1055,8 +1056,302 @@ file_put_contents('files/edi/error/'.$error['BatchNum'].'.x12',implode("~",$d));
 		}
 		echo json_encode($listx);
 	}
+	public function fedres()
+	{
+		$t = file_get_contents('files/temp/mmm.x12');
+		$segs = preg_split('/~/',$t);
+
+		$t = 'Size of array is '.sizeof($segs);
+
+		$f = 'true';
+##################### Process header ########
+		try
+		{
+			$seg = array_shift($segs);
+			if(preg_match('/^ISA\*/',$seg))    {}else{throw new exception('1');}
+			
+			$seg = array_shift($segs);
+			if(preg_match('/^GS\*/',$seg))     {}else{throw new exception('2');}
+			
+			$seg = array_shift($segs);
+			if(preg_match('/^ST\*271\*/',$seg)){}else{throw new exception('3xx');}
+			
+			$seg = array_shift($segs);
+			if(preg_match('/^BHT\*0022\*/',$seg))
+			{
+				$tt = preg_split('/\*/',$seg);
+				$elly['batchId'] = $tt[3];
+			}
+			else{throw new exception('4');}
+			
+			$seg = array_shift($segs);
+			if(preg_match('/^HL\*/',$seg)) {}else{throw new exception('5');}
+
+			$seg = array_shift($segs);
+			if(preg_match('/^NM1\*/',$seg)){}else{throw new exception('6');}
+
+			$seg = array_shift($segs);
+			if(preg_match('/^PER\*/',$seg)){}else{throw new exception('7');}
+
+			$seg = array_shift($segs);
+			if(preg_match('/^HL\*/',$seg)) {}else{throw new exception('8');}
+
+			$seg = array_shift($segs);
+			if(preg_match('/^NM1\*/',$seg)) {}else{throw new exception('9');}
+		}
+		catch(exception $e)
+		{
+			$f = 'false';
+			$t = $e->getMessage();
+		}
+
+##################### END Process header ########
+
+
+		$_SESSION['list'] = $segs;
+#file_put_contents('files/temp/z.x12',"");
+		echo json_encode(array($f,$t));
+		
+	}
+	public function fedres1()
+	{
+
+##################### Process Claim ########
+			# START CLAIM Loop
+
+			$elly['claims'] = [];
+			$claim = [];
+
+			if(preg_match('/^HL\*[0-9]+\*2\*22/',$_SESSION['list'][0]))
+			{
+				$seg = array_shift($_SESSION['list']);
+
+	
+				$seg = array_shift($_SESSION['list']);
+				if(preg_match('/^TRN\*/',$seg))
+				{
+					$t = preg_split('/\*/',$seg);
+					$claim['id'] = $t[2];
+				}
+				else{throw new exception('11');}
+	
+
+				$seg = array_shift($_SESSION['list']);
+				if(preg_match('/^NM1\*/',$seg))
+				{
+					$t = preg_split('/\*/',$seg);
+					$claim['medicaid'] = $t[9];
+				}else{throw new exception('12');}
+	
+				if(preg_match('/^AAA\*/',$_SESSION['list'][0])) { $seg = array_shift($_SESSION['list']); }
+				if(preg_match('/^N3\*/',$_SESSION['list'][0])) { $seg = array_shift($_SESSION['list']); }
+				if(preg_match('/^N4\*/',$_SESSION['list'][0])) { $seg = array_shift($_SESSION['list']); }
+				if(preg_match('/^DMG\*/',$_SESSION['list'][0])) { $seg = array_shift($_SESSION['list']); }
+				if(preg_match('/^DTP\*/',$_SESSION['list'][0])) { $seg = array_shift($_SESSION['list']); }
+				if(preg_match('/^DTP\*/',$_SESSION['list'][0])) { $seg = array_shift($_SESSION['list']); }
+				if(preg_match('/^DTP\*/',$_SESSION['list'][0])) { $seg = array_shift($_SESSION['list']); }
+	
+				$claim['insurance'] = [];
+	
+				if(preg_match('/^EB\*1\*IND\*30\*\*MA Eligible/',$_SESSION['list'][0]))
+				{
+					$seg = array_shift($_SESSION['list']);
+					$claim['insurance'][] = 'Med: Medicaid';
+				}
+
+				if(preg_match('/^EB\*1\*IND\*30\*\*Eligible Only/',$_SESSION['list'][0]))
+				{
+					$seg = array_shift($_SESSION['list']);
+					$claim['insurance'][] = 'Med: Medicaid';
+				}
+
+				if(preg_match('/^EB\*1\*IND\*30\*\*Presumptive Eli/',$_SESSION['list'][0]))
+				{
+					$seg = array_shift($_SESSION['list']);
+					$claim['insurance'][] = 'Med: Medicaid';
+				}
+
+				if(preg_match('/^EB\*1\*IND\*30\*\*Community Coverage No LTC/',$_SESSION['list'][0]))
+				{
+					$seg = array_shift($_SESSION['list']);
+					$claim['insurance'][] = 'Med: Medicaid No LTC';
+				}
+	
+				if(preg_match('/^EB\*1\*IND\*30\*\*Community Coverage w\/CBLTC/',$_SESSION['list'][0]))
+				{
+					$seg = array_shift($_SESSION['list']);
+					$claim['insurance'][] = 'Med: Medicaid CBLTC';
+				}
+
+				if(preg_match('/^EB\*1\*IND\*30\*\*Outpatient Coverage w\/ CBLTC/',$_SESSION['list'][0]))
+				{
+					$seg = array_shift($_SESSION['list']);
+					$claim['insurance'][] = 'Med: Medicaid Outpatient CBLTC';
+				}
+
+				if(preg_match('/^EB\*1\*IND\*30\*\*Outpatient Coverage No LTC/',$_SESSION['list'][0]))
+				{
+					$seg = array_shift($_SESSION['list']);
+					$claim['insurance'][] = 'Med: Medicaid Outpatient No LTC';
+				}
+
+				if(preg_match('/^EB\*1\*IND\*30\*\*Eligible Only Outpatient Care/',$_SESSION['list'][0]))
+				{
+					$seg = array_shift($_SESSION['list']);
+					$claim['insurance'][] = 'Med: Medicaid Outpatient';
+				}
+
+				if(preg_match('/^EB\*1\*IND\*30\*\*Emergency Services Only/',$_SESSION['list'][0]))
+				{
+					$seg = array_shift($_SESSION['list']);
+					$claim['insurance'][] = 'Med: Medicaid Emergency Only';
+				}
+
+				if(preg_match('/^EB\*1\*IND\*30\*\*Medicare Coinsurance Deductible Only/',$_SESSION['list'][0]))
+				{
+					$seg = array_shift($_SESSION['list']);
+					$claim['insurance'][] = 'Med: Medicaid Medicare Deductible';
+				}
+
+				if(preg_match('/^EB\*1\*IND\*30\*/',$_SESSION['list'][0]))
+				{
+					$seg = array_shift($_SESSION['list']);
+					$claim['insurance'][] = 'Med: Medicaid';
+				}
+
+				if(preg_match('/^EB\*6\*IND\*30\*\*No Coverage/',$_SESSION['list'][0]))
+				{
+					$seg = array_shift($_SESSION['list']);
+					$claim['insurance'][] = 'NO: No';
+				}
+	
+				if(preg_match('/^EB\*6\*IND\*30/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+
+				while(preg_match('/^MSG\*/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+
+				# Start MMC plan loop
+				while(preg_match('/^EB\*U\*IND\*30\*\*ELIGIBLE PCP/',$_SESSION['list'][0]))
+				{
+					$seg = array_shift($_SESSION['list']);
+					while(preg_match('/^MSG\*/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+					if(preg_match('/^LS\*2120/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+					if(preg_match('/^NM1\*Y2/',$_SESSION['list'][0]))
+					{
+						$seg = array_shift($_SESSION['list']);
+						$t = preg_split('/\*/',$seg);
+						$claim['insurance'][] = "MMC: ".$t[3];
+					}
+					if(preg_match('/^N3\*/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+					if(preg_match('/^N4\*/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+					if(preg_match('/^PER\*IC\*/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+					if(preg_match('/^LE\*2120/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				}
+				# End MMC plan loop
+	
+				if(preg_match('/^EB\*B\*IND\*30/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*B\*IND\*4/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*B\*IND\*5/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*B\*IND\*48/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*B\*IND\*50/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*B\*IND\*86/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*B\*IND\*88/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*B\*IND\*91/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*B\*IND\*92/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+
+				$safty = 0;
+				while(preg_match('/^EB\*/',$_SESSION['list'][0]))
+				{
+					if($safty++ > 1000){break;}
+				if(preg_match('/^EB\*1\*IND\*1/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*1\*IND\*4/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*1\*IND\*5/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*1\*IND\*33/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*1\*IND\*35/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*1\*IND\*47/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*1\*IND\*48/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*1\*IND\*50/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*1\*IND\*86/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*1\*IND\*88/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*1\*IND\*98/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*1\*IND\*AG/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*1\*IND\*AL/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*1\*IND\*MH/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*1\*IND\*UC/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*1\*IND\*82/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*I\*IND\*48/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*I\*IND\*54/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*N\*IND\*35/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*N\*IND\*48/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*N\*IND\*50/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*N\*IND\*88/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*N\*IND\*98/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*F\*IND\*88/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*F\*IND\*98/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*F\*IND\*35/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*F\*IND\*5/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*Y\*IND\*AG/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^EB\*Y\*IND\*AG/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^DTP\*291\*D8\*/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+
+				if(preg_match('/^LS\*2120/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				if(preg_match('/^NM1\*P3/',$_SESSION['list'][0]))
+				{
+					$seg = array_shift($_SESSION['list']);
+					$t = preg_split('/\*/',$seg);
+					$claim['insurance'][] = "OTHER1: ".$t[3];
+				}
+				if(preg_match('/^LE\*2120/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+	
+
+				# Start other plan loop
+				while(preg_match('/^EB\*R\*IND\*30/',$_SESSION['list'][0]))
+				{
+					$seg = array_shift($_SESSION['list']);
+					if(preg_match('/^REF\*18\*/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+					if(preg_match('/^REF\*6P\*/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+					if(preg_match('/^LS\*2120/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+					if(preg_match('/^NM1\*P4/',$_SESSION['list'][0]))
+					{
+						$seg = array_shift($_SESSION['list']);
+						$t = preg_split('/\*/',$seg);
+						$claim['insurance'][] = "OTHER: ".$t[3];
+					}
+					if(preg_match('/^N3\*/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+					if(preg_match('/^N4\*/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+					if(preg_match('/^PER\*IC\*/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+					if(preg_match('/^LE\*2120/',$_SESSION['list'][0])){$seg = array_shift($_SESSION['list']);}
+				}
+				# End other plan loop
+				}
+
+				$elly['claims'][] = $claim;
+				//$elly['saftey'] = $safty;
+
+
+			}
+			# End Claim loop
+##################### END Process Claim ########
+		$a = sizeof($_SESSION['list']);
+
+		#$t = 'size new of array is '.$a;
+$ins = $claim['medicaid'];
+foreach($claim['insurance'] as $in)
+{
+	$ins .= "\t".$in;
+}
+$t = $a."\t".$ins;
+		$f = $a > 1 ? 'true' : 'false';
+		$e = [$f,$t];
+		#$_SESSION['list'] = $a;
+
+$kara = $t."\n";
+
+file_put_contents('files/temp/z.x12',$kara,FILE_APPEND);
+		echo json_encode($e);
+	}
 	public function process271()
 	{
+ini_set('max_execution_time',30000);
 		$file = $_POST['file'];
 		$remoteFile = '3rdParty\271Queue\\'.$file;
 		$localFile = 'files/edi/temp/a';
@@ -1146,7 +1441,7 @@ $debug = $t[2];
 					$claim['insurance'][] = 'Med: Medicaid';
 				}
 
-				if(preg_match('/^EB\*1\*IND\*30\*\*Eligible Only Inpatient Services/',$segs[0]))
+				if(preg_match('/^EB\*1\*IND\*30\*\*Eligible Only/',$segs[0]))
 				{
 					$seg = array_shift($segs);
 					$claim['insurance'][] = 'Med: Medicaid';
@@ -1265,6 +1560,7 @@ $debug = $t[2];
 				if(preg_match('/^EB\*N\*IND\*48/',$segs[0])){$seg = array_shift($segs);}
 				if(preg_match('/^EB\*N\*IND\*50/',$segs[0])){$seg = array_shift($segs);}
 				if(preg_match('/^EB\*N\*IND\*88/',$segs[0])){$seg = array_shift($segs);}
+				if(preg_match('/^EB\*N\*IND\*98/',$segs[0])){$seg = array_shift($segs);}
 				if(preg_match('/^EB\*F\*IND\*88/',$segs[0])){$seg = array_shift($segs);}
 				if(preg_match('/^EB\*F\*IND\*98/',$segs[0])){$seg = array_shift($segs);}
 				if(preg_match('/^EB\*F\*IND\*35/',$segs[0])){$seg = array_shift($segs);}
