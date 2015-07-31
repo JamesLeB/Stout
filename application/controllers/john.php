@@ -17,7 +17,7 @@ class John extends CI_Controller {
 	}
 	public function getnewjobReadJson()
 	{
-ini_set('max_execution_time',3000);
+		#ini_set('max_execution_time',3000);
 		$a = file_get_contents('files/temp/a.json');
 		$b = json_decode($a,true);
 		$c = $b['batchId'];
